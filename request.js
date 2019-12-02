@@ -1,7 +1,7 @@
 export default placeName => `
 
 [out:json][timeout:25];
-( area[name="${placeName}"]; )->.searchArea;
+( area[name="${placeName}"][admin_level="8"]; )->.searchArea;
 
 
 (
