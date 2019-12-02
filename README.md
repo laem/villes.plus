@@ -28,5 +28,6 @@ Pour améliorer sa place dans le classement il faudra donc jouer sur ces deux po
 
 ### Mesure 
 
+- ajouter les rivières et plans d'eau ?
 - calculer le linéaire de rues piétonnes et le comparer au linéaire de rues motorisées, faire 2 scores
 - intégrer aussi les voies cyclables 🚴‍
