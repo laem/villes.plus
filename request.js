@@ -10,7 +10,7 @@ export default placeName => `
 
   way["leisure"="park"](area.searchArea);
 
-  way["highway"="footway"](area.searchArea);
+  way["highway"="footway"]["footway"!~"sidewalk|crossing"](area.searchArea);
 
   way["highway"="pedestrian"]["foot"!="private"](area.searchArea);
 
