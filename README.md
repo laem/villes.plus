@@ -2,6 +2,8 @@
 
 Présenter bien avant les municipales un classement des villes les plus piétonnes. Faire connaitre les résultats dans la presse 🗞️ et le communiquer aux maires 🏅 et candidats.
 
+![](https://user-images.githubusercontent.com/1177762/69954623-05cf3080-14fc-11ea-9cef-953b5e968776.jpg)
+
 ## La méthode
 
 On va se baser sur les magnifiques données d'Openstreetmap. 
