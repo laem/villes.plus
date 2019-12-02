@@ -1,22 +1,34 @@
-import request from './request.js'
+import makeRequest from './request.js'
 import fetch from 'node-fetch'
 import osmtogeojson from 'osmtogeojson'
+import geojsonArea from '@mapbox/geojson-area'
 
-/*
- fetch(`
-https://www.overpass-api.de/api/interpreter?data=${escape(request)}`)
-  .then(r => r.json())
-  .then(json => console.log(JSON.stringify(osmtogeojson(json))));
-*/
+let countTypes = geoJson =>
+	geoJson.features.reduce((memo, next) => {
+		let t = next.geometry.type
+		memo[t] = (memo[t] || 0) + 1
+		return memo
+	}, {})
 
-import geoJson from './geo.json'
+let areas = geoJson => {
+	let areas = geoJson.features
+		.filter(f => f.geometry.type === 'Polygon')
+		.map(f => geojsonArea.geometry(f.geometry))
+	console.log('areas', areas)
+	let total = areas.reduce((memo, next) => memo + next, 0)
+	console.log(total)
+}
 
-let typeCount = geoJson.features.reduce((memo, next) => {
-	let t = next.geometry.type
-	memo[t] = (memo[t] || 0) + 1
-	return memo
-}, {})
+let city = process.argv[2]
 
-console.log(typeCount)
+// Uselfull maybe to disambiguate or
+let findCity = city =>
+	fetch(
+		`https://nominatim.openstreetmap.org/search/${city}?format=json&addressdetails=1&limit=1`
+	).then(r => r.json())
 
-//[out:json];node[highway=speed_camera](43.46669501043081,-5.708215989569187,43.588927989569186,-5.605835010430813);out%20meta;
+let request = escape(makeRequest(city))
+fetch(`
+https://www.overpass-api.de/api/interpreter?data=${request}`)
+	.then(r => r.json())
+	.then(json => areas(osmtogeojson(json)))

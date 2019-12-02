@@ -1,18 +1,7 @@
-export default `
-/*
+export default placeName => `
 
-This query looks for nodes, ways and relations 
-
-with the given key/value combination.
-
-Choose your region and hit the Run button above!
-
-*/
-
-[out:json]/*fixed by auto repair*/[timeout:25];
-// fetch area “Paris” to search in
-area(3600452920)->.searchArea;
-// gather results
+[out:json][timeout:25];
+( area[name="${placeName}"]; )->.searchArea;
 
 
 (
@@ -31,15 +20,15 @@ area(3600452920)->.searchArea;
 
 );
 
-// print results
 
-out meta;/*fixed by auto repair*/
+out meta;
 
 >;
 
-out meta qt;/*fixed by auto repair*/
+out meta qt;
 
 
 
 
-`;
+
+`
