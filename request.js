@@ -1,6 +1,6 @@
 export default placeName => `
 
-[out:json][timeout:25];
+[out:json][timeout:60];
 ( area[name="${placeName}"][admin_level="8"]; )->.searchArea;
 
 
@@ -9,6 +9,7 @@ export default placeName => `
   way["place"="square"](area.searchArea);
 
   way["leisure"="park"](area.searchArea);
+  way["leisure"="garden"](area.searchArea);
 
   way["highway"="footway"]["footway"!~"sidewalk|crossing"](area.searchArea);
 
