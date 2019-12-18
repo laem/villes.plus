@@ -21,6 +21,7 @@ export default ({ match: { params } }) => {
 					setData(data)
 				})
 			}
+			console.log(value)
 			setData(value)
 		})
 	}, [])

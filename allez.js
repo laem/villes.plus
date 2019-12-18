@@ -41,17 +41,19 @@ let findCity = city =>
 		`https://nominatim.openstreetmap.org/search/${city}?format=json&addressdetails=1&limit=1`
 	).then(r => r.json())
 
-export let compute = (city, callback) => {
+export let compute = city => {
 	let request = escape(makeRequest(city))
-	fetch(`
-https://www.overpass-api.de/api/interpreter?data=${request}`)
+	return fetch(
+		`http://overpass.openstreetmap.fr/api/interpreter?data=${request}`
+	)
 		.then(r => r.json())
 		.then(json => {
 			let geojson = osmtogeojson(json)
 
 			let typesCount = countTypes(geojson)
 			let cityScore = score(geojson)
-			callback({ geojson, ...cityScore, typesCount })
+			let result = { geojson, ...cityScore, typesCount }
+			return result
 		})
 }
 
