@@ -1,0 +1,52 @@
+Arguments: 
+  /data/data/com.termux/files/usr/bin/node /data/data/com.termux/files/usr/share/yarn/bin/yarn.js add react react-dom @babel/core @babel/preset-env @babel/preset-react babel-loader webpack-dev-server babel-plugin-styled-components styled-components webpack webpack-cli
+
+PATH: 
+  /data/data/com.termux/files/home/.rbenv/shims:/data/data/com.termux/files/home/.rbenv/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets
+
+Yarn version: 
+  1.19.2
+
+Node version: 
+  13.0.0
+
+Platform: 
+  android arm64
+
+Trace: 
+  Error: EACCES: permission denied, copyfile '/data/data/com.termux/files/home/.cache/yarn/v6/npm-@types-events-3.0.0-2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7-integrity/node_modules/@types/events/LICENSE' -> '/data/data/com.termux/files/home/pietonnes/node_modules/@types/events/LICENSE'
+
+npm manifest: 
+  {
+    "name": "pietonnes",
+    "version": "0.0.1",
+    "description": "",
+    "main": "allez.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node -r esm allez.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+ssh://git@github.com/laem/pietonnes.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/laem/pietonnes/issues"
+    },
+    "homepage": "https://github.com/laem/pietonnes#readme",
+    "dependencies": {
+      "@mapbox/geojson-area": "^0.2.2",
+      "esm": "^3.2.25",
+      "geojson-length": "^0.1.1",
+      "node-fetch": "^2.6.0",
+      "osmtogeojson": "^3.0.0-beta.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
