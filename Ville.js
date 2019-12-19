@@ -39,15 +39,16 @@ export default ({ match: { params } }) => {
 					)}
 			</pre>
 			Bientôt une carte
-			<Map
-				style="mapbox://styles/mapbox/streets-v9"
-				containerStyle={{
-					height: '100vh',
-					width: '100vw'
-				}}
-				center={[-4.486076, 48.390394]}
-			>
-				{data && data.geojson && (
+			{data && data.geojson && (
+				<Map
+					style="mapbox://styles/mapbox/streets-v9"
+					zoom={[12]}
+					containerStyle={{
+						height: '100vh',
+						width: '100vw'
+					}}
+					center={data.geojson.features[0].geometry.coordinates[0][0]}
+				>
 					<GeoJSONLayer
 						data={linesToPolygons(data.geojson)}
 						symbolLayout={{
@@ -61,8 +62,8 @@ export default ({ match: { params } }) => {
 							'fill-opacity': 0.8
 						}}
 					/>
-				)}
-			</Map>
+				</Map>
+			)}
 			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
 		</div>
 	)

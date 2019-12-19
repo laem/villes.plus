@@ -1,55 +1,54 @@
 {
-  "name": "pietonnes",
-  "version": "0.0.1",
-  "description": "",
-  "main": "allez.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "allez": "node -r esm allez.js",
-    "start": "webpack-dev-server --hot --inline",
-    "compile": "webpack -c webpack.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/laem/pietonnes.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/laem/pietonnes/issues"
-  },
-  "homepage": "https://github.com/laem/pietonnes#readme",
-  "dependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.6",
-    "@babel/preset-react": "^7.7.4",
-    "@mapbox/geojson-area": "^0.2.2",
-    "@turf/buffer": "^5.1.5",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-styled-components": "^1.10.6",
-    "cors": "^2.8.5",
-    "css-loader": "^3.4.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-react": "^7.17.0",
-    "esm": "^3.2.25",
-    "faunadb": "^2.10.2",
-    "geojson-length": "^0.1.1",
-    "html-webpack-plugin": "^3.2.0",
-    "localforage": "^1.7.3",
-    "mapbox-gl": "^1.6.0",
-    "netlify-lambda": "^1.6.3",
-    "node-fetch": "^2.6.0",
-    "osmtogeojson": "^3.0.0-beta.4",
-    "prettier": "^1.19.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-hot-loader": "^4.12.18",
-    "react-mapbox-gl": "^4.8.1",
-    "react-router-dom": "^5.1.2",
-    "style-loader": "^1.0.2",
-    "styled-components": "^4.4.1",
-    "webpack": "^4.41.3",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.0"
-  }
+	"name": "pietonnes",
+	"version": "0.0.1",
+	"description": "",
+	"main": "allez.js",
+	"scripts": {
+		"server": "node -r esm server.js",
+		"start": "webpack-dev-server --hot --inline",
+		"compile": "webpack -c webpack.config.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/laem/pietonnes.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/laem/pietonnes/issues"
+	},
+	"homepage": "https://github.com/laem/pietonnes#readme",
+	"dependencies": {
+		"@babel/core": "^7.7.5",
+		"@babel/preset-env": "^7.7.6",
+		"@babel/preset-react": "^7.7.4",
+		"@mapbox/geojson-area": "^0.2.2",
+		"@turf/buffer": "^5.1.5",
+		"babel-loader": "^8.0.6",
+		"babel-plugin-styled-components": "^1.10.6",
+		"cors": "^2.8.5",
+		"css-loader": "^3.4.0",
+		"eslint": "^6.7.2",
+		"eslint-plugin-react": "^7.17.0",
+		"esm": "^3.2.25",
+		"faunadb": "^2.10.2",
+		"geojson-length": "^0.1.1",
+		"html-webpack-plugin": "^3.2.0",
+		"localforage": "^1.7.3",
+		"mapbox-gl": "^1.6.0",
+		"netlify-lambda": "^1.6.3",
+		"node-fetch": "^2.6.0",
+		"osmtogeojson": "^3.0.0-beta.4",
+		"prettier": "^1.19.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"react-hot-loader": "^4.12.18",
+		"react-mapbox-gl": "^4.8.1",
+		"react-router-dom": "^5.1.2",
+		"style-loader": "^1.0.2",
+		"styled-components": "^4.4.1",
+		"webpack": "^4.41.3",
+		"webpack-cli": "^3.3.10",
+		"webpack-dev-server": "^3.10.0"
+	}
 }
