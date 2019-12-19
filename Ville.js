@@ -16,12 +16,13 @@ export default ({ match: { params } }) => {
 	useEffect(() => {
 		localforage.getItem(ville).then(value => {
 			if (!value) {
-				compute(ville, data => {
-					localforage.setItem(ville, data)
-					setData(data)
-				})
+				fetch('http://localhost:3000/ville/' + ville)
+					.then(res => console.log(res) || res.json())
+					.then(json => {
+						localforage.setItem(ville, json)
+						setData(json)
+					})
 			}
-			console.log(value)
 			setData(value)
 		})
 	}, [])

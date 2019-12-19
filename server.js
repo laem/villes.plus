@@ -2,38 +2,36 @@ import express from 'express'
 
 import faunadb from 'faunadb'
 import { compute } from './allez'
+const cors = require('cors')
+
+var fs = require('fs'),
+	path = require('path')
+
 const app = express()
-const q = faunadb.query
-const client = new faunadb.Client({
-	secret: process.env.FAUNADB_SERVER_SECRET,
-	timeout: 100
-})
+app.use(cors())
 
 app.get('/ville/:ville', function(req, res) {
 	const id = req.params.ville
 	console.log(`Function Ville: ${id}`)
-	return client
-		.query(q.Get(q.Match(q.Index('id'), id)))
-		.then(response => {
-			console.log('success', response)
-			res.json(response)
-		})
-		.catch(error => {
-			console.log('ville pas encore connue : ', id)
+	let fileName = path.join(__dirname + '/cache/', id + '.json')
+	fs.readFile(fileName, { encoding: 'utf-8' }, function(err, data) {
+		if (!err) {
+			console.log('les données sont déjà là ! ')
 
-			return compute(id).then(
-				data =>
-					console.log(JSON.stringify(data).length) ||
-					client
-						.query(
-							q.Create(q.Collection('pietonnes'), {
-								data: { id, yiyi: data.geojson }
-							})
-						)
-						.then(response => res.json(response))
-						.catch(error => console.log(error) || res.status(400).end())
-			)
-		})
+			res.json(JSON.parse(data))
+		} else {
+			console.log('ville pas encore connue : ', id)
+			compute(id).then(data => {
+				fs.writeFile(fileName, JSON.stringify(data), function(err) {
+					if (err) {
+						console.log(err) || res.status(400).end()
+					}
+					console.log("C'est bon on a géré le cas " + id)
+					res.json(data)
+				})
+			})
+		}
+	})
 })
 
 app.listen(3000, function() {
