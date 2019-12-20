@@ -24,6 +24,8 @@
 		"@babel/preset-react": "^7.7.4",
 		"@mapbox/geojson-area": "^0.2.2",
 		"@turf/buffer": "^5.1.5",
+		"@turf/helpers": "^6.1.4",
+		"@turf/union": "^6.0.3",
 		"babel-loader": "^8.0.6",
 		"babel-plugin-styled-components": "^1.10.6",
 		"cors": "^2.8.5",

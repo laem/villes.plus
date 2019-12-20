@@ -4,6 +4,8 @@ import osmtogeojson from 'osmtogeojson'
 import geojsonArea from '@mapbox/geojson-area'
 import geojsonLength from 'geojson-length'
 import buffer from '@turf/buffer'
+import { polygon } from '@turf/helpers'
+import union from '@turf/union'
 
 let countTypes = geoJson =>
 	geoJson.features.reduce((memo, next) => {
@@ -52,18 +54,39 @@ export let compute = city => {
 
 			let typesCount = countTypes(geojson)
 			let cityScore = score(geojson)
-			let result = { geojson, ...cityScore, typesCount }
+			let result = {
+				geojson,
+				...cityScore,
+				typesCount,
+				geojson3: mergePolygons(geojson)
+			}
 			return result
 		})
 }
 
 export let linesToPolygons = geojson => {
 	let standardWidth = 0.005,
-		geojson2 = {
+		newJson = {
 			...geojson,
 			features: geojson.features.map(f =>
 				f.geometry.type === 'LineString' ? buffer(f, standardWidth) : f
 			)
 		}
-	return geojson2
+	return newJson
+}
+
+// The result of the request is a massive set of polygons
+// There can be a way in a park, sharing a common area.
+// This is a problem for data transmission (useless JSON weight)
+// and for the area calculation, hence this deduplication of areas
+// At this point, all lineStrings have been converted to Polygons,
+// and we're not interested by points yet
+export let mergePolygons = geojson => {
+	let polygons = geojson.features
+		.filter(f => f.geometry.type === 'Polygon')
+		.map(f => polygon(f.geometry.coordinates))
+	console.log(polygons)
+	let myunion = union(...polygons)
+	console.log('afterunion', myunion)
+	return polygons
 }

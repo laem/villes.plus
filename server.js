@@ -1,16 +1,16 @@
 import express from 'express'
 
 import faunadb from 'faunadb'
-import { compute } from './allez'
-const cors = require('cors')
-
-var fs = require('fs'),
-	path = require('path')
+import { compute } from './allez.js'
+import cors from 'cors'
+import fs from 'fs'
+import path from 'path'
 
 const app = express()
 app.use(cors())
 
 app.get('/ville/:ville', function(req, res) {
+	console.log('zob')
 	const id = req.params.ville
 	console.log(`Function Ville: ${id}`)
 	let fileName = path.join(__dirname + '/cache/', id + '.json')
@@ -35,5 +35,5 @@ app.get('/ville/:ville', function(req, res) {
 })
 
 app.listen(3000, function() {
-	console.log('Allez là ! Piétonniez les toutes !')
+	console.log('Allez là ! Piétonniez les toutes les villles  !')
 })

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { linesToPolygons, compute } from './allez'
+import { linesToPolygons, compute, mergePolygons } from './allez'
 import localforage from 'localforage'
 import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
 
@@ -13,31 +13,41 @@ const Map = ReactMapboxGl({
 export default ({ match: { params } }) => {
 	let ville = params.ville
 	let [data, setData] = useState(null)
-	useEffect(() => {
+
+	let get = () =>
+		fetch('http://localhost:3000/ville/' + ville)
+			.then(res => res.json())
+			.then(json => {
+				localforage.setItem(ville, json)
+				setData(json)
+			})
+	let getCached = () =>
 		localforage.getItem(ville).then(value => {
 			if (!value) {
-				fetch('http://localhost:3000/ville/' + ville)
-					.then(res => console.log(res) || res.json())
-					.then(json => {
-						localforage.setItem(ville, json)
-						setData(json)
-					})
+				get()
 			}
 			setData(value)
 		})
+	useEffect(() => {
+		get()
+		//getCached()
 	}, [])
+
+	data && console.log('DATA', data)
 
 	return (
 		<div>
 			<h1>{params.ville}</h1>
-			<pre>
-				{data &&
-					JSON.stringify(
+			{data && (
+				<details>
+					<summary>Debug</summary>
+					{JSON.stringify(
 						{ ...data, geojson: data.geojson.features.length },
 						null,
 						'\t'
 					)}
-			</pre>
+				</details>
+			)}
 			Bientôt une carte
 			{data && data.geojson && (
 				<Map
@@ -59,6 +69,19 @@ export default ({ match: { params } }) => {
 						}}
 						fillPaint={{
 							'fill-color': '#088',
+							'fill-opacity': 0.8
+						}}
+					/>
+					<GeoJSONLayer
+						data={data.geojson2}
+						symbolLayout={{
+							'text-field': '{place}',
+							'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+							'text-offset': [0, 0.6],
+							'text-anchor': 'top'
+						}}
+						fillPaint={{
+							'fill-color': 'blue',
 							'fill-opacity': 0.8
 						}}
 					/>
