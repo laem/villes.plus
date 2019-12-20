@@ -4,8 +4,9 @@ import osmtogeojson from 'osmtogeojson'
 import geojsonArea from '@mapbox/geojson-area'
 import geojsonLength from 'geojson-length'
 import buffer from '@turf/buffer'
-import { polygon } from '@turf/helpers'
+import { polygon, featureCollection } from '@turf/helpers'
 import union from '@turf/union'
+import center from '@turf/center'
 
 let countTypes = geoJson =>
 	geoJson.features.reduce((memo, next) => {
@@ -44,10 +45,11 @@ let findCity = city =>
 	).then(r => r.json())
 
 export let compute = city => {
-	let request = escape(makeRequest(city))
-	return fetch(
-		`http://overpass.openstreetmap.fr/api/interpreter?data=${request}`
-	)
+	let overpassRequest = escape(makeRequest(city)),
+		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
+	console.log(request)
+
+	return fetch(request)
 		.then(r => r.json())
 		.then(json => {
 			let geojson = osmtogeojson(json)
@@ -58,6 +60,7 @@ export let compute = city => {
 				geojson,
 				...cityScore,
 				typesCount,
+				center: center(geojson.features[0]),
 				geojson3: mergePolygons(geojson)
 			}
 			return result
@@ -85,8 +88,6 @@ export let mergePolygons = geojson => {
 	let polygons = geojson.features
 		.filter(f => f.geometry.type === 'Polygon')
 		.map(f => polygon(f.geometry.coordinates))
-	console.log(polygons)
-	let myunion = union(...polygons)
-	console.log('afterunion', myunion)
-	return polygons
+	let myunion = polygons.slice(1).reduce(union, polygons[0])
+	return myunion
 }

@@ -54,26 +54,17 @@ export default ({ match: { params } }) => {
 					style="mapbox://styles/mapbox/streets-v9"
 					zoom={[12]}
 					containerStyle={{
-						height: '100vh',
+						height: '50vh',
 						width: '100vw'
 					}}
-					center={data.geojson.features[0].geometry.coordinates[0][0]}
+					center={
+						data.center
+							? data.center.geometry.coordinates
+							: [-4.2097759, 48.5799039]
+					}
 				>
 					<GeoJSONLayer
 						data={linesToPolygons(data.geojson)}
-						symbolLayout={{
-							'text-field': '{place}',
-							'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-							'text-offset': [0, 0.6],
-							'text-anchor': 'top'
-						}}
-						fillPaint={{
-							'fill-color': '#088',
-							'fill-opacity': 0.8
-						}}
-					/>
-					<GeoJSONLayer
-						data={data.geojson2}
 						symbolLayout={{
 							'text-field': '{place}',
 							'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
@@ -85,6 +76,21 @@ export default ({ match: { params } }) => {
 							'fill-opacity': 0.8
 						}}
 					/>
+					{data.geojson3 && (
+						<GeoJSONLayer
+							data={data.geojson3}
+							symbolLayout={{
+								'text-field': '{place}',
+								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+								'text-offset': [0, 0.6],
+								'text-anchor': 'top'
+							}}
+							fillPaint={{
+								'fill-color': 'blue',
+								'fill-opacity': 0.6
+							}}
+						/>
+					)}
 				</Map>
 			)}
 			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
