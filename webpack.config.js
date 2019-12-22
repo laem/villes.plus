@@ -21,7 +21,7 @@ module.exports = {
 	},
 
 	entry: {
-		javascript: ['react-hot-loader/patch', './index.js']
+		javascript: ['./index.js']
 	},
 
 	output: {

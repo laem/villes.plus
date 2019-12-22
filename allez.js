@@ -7,6 +7,7 @@ import buffer from '@turf/buffer'
 import { polygon, featureCollection } from '@turf/helpers'
 import union from '@turf/union'
 import center from '@turf/center'
+import mapshaper from 'mapshaper'
 
 let countTypes = geoJson =>
 	geoJson.features.reduce((memo, next) => {
@@ -47,24 +48,33 @@ let findCity = city =>
 export let compute = city => {
 	let overpassRequest = escape(makeRequest(city)),
 		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
-	console.log(request)
 
 	return fetch(request)
 		.then(r => r.json())
-		.then(json => {
+		.then(async json => {
 			let geojson = osmtogeojson(json)
+			if (!geojson.features.length) {
+				console.log('geojson', geojson)
+				throw Error("La requête n'a rien renvoyé. Cette ville existe bien ?")
+			}
+			console.log('données OSM récupérées')
 
 			let typesCount = countTypes(geojson)
+			let polygons = linesToPolygons(geojson)
+			let mergedPolygons = await mergePolygons2(polygons)
+			console.log('polygons merged')
 			let cityScore = score(geojson)
+			console.log('score computed')
 			let result = {
 				geojson,
 				...cityScore,
 				typesCount,
 				center: center(geojson.features[0]),
-				geojson3: mergePolygons(geojson)
+				mergedPolygons
 			}
 			return result
 		})
+		.catch(error => console.log(error))
 }
 
 export let linesToPolygons = geojson => {
@@ -88,6 +98,19 @@ export let mergePolygons = geojson => {
 	let polygons = geojson.features
 		.filter(f => f.geometry.type === 'Polygon')
 		.map(f => polygon(f.geometry.coordinates))
-	let myunion = polygons.slice(1).reduce(union, polygons[0])
+	let myunion = polygons
+		.slice(1)
+		.reduce(
+			(memo, next, index) => console.log(index) || union(memo, next),
+			polygons[0]
+		)
 	return myunion
+}
+const mergePolygons2 = async geojson => {
+	const input = { 'input.geojson': geojson }
+	const cmd = '-i input.geojson -dissolve2 -o out.geojson format=geojson'
+
+	const output = await mapshaper.applyCommands(cmd, input)
+	console.log(output)
+	return JSON.parse(output['out.geojson'].toString())
 }

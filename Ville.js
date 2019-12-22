@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { linesToPolygons, compute, mergePolygons } from './allez'
 import localforage from 'localforage'
 import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
 
@@ -10,27 +9,31 @@ const Map = ReactMapboxGl({
 
 // in render()
 
+let get = (ville, setData) =>
+	fetch('http://localhost:3000/ville/' + ville)
+		.then(res => res.json())
+		.then(json => {
+			localforage.setItem(ville, json)
+			setData(json)
+		})
+let getCached = (ville, setData, setRequesting) =>
+	localforage.getItem(ville).then(value => {
+		if (value === 'requesting') return
+		if (!value) {
+			setRequesting(true)
+			get(ville, setData).then(() => setRequesting(false))
+		}
+		setData(value)
+	})
+
 export default ({ match: { params } }) => {
 	let ville = params.ville
 	let [data, setData] = useState(null)
+	let [requesting, setRequesting] = useState(null)
 
-	let get = () =>
-		fetch('http://localhost:3000/ville/' + ville)
-			.then(res => res.json())
-			.then(json => {
-				localforage.setItem(ville, json)
-				setData(json)
-			})
-	let getCached = () =>
-		localforage.getItem(ville).then(value => {
-			if (!value) {
-				get()
-			}
-			setData(value)
-		})
 	useEffect(() => {
-		get()
-		//getCached()
+		//get(ville, setData)
+		getCached(ville, setData, setRequesting)
 	}, [])
 
 	data && console.log('DATA', data)
@@ -64,7 +67,7 @@ export default ({ match: { params } }) => {
 					}
 				>
 					<GeoJSONLayer
-						data={linesToPolygons(data.geojson)}
+						data={data.geojson}
 						symbolLayout={{
 							'text-field': '{place}',
 							'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
@@ -76,9 +79,9 @@ export default ({ match: { params } }) => {
 							'fill-opacity': 0.8
 						}}
 					/>
-					{data.geojson3 && (
+					{data.mergePolygons && (
 						<GeoJSONLayer
-							data={data.geojson3}
+							data={data.mergedPolygons}
 							symbolLayout={{
 								'text-field': '{place}',
 								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],

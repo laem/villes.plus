@@ -10,7 +10,6 @@ const app = express()
 app.use(cors())
 
 app.get('/ville/:ville', function(req, res) {
-	console.log('zob')
 	const id = req.params.ville
 	console.log(`Function Ville: ${id}`)
 	let fileName = path.join(__dirname + '/cache/', id + '.json')
