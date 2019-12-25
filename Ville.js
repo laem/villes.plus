@@ -54,10 +54,10 @@ export default ({ match: { params } }) => {
 			Bientôt une carte
 			{data && data.geojson && (
 				<Map
-					style="mapbox://styles/mapbox/streets-v9"
+					style="mapbox://styles/mapbox/satellite-v9"
 					zoom={[12]}
 					containerStyle={{
-						height: '50vh',
+						height: '80vh',
 						width: '100vw'
 					}}
 					center={
@@ -67,7 +67,7 @@ export default ({ match: { params } }) => {
 					}
 				>
 					<GeoJSONLayer
-						data={data.geojson}
+						data={data.mergedPolygons}
 						symbolLayout={{
 							'text-field': '{place}',
 							'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
@@ -75,25 +75,23 @@ export default ({ match: { params } }) => {
 							'text-anchor': 'top'
 						}}
 						fillPaint={{
-							'fill-color': 'blue',
-							'fill-opacity': 0.8
+							'fill-color': 'chartreuse',
+							'fill-opacity': 0.6
 						}}
 					/>
-					{data.mergePolygons && (
-						<GeoJSONLayer
-							data={data.mergedPolygons}
-							symbolLayout={{
-								'text-field': '{place}',
-								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-								'text-offset': [0, 0.6],
-								'text-anchor': 'top'
-							}}
-							fillPaint={{
-								'fill-color': 'blue',
-								'fill-opacity': 0.6
-							}}
-						/>
-					)}
+					<GeoJSONLayer
+						data={data.polygons}
+						symbolLayout={{
+							'text-field': '{place}',
+							'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+							'text-offset': [0, 0.6],
+							'text-anchor': 'top'
+						}}
+						fillPaint={{
+							'fill-color': 'red',
+							'fill-opacity': 0.6
+						}}
+					/>
 				</Map>
 			)}
 			<button onClick={() => localforage.clear()}>Vider la mémoire</button>

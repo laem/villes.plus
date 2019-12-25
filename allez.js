@@ -61,7 +61,25 @@ export let compute = city => {
 
 			let typesCount = countTypes(geojson)
 			let polygons = linesToPolygons(geojson)
-			let mergedPolygons = await mergePolygons2(polygons)
+			let mergedPolygons0 = await mergePolygons2(polygons)
+
+			let multiPolygon = mergedPolygons0.geometries[0]
+			let mergedPolygons = {
+				type: 'FeatureCollection',
+				features: [
+					{
+						type: 'Feature',
+						properties: {
+							stroke: '#555555',
+							'stroke-width': 2,
+							'stroke-opacity': 1,
+							fill: '#981269',
+							'fill-opacity': 0.5
+						},
+						geometry: multiPolygon
+					}
+				]
+			}
 			console.log('polygons merged')
 			let cityScore = score(geojson)
 			console.log('score computed')
@@ -70,7 +88,8 @@ export let compute = city => {
 				...cityScore,
 				typesCount,
 				center: center(geojson.features[0]),
-				mergedPolygons
+				mergedPolygons,
+				polygons
 			}
 			return result
 		})
@@ -108,9 +127,9 @@ export let mergePolygons = geojson => {
 }
 const mergePolygons2 = async geojson => {
 	const input = { 'input.geojson': geojson }
-	const cmd = '-i input.geojson -dissolve2 -o out.geojson format=geojson'
+	const cmd =
+		'-i input.geojson -dissolve2 -o out.geojson format=geojson rfc7946'
 
 	const output = await mapshaper.applyCommands(cmd, input)
-	console.log(output)
 	return JSON.parse(output['out.geojson'].toString())
 }
