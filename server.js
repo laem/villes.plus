@@ -15,6 +15,7 @@ let getVille = (id, scoreOnly = true, res) => {
 	fs.readFile(fileName, { encoding: 'utf-8' }, function(err, json) {
 		if (!err) {
 			console.log('les données sont déjà là pour ' + id)
+
 			let data = JSON.parse(json)
 			res.json(scoreOnly ? getScore(data) : data)
 		} else {

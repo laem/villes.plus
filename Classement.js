@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import villesListRaw from 'js-yaml-loader!./villes.yaml'
 import { Link } from 'react-router-dom'
-let villesList = villesListRaw.slice(20, 22)
+let villesList = ['Brest', 'Quimper'] || villesListRaw.slice(20, 22)
 export function Classement() {
 	let [villes, setVilles] = useState({})
 
@@ -14,7 +14,6 @@ export function Classement() {
 				(memo, next, i) => ({ ...memo, [villesList[i]]: next }),
 				{}
 			)
-
 			setVilles(villes2)
 		})
 	}, [])
@@ -45,19 +44,26 @@ export function Classement() {
 				}
 				*/
 				a {
-					font-size: 200%;
+					font-size: 100%;
 					text-decoration: none;
 				}
 			`}
 		>
-			<h2>Les villes françaises les plus piétonnes.</h2>
+			<h2>
+				Quelles sont les grandes villes françaises les plus piétonnes 🚶‍♀️ ?
+			</h2>
 			<ol>
 				{Object.entries(villes).map(([ville, data], i) => (
 					<li key={ville}>
-						{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}
+						{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
 						<div css="width: 60%">{ville}</div>
-						<div>{data && (data.area / 1000000).toFixed(1)} km²</div>
-						<Link to={'/' + ville}>🗺</Link>
+						<div>
+							<span css="font-weight: 600">
+								{data && (data.area / 1000000).toFixed(1)}{' '}
+							</span>
+							<small>km²</small>
+						</div>
+						<Link to={'/' + ville}>Explorer</Link>
 					</li>
 				))}
 			</ol>

@@ -41,23 +41,14 @@ export default ({ match: { params } }) => {
 	return (
 		<div>
 			<h1>{params.ville}</h1>
-			{data && (
-				<details>
-					<summary>Debug</summary>
-					{JSON.stringify(
-						{ ...data, geojson: data.geojson.features.length },
-						null,
-						'\t'
-					)}
-				</details>
-			)}
-			Bientôt une carte
+			{!data && <p>Chargement en cours ⏳</p>}
+			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
 			{data && data.geojson && (
 				<Map
 					style="mapbox://styles/mapbox/satellite-v9"
 					zoom={[12]}
 					containerStyle={{
-						height: '80vh',
+						height: '75vh',
 						width: '100vw'
 					}}
 					center={
@@ -94,7 +85,6 @@ export default ({ match: { params } }) => {
 					/>
 				</Map>
 			)}
-			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
 		</div>
 	)
 }

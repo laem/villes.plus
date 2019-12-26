@@ -2,16 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 export function Nav() {
 	return (
-		<nav>
-			<h1
-				css={`
-					font-size: 250%;
-					margin: 0.1rem;
-					text-align: center;
-				`}
-			>
-				villes+
-			</h1>
+		<nav
+			css={`
+				flex-shrink: 0;
+				background: linear-gradient(#1e3799, #1e3799cc);
+				a {
+					color: white;
+					text-decoration: none;
+					font-weight: 600;
+				}
+			`}
+		>
 			<ul
 				css={`
 					display: flex;
