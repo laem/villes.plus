@@ -9,6 +9,8 @@ import path from 'path'
 const app = express()
 app.use(cors())
 
+app.use(express.static(__dirname))
+
 let getScore = data => ({ area: data.realArea })
 let getVille = (id, scoreOnly = true, res) => {
 	let fileName = path.join(__dirname + '/cache/', id + '.json')
@@ -33,15 +35,19 @@ let getVille = (id, scoreOnly = true, res) => {
 	})
 }
 
-app.get('/ville/:ville', function(req, res) {
+app.get('/api/ville/:ville', function(req, res) {
 	const id = req.params.ville
 	console.log(`Function Ville: ${id}`)
 	getVille(id, false, res)
 })
-app.get('/score/:ville', function(req, res) {
+app.get('/api/score/:ville', function(req, res) {
 	const id = req.params.ville
 	console.log(`Function Score: ${id}`)
 	getVille(id, true, res)
+})
+
+app.get('*', (req, res) => {
+	res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
 app.listen(3000, function() {

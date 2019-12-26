@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
 import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
+import APIUrl from './APIUrl'
 
 const Map = ReactMapboxGl({
 	accessToken:
@@ -10,7 +11,7 @@ const Map = ReactMapboxGl({
 // in render()
 
 let get = (ville, setData) =>
-	fetch('http://localhost:3000/ville/' + ville)
+	fetch(APIUrl('ville/' + ville))
 		.then(res => res.json())
 		.then(json => {
 			localforage.setItem(ville, json)

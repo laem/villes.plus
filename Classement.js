@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import villesListRaw from 'js-yaml-loader!./villes.yaml'
 import { Link } from 'react-router-dom'
-let villesList = ['Brest', 'Quimper'] || villesListRaw.slice(20, 22)
+import APIUrl from './APIUrl'
+
+let villesList = ['Brest', 'Rennes'] || villesListRaw.slice(20, 22)
 export function Classement() {
 	let [villes, setVilles] = useState({})
 
 	useEffect(() => {
 		let promises = villesList.map(ville =>
-			fetch('http://localhost:3000/score/' + ville).then(yo => yo.json())
+			fetch(APIUrl('score/' + ville)).then(yo => yo.json())
 		)
 		Promise.all(promises).then(data => {
 			let villes2 = data.reduce(
