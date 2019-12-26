@@ -15,7 +15,7 @@ export default placeName => `
   way["highway"="pedestrian"]["foot"!="private"](area.searchArea);
   relation["highway"="pedestrian"]["foot"!="private"](area.searchArea);
 
-  */ 
+  /* 
     These are excluded, since they do not mean it is a public pedestrian place
     E.g. the Nice Airport has lots of landuse=grass
     Also, private residential gardens
