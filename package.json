@@ -4,10 +4,9 @@
 	"description": "",
 	"main": "allez.js",
 	"scripts": {
-		"server": "node -r esm server.js",
 		"dev": "webpack-dev-server --hot --mode development",
-		"compile": "NODE_ENV=production webpack -p -c webpack.config.js",
-		"prod": "npm run compile; npm run server"
+		"build": "NODE_ENV=production webpack -p -c webpack.config.js",
+		"start": "node -r esm server.js"
 	},
 	"repository": {
 		"type": "git",

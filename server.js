@@ -6,6 +6,12 @@ import cors from 'cors'
 import fs from 'fs'
 import path from 'path'
 
+const cacheDir = __dirname + '/cache'
+
+if (!fs.existsSync(cacheDir)) {
+	fs.mkdirSync(cacheDir)
+}
+
 const app = express()
 app.use(cors())
 
@@ -13,7 +19,7 @@ app.use(express.static(__dirname))
 
 let getScore = data => ({ area: data.realArea })
 let getVille = (id, scoreOnly = true, res) => {
-	let fileName = path.join(__dirname + '/cache/', id + '.json')
+	let fileName = path.join(cacheDir, id + '.json')
 	fs.readFile(fileName, { encoding: 'utf-8' }, function(err, json) {
 		if (!err) {
 			console.log('les données sont déjà là pour ' + id)
@@ -50,6 +56,6 @@ app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
 	console.log('Allez là ! Piétonniez les toutes les villles  !')
 })

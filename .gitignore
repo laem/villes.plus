@@ -1,6 +1,6 @@
 node_modules/
-cache/
 
+cache/
 dist/
 # Local Netlify folder
 .netlify
