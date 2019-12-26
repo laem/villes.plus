@@ -89,7 +89,8 @@ export let compute = city => {
 				typesCount,
 				center: center(geojson.features[0]),
 				mergedPolygons,
-				polygons
+				polygons,
+				realArea: geojsonArea.geometry(mergedPolygons.features[0].geometry)
 			}
 			return result
 		})
@@ -126,7 +127,12 @@ export let mergePolygons = geojson => {
 	return myunion
 }
 const mergePolygons2 = async geojson => {
-	const input = { 'input.geojson': geojson }
+	let polygons = {
+		...geojson,
+		features: geojson.features.filter(f => f.geometry.type === 'Polygon')
+	}
+
+	const input = { 'input.geojson': polygons }
 	const cmd =
 		'-i input.geojson -dissolve2 -o out.geojson format=geojson rfc7946'
 

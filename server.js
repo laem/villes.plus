@@ -9,15 +9,14 @@ import path from 'path'
 const app = express()
 app.use(cors())
 
-app.get('/ville/:ville', function(req, res) {
-	const id = req.params.ville
-	console.log(`Function Ville: ${id}`)
+let getScore = data => ({ area: data.realArea })
+let getVille = (id, scoreOnly = true, res) => {
 	let fileName = path.join(__dirname + '/cache/', id + '.json')
-	fs.readFile(fileName, { encoding: 'utf-8' }, function(err, data) {
+	fs.readFile(fileName, { encoding: 'utf-8' }, function(err, json) {
 		if (!err) {
-			console.log('les données sont déjà là ! ')
-
-			res.json(JSON.parse(data))
+			console.log('les données sont déjà là pour ' + id)
+			let data = JSON.parse(json)
+			res.json(scoreOnly ? getScore(data) : data)
 		} else {
 			console.log('ville pas encore connue : ', id)
 			compute(id).then(data => {
@@ -26,11 +25,22 @@ app.get('/ville/:ville', function(req, res) {
 						console.log(err) || res.status(400).end()
 					}
 					console.log("C'est bon on a géré le cas " + id)
-					res.json(data)
+					res.json(scoreOnly ? getScore(data) : data)
 				})
 			})
 		}
 	})
+}
+
+app.get('/ville/:ville', function(req, res) {
+	const id = req.params.ville
+	console.log(`Function Ville: ${id}`)
+	getVille(id, false, res)
+})
+app.get('/score/:ville', function(req, res) {
+	const id = req.params.ville
+	console.log(`Function Score: ${id}`)
+	getVille(id, true, res)
 })
 
 app.listen(3000, function() {

@@ -1,44 +1,31 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Ville from './Ville'
+import { Classement } from './Classement'
+import { Nav } from './Nav'
+
+let About = () => (
+	<div>
+		<h1>À propos</h1>
+		<p>
+			On explique ici pourquoi ce site. C'est important d'expliquer pourquoi
+		</p>
+	</div>
+)
 
 export default function App() {
 	return (
 		<Router>
 			<div>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/Paris">Paris</Link>
-						</li>
-						<li>
-							<Link to="/Brest">Brest</Link>
-						</li>
-						<li>
-							<Link to="/classement">Classement</Link>
-						</li>
-					</ul>
-				</nav>
-
+				<Nav />
 				{/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
 				<Switch>
-					<Route path="/classement">
-						<Classement />
-					</Route>
 					<Route path="/:ville" component={Ville} />
-					<Route path="/">
-						<Accueil />
-					</Route>
+					<Route path="/à-propos" component={About} />
+					<Route path="/" component={Classement} />
 				</Switch>
 			</div>
 		</Router>
 	)
 }
-
-function Classement() {
-	return <h2>Classement</h2>
-}
-
-const Accueil = () => <h1>Les villes les plus piétonnes</h1>
-
