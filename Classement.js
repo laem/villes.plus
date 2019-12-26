@@ -19,18 +19,48 @@ export function Classement() {
 		})
 	}, [])
 	return (
-		<div>
-			<h2>Classement</h2>
-			<ul>
-				{Object.entries(villes).map(([ville, data]) => (
+		<div
+			css={`
+				padding: 0.6rem;
+				h2 {
+					font-size: 120%;
+					font-weight: normal;
+					text-align: center;
+				}
+				ol {
+					padding: 0;
+				}
+
+				li {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding: 0.3rem 0.6rem;
+					padding: 0.3rem 0;
+					border-bottom: 1px solid #ccc;
+				}
+				/*
+				li:nth-child(odd) {
+					background: #eee;
+				}
+				*/
+				a {
+					font-size: 200%;
+					text-decoration: none;
+				}
+			`}
+		>
+			<h2>Les villes françaises les plus piétonnes.</h2>
+			<ol>
+				{Object.entries(villes).map(([ville, data], i) => (
 					<li key={ville}>
-						<div>
-							{ville} : {data && (data.area / 1000000).toFixed(2)}
-						</div>
-						<Link to={'/' + ville}>🗺 Explorer</Link>
+						{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}
+						<div css="width: 60%">{ville}</div>
+						<div>{data && (data.area / 1000000).toFixed(1)} km²</div>
+						<Link to={'/' + ville}>🗺</Link>
 					</li>
 				))}
-			</ul>
+			</ol>
 		</div>
 	)
 }
