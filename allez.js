@@ -94,7 +94,6 @@ export let compute = city => {
 			}
 			return result
 		})
-		.catch(error => console.log(error))
 }
 
 export let linesToPolygons = geojson => {
