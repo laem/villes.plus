@@ -3,7 +3,7 @@ import villesListRaw from 'js-yaml-loader!./villes.yaml'
 import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
 
-let villesList = ['Brest', 'Rennes'] || villesListRaw.slice(20, 22)
+let villesList = villesListRaw.slice(0, 10)
 export function Classement() {
 	let [villes, setVilles] = useState({})
 
@@ -19,6 +19,8 @@ export function Classement() {
 			setVilles(villes2)
 		})
 	}, [])
+	let villesEntries = Object.entries(villes)
+
 	return (
 		<div
 			css={`
@@ -54,11 +56,14 @@ export function Classement() {
 			<h2>
 				Quelles sont les grandes villes françaises les plus piétonnes 🚶‍♀️ ?
 			</h2>
+			{villesEntries.length === 0 && <p>Chargement en cours ⏳</p>}
 			<ol>
-				{Object.entries(villes).map(([ville, data], i) => (
+				{villesEntries.map(([ville, data], i) => (
 					<li key={ville}>
-						{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
-						<div css="width: 60%">{ville}</div>
+						<span css="width: 1.5rem; text-align: center">
+							{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
+						</span>
+						<div css="width: 10rem">{ville}</div>
 						<div>
 							<span css="font-weight: 600">
 								{data && (data.area / 1000000).toFixed(1)}{' '}

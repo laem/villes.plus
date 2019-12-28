@@ -49,7 +49,7 @@ export default ({ match: { params } }) => {
 					style="mapbox://styles/mapbox/satellite-v9"
 					zoom={[12]}
 					containerStyle={{
-						height: '75vh',
+						height: '100vh',
 						width: '100vw'
 					}}
 					center={
