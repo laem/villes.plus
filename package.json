@@ -29,6 +29,7 @@
 		"@turf/union": "^6.0.3",
 		"babel-loader": "^8.0.6",
 		"babel-plugin-styled-components": "^1.10.6",
+		"compression": "^1.7.4",
 		"cors": "^2.8.5",
 		"css-loader": "^3.4.0",
 		"eslint": "^6.7.2",

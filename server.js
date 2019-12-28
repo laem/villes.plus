@@ -5,6 +5,7 @@ import { compute } from './allez.js'
 import cors from 'cors'
 import fs from 'fs'
 import path from 'path'
+import compression from 'compression'
 
 const cacheDir = __dirname + '/cache'
 
@@ -14,6 +15,7 @@ if (!fs.existsSync(cacheDir)) {
 
 const app = express()
 app.use(cors())
+app.use(compression())
 
 app.use(express.static(__dirname))
 
