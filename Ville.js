@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
-import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
+import ReactMapboxGl, { GeoJSONLayer, Layer, Source } from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
 
 const Map = ReactMapboxGl({
@@ -26,27 +26,48 @@ let getCached = (ville, setData, setRequesting) =>
 		}
 		setData(value)
 	})
-
+const sat = 'satellite-v9',
+	light = 'streets-v10'
 export default ({ match: { params } }) => {
 	let ville = params.ville
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
+	let [style, setStyle] = useState(sat)
 
 	useEffect(() => {
 		//get(ville, setData)
 		getCached(ville, setData, setRequesting)
 	}, [])
 
-	data && console.log('DATA', data)
-
 	return (
 		<div>
 			<h1>{params.ville}</h1>
 			{!data && <p>Chargement en cours ⏳</p>}
-			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
+			<div>
+				<label>
+					<input
+						type="radio"
+						name="style"
+						value={sat}
+						checked={style === sat}
+						onChange={e => setStyle(e.target.value)}
+					/>
+					Vue satellite
+				</label>
+				<label>
+					<input
+						type="radio"
+						name="style"
+						value={light}
+						checked={style === light}
+						onChange={e => setStyle(e.target.value)}
+					/>
+					Vue carte
+				</label>
+			</div>
 			{data && data.geojson && (
 				<Map
-					style="mapbox://styles/mapbox/satellite-v9"
+					style={'mapbox://styles/mapbox/' + style}
 					zoom={[12]}
 					containerStyle={{
 						height: '100vh',
@@ -67,8 +88,8 @@ export default ({ match: { params } }) => {
 							'text-anchor': 'top'
 						}}
 						fillPaint={{
-							'fill-color': 'chartreuse',
-							'fill-opacity': 0.6
+							'fill-color': style === light ? '#3742fa' : 'chartreuse',
+							'fill-opacity': style === light ? 0.65 : 0.75
 						}}
 					/>
 					<GeoJSONLayer
@@ -81,11 +102,12 @@ export default ({ match: { params } }) => {
 						}}
 						fillPaint={{
 							'fill-color': 'red',
-							'fill-opacity': 0.6
+							'fill-opacity': 0
 						}}
 					/>
 				</Map>
 			)}
+			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
 		</div>
 	)
 }

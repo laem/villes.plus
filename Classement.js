@@ -58,21 +58,23 @@ export function Classement() {
 			</h2>
 			{villesEntries.length === 0 && <p>Chargement en cours ⏳</p>}
 			<ol>
-				{villesEntries.map(([ville, data], i) => (
-					<li key={ville}>
-						<span css="width: 1.5rem; text-align: center">
-							{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
-						</span>
-						<div css="width: 10rem">{ville}</div>
-						<div>
-							<span css="font-weight: 600">
-								{data && (data.area / 1000000).toFixed(1)}{' '}
+				{villesEntries
+					.sort(([, { area: a1 }], [, { area: a2 }]) => a1 < a2)
+					.map(([ville, data], i) => (
+						<li key={ville}>
+							<span css="width: 1.5rem; text-align: center">
+								{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
 							</span>
-							<small>km²</small>
-						</div>
-						<Link to={'/' + ville}>Explorer</Link>
-					</li>
-				))}
+							<div css="width: 10rem">{ville}</div>
+							<div>
+								<span css="font-weight: 600">
+									{data && (data.area / 1000000).toFixed(1)}{' '}
+								</span>
+								<small>km²</small>
+							</div>
+							<Link to={'/' + ville}>Explorer</Link>
+						</li>
+					))}
 			</ol>
 		</div>
 	)

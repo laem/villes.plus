@@ -69,6 +69,9 @@ app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
-app.listen(process.env.PORT || 3000, function() {
-	console.log('Allez là ! Piétonniez les toutes les villles  !')
+let port = process.env.PORT || 3000
+app.listen(port, function() {
+	console.log(
+		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
+	)
 })

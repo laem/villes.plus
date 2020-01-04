@@ -46,18 +46,18 @@ let findCity = city =>
 	).then(r => r.json())
 
 export let compute = city => {
-	let overpassRequest = escape(makeRequest(city)),
+	let overpassRequest = makeRequest(city),
 		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
-
-	return fetch(request)
+	return fetch(encodeURI(request))
 		.then(r => r.json())
 		.then(async json => {
+			console.log('json', json)
 			let geojson = osmtogeojson(json)
 			if (!geojson.features.length) {
 				console.log('geojson', geojson)
 				throw Error("La requête n'a rien renvoyé. Cette ville existe bien ?")
 			}
-			console.log('données OSM récupérées')
+			console.log('données OSM récupérées : ', city)
 
 			let typesCount = countTypes(geojson)
 			let polygons = linesToPolygons(geojson)
