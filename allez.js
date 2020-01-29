@@ -51,7 +51,6 @@ export let compute = city => {
 	return fetch(encodeURI(request))
 		.then(r => r.json())
 		.then(async json => {
-			console.log('json', json)
 			let geojson = osmtogeojson(json)
 			if (!geojson.features.length) {
 				console.log('geojson', geojson)

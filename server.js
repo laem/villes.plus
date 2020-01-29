@@ -56,12 +56,12 @@ let resUnknownCity = (res, id) =>
 
 app.get('/api/ville/:ville', function(req, res) {
 	const id = req.params.ville
-	console.log(`Function Ville: ${id}`)
+	console.log(`/api/ville: ${id}`)
 	getVille(id, false, res)
 })
 app.get('/api/score/:ville', function(req, res) {
 	const id = req.params.ville
-	console.log(`Function Score: ${id}`)
+	console.log(`/api/score: ${id}`)
 	getVille(id, true, res)
 })
 
