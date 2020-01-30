@@ -1,4 +1,5 @@
 import express from 'express'
+import fetch from 'node-fetch'
 
 import { compute } from './allez.js'
 import cors from 'cors'
@@ -18,7 +19,6 @@ app.use(compression())
 
 app.use(express.static(__dirname))
 
-let getScore = data => ({ area: data.realArea })
 let getVille = (id, scoreOnly = true, res) => {
 	let fileName = path.join(cacheDir, id)
 	if (scoreOnly) {
@@ -53,24 +53,29 @@ let getVille = (id, scoreOnly = true, res) => {
 
 const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
 	console.log('ville pas encore connue : ', id)
-	compute(id)
-		.then(data => {
+	Promise.all([
+		compute(id),
+		fetch(
+			`https://geo.api.gouv.fr/communes?nom=${id}&fields=surface,departement,centre&format=json&geometry=centre&boost=population`
+		).then(res => res.json())
+	])
+		.then(([data, [geoData]]) => {
 			fs.writeFile(fileName + '.json', JSON.stringify(data), function(err) {
 				if (err) {
 					console.log(err) || res.status(400).end()
 				}
 				console.log("C'est bon on a géré le cas " + id)
 
-				fs.writeFile(
-					fileName + '.meta.json',
-					JSON.stringify(getScore(data)),
-					function(err) {
-						if (err) {
-							console.log(err) || res.status(400).end()
-						}
-						res.json(scoreOnly ? getScore(data) : data)
+				const meta = { pedestrianArea: data.realArea, geoData }
+
+				fs.writeFile(fileName + '.meta.json', JSON.stringify(meta), function(
+					err
+				) {
+					if (err) {
+						console.log(err) || res.status(400).end()
 					}
-				)
+					res.json(scoreOnly ? meta : data)
+				})
 			})
 		})
 		.catch(e =>
