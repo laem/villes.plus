@@ -82,7 +82,7 @@ export function Classement() {
 				)}
 				<ol>
 					{villesEntries
-						.sort(([, { area: a1 }], [, { area: a2 }]) => a1 < a2)
+						.sort(([, { area: a1 }], [, { area: a2 }]) => a2 - a1)
 						.map(([ville, data], i) => (
 							<li key={ville}>
 								<Link to={'/' + ville}>
