@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
 
-let villesList = villesListRaw.slice(0, 10)
+let villesList = villesListRaw.slice(0, 25)
 export function Classement() {
 	let [villes, setVilles] = useState({})
 
@@ -49,7 +49,7 @@ export function Classement() {
 						justify-content: space-between;
 						padding: 0.3rem 0.8rem;
 						background: aliceblue;
-						margin: 0.8rem;
+						margin: 0.8rem 0;
 						border-radius: 1rem;
 						box-shadow: 0 1px 3px rgba(41, 117, 209, 0.12),
 							0 1px 2px rgba(41, 117, 209, 0.24);
@@ -98,7 +98,7 @@ export function Classement() {
 										<span css="width: 1.5rem; text-align: center">
 											{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
 										</span>
-										<div css="width: 10rem">{ville}</div>
+										<div css="width: 8rem">{ville}</div>
 										<div css="width: 4rem;text-align: center">
 											<span css="font-weight: 600">
 												{(data.score * 100).toFixed(0)}
