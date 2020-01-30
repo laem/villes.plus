@@ -26,8 +26,9 @@ let getCached = (ville, setData, setRequesting) =>
 		}
 		setData(value)
 	})
-const sat = 'satellite-v9',
-	light = 'streets-v10'
+const sat = 'mapbox/satellite-v9',
+	light = 'mapbox/streets-v10',
+	rien = 'kont/ck60mhncx1z681ipczm7amthv'
 export default ({ match: { params } }) => {
 	let ville = params.ville
 	let [data, setData] = useState(null)
@@ -43,7 +44,7 @@ export default ({ match: { params } }) => {
 		<div
 			css={`
 				position: relative;
-				color: white;
+				color: ${rien ? 'black' : 'white'};
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -74,6 +75,16 @@ export default ({ match: { params } }) => {
 					<input
 						type="radio"
 						name="style"
+						value={rien}
+						checked={style === rien}
+						onChange={e => setStyle(e.target.value)}
+					/>
+					Vue artistique
+				</label>
+				<label>
+					<input
+						type="radio"
+						name="style"
 						value={light}
 						checked={style === light}
 						onChange={e => setStyle(e.target.value)}
@@ -84,7 +95,7 @@ export default ({ match: { params } }) => {
 			{data && data.geojson && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map
-						style={'mapbox://styles/mapbox/' + style}
+						style={'mapbox://styles/' + style}
 						zoom={[12]}
 						containerStyle={{
 							height: '100vh',
@@ -105,7 +116,12 @@ export default ({ match: { params } }) => {
 								'text-anchor': 'top'
 							}}
 							fillPaint={{
-								'fill-color': style === light ? '#3742fa' : 'chartreuse',
+								'fill-color':
+									style === light
+										? '#3742fa'
+										: style === rien
+										? '#333'
+										: 'chartreuse',
 								'fill-opacity': style === light ? 0.65 : 0.75
 							}}
 						/>
