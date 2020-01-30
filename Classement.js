@@ -116,6 +116,33 @@ export function Classement() {
 							)
 						})}
 				</ol>
+				<div
+					css={`
+						margin-top: 2rem;
+						p {
+							font-size: 85%;
+						}
+						.badge {
+							background: #1e3799;
+							padding: 0 0.3rem;
+							color: white;
+							border-radius: 0.3rem;
+							margin: 0 0.1rem;
+						}
+					`}
+				>
+					<p>
+						La méthode de calcul des zones piétonnes est en version{' '}
+						<span className="badge">beta</span>. On remarquera par exemple que
+						les deux poumons verts de Paris mettent la capitale sur une autre
+						planète, et il pourrait être légitime de les exclure étant donné
+						qu'ils ne sont pas intégrés dans la ville.
+					</p>
+					<p>
+						Ces grands parcs mis à part, les scores sont probablement déjà
+						plutôt représentatifs de l'importance accordée aux piétons.
+					</p>
+				</div>
 			</div>
 		</>
 	)
