@@ -22,6 +22,7 @@ export function Classement() {
 	}, [])
 	let villesEntries = Object.entries(villes)
 
+	console.log('villes', villes)
 	return (
 		<>
 			<Logo />

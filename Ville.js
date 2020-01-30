@@ -44,17 +44,26 @@ export default ({ match: { params } }) => {
 		<div
 			css={`
 				position: relative;
-				color: ${rien ? 'black' : 'white'};
+				color: black;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				height: 100%;
+
 				h1,
 				button,
 				#switch {
 					z-index: 20;
+					background: #fffc;
+					padding: 0 1rem;
+					border-radius: 0.9rem;
 				}
 				#switch {
 					margin-bottom: 1rem;
+				}
+
+				> button {
+					margin-top: auto;
 				}
 			`}
 		>

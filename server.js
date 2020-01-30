@@ -1,6 +1,5 @@
 import express from 'express'
 
-import faunadb from 'faunadb'
 import { compute } from './allez.js'
 import cors from 'cors'
 import fs from 'fs'
@@ -21,31 +20,62 @@ app.use(express.static(__dirname))
 
 let getScore = data => ({ area: data.realArea })
 let getVille = (id, scoreOnly = true, res) => {
-	let fileName = path.join(cacheDir, id + '.json')
-	fs.readFile(fileName, { encoding: 'utf-8' }, function(err, json) {
-		if (json === 'unknown city') return resUnknownCity(res, id)
-		if (!err) {
-			console.log('les données sont déjà là pour ' + id)
+	let fileName = path.join(cacheDir, id)
+	if (scoreOnly) {
+		fs.readFile(fileName + '.meta.json', { encoding: 'utf-8' }, function(
+			err,
+			json
+		) {
+			if (json === 'unknown city') return resUnknownCity(res, id)
+			if (!err) {
+				console.log('les meta sont déjà là pour ' + id)
 
-			let data = JSON.parse(json)
-			res.json(scoreOnly ? getScore(data) : data)
-		} else {
-			console.log('ville pas encore connue : ', id)
-			compute(id)
-				.then(data => {
-					fs.writeFile(fileName, JSON.stringify(data), function(err) {
+				let data = JSON.parse(json)
+				res.json(data)
+			} else {
+				computeAndCacheCity(id, fileName, res, scoreOnly)
+			}
+		})
+	} else {
+		fs.readFile(fileName + '.json', { encoding: 'utf-8' }, function(err, json) {
+			if (json === 'unknown city') return resUnknownCity(res, id)
+			if (!err) {
+				console.log('les données sont déjà là pour ' + id)
+
+				let data = JSON.parse(json)
+				res.json(data)
+			} else {
+				computeAndCacheCity(id, fileName, res, scoreOnly)
+			}
+		})
+	}
+}
+
+const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
+	console.log('ville pas encore connue : ', id)
+	compute(id)
+		.then(data => {
+			fs.writeFile(fileName + '.json', JSON.stringify(data), function(err) {
+				if (err) {
+					console.log(err) || res.status(400).end()
+				}
+				console.log("C'est bon on a géré le cas " + id)
+
+				fs.writeFile(
+					fileName + '.meta.json',
+					JSON.stringify(getScore(data)),
+					function(err) {
 						if (err) {
 							console.log(err) || res.status(400).end()
 						}
-						console.log("C'est bon on a géré le cas " + id)
 						res.json(scoreOnly ? getScore(data) : data)
-					})
-				})
-				.catch(e =>
-					fs.writeFile(fileName, 'unknown city', err => resUnknownCity(res, id))
+					}
 				)
-		}
-	})
+			})
+		})
+		.catch(e =>
+			fs.writeFile(fileName, 'unknown city', err => resUnknownCity(res, id))
+		)
 }
 
 let resUnknownCity = (res, id) =>
