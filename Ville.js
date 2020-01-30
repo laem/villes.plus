@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
 import ReactMapboxGl, { GeoJSONLayer, Layer, Source } from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
+import Logo from './Logo'
 
 const Map = ReactMapboxGl({
 	accessToken:
@@ -50,16 +51,13 @@ export default ({ match: { params } }) => {
 				align-items: center;
 				height: 100%;
 
-				h1,
-				button,
 				#switch {
 					z-index: 20;
+
 					background: #fffc;
 					padding: 0 1rem;
 					border-radius: 0.9rem;
-				}
-				#switch {
-					margin-bottom: 1rem;
+					margin: 1rem 0;
 				}
 
 				> button {
@@ -67,7 +65,10 @@ export default ({ match: { params } }) => {
 				}
 			`}
 		>
-			<h1>{params.ville}</h1>
+			<div css="z-index: 20">
+				<Logo color={style === sat ? 'white' : 'black'} text={params.ville} />
+			</div>
+
 			{!data && <p>Chargement en cours ⏳</p>}
 			<div id="switch">
 				<label>

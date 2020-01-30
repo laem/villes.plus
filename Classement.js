@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import villesListRaw from 'js-yaml-loader!./villes.yaml'
 import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
-import { Logo } from './Router'
+import Logo from './Logo'
 
 let villesList = villesListRaw.slice(0, 10)
 export function Classement() {

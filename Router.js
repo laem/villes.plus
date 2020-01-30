@@ -72,30 +72,3 @@ export default function App() {
 	)
 }
 
-export const Logo = () => (
-	<Link to="/">
-		<h1
-			css={`
-				font-size: 250%;
-				margin: 0.1rem;
-				text-align: center;
-				color: #1e3799;
-			`}
-		>
-			villes
-			<span
-				css={`
-					background: #1e3799;
-					color: white;
-					border-radius: 2.5rem;
-					width: 2.5rem;
-					display: inline-block;
-					margin-left: -0.1rem;
-					line-height: 2.5rem;
-				`}
-			>
-				+
-			</span>
-		</h1>
-	</Link>
-)
