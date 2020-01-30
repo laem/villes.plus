@@ -60,23 +60,27 @@ const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
 		).then(res => res.json())
 	])
 		.then(([data, [geoData]]) => {
-			fs.writeFile(fileName + '.json', JSON.stringify(data), function(err) {
-				if (err) {
-					console.log(err) || res.status(400).end()
-				}
-				console.log("C'est bon on a géré le cas " + id)
-
-				const meta = { pedestrianArea: data.realArea, geoData }
-
-				fs.writeFile(fileName + '.meta.json', JSON.stringify(meta), function(
-					err
-				) {
+			fs.writeFile(
+				fileName + '.json',
+				JSON.stringify({ ...data, geoData }),
+				function(err) {
 					if (err) {
 						console.log(err) || res.status(400).end()
 					}
-					res.json(scoreOnly ? meta : data)
-				})
-			})
+					console.log("C'est bon on a géré le cas " + id)
+
+					const meta = { pedestrianArea: data.realArea, geoData }
+
+					fs.writeFile(fileName + '.meta.json', JSON.stringify(meta), function(
+						err
+					) {
+						if (err) {
+							console.log(err) || res.status(400).end()
+						}
+						res.json(scoreOnly ? meta : data)
+					})
+				}
+			)
 		})
 		.catch(e =>
 			fs.writeFile(fileName, 'unknown city', err => resUnknownCity(res, id))

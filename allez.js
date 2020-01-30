@@ -80,16 +80,16 @@ export let compute = city => {
 				]
 			}
 			console.log('polygons merged')
-			let cityScore = score(geojson)
-			console.log('score computed')
+			// let cityScore = score(geojson)
 			let result = {
-				geojson,
-				...cityScore,
-				typesCount,
 				center: center(geojson.features[0]),
 				mergedPolygons,
-				polygons,
 				realArea: geojsonArea.geometry(mergedPolygons.features[0].geometry)
+				//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
+				//polygons,
+				//...cityScore,
+				//typesCount,
+				//geojson,
 			}
 			return result
 		})

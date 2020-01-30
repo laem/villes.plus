@@ -59,10 +59,6 @@ export default ({ match: { params } }) => {
 					border-radius: 0.9rem;
 					margin: 1rem 0;
 				}
-
-				> button {
-					margin-top: auto;
-				}
 			`}
 		>
 			<div css="z-index: 20">
@@ -102,7 +98,7 @@ export default ({ match: { params } }) => {
 					Vue carte
 				</label>
 			</div>
-			{data && data.geojson && (
+			{data && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map
 						style={'mapbox://styles/' + style}
@@ -112,9 +108,10 @@ export default ({ match: { params } }) => {
 							width: '100vw'
 						}}
 						center={
-							data.center
+							data.geoData?.centre?.coordinates ||
+							(data.center
 								? data.center.geometry.coordinates
-								: [-4.2097759, 48.5799039]
+								: [-4.2097759, 48.5799039])
 						}
 					>
 						<GeoJSONLayer
@@ -135,6 +132,7 @@ export default ({ match: { params } }) => {
 								'fill-opacity': style === light ? 0.65 : 0.75
 							}}
 						/>
+						{/* This is for debug purposes : in case the mergedPolygons are suspected to be not reliable
 						<GeoJSONLayer
 							data={data.polygons}
 							symbolLayout={{
@@ -148,10 +146,10 @@ export default ({ match: { params } }) => {
 								'fill-opacity': 0
 							}}
 						/>
+						*/}
 					</Map>
 				</div>
 			)}
-			<button onClick={() => localforage.clear()}>Vider la mémoire</button>
 		</div>
 	)
 }
