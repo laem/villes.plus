@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
-import ReactMapboxGl, { GeoJSONLayer, Layer, Source } from 'react-mapbox-gl'
+import ReactMapboxGl, {
+	GeoJSONLayer,
+	Layer,
+	Feature,
+	Source
+} from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
+import { useLocation } from 'react-router-dom'
+function useQuery() {
+	return new URLSearchParams(useLocation().search)
+}
 
 const Map = ReactMapboxGl({
 	accessToken:
@@ -11,8 +20,8 @@ const Map = ReactMapboxGl({
 
 // in render()
 
-let get = (ville, setData) =>
-	fetch(APIUrl('ville/' + ville))
+let get = (ville, setData, debug = false) =>
+	fetch(APIUrl((debug ? 'complete/' : 'merged/') + ville))
 		.then(res => res.json())
 		.then(json => {
 			localforage.setItem(ville, json)
@@ -35,10 +44,14 @@ export default ({ match: { params } }) => {
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
 	let [style, setStyle] = useState(sat)
+	let query = useQuery()
+	let debug = query.get('debug') === 'true'
+	let [debugData, setDebugData] = useState(null)
+
+	console.log(data)
 
 	useEffect(() => {
-		//get(ville, setData)
-		getCached(ville, setData, setRequesting)
+		debug ? get(ville, setData, true) : getCached(ville, setData, setRequesting)
 	}, [])
 
 	return (
@@ -63,6 +76,21 @@ export default ({ match: { params } }) => {
 		>
 			<div css="z-index: 20">
 				<Logo color={style === sat ? 'white' : 'black'} text={params.ville} />
+				{debug && (
+					<div css="background: white; width: 80%; margin: 0 auto">
+						{debugData ? (
+							<>
+								{' '}
+								<blockquote>{JSON.stringify(debugData, null, 2)}</blockquote>
+								<a href={`https://www.openstreetmap.org/${debugData.id}`}>
+									Page OSM
+								</a>
+							</>
+						) : (
+							"Cliquez sur une forme pour l'inspecter"
+						)}
+					</div>
+				)}
 			</div>
 
 			{!data && <p>Chargement en cours ⏳</p>}
@@ -132,21 +160,23 @@ export default ({ match: { params } }) => {
 								'fill-opacity': style === light ? 0.65 : 0.75
 							}}
 						/>
-						{/* This is for debug purposes : in case the mergedPolygons are suspected to be not reliable
-						<GeoJSONLayer
-							data={data.polygons}
-							symbolLayout={{
-								'text-field': '{place}',
-								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-								'text-offset': [0, 0.6],
-								'text-anchor': 'top'
-							}}
-							fillPaint={{
-								'fill-color': 'red',
-								'fill-opacity': 0
-							}}
-						/>
-						*/}
+						{debug && (
+							<Layer
+								type="fill"
+								paint={{
+									'fill-color': 'red',
+									'fill-opacity': 0.5
+								}}
+							>
+								{console.log(data) ||
+									data.polygons.features.map(polygon => (
+										<Feature
+											onClick={() => setDebugData(polygon.properties)}
+											coordinates={polygon.geometry.coordinates}
+										></Feature>
+									))}
+							</Layer>
+						)}
 					</Map>
 				</div>
 			)}

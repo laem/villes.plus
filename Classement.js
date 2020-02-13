@@ -9,7 +9,7 @@ export function Classement() {
 
 	useEffect(() => {
 		let promises = villesList.map(ville =>
-			fetch(APIUrl('score/' + ville)).then(yo => yo.json())
+			fetch(APIUrl('meta/' + ville)).then(yo => yo.json())
 		)
 		Promise.all(promises).then(data => {
 			let villes2 = data.reduce(
