@@ -6,6 +6,7 @@ import cors from 'cors'
 import fs from 'fs'
 import path from 'path'
 import compression from 'compression'
+import villes from './villesClassées'
 
 const cacheDir = __dirname + '/cache'
 
@@ -33,7 +34,7 @@ let getVille = (id, scoreOnly = true, res) => {
 				let data = JSON.parse(json)
 				res.json(data)
 			} else {
-				computeAndCacheCity(id, fileName, res, scoreOnly)
+				computeAndCacheCity(id, res, scoreOnly)
 			}
 		})
 	} else {
@@ -45,13 +46,14 @@ let getVille = (id, scoreOnly = true, res) => {
 				let data = JSON.parse(json)
 				res.json(data)
 			} else {
-				computeAndCacheCity(id, fileName, res, scoreOnly)
+				computeAndCacheCity(id, res, scoreOnly)
 			}
 		})
 	}
 }
 
-const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
+const computeAndCacheCity = (id, res, scoreOnly) => {
+	let fileName = path.join(cacheDir, id)
 	console.log('ville pas encore connue : ', id)
 	Promise.all([
 		compute(id),
@@ -65,7 +67,7 @@ const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
 				JSON.stringify({ ...data, geoData }),
 				function(err) {
 					if (err) {
-						console.log(err) || res.status(400).end()
+						console.log(err) || (res && res.status(400).end())
 					}
 					console.log("C'est bon on a géré le cas " + id)
 
@@ -75,9 +77,9 @@ const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
 						err
 					) {
 						if (err) {
-							console.log(err) || res.status(400).end()
+							console.log(err) || (res && res.status(400).end())
 						}
-						res.json(scoreOnly ? meta : data)
+						res && res.json(scoreOnly ? meta : data)
 					})
 				}
 			)
@@ -88,10 +90,12 @@ const computeAndCacheCity = (id, fileName, res, scoreOnly) => {
 }
 
 let resUnknownCity = (res, id) =>
+	res &&
 	res
 		.status(404)
 		.send(`Ville inconnue <br/> Unknown city`)
-		.end() && console.log('Unknown city : ' + id)
+		.end() &&
+	console.log('Unknown city : ' + id)
 
 app.get('/api/ville/:ville', function(req, res) {
 	const id = req.params.ville
@@ -113,4 +117,5 @@ app.listen(port, function() {
 	console.log(
 		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
 	)
+	villes.map(ville => computeAndCacheCity(ville, null, true))
 })

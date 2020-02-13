@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import villesListRaw from 'js-yaml-loader!./villes.yaml'
 import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
+import villesList from './villesClassées'
 
-let villesList = villesListRaw.slice(0, 25)
 export function Classement() {
 	let [villes, setVilles] = useState({})
 
