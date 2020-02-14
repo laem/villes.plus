@@ -173,21 +173,43 @@ export default ({ exceptions, toggleException }) => {
 							}}
 						/>
 						{debug && (
-							<Layer
-								type="fill"
-								paint={{
-									'fill-color': 'blue',
-									'fill-opacity': 0.5
-								}}
-							>
-								{console.log(data) ||
-									data.polygons.features.map(polygon => (
-										<Feature
-											onClick={() => setDebugData(polygon.properties)}
-											coordinates={polygon.geometry.coordinates}
-										></Feature>
-									))}
-							</Layer>
+							<>
+								<Layer
+									type="fill"
+									paint={{
+										'fill-color': 'blue',
+										'fill-opacity': 0.5
+									}}
+								>
+									{console.log(data) ||
+										data.polygons.features
+											.filter(f => !exceptions[ville].includes(f.properties.id))
+											.map(polygon => (
+												<Feature
+													onClick={() => setDebugData(polygon.properties)}
+													coordinates={polygon.geometry.coordinates}
+												></Feature>
+											))}
+								</Layer>
+
+								<Layer
+									type="fill"
+									paint={{
+										'fill-color': 'red',
+										'fill-opacity': 0.5
+									}}
+								>
+									{console.log(data) ||
+										data.polygons.features
+											.filter(f => exceptions[ville].includes(f.properties.id))
+											.map(polygon => (
+												<Feature
+													onClick={() => setDebugData(polygon.properties)}
+													coordinates={polygon.geometry.coordinates}
+												></Feature>
+											))}
+								</Layer>
+							</>
 						)}
 					</Map>
 				</div>
