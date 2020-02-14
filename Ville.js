@@ -8,7 +8,7 @@ import ReactMapboxGl, {
 } from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
-import { useLocation } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 function useQuery() {
 	return new URLSearchParams(useLocation().search)
 }
@@ -39,8 +39,8 @@ let getCached = (ville, setData, setRequesting) =>
 const sat = 'mapbox/satellite-v9',
 	light = 'mapbox/streets-v10',
 	rien = 'kont/ck60mhncx1z681ipczm7amthv'
-export default ({ match: { params } }) => {
-	let ville = params.ville
+export default ({ exceptions, toggleException }) => {
+	let { ville } = useParams()
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
 	let [style, setStyle] = useState(sat)
@@ -75,7 +75,7 @@ export default ({ match: { params } }) => {
 			`}
 		>
 			<div css="z-index: 20">
-				<Logo color={style === sat ? 'white' : 'black'} text={params.ville} />
+				<Logo color={style === sat ? 'white' : 'black'} text={ville} />
 				{debug && (
 					<div css="background: white; width: 80%; margin: 0 auto">
 						{debugData ? (
@@ -85,6 +85,18 @@ export default ({ match: { params } }) => {
 								<a href={`https://www.openstreetmap.org/${debugData.id}`}>
 									Page OSM
 								</a>
+								<button onClick={() => toggleException(ville, debugData.id)}>
+									{exceptions[ville] && exceptions[ville].includes(debugData.id)
+										? 'Re-sélectionner'
+										: 'Mettre sur le banc'}
+								</button>
+								<button
+									onClick={() =>
+										navigator.clipboard.writeText(JSON.stringify(exceptions))
+									}
+								>
+									Copier les exceptions
+								</button>
 							</>
 						) : (
 							"Cliquez sur une forme pour l'inspecter"
@@ -164,7 +176,7 @@ export default ({ match: { params } }) => {
 							<Layer
 								type="fill"
 								paint={{
-									'fill-color': 'red',
+									'fill-color': 'blue',
 									'fill-opacity': 0.5
 								}}
 							>

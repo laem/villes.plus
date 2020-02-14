@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Ville from './Ville'
 import { Classement } from './Classement'
@@ -48,6 +48,16 @@ let About = () => (
 )
 
 export default function App() {
+	let [exceptions, setExceptions] = useState({})
+
+	const toggleException = (ville, id) => {
+		const list = exceptions[ville] || []
+
+		setExceptions({
+			...exceptions,
+			[ville]: list.includes(id) ? list.filter(e => e !== id) : [...list, id]
+		})
+	}
 	return (
 		<Router>
 			<div
@@ -62,7 +72,9 @@ export default function App() {
             renders the first one that matches the current URL. */}
 					<Switch>
 						<Route path="/à-propos" component={About} />
-						<Route path="/:ville" component={Ville} />
+						<Route path="/:ville">
+							<Ville {...{ exceptions, toggleException }} />
+						</Route>
 						<Route path="/" component={Classement} />
 					</Switch>
 				</div>
@@ -71,4 +83,3 @@ export default function App() {
 		</Router>
 	)
 }
-
