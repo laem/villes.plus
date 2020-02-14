@@ -48,11 +48,11 @@ export default ({ exceptions, toggleException }) => {
 	let debug = query.get('debug') === 'true'
 	let [debugData, setDebugData] = useState(null)
 
-	console.log(data)
-
 	useEffect(() => {
 		debug ? get(ville, setData, true) : getCached(ville, setData, setRequesting)
 	}, [])
+
+	let villeExceptions = exceptions[ville] || []
 
 	return (
 		<div
@@ -86,7 +86,7 @@ export default ({ exceptions, toggleException }) => {
 									Page OSM
 								</a>
 								<button onClick={() => toggleException(ville, debugData.id)}>
-									{exceptions[ville] && exceptions[ville].includes(debugData.id)
+									{villeExceptions.includes(debugData.id)
 										? 'Re-sélectionner'
 										: 'Mettre sur le banc'}
 								</button>
@@ -172,26 +172,8 @@ export default ({ exceptions, toggleException }) => {
 								'fill-opacity': style === light ? 0.65 : 0.75
 							}}
 						/>
-						{debug && (
+						{debug && data.polygons && (
 							<>
-								<Layer
-									type="fill"
-									paint={{
-										'fill-color': 'blue',
-										'fill-opacity': 0.5
-									}}
-								>
-									{console.log(data) ||
-										data.polygons.features
-											.filter(f => !exceptions[ville].includes(f.properties.id))
-											.map(polygon => (
-												<Feature
-													onClick={() => setDebugData(polygon.properties)}
-													coordinates={polygon.geometry.coordinates}
-												></Feature>
-											))}
-								</Layer>
-
 								<Layer
 									type="fill"
 									paint={{
@@ -199,15 +181,30 @@ export default ({ exceptions, toggleException }) => {
 										'fill-opacity': 0.5
 									}}
 								>
-									{console.log(data) ||
-										data.polygons.features
-											.filter(f => exceptions[ville].includes(f.properties.id))
-											.map(polygon => (
-												<Feature
-													onClick={() => setDebugData(polygon.properties)}
-													coordinates={polygon.geometry.coordinates}
-												></Feature>
-											))}
+									{data.polygons.features
+										.filter(f => villeExceptions.includes(f.properties.id))
+										.map(polygon => (
+											<Feature
+												onClick={() => setDebugData(polygon.properties)}
+												coordinates={polygon.geometry.coordinates}
+											></Feature>
+										))}
+								</Layer>
+								<Layer
+									type="fill"
+									paint={{
+										'fill-color': 'blue',
+										'fill-opacity': 0.5
+									}}
+								>
+									{data.polygons.features
+										.filter(f => !villeExceptions.includes(f.properties.id))
+										.map(polygon => (
+											<Feature
+												onClick={() => setDebugData(polygon.properties)}
+												coordinates={polygon.geometry.coordinates}
+											></Feature>
+										))}
 								</Layer>
 							</>
 						)}
