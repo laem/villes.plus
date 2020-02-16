@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
-import ReactMapboxGl, { GeoJSONLayer } from 'react-mapbox-gl'
+import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
 import { useParams, useLocation } from 'react-router-dom'
 function useQuery() {
 	return new URLSearchParams(useLocation().search)
 }
-import { Switch, styles } from './mapStyles'
+import { blue, grey, Switch, styles } from './mapStyles'
 import DebugMap from './DebugMap'
 import DebugBlock from './DebugBlock'
 
@@ -49,7 +49,7 @@ export default ({ exceptions, toggleException }) => {
 			: cacheDisabled
 			? get(ville, setData, false)
 			: getCached(ville, setData, setRequesting)
-	}, [])
+	}, [debug, ville])
 
 	let villeExceptions = exceptions[ville] || []
 
@@ -74,7 +74,10 @@ export default ({ exceptions, toggleException }) => {
 			`}
 		>
 			<div css="z-index: 20">
-				<Logo color={style === 'satellite' ? 'white' : 'black'} text={ville} />
+				<Logo
+					color={!data ? 'black' : style === 'satellite' ? 'white' : 'black'}
+					text={ville}
+				/>
 				{debug && (
 					<DebugBlock
 						{...{
@@ -100,12 +103,28 @@ export default ({ exceptions, toggleException }) => {
 							width: '100vw'
 						}}
 						center={
-							data.geoData?.centre?.coordinates ||
+							data.geoAPI?.centre?.coordinates ||
 							(data.center
 								? data.center.geometry.coordinates
 								: [-4.2097759, 48.5799039])
 						}
 					>
+						<Layer
+							type="line"
+							paint={{
+								'line-width': 2,
+								'line-dasharray': [1, 1],
+								'line-color': {
+									satellite: 'white',
+									artistique: grey,
+									carte: blue
+								}[style]
+							}}
+						>
+							<Feature
+								coordinates={data.geoAPI.contour.coordinates[0]}
+							></Feature>
+						</Layer>
 						<GeoJSONLayer
 							data={data.mergedPolygons}
 							symbolLayout={{
@@ -117,9 +136,9 @@ export default ({ exceptions, toggleException }) => {
 							fillPaint={{
 								'fill-color':
 									style === 'carte'
-										? '#3742fa'
+										? blue
 										: style === 'artistique'
-										? '#333'
+										? grey
 										: 'chartreuse',
 								'fill-opacity': style === 'carte' ? 0.65 : 0.75
 							}}

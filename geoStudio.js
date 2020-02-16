@@ -77,31 +77,21 @@ export const compute = (ville, exceptions) => {
 					polygons
 				)
 				console.log([green, red, polygons].map(e => e.length))
+				console.log('will merge')
 				const mergedPolygons0 = await mergePolygons2(green)
-				const excluded = red.length ? await mergePolygons2(red) : []
+				const excluded = red.length ? await mergePolygons2(red) : null
 
-				const mergedPolygons = {
-					type: 'FeatureCollection',
-					features: [
-						{
-							type: 'Feature',
-							properties: {
-								stroke: '#555555',
-								'stroke-width': 2,
-								'stroke-opacity': 1,
-								fill: '#981269',
-								'fill-opacity': 0.5
-							},
-							geometry: mergedPolygons0.geometries[0]
-						}
-					]
-				}
-				console.log('polygons merged')
-				// const cityScore = score(geojson)
+				console.log('merged, will exclude')
+				const mergedPolygons = !excluded
+					? mergedPolygons0
+					: difference(mergedPolygons0, excluded)
+
+				console.log('done computing')
+
 				const result = {
 					geoAPI,
 					mergedPolygons,
-					realArea: geojsonArea.geometry(mergedPolygons.features[0].geometry),
+					realArea: geojsonArea.geometry(mergedPolygons),
 					//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
 					polygons
 					//...cityScore,
@@ -143,14 +133,18 @@ export const mergePolygons = geojson => {
 }
 // efficient version with mapshaper
 const mergePolygons2 = async polygons => {
-	const geojson = {
-		type: 'FeatureCollection',
-		features: polygons.filter(p => p.geometry.type === 'Polygon')
-	}
+	const geojson = buildFeatureCollection(
+		polygons.filter(p => p.geometry.type === 'Polygon')
+	)
 	const input = { 'input.geojson': geojson }
 	const cmd =
 		'-i input.geojson -dissolve2 -o out.geojson format=geojson rfc7946'
 
 	const output = await mapshaper.applyCommands(cmd, input)
-	return JSON.parse(output['out.geojson'].toString())
+	return JSON.parse(output['out.geojson'].toString()).geometries[0]
 }
+
+const buildFeatureCollection = features => ({
+	type: 'FeatureCollection',
+	features
+})

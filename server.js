@@ -24,15 +24,15 @@ app.use(express.static(__dirname))
 const scopes = [
 	[
 		'meta', // get data only for the front page, lightweight request
-		(data, geoData) => ({ pedestrianArea: data.realArea, geoData })
+		(data, geoAPI) => ({ pedestrianArea: data.realArea, geoAPI })
 	],
 	[
 		'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-		(data, geoData) => ({ mergedPolygons: data.mergedPolygons, geoData })
+		(data, geoAPI) => ({ mergedPolygons: data.mergedPolygons, geoAPI })
 	],
 	[
 		'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website
-		(data, geoData) => ({ polygons: data.polygons, geoData })
+		(data, geoAPI) => ({ polygons: data.polygons, geoAPI })
 	]
 ]
 
@@ -87,7 +87,7 @@ let resUnknownCity = (res, ville) =>
 	res &&
 	res
 		.status(404)
-		.send(`Ville inconnue <br/> Unknown city`)
+		.send('Ville inconnue <br/> Unknown city')
 		.end() &&
 	console.log('Unknown city : ' + ville)
 

@@ -5,11 +5,13 @@ export const styles = {
 	carte: 'mapbox/streets-v10',
 	artistique: 'kont/ck60mhncx1z681ipczm7amthv'
 }
+export const blue = '#3742fa'
+export const grey = '#333'
 
 export const Switch = ({ setStyle, style }) => (
 	<div id="switch">
 		{Object.keys(styles).map(key => (
-			<label>
+			<label key={key}>
 				<input
 					type="radio"
 					name="style"

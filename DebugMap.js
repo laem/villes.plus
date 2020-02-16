@@ -13,7 +13,7 @@ export default class DebugMap extends PureComponent {
 						'fill-opacity': 0.5
 					}}
 				>
-					{data.polygons.features
+					{data.polygons
 						.filter(f => villeExceptions.includes(f.properties.id))
 						.map(polygon => (
 							<Feature
@@ -29,7 +29,7 @@ export default class DebugMap extends PureComponent {
 						'fill-opacity': 0.5
 					}}
 				>
-					{data.polygons.features
+					{data.polygons
 						.filter(f => !villeExceptions.includes(f.properties.id))
 						.map(polygon => (
 							<Feature
