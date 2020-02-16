@@ -1,7 +1,7 @@
 import express from 'express'
 import fetch from 'node-fetch'
 
-import { compute } from './allez.js'
+import { compute } from './geoStudio.js'
 import cors from 'cors'
 import fs from 'fs'
 import path from 'path'
@@ -55,15 +55,10 @@ const readFile = (ville, scope, res) => {
 const computeAndCacheCity = (ville, returnScope, res) => {
 	let fileName = path.join(cacheDir, ville)
 	console.log('ville pas encore connue : ', ville)
-	Promise.all([
-		compute(ville),
-		fetch(
-			`https://geo.api.gouv.fr/communes?nom=${ville}&fields=surface,departement,centre&format=json&geometry=centre&boost=population`
-		).then(res => res.json())
-	])
-		.then(([data, [geoData]]) => {
+	compute(ville)
+		.then(({ geoAPI, ...data }) => {
 			scopes.map(([scope, selector]) => {
-				const string = JSON.stringify(selector(data, geoData))
+				const string = JSON.stringify(selector(data, geoAPI))
 				fs.writeFile(`${fileName}.${scope}.json`, string, function(err) {
 					if (err) {
 						console.log(err) || (res && res.status(400).end())
@@ -74,8 +69,12 @@ const computeAndCacheCity = (ville, returnScope, res) => {
 				})
 			})
 		})
-		.catch(e =>
-			fs.writeFile(fileName, 'unknown city', err => resUnknownCity(res, ville))
+		.catch(
+			e =>
+				console.log(e) ||
+				fs.writeFile(fileName, 'unknown city', err =>
+					resUnknownCity(res, ville)
+				)
 		)
 }
 

@@ -1,6 +1,7 @@
 export default placeName => `
 
 [out:json][timeout:60];
+/* Level 8 corresponds quite well to french cities as we known them */
 ( area[name="${placeName}"][admin_level="8"]; )->.searchArea;
 
 

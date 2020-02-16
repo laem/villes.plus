@@ -2,7 +2,6 @@
 	"name": "pietonnes",
 	"version": "0.0.1",
 	"description": "",
-	"main": "allez.js",
 	"scripts": {
 		"dev": "webpack-dev-server --hot --mode development",
 		"build": "NODE_ENV=production webpack -p -c webpack.config.js",
