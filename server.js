@@ -67,7 +67,10 @@ const computeAndCacheCity = (ville, returnScope, res) => {
 	console.log('ville pas encore connue : ', ville)
 	fetchExceptions().then(
 		exceptions =>
-			console.log("nombre d'exceptions : ", Object.keys(exceptions).length) ||
+			console.log(
+				'nombre de villes avec exception: ',
+				Object.keys(exceptions).length
+			) ||
 			compute(ville, exceptions)
 				.then(({ geoAPI, ...data }) => {
 					scopes.map(([scope, selector]) => {

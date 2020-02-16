@@ -159,7 +159,7 @@ const Scores = ({ data }) => {
 		data
 	)
 	return (
-		<div id="scores">
+		<div id="scores" title={`Surface complète, parcs compris : ${area}`}>
 			{pedestrianArea.toFixed(1)} km² piétons sur {relativeArea.toFixed(1)} km²,
 			soit {percentage.toFixed(1)}%
 		</div>
