@@ -4,6 +4,13 @@ import APIUrl from './APIUrl'
 import Logo from './Logo'
 import villesList from './villesClassées'
 
+export const normalizedScores = data => {
+	const pedestrianArea = data.pedestrianArea / (1000 * 1000),
+		area = data.geoAPI.surface / 100, // looks to be defined in the 'hectares' unit
+		percentage = (pedestrianArea / area) * 100
+	return { pedestrianArea, area, percentage }
+}
+
 export function Classement() {
 	let [villes, setVilles] = useState({})
 
@@ -82,14 +89,11 @@ export function Classement() {
 				<ol>
 					{villesEntries
 						.map(([ville, data]) => {
-							if (!data || !data.geoData) return false
-							const pedestrianArea = data.pedestrianArea / (1000 * 1000),
-								area = data.geoData.surface / 100, // looks to be defined in the 'hectares' unit
-								score = pedestrianArea / area
-							return [ville, { ...data, score, pedestrianArea, area }]
+							if (!data || !data.geoAPI) return false
+							return [ville, { ...data, ...normalizedScores(data) }]
 						})
 						.filter(Boolean)
-						.sort(([, { score: a1 }], [, { score: a2 }]) => a2 - a1)
+						.sort(([, { percentage: a1 }], [, { percentage: a2 }]) => a2 - a1)
 						.map(([ville, data], i) => {
 							return (
 								<li key={ville}>
@@ -100,7 +104,7 @@ export function Classement() {
 										<div css="width: 8rem">{ville}</div>
 										<div css="width: 4rem;text-align: center">
 											<span css="font-weight: 600">
-												{(data.score * 100).toFixed(0)}
+												{data.percentage.toFixed(0)}
 											</span>
 											<small> %</small>
 										</div>

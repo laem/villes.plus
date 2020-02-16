@@ -10,6 +10,7 @@ function useQuery() {
 import { blue, grey, Switch, styles } from './mapStyles'
 import DebugMap from './DebugMap'
 import DebugBlock from './DebugBlock'
+import { normalizedScores } from './Classement'
 
 const Map = ReactMapboxGl({
 	accessToken:
@@ -63,7 +64,8 @@ export default ({ exceptions, toggleException }) => {
 				align-items: center;
 				height: 100%;
 
-				#switch {
+				#switch,
+				#scores {
 					z-index: 20;
 
 					background: #fffc;
@@ -75,7 +77,7 @@ export default ({ exceptions, toggleException }) => {
 		>
 			<div css="z-index: 20">
 				<Logo
-					color={!data ? 'black' : style === 'satellite' ? 'white' : 'black'}
+					color={!data ? null : style === 'satellite' ? 'white' : 'black'}
 					text={ville}
 				/>
 				{debug && (
@@ -92,7 +94,9 @@ export default ({ exceptions, toggleException }) => {
 			</div>
 
 			{!data && <p>Chargement en cours ⏳</p>}
+			{data && data.realArea}
 			<Switch {...{ setStyle, style }} />
+			{data && <Scores data={data} />}
 			{data && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map
@@ -144,6 +148,16 @@ export default ({ exceptions, toggleException }) => {
 					</Map>
 				</div>
 			)}
+		</div>
+	)
+}
+
+const Scores = ({ data }) => {
+	const { pedestrianArea, area, percentage } = normalizedScores(data)
+	return (
+		<div id="scores">
+			{pedestrianArea.toFixed(1)} km² piétons sur {area.toFixed(1)} km², soit{' '}
+			{percentage.toFixed(1)}%
 		</div>
 	)
 }

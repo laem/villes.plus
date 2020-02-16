@@ -24,12 +24,13 @@ app.use(express.static(__dirname))
 const scopes = [
 	[
 		'meta', // get data only for the front page, lightweight request
-		(data, geoAPI) => ({ pedestrianArea: data.realArea, geoAPI })
+		(data, geoAPI) => ({ pedestrianArea: data.pedestrianArea, geoAPI })
 	],
 	[
 		'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
 		(data, geoAPI) => ({
 			mergedPolygons: data.mergedPolygons,
+			pedestrianArea: data.pedestrianArea,
 			geoAPI
 		})
 	],

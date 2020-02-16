@@ -1,12 +1,12 @@
 import makeRequest from './request.js'
 import fetch from 'node-fetch'
 import osmtogeojson from 'osmtogeojson'
-import geojsonArea from '@mapbox/geojson-area'
 import geojsonLength from 'geojson-length'
 import buffer from '@turf/buffer'
 import { polygon, featureCollection } from '@turf/helpers'
 import union from '@turf/union'
 import center from '@turf/center'
+import area from '@turf/area'
 import difference from '@turf/difference'
 import mapshaper from 'mapshaper'
 import { partition } from 'ramda'
@@ -88,11 +88,12 @@ export const compute = (ville, exceptions) => {
 
 				console.log('done computing')
 
+				const pedestrianArea = area(mergedPolygons)
 				const result = {
 					geoAPI,
 					mergedPolygons,
 					excluded,
-					realArea: geojsonArea.geometry(mergedPolygons),
+					pedestrianArea,
 					//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
 					polygons
 					//...cityScore,
