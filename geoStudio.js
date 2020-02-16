@@ -3,10 +3,9 @@ import fetch from 'node-fetch'
 import osmtogeojson from 'osmtogeojson'
 import geojsonLength from 'geojson-length'
 import buffer from '@turf/buffer'
-import { polygon, featureCollection } from '@turf/helpers'
 import union from '@turf/union'
-import center from '@turf/center'
 import area from '@turf/area'
+import intersect from '@turf/intersect'
 import difference from '@turf/difference'
 import mapshaper from 'mapshaper'
 import { partition } from 'ramda'
@@ -82,18 +81,24 @@ export const compute = (ville, exceptions) => {
 				const excluded = red.length ? await mergePolygons2(red) : null
 
 				console.log('merged, will exclude')
-				const mergedPolygons = !excluded
+				const mergedPolygons1 = !excluded
 					? mergedPolygons0
 					: difference(mergedPolygons0, excluded)
 
-				console.log('done computing')
-
+				const contour = geoAPI.contour
+				const mergedPolygons = intersect(mergedPolygons1, contour)
+				const relativeSurface = !excluded
+					? contour
+					: difference(contour, excluded)
 				const pedestrianArea = area(mergedPolygons)
+				const relativeArea = area(relativeSurface)
+				console.log('done computing')
 				const result = {
 					geoAPI,
 					mergedPolygons,
 					excluded,
 					pedestrianArea,
+					relativeArea,
 					//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
 					polygons
 					//...cityScore,

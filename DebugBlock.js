@@ -12,7 +12,12 @@ export default ({
 			<>
 				{' '}
 				<blockquote>{JSON.stringify(debugData, null, 2)}</blockquote>
-				<a href={`https://www.openstreetmap.org/${debugData.id}`}>Page OSM</a>
+				<a
+					href={`https://www.openstreetmap.org/${debugData.id}`}
+					target="_blank"
+				>
+					Page OSM
+				</a>
 				<button onClick={() => toggleException(ville, debugData.id)}>
 					{villeExceptions.includes(debugData.id)
 						? 'Re-sélectionner'

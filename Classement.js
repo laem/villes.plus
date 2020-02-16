@@ -5,10 +5,12 @@ import Logo from './Logo'
 import villesList from './villesClassées'
 
 export const normalizedScores = data => {
-	const pedestrianArea = data.pedestrianArea / (1000 * 1000),
+	const million = 1000 * 1000
+	const pedestrianArea = data.pedestrianArea / million,
+		relativeArea = data.relativeArea / million,
 		area = data.geoAPI.surface / 100, // looks to be defined in the 'hectares' unit
-		percentage = (pedestrianArea / area) * 100
-	return { pedestrianArea, area, percentage }
+		percentage = (pedestrianArea / relativeArea) * 100
+	return { pedestrianArea, area, relativeArea, percentage }
 }
 
 export function Classement() {
@@ -111,7 +113,7 @@ export function Classement() {
 										<div css="width: 8rem; text-align: right">
 											<span css="font-size: 80%; color: #1e3799">
 												{data.pedestrianArea.toFixed(1)} sur{' '}
-												{data.area.toFixed(1)} km²
+												{data.relativeArea.toFixed(1)} km²
 											</span>
 										</div>
 									</Link>

@@ -155,11 +155,13 @@ export default ({ exceptions, toggleException }) => {
 }
 
 const Scores = ({ data }) => {
-	const { pedestrianArea, area, percentage } = normalizedScores(data)
+	const { pedestrianArea, area, percentage, relativeArea } = normalizedScores(
+		data
+	)
 	return (
 		<div id="scores">
-			{pedestrianArea.toFixed(1)} km² piétons sur {area.toFixed(1)} km², soit{' '}
-			{percentage.toFixed(1)}%
+			{pedestrianArea.toFixed(1)} km² piétons sur {relativeArea.toFixed(1)} km²,
+			soit {percentage.toFixed(1)}%
 		</div>
 	)
 }

@@ -24,12 +24,17 @@ app.use(express.static(__dirname))
 const scopes = [
 	[
 		'meta', // get data only for the front page, lightweight request
-		(data, geoAPI) => ({ pedestrianArea: data.pedestrianArea, geoAPI })
+		(data, geoAPI) => ({
+			pedestrianArea: data.pedestrianArea,
+			relativeArea: data.relativeArea,
+			geoAPI
+		})
 	],
 	[
 		'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
 		(data, geoAPI) => ({
 			mergedPolygons: data.mergedPolygons,
+			relativeArea: data.relativeArea,
 			pedestrianArea: data.pedestrianArea,
 			geoAPI
 		})
@@ -62,7 +67,7 @@ const computeAndCacheCity = (ville, returnScope, res) => {
 	console.log('ville pas encore connue : ', ville)
 	fetchExceptions().then(
 		exceptions =>
-			console.log('excep', exceptions) ||
+			console.log("nombre d'exceptions : ", Object.keys(exceptions).length) ||
 			compute(ville, exceptions)
 				.then(({ geoAPI, ...data }) => {
 					scopes.map(([scope, selector]) => {
