@@ -40,7 +40,7 @@ export default ({ exceptions, toggleException }) => {
 	let [requesting, setRequesting] = useState(null)
 	let [style, setStyle] = useState('satellite')
 	let query = useQuery()
-	let debug = query.get('debug') === 'true'
+	let debug = query.get('debug') != null
 	let [debugData, setDebugData] = useState(null)
 
 	useEffect(() => {
@@ -125,24 +125,19 @@ export default ({ exceptions, toggleException }) => {
 								coordinates={data.geoAPI.contour.coordinates[0]}
 							></Feature>
 						</Layer>
-						<GeoJSONLayer
-							data={data.mergedPolygons}
-							symbolLayout={{
-								'text-field': '{place}',
-								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-								'text-offset': [0, 0.6],
-								'text-anchor': 'top'
-							}}
-							fillPaint={{
-								'fill-color':
-									style === 'carte'
-										? blue
-										: style === 'artistique'
-										? grey
-										: 'chartreuse',
-								'fill-opacity': style === 'carte' ? 0.65 : 0.75
-							}}
-						/>
+						{!debug && (
+							<GeoJSONLayer
+								data={data.mergedPolygons}
+								fillPaint={{
+									'fill-color': {
+										satellite: 'chartreuse',
+										artistique: grey,
+										carte: blue
+									}[style],
+									'fill-opacity': style === 'carte' ? 0.65 : 0.75
+								}}
+							/>
+						)}
 						{debug && data.polygons && (
 							<DebugMap {...{ setDebugData, villeExceptions, data }} />
 						)}

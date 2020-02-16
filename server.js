@@ -28,7 +28,10 @@ const scopes = [
 	],
 	[
 		'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-		(data, geoAPI) => ({ mergedPolygons: data.mergedPolygons, geoAPI })
+		(data, geoAPI) => ({
+			mergedPolygons: data.mergedPolygons,
+			geoAPI
+		})
 	],
 	[
 		'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website

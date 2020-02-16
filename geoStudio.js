@@ -91,6 +91,7 @@ export const compute = (ville, exceptions) => {
 				const result = {
 					geoAPI,
 					mergedPolygons,
+					excluded,
 					realArea: geojsonArea.geometry(mergedPolygons),
 					//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
 					polygons
