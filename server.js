@@ -7,6 +7,7 @@ import fs from 'fs'
 import path from 'path'
 import compression from 'compression'
 import villes from './villesClassées'
+import fetchExceptions from './fetchExceptions'
 
 const cacheDir = __dirname + '/cache'
 
@@ -55,27 +56,31 @@ const readFile = (ville, scope, res) => {
 const computeAndCacheCity = (ville, returnScope, res) => {
 	let fileName = path.join(cacheDir, ville)
 	console.log('ville pas encore connue : ', ville)
-	compute(ville)
-		.then(({ geoAPI, ...data }) => {
-			scopes.map(([scope, selector]) => {
-				const string = JSON.stringify(selector(data, geoAPI))
-				fs.writeFile(`${fileName}.${scope}.json`, string, function(err) {
-					if (err) {
-						console.log(err) || (res && res.status(400).end())
-					}
-					console.log('Fichier écrit :', ville, scope)
+	fetchExceptions().then(
+		exceptions =>
+			console.log('excep', exceptions) ||
+			compute(ville, exceptions)
+				.then(({ geoAPI, ...data }) => {
+					scopes.map(([scope, selector]) => {
+						const string = JSON.stringify(selector(data, geoAPI))
+						fs.writeFile(`${fileName}.${scope}.json`, string, function(err) {
+							if (err) {
+								console.log(err) || (res && res.status(400).end())
+							}
+							console.log('Fichier écrit :', ville, scope)
 
-					if (returnScope === scope) res && res.json(string)
+							if (returnScope === scope) res && res.json(string)
+						})
+					})
 				})
-			})
-		})
-		.catch(
-			e =>
-				console.log(e) ||
-				fs.writeFile(fileName, 'unknown city', err =>
-					resUnknownCity(res, ville)
+				.catch(
+					e =>
+						console.log(e) ||
+						fs.writeFile(fileName, 'unknown city', err =>
+							resUnknownCity(res, ville)
+						)
 				)
-		)
+	)
 }
 
 let resUnknownCity = (res, ville) =>

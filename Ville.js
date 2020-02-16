@@ -16,6 +16,8 @@ const Map = ReactMapboxGl({
 		'pk.eyJ1Ijoia29udCIsImEiOiJjanRqMmp1OGsxZGFpNGFycnhjamR4b3ZmIn0.GRfAPvtZBKvOdpVYgfpGXg'
 })
 
+const cacheDisabled = true
+
 let get = (ville, setData, debug = false) =>
 	fetch(APIUrl((debug ? 'complete/' : 'merged/') + ville))
 		.then(res => res.json())
@@ -42,7 +44,11 @@ export default ({ exceptions, toggleException }) => {
 	let [debugData, setDebugData] = useState(null)
 
 	useEffect(() => {
-		debug ? get(ville, setData, true) : getCached(ville, setData, setRequesting)
+		debug
+			? get(ville, setData, true)
+			: cacheDisabled
+			? get(ville, setData, false)
+			: getCached(ville, setData, setRequesting)
 	}, [])
 
 	let villeExceptions = exceptions[ville] || []

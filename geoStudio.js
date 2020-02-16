@@ -8,9 +8,10 @@ import { polygon, featureCollection } from '@turf/helpers'
 import union from '@turf/union'
 import center from '@turf/center'
 import mapshaper from 'mapshaper'
+import { partition } from 'ramda'
 
-const countTypes = geoJson =>
-	geoJson.features.reduce((memo, next) => {
+const countTypes = features =>
+	features.reduce((memo, next) => {
 		const t = next.geometry.type
 		memo[t] = (memo[t] || 0) + 1
 		return memo
@@ -45,7 +46,7 @@ const findCity = ville =>
 		`https://nominatim.openstreetmap.org/search/${ville}?format=json&addressdetails=1&limit=1`
 	).then(r => r.json())
 
-export const compute = ville => {
+export const compute = (ville, exceptions) => {
 	const overpassRequest = makeRequest(ville),
 		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
 
@@ -60,17 +61,24 @@ export const compute = ville => {
 			// we dangerously take the first element of the geo.api results array, since it's ranked by population and we're only working with the biggest french cities for now
 			.then(async ([osm, [geoAPI]]) => {
 				const geojson = osmtogeojson(osm)
-				if (!geojson.features.length) {
+				const features = geojson.features
+				if (!features.length) {
 					console.log('geojson', geojson)
 					throw Error("La requête n'a rien renvoyé. Cette ville existe bien ?")
 				}
 				console.log('données OSM récupérées : ', ville)
 
-				const typesCount = countTypes(geojson)
-				const polygons = linesToPolygons(geojson)
-				const mergedPolygons0 = await mergePolygons2(polygons)
+				const typesCount = countTypes(features)
+				const polygons = linesToPolygons(features)
 
-				const multiPolygon = mergedPolygons0.geometries[0]
+				const [red, green] = partition(
+					polygon => (exceptions[ville] || []).includes(polygon.id),
+					polygons
+				)
+				console.log([green, red, polygons].map(e => e.length))
+				const mergedPolygons0 = await mergePolygons2(green)
+				const excluded = red.length ? await mergePolygons2(red) : []
+
 				const mergedPolygons = {
 					type: 'FeatureCollection',
 					features: [
@@ -83,7 +91,7 @@ export const compute = ville => {
 								fill: '#981269',
 								'fill-opacity': 0.5
 							},
-							geometry: multiPolygon
+							geometry: mergedPolygons0.geometries[0]
 						}
 					]
 				}
@@ -104,23 +112,22 @@ export const compute = ville => {
 	)
 }
 
-export const linesToPolygons = geojson => {
+export const linesToPolygons = features => {
 	const standardWidth = 0.005,
-		newJson = {
-			...geojson,
-			features: geojson.features.map(f =>
-				f.geometry.type === 'LineString' ? buffer(f, standardWidth) : f
-			)
-		}
-	return newJson
+		result = features.map(f =>
+			f.geometry.type === 'LineString' ? buffer(f, standardWidth) : f
+		)
+	return result
 }
 
-// The result of the request is a massive set of polygons
-// There can be a way in a park, sharing a common area.
+// The result of the above OSM request is a massive set of shapes
+// It can contain a footway in a park, and a park, that obvioulsy overlap
 // This is a problem for data transmission (useless JSON weight)
-// and for the area calculation, hence this deduplication of areas
+// and especially for the area calculation, hence this deduplication of areas
 // At this point, all lineStrings have been converted to Polygons,
 // and we're not interested by points yet
+
+// inefficient version
 export const mergePolygons = geojson => {
 	const polygons = geojson.features
 		.filter(f => f.geometry.type === 'Polygon')
@@ -133,13 +140,13 @@ export const mergePolygons = geojson => {
 		)
 	return myunion
 }
-const mergePolygons2 = async geojson => {
-	const polygons = {
-		...geojson,
-		features: geojson.features.filter(f => f.geometry.type === 'Polygon')
+// efficient version with mapshaper
+const mergePolygons2 = async polygons => {
+	const geojson = {
+		type: 'FeatureCollection',
+		features: polygons.filter(p => p.geometry.type === 'Polygon')
 	}
-
-	const input = { 'input.geojson': polygons }
+	const input = { 'input.geojson': geojson }
 	const cmd =
 		'-i input.geojson -dissolve2 -o out.geojson format=geojson rfc7946'
 

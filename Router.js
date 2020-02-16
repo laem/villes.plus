@@ -3,18 +3,14 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Ville from './Ville'
 import { Classement } from './Classement'
 import { Nav } from './Nav'
-import { Link } from 'react-router-dom'
 import About from './About'
+import fetchExceptions from './fetchExceptions'
 
 export default function App() {
 	let [exceptions, setExceptions] = useState({})
 
 	useEffect(() => {
-		fetch(
-			'https://raw.githubusercontent.com/laem/villes.plus/master/exceptions.json'
-		)
-			.then(res => res.json())
-			.then(json => setExceptions(json))
+		fetchExceptions().then(json => setExceptions(json))
 	}, [])
 
 	console.log({ exceptions })
