@@ -61,6 +61,7 @@
 		"react-router-dom": "^5.1.2",
 		"style-loader": "^1.0.2",
 		"styled-components": "^4.4.1",
+		"turf": "7.0.0-alpha.1",
 		"webpack": "^4.41.3",
 		"webpack-cli": "^3.3.10",
 		"webpack-dev-server": "^3.10.0",
