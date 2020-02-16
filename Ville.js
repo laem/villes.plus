@@ -77,7 +77,7 @@ export default ({ exceptions, toggleException }) => {
 		>
 			<div css="z-index: 20">
 				<Logo
-					color={!data ? null : style === 'satellite' ? 'white' : 'black'}
+					color={!data ? undefined : style === 'satellite' ? 'white' : 'black'}
 					text={ville}
 				/>
 				{debug && (
@@ -96,7 +96,7 @@ export default ({ exceptions, toggleException }) => {
 			{!data && <p>Chargement en cours ⏳</p>}
 			{data && data.realArea}
 			<Switch {...{ setStyle, style }} />
-			{data && <Scores data={data} />}
+			{data?.geoAPI && !debug && <Scores data={data} />}
 			{data && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map
@@ -113,22 +113,24 @@ export default ({ exceptions, toggleException }) => {
 								: [-4.2097759, 48.5799039])
 						}
 					>
-						<Layer
-							type="line"
-							paint={{
-								'line-width': 2,
-								'line-dasharray': [1, 1],
-								'line-color': {
-									satellite: 'white',
-									artistique: grey,
-									carte: blue
-								}[style]
-							}}
-						>
-							<Feature
-								coordinates={data.geoAPI.contour.coordinates[0]}
-							></Feature>
-						</Layer>
+						{data?.geoAPI && (
+							<Layer
+								type="line"
+								paint={{
+									'line-width': 2,
+									'line-dasharray': [1, 1],
+									'line-color': {
+										satellite: 'white',
+										artistique: grey,
+										carte: blue
+									}[style]
+								}}
+							>
+								<Feature
+									coordinates={data.geoAPI.contour.coordinates[0]}
+								></Feature>
+							</Layer>
+						)}
 						{!debug && (
 							<GeoJSONLayer
 								data={data.mergedPolygons}

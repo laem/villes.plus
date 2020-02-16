@@ -20,7 +20,7 @@ export default ({
 				</button>
 				<button
 					onClick={() =>
-						navigator.clipboard.writeText(JSON.stringify(exceptions))
+						navigator.clipboard.writeText(JSON.stringify(exceptions, null, 2))
 					}
 				>
 					Copier les exceptions
