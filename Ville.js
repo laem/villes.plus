@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
-import ReactMapboxGl, {
-	GeoJSONLayer,
-	Layer,
-	Feature,
-	Source
-} from 'react-mapbox-gl'
+import ReactMapboxGl, { GeoJSONLayer } from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
 import { useParams, useLocation } from 'react-router-dom'
 function useQuery() {
 	return new URLSearchParams(useLocation().search)
 }
+import { Switch, styles } from './mapStyles'
+import DebugMap from './DebugMap'
+import DebugBlock from './DebugBlock'
 
 const Map = ReactMapboxGl({
 	accessToken:
 		'pk.eyJ1Ijoia29udCIsImEiOiJjanRqMmp1OGsxZGFpNGFycnhjamR4b3ZmIn0.GRfAPvtZBKvOdpVYgfpGXg'
 })
-
-// in render()
 
 let get = (ville, setData, debug = false) =>
 	fetch(APIUrl((debug ? 'complete/' : 'merged/') + ville))
@@ -36,14 +32,11 @@ let getCached = (ville, setData, setRequesting) =>
 		}
 		setData(value)
 	})
-const sat = 'mapbox/satellite-v9',
-	light = 'mapbox/streets-v10',
-	rien = 'kont/ck60mhncx1z681ipczm7amthv'
 export default ({ exceptions, toggleException }) => {
 	let { ville } = useParams()
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
-	let [style, setStyle] = useState(sat)
+	let [style, setStyle] = useState('satellite')
 	let query = useQuery()
 	let debug = query.get('debug') === 'true'
 	let [debugData, setDebugData] = useState(null)
@@ -75,73 +68,26 @@ export default ({ exceptions, toggleException }) => {
 			`}
 		>
 			<div css="z-index: 20">
-				<Logo color={style === sat ? 'white' : 'black'} text={ville} />
+				<Logo color={style === 'satellite' ? 'white' : 'black'} text={ville} />
 				{debug && (
-					<div css="background: white; width: 80%; margin: 0 auto">
-						{debugData ? (
-							<>
-								{' '}
-								<blockquote>{JSON.stringify(debugData, null, 2)}</blockquote>
-								<a href={`https://www.openstreetmap.org/${debugData.id}`}>
-									Page OSM
-								</a>
-								<button onClick={() => toggleException(ville, debugData.id)}>
-									{villeExceptions.includes(debugData.id)
-										? 'Re-sélectionner'
-										: 'Mettre sur le banc'}
-								</button>
-								<button
-									onClick={() =>
-										navigator.clipboard.writeText(JSON.stringify(exceptions))
-									}
-								>
-									Copier les exceptions
-								</button>
-							</>
-						) : (
-							"Cliquez sur une forme pour l'inspecter"
-						)}
-					</div>
+					<DebugBlock
+						{...{
+							exceptions,
+							ville,
+							toggleException,
+							debugData,
+							villeExceptions
+						}}
+					/>
 				)}
 			</div>
 
 			{!data && <p>Chargement en cours ⏳</p>}
-			<div id="switch">
-				<label>
-					<input
-						type="radio"
-						name="style"
-						value={sat}
-						checked={style === sat}
-						onChange={e => setStyle(e.target.value)}
-					/>
-					Vue satellite
-				</label>
-				<label>
-					<input
-						type="radio"
-						name="style"
-						value={rien}
-						checked={style === rien}
-						onChange={e => setStyle(e.target.value)}
-					/>
-					Vue artistique
-				</label>
-				<label>
-					<input
-						type="radio"
-						name="style"
-						value={light}
-						checked={style === light}
-						onChange={e => setStyle(e.target.value)}
-					/>
-					Vue carte
-				</label>
-			</div>
+			<Switch {...{ setStyle, style }} />
 			{data && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map
-						style={'mapbox://styles/' + style}
+						style={'mapbox://styles/' + styles[style]}
 						zoom={[12]}
 						containerStyle={{
 							height: '100vh',
@@ -164,49 +110,16 @@ export default ({ exceptions, toggleException }) => {
 							}}
 							fillPaint={{
 								'fill-color':
-									style === light
+									style === 'carte'
 										? '#3742fa'
-										: style === rien
+										: style === 'artistique'
 										? '#333'
 										: 'chartreuse',
-								'fill-opacity': style === light ? 0.65 : 0.75
+								'fill-opacity': style === 'carte' ? 0.65 : 0.75
 							}}
 						/>
 						{debug && data.polygons && (
-							<>
-								<Layer
-									type="fill"
-									paint={{
-										'fill-color': 'red',
-										'fill-opacity': 0.5
-									}}
-								>
-									{data.polygons.features
-										.filter(f => villeExceptions.includes(f.properties.id))
-										.map(polygon => (
-											<Feature
-												onClick={() => setDebugData(polygon.properties)}
-												coordinates={polygon.geometry.coordinates}
-											></Feature>
-										))}
-								</Layer>
-								<Layer
-									type="fill"
-									paint={{
-										'fill-color': 'blue',
-										'fill-opacity': 0.5
-									}}
-								>
-									{data.polygons.features
-										.filter(f => !villeExceptions.includes(f.properties.id))
-										.map(polygon => (
-											<Feature
-												onClick={() => setDebugData(polygon.properties)}
-												coordinates={polygon.geometry.coordinates}
-											></Feature>
-										))}
-								</Layer>
-							</>
+							<DebugMap {...{ setDebugData, villeExceptions, data }} />
 						)}
 					</Map>
 				</div>
