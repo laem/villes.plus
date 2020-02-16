@@ -3,9 +3,11 @@
 	"version": "0.0.1",
 	"description": "",
 	"scripts": {
-		"dev": "webpack-dev-server --hot --mode development",
+		"dev": "BRANCH=$(git rev-parse --abbrev-ref HEAD) webpack-dev-server --hot --mode development",
 		"build": "NODE_ENV=production webpack -p -c webpack.config.js",
-		"start": "node --optimize_for_size --max_old_space_size=920 -r esm server.js",
+		"clean": "rm -rf cache/*",
+		"s": "yarn clean && BRANCH=$(git rev-parse --abbrev-ref HEAD) node -r esm server.js",
+		"start": "BRANCH=$(git rev-parse --abbrev-ref HEAD) node --optimize_for_size --max_old_space_size=920 -r esm server.js",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"repository": {
@@ -24,8 +26,10 @@
 		"@babel/preset-env": "^7.7.6",
 		"@babel/preset-react": "^7.7.4",
 		"@mapbox/geojson-area": "^0.2.2",
+		"@turf/area": "^6.0.1",
 		"@turf/buffer": "^5.1.5",
 		"@turf/center": "^6.0.1",
+		"@turf/difference": "^6.0.2",
 		"@turf/helpers": "^6.1.4",
 		"@turf/union": "^6.0.3",
 		"babel-loader": "^8.0.6",

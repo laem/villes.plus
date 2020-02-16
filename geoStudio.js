@@ -7,6 +7,7 @@ import buffer from '@turf/buffer'
 import { polygon, featureCollection } from '@turf/helpers'
 import union from '@turf/union'
 import center from '@turf/center'
+import difference from '@turf/difference'
 import mapshaper from 'mapshaper'
 import { partition } from 'ramda'
 
