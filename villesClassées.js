@@ -39,4 +39,4 @@ const villes = [
 	'Brest'
 ]
 
-export default villes.slice(15, 16)
+export default villes
