@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "webpack-dev-server --hot --mode development",
 		"build": "NODE_ENV=production webpack -p -c webpack.config.js",
-		"start": "node --optimize_for_size --max_old_space_size=920 -r esm server.js",
+		"start": "node --optimize_for_size --max_old_space_size=460 -r esm server.js",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"repository": {
