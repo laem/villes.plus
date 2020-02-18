@@ -110,7 +110,7 @@ export function Classement() {
 											</span>
 											<small> %</small>
 										</div>
-										<div css="width: 8rem; text-align: right">
+										<div css="width: 8rem; text-align: left">
 											<span css="font-size: 80%; color: #1e3799">
 												{data.pedestrianArea.toFixed(1)} sur{' '}
 												{data.relativeArea.toFixed(1)} km²
