@@ -11,11 +11,11 @@ export default placeName => `
   way["leisure"="garden"](area.searchArea);
   relation["leisure"="garden"](area.searchArea);
 
-  way["highway"="footway"]["footway"!~"sidewalk|crossing"](area.searchArea);
+  way["highway"="footway"]["footway"!~"sidewalk|crossing"]["access"!="private"](area.searchArea);
   way["highway"="path"]["access"!="private"](area.searchArea);
 
-  way["highway"="pedestrian"]["foot"!="private"](area.searchArea);
-  relation["highway"="pedestrian"]["foot"!="private"](area.searchArea);
+  way["highway"="pedestrian"]["foot"!="private"]["access"!="private"](area.searchArea);
+  relation["highway"="pedestrian"]["foot"!="private"]["access"!="private"](area.searchArea);
 
   /* 
     These are excluded, since they do not mean it is a public pedestrian place
