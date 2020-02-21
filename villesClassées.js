@@ -32,7 +32,7 @@ const villes = [
 	// Parc très louche en haut à gauche
 	'Nîmes',
 	'Villeurbanne',
-	'Saint-Denis',
+	//	'Saint-Denis', // On a un pb avec cette ville, incroyablement étendue
 	'Aix-en-Provence',
 	'Le Mans',
 	'Clermont-Ferrand',
