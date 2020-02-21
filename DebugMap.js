@@ -17,7 +17,7 @@ export default class DebugMap extends PureComponent {
 						.filter(f => villeExceptions.includes(f.properties.id))
 						.map(polygon => (
 							<Feature
-								onClick={() => setDebugData(polygon.properties)}
+								onClick={() => setDebugData(polygon)}
 								coordinates={polygon.geometry.coordinates}
 							></Feature>
 						))}
@@ -33,7 +33,7 @@ export default class DebugMap extends PureComponent {
 						.filter(f => !villeExceptions.includes(f.properties.id))
 						.map(polygon => (
 							<Feature
-								onClick={() => setDebugData(polygon.properties)}
+								onClick={() => setDebugData(polygon)}
 								coordinates={polygon.geometry.coordinates}
 							></Feature>
 						))}
