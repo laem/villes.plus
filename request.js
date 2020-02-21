@@ -11,11 +11,9 @@ export default placeName => `
   way["leisure"="garden"](area.searchArea);
   relation["leisure"="garden"](area.searchArea);
 
-  way["highway"="footway"]["footway"!~"sidewalk|crossing"]["access"!="private"](area.searchArea);
-  way["highway"="path"]["access"!="private"](area.searchArea);
-
-  way["highway"="pedestrian"]["foot"!="private"]["access"!="private"](area.searchArea);
-  relation["highway"="pedestrian"]["foot"!="private"]["access"!="private"](area.searchArea);
+  way["highway"~"pedestrian|footway|path"]["footway"!~"sidewalk|crossing"]["foot"!~"private|no"]["access"!~"private|no"](area.searchArea);
+  relation["highway"~"pedestrian|footway|path"]["footway"!~"sidewalk|crossing"]["foot"!~"private|no"]["access"!~"private|no"](area.searchArea);
+  /* relation highway=path do not exist in Paris, Strasbourg. Included in case it exists elsewhere. The others do exist*/
 
   /* 
     These are excluded, since they do not mean it is a public pedestrian place
