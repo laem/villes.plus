@@ -118,5 +118,5 @@ app.listen(port, function() {
 	console.log(
 		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
 	)
-	villes.map(ville => computeAndCacheCity(ville, null))
+	villes.map(ville => readFile(ville, 'complete', null))
 })
