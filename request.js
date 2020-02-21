@@ -12,6 +12,7 @@ export default placeName => `
   relation["leisure"="garden"](area.searchArea);
 
   way["highway"="footway"]["footway"!~"sidewalk|crossing"](area.searchArea);
+  way["highway"="path"]["access"!="private"](area.searchArea);
 
   way["highway"="pedestrian"]["foot"!="private"](area.searchArea);
   relation["highway"="pedestrian"]["foot"!="private"](area.searchArea);
