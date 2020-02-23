@@ -21,19 +21,24 @@ export default () => (
 			Les villes se transforment. Un des critères à surveiller est la place
 			donnée aux piétons. Nous présentons{' '}
 			<strong>
-				le premier classement libre et contributif des grandes villes françaises
-				les plus piétonnes
+				le premier classement libre des grandes villes françaises les plus
+				piétonnes
 			</strong>
 			.
 		</p>
 		<p>
-			Tout est développé publiquement et chacun peut y contribuer, relever des
-			erreurs et questionner la méthode :{' '}
+			Libre ? Tout est développé publiquement et chacun peut y contribuer,
+			relever des erreurs et questionner la méthode :{' '}
 			<a href="https://github.com/laem/villes.plus/blob/master/CONTRIBUTING.md">
 				rendez-vous ici
 			</a>
 			.
 		</p>
+		<p>
+			Tout classement de ce type est contestable, mais nous en avons maintenant
+			au moins un 🙂.
+		</p>
+
 		<h2>Qu'est-ce qu'une zone piétonne ? </h2>
 		<p>
 			C'est une zone accessible à tous et toutes où le piéton est prioritaire.
