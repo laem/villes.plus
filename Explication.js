@@ -126,12 +126,19 @@ export default () => (
 			Finalement, nous voulons envoyer un message clair plutôt que de multiplier
 			les classements.
 		</p>
-		<h2>Le classement est-il exhaustif et à jour ?</h2>
+		<h2>Le classement est-il exhaustif ?</h2>
 		<p>
 			Ce classement repose sur les magnifiques cartes libres d'
 			<a href="https://openstreetmap.org">OpenStreetMap</a>. En France, elles
 			sont remarquablement complètes, mais il manque évidemment plein
 			d'éléments.{' '}
+		</p>
+		<p>
+			Notons que les rues ne sont en général tracées comme des segments, pas
+			comme des surfaces. Nous estimons donc leur surface, soit avec la largeur
+			spécifiée comme attribut, soit par convention à 5m. Ce paramètre empirique
+			désavantage une ville qui aurait des rues bien plus larges qu'une autre,
+			mais nous n'avons aujourd'hui pas mieux.
 		</p>
 		<p>
 			Il y a donc deux façons d'améliorer le classement d'une ville :
