@@ -4,9 +4,6 @@ export default () => (
 	<div
 		css={`
 			margin-top: 2rem;
-			p {
-				font-size: 85%;
-			}
 			.badge {
 				background: #1e3799;
 				padding: 0 0.3rem;
@@ -172,6 +169,21 @@ export default () => (
 		<p>
 			Le classement est rafraîchi automatiquement tous les jours environ sur les
 			dernières données en date.
+		</p>
+		<h2>Est-il souhaitable de supprimer complètement les voitures ?</h2>
+		<p>
+			Non bien sûr ! Le but de ce classement est de récompenser les villes qui
+			donnent la priorité aux piétons, ce que ne veut pas dire supprimer les
+			routes. Certaines personnes ont clairement besoin d'une voiture, les
+			livraisons des magasins sont plus pratiques en camion et les urgences
+			doivent pouvoir intervenir rapidement. Ça tombe bien, ces déplacements
+			sont largement facilités par la réduction du trafic général.{' '}
+		</p>
+		<p>
+			<a href="https://www.youtube.com/watch?v=GlXNVnftaNs">Cette vidéo </a>
+			illustre le concept d'<em>Autoluw</em> aux Pays-Bas. Ce sont des zones où
+			les voitures sont complètement en retrait par rapport aux piétons et
+			vélos.
 		</p>
 	</div>
 )
