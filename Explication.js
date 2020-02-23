@@ -15,8 +15,8 @@ export default () => (
 	>
 		<h1>📖 Explications</h1>
 		<p>
-			Les villes se transforment. Un des critères à surveiller est la place
-			donnée aux piétons. Nous présentons{' '}
+			Nos villes se transforment. Un des critères à surveiller est la place
+			donnée aux piétons. Voici{' '}
 			<strong>
 				le premier classement libre des grandes villes françaises les plus
 				piétonnes
@@ -24,7 +24,7 @@ export default () => (
 			.
 		</p>
 		<p>
-			Libre ? Tout est développé publiquement et chacun peut y contribuer,
+			Libre ? Tout le code est ouvert public et chacun peut y contribuer,
 			relever des erreurs et questionner la méthode :{' '}
 			<a href="https://github.com/laem/villes.plus/blob/master/CONTRIBUTING.md">
 				rendez-vous ici
@@ -32,8 +32,8 @@ export default () => (
 			.
 		</p>
 		<p>
-			Tout classement de ce type est contestable, mais nous en avons maintenant
-			au moins un 🙂.
+			Tout classement de ce type est bien sûr contestable, mais nous en avons
+			maintenant au moins un 🙂.
 		</p>
 
 		<h2>Qu'est-ce qu'une zone piétonne ? </h2>

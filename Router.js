@@ -30,6 +30,7 @@ export default function App() {
 					height: 100%;
 					display: flex;
 					flex-direction: column;
+					font-size: 110%;
 				`}
 			>
 				<div css="flex-grow: 1; > a {text-decoration: none}">
