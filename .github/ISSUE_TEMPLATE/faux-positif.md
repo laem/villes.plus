@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Quel est le problème ? **
+**Quel est le problème ?**
 
 
 **Un lien, une capture d'écran du problème**
