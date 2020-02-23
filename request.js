@@ -11,6 +11,11 @@ export default placeName => `
   way["leisure"="garden"](area.searchArea);
   relation["leisure"="garden"](area.searchArea);
 
+  /* Forests and woods (what's the differnce ?) are excluded
+  way["landuse"="forest"](area.searchArea);
+  relation["landuse"="forest"](area.searchArea);
+  way["natural"="wood"](area.searchArea);
+*/
   way["highway"~"pedestrian|footway|path"]["footway"!~"sidewalk|crossing"]["foot"!~"private|no"]["access"!~"private|no"](area.searchArea);
   relation["highway"~"pedestrian|footway|path"]["footway"!~"sidewalk|crossing"]["foot"!~"private|no"]["access"!~"private|no"](area.searchArea);
   /* relation highway=path do not exist in Paris, Strasbourg. Included in case it exists elsewhere. The others do exist*/
