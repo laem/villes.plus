@@ -49,6 +49,12 @@ export default () => (
 			la ville par un périphérique.
 		</p>
 		<p>
+			Les parcs extra-urbains sont exclus à la main. Ajoutez '?debug' à
+			l'adresse de la page d'une ville pour visualiser les choix qui ont été
+			faits, par exemple pour{' '}
+			<a href="https://villes.plus/Paris?debug">Paris</a>.
+		</p>
+		<p>
 			Une prochaine version du classement proposera un deuxième score pour
 			récompenser les villes qui construisent et entretiennent de grands parcs
 			extra-urbains comme le bois de Vincennes à Paris, le parc de la Combe à la
