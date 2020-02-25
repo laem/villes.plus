@@ -12,6 +12,9 @@ export default placeName => `
   relation["leisure"="park"](area.searchArea);
   way["leisure"="garden"](area.searchArea);
   relation["leisure"="garden"](area.searchArea);
+  way["landuse"="recreation_ground"](area.searchArea);
+  relation["landuse"="recreation_ground"](area.searchArea);
+
   */
 
   /* Forests and woods (what's the differnce ?) are excluded
@@ -37,9 +40,6 @@ export default placeName => `
   way["landuse"="grass"](area.searchArea);
   relation["landuse"="grass"](area.searchArea);
   */
-
-  way["landuse"="recreation_ground"](area.searchArea);
-  relation["landuse"="recreation_ground"](area.searchArea);
 
   /* We've excluded the "squares", since lots of them have cars or parkings. 
   E.g. name=Place Max Barel in Nice
