@@ -44,7 +44,8 @@ const findCity = ville =>
 		`https://nominatim.openstreetmap.org/search/${ville}?format=json&addressdetails=1&limit=1`
 	).then(r => r.json())
 
-export const compute = (ville, exceptions) => {
+export const compute = (ville, exceptions0) => {
+	const exceptions = {}
 	const overpassRequest = makeRequest(ville),
 		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
 
