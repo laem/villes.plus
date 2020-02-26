@@ -33,7 +33,7 @@ export function Classement() {
 
 	return (
 		<>
-			<Logo />
+			<Logo animate />
 			<div
 				css={`
 					max-width: 45rem;
@@ -83,7 +83,7 @@ export function Classement() {
 					}
 				`}
 			>
-				<h2>Quelles grandes villes françaises sont les plus piétonnes 🚶‍♀️ ?</h2>
+				<h2>Quelles grandes villes françaises sont les plus piétonnes ?</h2>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
 						Chargement en cours ⏳
