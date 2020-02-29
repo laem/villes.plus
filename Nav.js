@@ -25,7 +25,7 @@ export function Nav() {
 				`}
 			>
 				<li>
-					<Link to="/à-propos">À propos</Link>
+					<Link to="/explications">Explications</Link>
 				</li>
 				<li>
 					<a href="https://github.com/laem/pietonnes">Code source</a>
