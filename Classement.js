@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
 import villesList from './villesClassées'
-import Explication from './Explication'
 
 export const normalizedScores = data => {
 	const million = 1000 * 1000
@@ -124,7 +123,6 @@ export function Classement() {
 							})}
 					</ol>
 				)}
-				<Explication />
 			</div>
 		</>
 	)

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Ville from './Ville'
 import { Classement } from './Classement'
 import { Nav } from './Nav'
-import About from './About'
+import Explications from './Explications'
 import fetchExceptions from './fetchExceptions'
 
 export default function App() {
@@ -37,7 +37,7 @@ export default function App() {
 					{/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
 					<Switch>
-						<Route path="/à-propos" component={About} />
+						<Route path="/explications" component={Explications} />
 						<Route path="/:ville">
 							<Ville {...{ exceptions, toggleException }} />
 						</Route>

@@ -4,13 +4,8 @@ export default () => (
 	<div
 		css={`
 			margin-top: 2rem;
-			.badge {
-				background: #1e3799;
-				padding: 0 0.3rem;
-				color: white;
-				border-radius: 0.3rem;
-				margin: 0 0.1rem;
-			}
+			max-width: 45rem;
+			margin: 0 auto;
 		`}
 	>
 		<h1>📖 Explications</h1>
@@ -38,9 +33,9 @@ export default () => (
 
 		<h2>Qu'est-ce qu'une zone piétonne ? </h2>
 		<p>
-			C'est une zone accessible à tous et toutes où le piéton est prioritaire.
-			Une rue ou place où l'on peut marcher librement et sans danger. Un parc
-			urbain, un chemin de forêt urbaine ou de bord de rivière, une plage.
+			C'est une zone publique où le piéton est prioritaire. Une rue ou une place
+			où l'on peut marcher librement et sans danger. Un parc urbain, un chemin
+			de forêt urbaine ou de bord de rivière, une plage.
 		</p>
 		<h2>Les parcs sont-ils inclus ?</h2>
 		<p>
@@ -71,12 +66,12 @@ export default () => (
 		</p>
 		<h2>Et les trottoirs ?</h2>
 		<p>
-			Les trottoirs sont des bandes piétonnes adossées à une rue dédiée aux
-			voitures. Leur surélévation matérialise le danger de la route qu'ils
-			bordent. Le piéton ne peut s'y balader librement, contraint d'emprunter
-			des passages peints au sol, en attendant un signal lumineux ou en
-			s'assurant qu'un bolide de plusieurs centaines de kilos ne fonce pas pour
-			le traverser en même temps que lui.
+			Un trottoir est une bande piétonne adossée à une rue dédiée aux voitures.
+			Sa surélévation matérialise le danger de la route qu'il borde. Le piéton
+			ne peut s'y balader librement, contraint d'emprunter des passages peints
+			au sol, en attendant un signal lumineux ou en s'assurant qu'un bolide de
+			plusieurs centaines de kilos ne fonce pas pour le traverser en même temps
+			que lui.
 		</p>
 		<p>Trottoirs et passages piétons sont donc exclus du classement.</p>
 		<p>
@@ -137,9 +132,9 @@ export default () => (
 		<h2>Le classement est-il exhaustif ?</h2>
 		<p>
 			Ce classement repose sur les magnifiques cartes libres d'
-			<a href="https://openstreetmap.org">OpenStreetMap</a>. En France, elles
-			sont remarquablement complètes, mais il manque évidemment plein
-			d'éléments.{' '}
+			<a href="https://openstreetmap.org">OpenStreetMap</a>, le Wikipedia des
+			cartes. En France, elles sont remarquablement complètes, mais il manque
+			évidemment plein d'éléments.{' '}
 		</p>
 		<p>
 			Notons que les rues ne sont en général tracées comme des segments, pas
