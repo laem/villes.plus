@@ -68,8 +68,9 @@ export default () => (
 			Notons qu'il existe des voies piétonnes assez larges ou suffisemment
 			séparées de la route pour ne plus être appelés trottoirs. La limite reste
 			floue cependant, et certains trottoirs sont catégorisés comme chemins et
-			manquent l'attribut trottoir, n'hésitez pas à corriger la donnée sur
-			OpenStreetMap, c'est un jeu d'enfant.
+			manquent l'attribut trottoir, c'est une faille potentielle du classement.
+			N'hésitez pas à corriger la donnée sur OpenStreetMap, c'est un jeu
+			d'enfant.
 		</p>
 		<h2>[Ma ville] est une ville super piétonne, pourquoi ce score ?</h2>
 		<p>
