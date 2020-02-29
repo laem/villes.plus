@@ -110,12 +110,22 @@ export const compute = (ville, exceptions0) => {
 			})
 	)
 }
+const standardWidth = 0.005
+const lineWidth = f => {
+	const width = f.properties.width
+	if (typeof width !== 'string') return standardWidth
+	if (isNaN(width))
+		throw Error(
+			"On a trouve une largeur qui n'est pas un nombre en mètres : " + width
+		)
+
+	return +width / 1000
+}
 
 export const linesToPolygons = features => {
-	const standardWidth = 0.005,
-		result = features.map(f =>
-			f.geometry.type === 'LineString' ? buffer(f, standardWidth) : f
-		)
+	const result = features.map(f =>
+		f.geometry.type === 'LineString' ? buffer(f, lineWidth(f)) : f
+	)
 	return result
 }
 
