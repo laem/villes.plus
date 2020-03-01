@@ -68,7 +68,11 @@ export const compute = (ville, exceptions0) => {
 				console.log('données OSM récupérées : ', ville)
 
 				const typesCount = countTypes(features)
-				const polygons = linesToPolygons(features)
+				const [
+					polygons,
+					meanStreetWidth,
+					streetsWithWidthCount
+				] = linesToPolygons(ville, features)
 
 				const [red, green] = partition(
 					polygon => (exceptions[ville] || []).includes(polygon.id),
@@ -100,6 +104,8 @@ export const compute = (ville, exceptions0) => {
 					excluded,
 					pedestrianArea,
 					relativeArea,
+					streetsWithWidthCount,
+					meanStreetWidth,
 					//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
 					polygons
 					//...cityScore,
@@ -115,18 +121,29 @@ const lineWidth = f => {
 	const width = f.properties.width
 	if (typeof width !== 'string') return standardWidth
 	if (isNaN(width))
-		throw Error(
+		console.log(
 			"On a trouve une largeur qui n'est pas un nombre en mètres : " + width
 		)
 
 	return +width / 1000
 }
 
-export const linesToPolygons = features => {
-	const result = features.map(f =>
+export const linesToPolygons = (ville, features) => {
+	const [sum, count] = features.reduce(
+			([sum, count], { properties: { width } }) =>
+				width != null && !isNaN(width)
+					? [sum + +width, count + 1]
+					: [sum, count],
+			[0, 0]
+		),
+		meanWidth = sum / count
+	console.log(
+		`Pour ${ville} la largeur moyenne des rues piétonnes est ${meanWidth} pour ${count} éléments`
+	)
+	const polygons = features.map(f =>
 		f.geometry.type === 'LineString' ? buffer(f, lineWidth(f)) : f
 	)
-	return result
+	return [polygons, meanWidth, count]
 }
 
 // The result of the above OSM request is a massive set of shapes

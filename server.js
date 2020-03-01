@@ -24,24 +24,40 @@ app.use(express.static(__dirname))
 const scopes = [
 	[
 		'meta', // get data only for the front page, lightweight request
-		(data, geoAPI) => ({
-			pedestrianArea: data.pedestrianArea,
-			relativeArea: data.relativeArea,
+		(
+			{ pedestrianArea, relativeArea, meanStreetWidth, streetsWithWidthCount },
+			geoAPI
+		) => ({
+			pedestrianArea,
+			relativeArea,
+			meanStreetWidth,
+			streetsWithWidthCount,
 			geoAPI
 		})
 	],
 	[
 		'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-		(data, geoAPI) => ({
-			mergedPolygons: data.mergedPolygons,
-			relativeArea: data.relativeArea,
-			pedestrianArea: data.pedestrianArea,
+		(
+			{
+				mergedPolygons,
+				pedestrianArea,
+				relativeArea,
+				meanStreetWidth,
+				streetsWithWidthCount
+			},
+			geoAPI
+		) => ({
+			mergedPolygons,
+			relativeArea,
+			meanStreetWidth,
+			streetsWithWidthCount,
+			pedestrianArea,
 			geoAPI
 		})
 	],
 	[
 		'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website
-		(data, geoAPI) => ({ polygons: data.polygons, geoAPI })
+		({ polygons }, geoAPI) => ({ polygons, geoAPI })
 	]
 ]
 

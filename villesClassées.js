@@ -39,4 +39,4 @@ const villes = [
 	'Brest'
 ]
 
-export default villes
+export default ['Nîmes', 'Dijon', 'Paris', 'Rennes']
