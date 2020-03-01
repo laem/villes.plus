@@ -47,7 +47,7 @@ const findCity = ville =>
 export const compute = (ville, exceptions0) => {
 	const exceptions = {}
 	const overpassRequest = makeRequest(ville),
-		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
+		request = `https://overpass-api.de/api/interpreter?data=${overpassRequest}`
 
 	console.log('On va lancer les requêtes pour ', ville)
 	console.log(encodeURI(request))
@@ -125,16 +125,17 @@ export const compute = (ville, exceptions0) => {
 	)
 }
 // This paremeter is very important. It is completely guessed for now. We need more data !
-const standardWidth = 0.004
+const standardWidth = 0.005
 
 const lineWidth = f => {
 	const width = f.properties.width
 	if (typeof width !== 'string') return standardWidth
-	if (isNaN(width))
+	if (isNaN(width)) {
 		console.log(
 			"On a trouve une largeur qui n'est pas un nombre en mètres : " + width
 		)
-
+		return standardWidth
+	}
 	return +width / 1000
 }
 
