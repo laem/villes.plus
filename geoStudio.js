@@ -49,14 +49,21 @@ export const compute = (ville, exceptions0) => {
 	const overpassRequest = makeRequest(ville),
 		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
 
+	console.log('On va lancer les requêtes pour ', ville)
+
 	return (
 		Promise.all([
-			fetch(encodeURI(request)).then(res => res.json()),
+			fetch(encodeURI(request))
+				.then(res => res.json())
+				.catch(error => console.log('erreur dans la requête OSM', error)),
 
 			fetch(
 				`https://geo.api.gouv.fr/communes?nom=${ville}&fields=surface,departement,centre,contour&format=json&boost=population`
 			).then(res => res.json())
 		])
+			.catch(error =>
+				console.log('erreur dans la requête OSM ou GeoAPI', error)
+			)
 			// we dangerously take the first element of the geo.api results array, since it's ranked by population and we're only working with the biggest french cities for now
 			.then(async ([osm, [geoAPI]]) => {
 				const geojson = osmtogeojson(osm)
