@@ -122,7 +122,7 @@ export default () => (
 			(où il est entièrement piéton) que les autres jours. Par contre, la
 			surface piétonne y est 10x plus grande le dimanche, et l'expérience en
 			conséquence beaucoup plus plaisante, à tel point qu'on peut y voir, chose
-			exceptionnelle à Paris, des enfants jouer dans la rue !
+			exceptionnelle, des enfants jouer dans les rues de leur capitale !
 		</p>
 		<h2>Le classement est-il exhaustif ?</h2>
 		<p>
