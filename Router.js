@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect
+} from 'react-router-dom'
 import Ville from './Ville'
 import { Classement } from './Classement'
 import { Nav } from './Nav'
@@ -37,11 +42,14 @@ export default function App() {
 					{/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
 					<Switch>
+						<Route path="/piétonnes" component={Classement} />
 						<Route path="/explications" component={Explications} />
 						<Route path="/:ville">
 							<Ville {...{ exceptions, toggleException }} />
 						</Route>
-						<Route path="/" component={Classement} />
+						<Route path="/">
+							<Redirect to="/piétonnes" />
+						</Route>
 					</Switch>
 				</div>
 				<Nav />
