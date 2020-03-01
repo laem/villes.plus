@@ -50,6 +50,7 @@ export const compute = (ville, exceptions0) => {
 		request = `http://overpass.openstreetmap.fr/api/interpreter?data=${overpassRequest}`
 
 	console.log('On va lancer les requêtes pour ', ville)
+	console.log(encodeURI(request))
 
 	return (
 		Promise.all([
@@ -123,7 +124,9 @@ export const compute = (ville, exceptions0) => {
 			})
 	)
 }
-const standardWidth = 0.005
+// This paremeter is very important. It is completely guessed for now. We need more data !
+const standardWidth = 0.004
+
 const lineWidth = f => {
 	const width = f.properties.width
 	if (typeof width !== 'string') return standardWidth
