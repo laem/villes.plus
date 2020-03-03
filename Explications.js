@@ -137,30 +137,40 @@ export default () => (
 			pas parfaites.
 		</p>
 		<p>
-			Notons par exemple que les rues ne sont en général tracées comme des
-			segments, pas comme des surfaces. Nous estimons donc leur surface, soit
-			avec la largeur qui a été spécifiée comme attribut, soit par convention à
-			5m. Ce paramètre empirique désavantage une ville qui aurait des rues bien
-			plus larges qu'une autre, mais nous n'avons aujourd'hui pas mieux.
+			Notons par exemple que les rues sont en général tracées comme des
+			segments, pas comme des surfaces.{' '}
+			<strong>
+				Nous estimons donc leur surface, soit avec la largeur qui a été
+				spécifiée comme attribut, soit par convention à 5m
+			</strong>
+			. C'est donc un point très contestable de ce classement. Ce paramètre
+			empirique désavantage une ville qui aurait des rues bien plus larges
+			qu'une autre, mais nous n'avons aujourd'hui pas de meilleure données. Pour
+			plus d'informations ou en discuter,
+			<a href="https://github.com/laem/villes.plus/issues/22">
+				rendez-vous ici
+			</a>
+			.
 		</p>
+		<h2>Je veux améliorer le score de ma ville !</h2>
 		<p>
-			Il y a deux façons d'améliorer le classement d'une ville :
-			<ol>
+			Il y a deux façons d'améliorer le score d'une ville :
+			<ul>
 				<li>
-					améliorer les données en
+					améliorer les données en{' '}
 					<a href="https://www.openstreetmap.fr/contribuer/">
 						contribuant à OpenStreetMap
 					</a>
 					. C'est facile, que l'on soit un citoyen ou une administration.
 				</li>
-				<li>piétonniser la ville </li>
-			</ol>
+				<li>donner plus d'espace aux piétons</li>
+			</ul>
 		</p>
 		<p>
 			Ce dernier point peut être fait très rapidement et avec peu
 			d'investissements, par exemple en créant des rues apaisées où le piéton a
-			la priorité, ou en transformant des voies et places de parking en pistes
-			cyclables et trottoirs et larges bandes piétonnes.
+			la priorité, ou en transformant des rues et places de parking en de plus
+			larges voies piétonnes.
 		</p>
 		<p>
 			Le classement est rafraîchi automatiquement tous les jours environ sur les
