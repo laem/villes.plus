@@ -50,7 +50,6 @@ export const compute = (ville, exceptions0) => {
 		request = `https://overpass-api.de/api/interpreter?data=${overpassRequest}`
 
 	console.log('On va lancer les requêtes pour ', ville)
-	console.log(encodeURI(request))
 
 	return (
 		Promise.all([
@@ -86,7 +85,6 @@ export const compute = (ville, exceptions0) => {
 					polygon => (exceptions[ville] || []).includes(polygon.id),
 					polygons
 				)
-				console.log([green, red, polygons].map(e => e.length))
 				console.log('will merge')
 				const mergedPolygons0 = await mergePolygons2(green)
 				const excluded = red.length ? await mergePolygons2(red) : null
@@ -136,7 +134,9 @@ const lineWidth = f => {
 		)
 		return standardWidth
 	}
-	return +width / 1000
+	if (+width === 0) return standardWidth // Some ways, like 126347187 in Angers have a width of 0. Contribution error ? It messes with our buffer function
+	const result = +width / 1000
+	return result
 }
 
 export const linesToPolygons = (ville, features) => {
