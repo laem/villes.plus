@@ -54,6 +54,10 @@ export default () => (
 			Vincennes à Paris, le parc de la Combe à la Serpent à Dijon, l'Arche de la
 			Nature au Mans.
 		</p>
+		<p>
+			Une autre idée serait d'intégrer le caractère perméable d'une voie
+			piétonne.
+		</p>
 		<h2>Et les trottoirs ?</h2>
 		<p>
 			Un trottoir est une bande piétonne adossée à une rue dédiée aux voitures.
@@ -82,6 +86,7 @@ export default () => (
 			N'hésitez pas à proposer des idées de classements complémentaires, par
 			exemple des cercles de 5km autour du coeur des villes.
 		</p>
+
 		<h2>Pourquoi classer les communes, et pas la métropôle ?</h2>
 		<p>
 			Dans une zone comme l'Île de France, difficile en effet de séparer Paris
@@ -177,6 +182,26 @@ export default () => (
 			les voitures sont complètement en retrait par rapport aux piétons et
 			vélos. Il est toujours possible, et beaucoup plus efficace, d'y circuler
 			en voiture quand on en a vraiment besoin.
+		</p>
+		<h2>Ville piétonne = ville accessible ?</h2>
+		<p>
+			Ceci n'est pas un classement des villes les plus accessibles. Nous
+			considérons par exemple qu'un escalider est une zone piétonne, alors qu'il
+			n'est pas forcément accompagné d'une rampe accessible pour une personne en
+			fauteuil roulant.
+		</p>
+		<p>
+			Notons cependant que ce classement récompense les villes ayant beaucoup de
+			zones piétonnes dédiées. Cela inclut en général les larges trottoirs et
+			les rues piétonnes, qui sont en général bien plus accessibles que les
+			ensembles de routes, trottoirs surélevés et étroits, passages piétons
+			contraignants...{' '}
+		</p>
+		<p>
+			Le sujet de l'accessibilité est compliqué, d'autant plus que les données
+			sont très partielles. Il est cependant possible de faire quelque chose des
+			données OpenStreetMap existantes, n'hésitez pas si vous connaissez bien ce
+			sujet.
 		</p>
 	</div>
 )
