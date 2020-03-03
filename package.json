@@ -7,7 +7,7 @@
 		"build": "NODE_ENV=production webpack -p -c webpack.config.js",
 		"clean": "rm -rf cache/*",
 		"s": "BRANCH=$(git rev-parse --abbrev-ref HEAD) node -r esm server.js",
-		"start": "BRANCH=$(git rev-parse --abbrev-ref HEAD) node --optimize_for_size --max_old_space_size=800 -r esm server.js",
+		"start": "BRANCH=$(git rev-parse --abbrev-ref HEAD) node --optimize_for_size --max_old_space_size=1000 -r esm server.js",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"repository": {
