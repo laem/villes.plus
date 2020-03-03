@@ -4,7 +4,7 @@ import osmtogeojson from 'osmtogeojson'
 import geojsonLength from 'geojson-length'
 import area from '@turf/area'
 import buffer from '@turf/buffer'
-import { intersection, difference } from 'polygon-clipping'
+import { intersection } from 'polygon-clipping'
 import mapshaper from 'mapshaper'
 import { partition } from 'ramda'
 
@@ -89,33 +89,23 @@ export const compute = (ville, exceptions0) => {
 					streetsWithWidthCount
 				] = linesToPolygons(ville, features)
 
-				const [red, green] = partition(
-					polygon => (exceptions[ville] || []).includes(polygon.id),
-					polygons
-				)
 				console.log('will merge')
-				const mergedPolygons0 = await mergePolygons2(green)
-				const excluded = red.length ? await mergePolygons2(red) : null
+				const mergedPolygons0 = await mergePolygons2(polygons)
 
 				console.log('merged, will exclude')
 				const toCoord = f => f.coordinates
-				const mergedPolygons1 = !excluded
-					? toCoord(mergedPolygons0)
-					: difference(toCoord(mergedPolygons0), toCoord(excluded))
+				const mergedPolygons1 = toCoord(mergedPolygons0)
 
 				const contour = geoAPI.contour
 				const mergedPolygons = intersection(mergedPolygons1, toCoord(contour))
 				const toMulti = coordinates => ({ type: 'MultiPolygon', coordinates })
-				const relativeSurface = !excluded
-					? contour
-					: toMulti(difference(toCoord(contour), toCoord(excluded)))
+				const relativeSurface = contour
 				const pedestrianArea = area(toMulti(mergedPolygons))
 				const relativeArea = area(relativeSurface)
 				console.log('done computing')
 				const result = {
 					geoAPI,
 					mergedPolygons: toMulti(mergedPolygons),
-					excluded,
 					pedestrianArea,
 					relativeArea,
 					streetsWithWidthCount,
