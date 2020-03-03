@@ -44,17 +44,25 @@ const findCity = ville =>
 		`https://nominatim.openstreetmap.org/search/${ville}?format=json&addressdetails=1&limit=1`
 	).then(r => r.json())
 
+//const OverpassInstance = 'https://overpass-api.de/api/interpreter'
+const OverpassInstance = 'http://overpass.openstreetmap.fr/api/interpreter'
+
 export const compute = (ville, exceptions0) => {
 	const exceptions = {}
 	const overpassRequest = makeRequest(ville),
-		request = `https://overpass-api.de/api/interpreter?data=${overpassRequest}`
+		request = `${OverpassInstance}?data=${overpassRequest}`
 
 	console.log('On va lancer les requêtes pour ', ville)
 
 	return (
 		Promise.all([
 			fetch(encodeURI(request))
-				.then(res => res.json())
+				.then(res => {
+					if (!res.ok) {
+						throw res
+					}
+					return res.json()
+				})
 				.catch(error => console.log('erreur dans la requête OSM', error)),
 
 			fetch(

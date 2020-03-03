@@ -81,33 +81,28 @@ const readFile = (ville, scope, res) => {
 const computeAndCacheCity = (ville, returnScope, res) => {
 	let fileName = path.join(cacheDir, ville)
 	console.log('ville pas encore connue : ', ville)
-	fetchExceptions().then(
-		exceptions =>
-			console.log(
-				'nombre de villes avec exception: ',
-				Object.keys(exceptions).length
-			) ||
-			compute(ville, exceptions)
-				.then(({ geoAPI, ...data }) => {
-					scopes.map(([scope, selector]) => {
-						const string = JSON.stringify(selector(data, geoAPI))
-						fs.writeFile(`${fileName}.${scope}.json`, string, function(err) {
-							if (err) {
-								console.log(err) || (res && res.status(400).end())
-							}
-							console.log('Fichier écrit :', ville, scope)
+	fetchExceptions().then(exceptions =>
+		compute(ville, exceptions)
+			.then(({ geoAPI, ...data }) => {
+				scopes.map(([scope, selector]) => {
+					const string = JSON.stringify(selector(data, geoAPI))
+					fs.writeFile(`${fileName}.${scope}.json`, string, function(err) {
+						if (err) {
+							console.log(err) || (res && res.status(400).end())
+						}
+						console.log('Fichier écrit :', ville, scope)
 
-							if (returnScope === scope) res && res.json(string)
-						})
+						if (returnScope === scope) res && res.json(string)
 					})
 				})
-				.catch(
-					e =>
-						console.log(e) ||
-						fs.writeFile(fileName, 'unknown city', err =>
-							resUnknownCity(res, ville)
-						)
-				)
+			})
+			.catch(
+				e =>
+					console.log(e) ||
+					fs.writeFile(fileName, 'unknown city', err =>
+						resUnknownCity(res, ville)
+					)
+			)
 	)
 }
 
@@ -134,5 +129,9 @@ app.listen(port, function() {
 	console.log(
 		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
 	)
-	villes.map(ville => readFile(ville, 'complete', null))
+
+	villes.map((ville, i) =>
+		// settimeout needed, the overpass API instances can raise a "too many requests" error
+		setTimeout(() => readFile(ville, 'complete', null), i * 10000)
+	)
 })

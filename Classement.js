@@ -116,9 +116,11 @@ export function Classement() {
 													{data.pedestrianArea.toFixed(1)} sur{' '}
 													{data.relativeArea.toFixed(1)} km²
 												</span>
-												{data.meanStreetWidth +
+
+												{/* 			{data.meanStreetWidth +
 													' | ' +
 													data.streetsWithWidthCount}
+										*/}
 											</div>
 										</Link>
 									</li>
