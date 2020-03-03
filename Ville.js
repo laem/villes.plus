@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
-import ReactMapboxGl, { GeoJSONLayer, Layer, Source } from 'react-mapbox-gl'
+import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
+import { useParams, useLocation } from 'react-router-dom'
+function useQuery() {
+	return new URLSearchParams(useLocation().search)
+}
+import { blue, grey, Switch, styles } from './mapStyles'
+import DebugMap from './DebugMap'
+import DebugBlock from './DebugBlock'
+import { normalizedScores } from './Classement'
 
 const Map = ReactMapboxGl({
 	accessToken:
 		'pk.eyJ1Ijoia29udCIsImEiOiJjanRqMmp1OGsxZGFpNGFycnhjamR4b3ZmIn0.GRfAPvtZBKvOdpVYgfpGXg'
 })
 
-// in render()
+const cacheDisabled = true
 
-let get = (ville, setData) =>
-	fetch(APIUrl('ville/' + ville))
+let get = (ville, setData, debug = false) =>
+	fetch(APIUrl((debug ? 'complete/' : 'merged/') + ville))
 		.then(res => res.json())
 		.then(json => {
 			localforage.setItem(ville, json)
@@ -27,19 +35,24 @@ let getCached = (ville, setData, setRequesting) =>
 		}
 		setData(value)
 	})
-const sat = 'mapbox/satellite-v9',
-	light = 'mapbox/streets-v10',
-	rien = 'kont/ck60mhncx1z681ipczm7amthv'
-export default ({ match: { params } }) => {
-	let ville = params.ville
+export default ({ exceptions, toggleException }) => {
+	let { ville } = useParams()
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
-	let [style, setStyle] = useState(sat)
+	let [style, setStyle] = useState('satellite')
+	let query = useQuery()
+	let debug = query.get('debug') != null
+	let [debugData, setDebugData] = useState(null)
 
 	useEffect(() => {
-		//get(ville, setData)
-		getCached(ville, setData, setRequesting)
-	}, [])
+		debug
+			? get(ville, setData, true)
+			: cacheDisabled
+			? get(ville, setData, false)
+			: getCached(ville, setData, setRequesting)
+	}, [debug, ville])
+
+	let villeExceptions = exceptions[ville] || []
 
 	return (
 		<div
@@ -51,7 +64,8 @@ export default ({ match: { params } }) => {
 				align-items: center;
 				height: 100%;
 
-				#switch {
+				#switch,
+				#scores {
 					z-index: 20;
 
 					background: #fffc;
@@ -62,94 +76,92 @@ export default ({ match: { params } }) => {
 			`}
 		>
 			<div css="z-index: 20">
-				<Logo color={style === sat ? 'white' : 'black'} text={params.ville} />
+				<Logo
+					color={!data ? undefined : style === 'satellite' ? 'white' : 'black'}
+					text={ville}
+				/>
+				{debug && (
+					<DebugBlock
+						{...{
+							exceptions,
+							ville,
+							toggleException,
+							debugData,
+							villeExceptions
+						}}
+					/>
+				)}
 			</div>
 
 			{!data && <p>Chargement en cours ⏳</p>}
-			<div id="switch">
-				<label>
-					<input
-						type="radio"
-						name="style"
-						value={sat}
-						checked={style === sat}
-						onChange={e => setStyle(e.target.value)}
-					/>
-					Vue satellite
-				</label>
-				<label>
-					<input
-						type="radio"
-						name="style"
-						value={rien}
-						checked={style === rien}
-						onChange={e => setStyle(e.target.value)}
-					/>
-					Vue artistique
-				</label>
-				<label>
-					<input
-						type="radio"
-						name="style"
-						value={light}
-						checked={style === light}
-						onChange={e => setStyle(e.target.value)}
-					/>
-					Vue carte
-				</label>
-			</div>
+			{data && data.realArea}
+			<Switch {...{ setStyle, style }} />
+			{data?.geoAPI && !debug && <Scores data={data} />}
 			{data && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map
-						style={'mapbox://styles/' + style}
+						style={'mapbox://styles/' + styles[style]}
 						zoom={[12]}
 						containerStyle={{
 							height: '100vh',
 							width: '100vw'
 						}}
 						center={
-							data.geoData?.centre?.coordinates ||
+							data.geoAPI?.centre?.coordinates ||
 							(data.center
 								? data.center.geometry.coordinates
 								: [-4.2097759, 48.5799039])
 						}
 					>
-						<GeoJSONLayer
-							data={data.mergedPolygons}
-							symbolLayout={{
-								'text-field': '{place}',
-								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-								'text-offset': [0, 0.6],
-								'text-anchor': 'top'
-							}}
-							fillPaint={{
-								'fill-color':
-									style === light
-										? '#3742fa'
-										: style === rien
-										? '#333'
-										: 'chartreuse',
-								'fill-opacity': style === light ? 0.65 : 0.75
-							}}
-						/>
-						{/* This is for debug purposes : in case the mergedPolygons are suspected to be not reliable
-						<GeoJSONLayer
-							data={data.polygons}
-							symbolLayout={{
-								'text-field': '{place}',
-								'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-								'text-offset': [0, 0.6],
-								'text-anchor': 'top'
-							}}
-							fillPaint={{
-								'fill-color': 'red',
-								'fill-opacity': 0
-							}}
-						/>
-						*/}
+						{data?.geoAPI && (
+							<Layer
+								type="line"
+								paint={{
+									'line-width': 2,
+									'line-dasharray': [1, 1],
+									'line-color': {
+										satellite: 'white',
+										artistique: grey,
+										carte: blue
+									}[style]
+								}}
+							>
+								<Feature
+									coordinates={data.geoAPI.contour.coordinates[0]}
+								></Feature>
+							</Layer>
+						)}
+						{!debug && (
+							<GeoJSONLayer
+								data={data.mergedPolygons}
+								fillPaint={{
+									'fill-color': {
+										satellite: 'chartreuse',
+										artistique: grey,
+										carte: blue
+									}[style],
+									'fill-opacity': style === 'carte' ? 0.65 : 0.75
+								}}
+							/>
+						)}
+						{debug && data.polygons && (
+							<DebugMap {...{ setDebugData, villeExceptions, data }} />
+						)}
 					</Map>
 				</div>
 			)}
+		</div>
+	)
+}
+
+const Scores = ({ data }) => {
+	const { pedestrianArea, area, percentage, relativeArea } = normalizedScores(
+		data
+	)
+	return (
+		<div id="scores" title={`Surface complète, parcs compris : ${area}`}>
+			{pedestrianArea.toFixed(1)} km² piétons sur {relativeArea.toFixed(1)} km²,
+			soit {percentage.toFixed(1)}%
 		</div>
 	)
 }
