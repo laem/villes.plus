@@ -131,7 +131,7 @@ export const compute = (ville, exceptions0) => {
 	)
 }
 // This paremeter is very important. It is completely guessed for now. We need more data !
-const standardWidth = 0.005
+const standardWidth = 0.004
 
 const lineWidth = f => {
 	const width = f.properties.width
