@@ -78,9 +78,28 @@ export default () => (
 		</p>
 		<h2>[Ma ville] est une ville super piétonne, pourquoi ce score ?</h2>
 		<p>
-			Nous gardons souvent en mémoire le centre-ville touristique, souvent
+			Nous gardons souvent en mémoire le centre-ville touristique 🏛️, souvent
 			rempli d'histoire et apaisé, plutôt que le reste de la ville, la plupart
 			du temps bien plus hostile aux piétons.
+		</p>
+		<p>
+			Un autre exemple très désavantageux est la présence de grandes zones
+			agricoles 🚜 dans les limites de la ville. On remarquera notamment que le
+			trio de tête, Grenoble, Paris et Rennes n'ont aucune zone agricole,
+			contrairement à Brest (au nord et à l'ouest) ou Nîmes (au sud). La plupart
+			du temps, ce sont des no-man's land piétons : peu de talus et donc de
+			chemins, ceux qui restent étant privés, routes dangereuses sans trottoir.
+		</p>
+		<p>
+			Aujourd'hui désavantageuses pour le classement, ces zones agricoles sont
+			de magnifiques opportunités pour ces communes : les entrelacer de bois et
+			chemins continus qui reconnecteraient les urbains à la production de leur
+			nourriture, voir même établir de grands parcs extra-urbains tels le bois
+			de Vincennes (près de 1000 hectares) ou plus modestement le{' '}
+			<a href="https://fr.wikipedia.org/wiki/Bois_de_Keroual">
+				bois de Keroual
+			</a>{' '}
+			près de Brest (56 hectares).
 		</p>
 		<p>
 			N'hésitez pas à proposer des idées de classements complémentaires, par
