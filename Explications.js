@@ -9,6 +9,9 @@ export default () => (
 			padding: 0 1rem;
 		`}
 	>
+		<a href="/" css="font-size: 150%">
+			Revenir au classement
+		</a>
 		<h1>📖 Explications</h1>
 		<p>
 			Nos villes se transforment. Un critère intéressant est la place donnée aux
