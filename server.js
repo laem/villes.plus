@@ -1,5 +1,4 @@
 import express from 'express'
-import fetch from 'node-fetch'
 
 import { compute } from './geoStudio.js'
 import cors from 'cors'

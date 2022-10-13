@@ -9,52 +9,54 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.jsx?$/,
 				exclude: /node_modules/,
 				use: [
 					// ... other loaders
 					{
 						loader: require.resolve('babel-loader'),
 						options: {
-							presets: ['@babel/preset-env', '@babel/preset-react'],
+							presets: [
+								'@babel/preset-env',
+								['@babel/preset-react', { runtime: 'automatic' }],
+							],
 							plugins: [
 								'@babel/plugin-proposal-optional-chaining',
 								'babel-plugin-styled-components',
-								isDevelopment && require.resolve('react-refresh/babel')
-							].filter(Boolean)
-						}
-					}
-				]
+								isDevelopment && require.resolve('react-refresh/babel'),
+							].filter(Boolean),
+						},
+					},
+				],
 			},
 			{
 				test: /\.css$/,
 				use: [
 					{ loader: 'style-loader' },
 					{
-						loader: 'css-loader'
-					}
-				]
-			}
-		]
+						loader: 'css-loader',
+					},
+				],
+			},
+		],
 	},
 	entry: './index.js',
 
 	output: {
 		filename: 'index.js',
 		path: __dirname + '/dist',
-		publicPath: '/'
+		publicPath: '/',
 	},
 	devServer: {
-		historyApiFallback: true
+		historyApiFallback: true,
 	},
 
 	plugins: [
-		isDevelopment &&
-			new ReactRefreshWebpackPlugin({ disableRefreshCheck: true }),
+		isDevelopment && new ReactRefreshWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			title: 'Piétonnes',
-			template: 'index.html'
+			template: 'index.html',
 		}),
-		new webpack.EnvironmentPlugin(['BRANCH'])
-	].filter(Boolean)
+		new webpack.EnvironmentPlugin(['BRANCH']),
+	].filter(Boolean),
 }

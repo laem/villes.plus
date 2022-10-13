@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	BrowserRouter as Router,
-	Switch,
+	Navigate,
 	Route,
-	Redirect
+	Routes,
 } from 'react-router-dom'
-import Ville from './Ville'
 import { Classement } from './Classement'
-import { Nav } from './Nav'
+import Cyclable from './Cyclable'
 import Explications from './Explications'
 import fetchExceptions from './fetchExceptions'
+import { Nav } from './Nav'
+import Ville from './Ville'
 
 export default function App() {
 	let [exceptions, setExceptions] = useState({})
 
 	useEffect(() => {
-		fetchExceptions().then(json => setExceptions(json))
+		fetchExceptions().then((json) => setExceptions(json))
 	}, [])
 
 	console.log({ exceptions })
@@ -25,7 +26,7 @@ export default function App() {
 
 		setExceptions({
 			...exceptions,
-			[ville]: list.includes(id) ? list.filter(e => e !== id) : [...list, id]
+			[ville]: list.includes(id) ? list.filter((e) => e !== id) : [...list, id],
 		})
 	}
 	return (
@@ -39,18 +40,16 @@ export default function App() {
 				`}
 			>
 				<div css="flex-grow: 1; > a {text-decoration: none}">
-					{/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-					<Switch>
-						<Route path="/piétonnes" component={Classement} />
-						<Route path="/explications" component={Explications} />
-						<Route path="/:ville">
-							<Ville {...{ exceptions, toggleException }} />
-						</Route>
-						<Route path="/">
-							<Redirect to="/piétonnes" />
-						</Route>
-					</Switch>
+					<Routes>
+						<Route path="/piétonnes" element={<Classement />} />
+						<Route path="/cyclables" element={<Cyclable />} />
+						<Route path="/explications" element={<Explications />} />
+						<Route
+							path="/:ville"
+							element={<Ville {...{ exceptions, toggleException }} />}
+						/>
+						<Route path="/" element={<Navigate to="/piétonnes" />} />
+					</Routes>
 				</div>
 				<Nav />
 			</div>

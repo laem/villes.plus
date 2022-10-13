@@ -1,5 +1,4 @@
 import makeRequest from './request.js'
-import fetch from 'node-fetch'
 import osmtogeojson from 'osmtogeojson'
 import geojsonLength from 'geojson-length'
 import area from '@turf/area'
@@ -8,23 +7,23 @@ import { intersection } from 'polygon-clipping'
 import mapshaper from 'mapshaper'
 import { partition } from 'ramda'
 
-const countTypes = features =>
+const countTypes = (features) =>
 	features.reduce((memo, next) => {
 		const t = next.geometry.type
 		memo[t] = (memo[t] || 0) + 1
 		return memo
 	}, {})
 
-const score = geoJson => {
+const score = (geoJson) => {
 	const areas = geoJson.features
-		.filter(f => f.geometry.type === 'Polygon')
-		.map(f => geojsonArea.geometry(f.geometry))
+		.filter((f) => f.geometry.type === 'Polygon')
+		.map((f) => geojsonArea.geometry(f.geometry))
 
 	const areasLength = areas.length
 	const totalAreas = areas.reduce((memo, next) => memo + next, 0)
 	const lines = geoJson.features
-		.filter(f => f.geometry.type === 'LineString')
-		.map(f => geojsonLength(f.geometry))
+		.filter((f) => f.geometry.type === 'LineString')
+		.map((f) => geojsonLength(f.geometry))
 	const linesLength = lines.length
 	const totalLinesLength = lines.reduce((memo, next) => memo + next, 0)
 	const totalLinesArea = totalLinesLength * 5 // we arbitrarily define the average width of a pedestrian street to 5 meters
@@ -34,15 +33,15 @@ const score = geoJson => {
 		totalAreas,
 		linesLength,
 		totalLinesArea,
-		totalTotal
+		totalTotal,
 	}
 }
 
 // Usefull in the future to disambiguate with a UI
-const findCity = ville =>
+const findCity = (ville) =>
 	fetch(
 		`https://nominatim.openstreetmap.org/search/${ville}?format=json&addressdetails=1&limit=1`
-	).then(r => r.json())
+	).then((r) => r.json())
 
 const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
@@ -56,19 +55,19 @@ export const compute = (ville, exceptions0) => {
 	return (
 		Promise.all([
 			fetch(encodeURI(request))
-				.then(res => {
+				.then((res) => {
 					if (!res.ok) {
 						throw res
 					}
 					return res.json()
 				})
-				.catch(error => console.log('erreur dans la requête OSM', error)),
+				.catch((error) => console.log('erreur dans la requête OSM', error)),
 
 			fetch(
 				`https://geo.api.gouv.fr/communes?nom=${ville}&fields=surface,departement,centre,contour&format=json&boost=population`
-			).then(res => res.json())
+			).then((res) => res.json()),
 		])
-			.catch(error =>
+			.catch((error) =>
 				console.log('erreur dans la requête OSM ou GeoAPI', error)
 			)
 			// we dangerously take the first element of the geo.api results array, since it's ranked by population and we're only working with the biggest french cities for now
@@ -82,24 +81,21 @@ export const compute = (ville, exceptions0) => {
 				console.log('données OSM récupérées : ', ville)
 
 				const typesCount = countTypes(features)
-				const [
-					polygons,
-					meanStreetWidth,
-					streetsWithWidthCount
-				] = linesToPolygons(ville, features)
+				const [polygons, meanStreetWidth, streetsWithWidthCount] =
+					linesToPolygons(ville, features)
 
 				console.log('will merge')
 				const mergedPolygons0 = await mergePolygons2(polygons)
 
 				console.log('merged, will exclude')
-				const toCoord = f => f.coordinates
+				const toCoord = (f) => f.coordinates
 				const mergedPolygons1 = toCoord(mergedPolygons0)
 
 				const contour = geoAPI && geoAPI.contour
 				const mergedPolygons = contour
 					? intersection(mergedPolygons1, toCoord(contour))
 					: mergedPolygons1
-				const toMulti = coordinates => ({ type: 'MultiPolygon', coordinates })
+				const toMulti = (coordinates) => ({ type: 'MultiPolygon', coordinates })
 				const relativeSurface = contour
 				const pedestrianArea = area(toMulti(mergedPolygons))
 				const relativeArea = relativeSurface ? area(relativeSurface) : NaN
@@ -112,7 +108,7 @@ export const compute = (ville, exceptions0) => {
 					streetsWithWidthCount,
 					meanStreetWidth,
 					//the following is for debug purposes, in case the mergedPolygons and realArea are suspected to be not reliable,
-					polygons
+					polygons,
 					//...cityScore,
 					//typesCount,
 					//geojson,
@@ -124,7 +120,7 @@ export const compute = (ville, exceptions0) => {
 // This paremeter is very important. It is completely guessed for now. We need more data !
 const standardWidth = 0.004
 
-const lineWidth = f => {
+const lineWidth = (f) => {
 	const width = f.properties.width
 	if (typeof width !== 'string') return standardWidth
 	if (isNaN(width)) {
@@ -150,7 +146,7 @@ export const linesToPolygons = (ville, features) => {
 	console.log(
 		`Pour ${ville} la largeur moyenne des rues piétonnes est ${meanWidth} pour ${count} éléments`
 	)
-	const polygons = features.map(f =>
+	const polygons = features.map((f) =>
 		f.geometry.type === 'LineString' ? buffer(f, lineWidth(f)) : f
 	)
 	return [polygons, meanWidth, count]
@@ -164,10 +160,10 @@ export const linesToPolygons = (ville, features) => {
 // and we're not interested by points yet
 
 // inefficient version
-export const mergePolygons = geojson => {
+export const mergePolygons = (geojson) => {
 	const polygons = geojson.features
-		.filter(f => f.geometry.type === 'Polygon')
-		.map(f => polygon(f.geometry.coordinates))
+		.filter((f) => f.geometry.type === 'Polygon')
+		.map((f) => polygon(f.geometry.coordinates))
 	const myunion = polygons
 		.slice(1)
 		.reduce(
@@ -177,9 +173,9 @@ export const mergePolygons = geojson => {
 	return myunion
 }
 // efficient version with mapshaper
-const mergePolygons2 = async polygons => {
+const mergePolygons2 = async (polygons) => {
 	const geojson = buildFeatureCollection(
-		polygons.filter(p => p.geometry.type === 'Polygon')
+		polygons.filter((p) => p.geometry.type === 'Polygon')
 	)
 	const input = { 'input.geojson': geojson }
 	const cmd =
@@ -189,7 +185,7 @@ const mergePolygons2 = async polygons => {
 	return JSON.parse(output['out.geojson'].toString()).geometries[0]
 }
 
-const buildFeatureCollection = features => ({
+const buildFeatureCollection = (features) => ({
 	type: 'FeatureCollection',
-	features
+	features,
 })
