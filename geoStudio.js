@@ -95,12 +95,14 @@ export const compute = (ville, exceptions0) => {
 				const toCoord = f => f.coordinates
 				const mergedPolygons1 = toCoord(mergedPolygons0)
 
-				const contour = geoAPI.contour
-				const mergedPolygons = intersection(mergedPolygons1, toCoord(contour))
+				const contour = geoAPI && geoAPI.contour
+				const mergedPolygons = contour
+					? intersection(mergedPolygons1, toCoord(contour))
+					: mergedPolygons1
 				const toMulti = coordinates => ({ type: 'MultiPolygon', coordinates })
 				const relativeSurface = contour
 				const pedestrianArea = area(toMulti(mergedPolygons))
-				const relativeArea = area(relativeSurface)
+				const relativeArea = relativeSurface ? area(relativeSurface) : NaN
 				console.log('done computing')
 				const result = {
 					geoAPI,
