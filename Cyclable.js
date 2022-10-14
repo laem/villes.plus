@@ -1,5 +1,8 @@
 import { Map, Marker, GeoJson } from 'pigeon-maps'
 import { useEffect, useState } from 'react'
+import { maptiler } from 'pigeon-maps/providers'
+
+const provider = maptiler('1H6fEpmHR9xGnAYjulX3', 'toner')
 
 const center = [48.10999850495452, -1.679193852233965]
 
@@ -89,7 +92,7 @@ export default () => {
 
 	const safePercentage = rawData && computeSafePercentage(getMessages(rawData))
 
-	console.log(data)
+	console.log(couple)
 
 	return (
 		<div
@@ -113,6 +116,7 @@ export default () => {
 			{clickedSegment && JSON.stringify(clickedSegment)}
 
 			<Map
+				provider={provider}
 				height={'800px'}
 				width={'800px'}
 				defaultCenter={center}
@@ -128,6 +132,8 @@ export default () => {
 					)
 				}}
 			>
+				{couple.from && <Marker width={50} anchor={couple.from} />}
+				{couple.to && <Marker width={50} anchor={couple.to} />}
 				{data && (
 					<GeoJson
 						onClick={({ event, anchor, payload }) => {
@@ -139,8 +145,6 @@ export default () => {
 						}}
 					/>
 				)}
-				{couple.from && <Marker width={50} anchor={couple.from} />}
-				{couple.to && <Marker width={50} anchor={couple.to} />}
 			</Map>
 		</div>
 	)
