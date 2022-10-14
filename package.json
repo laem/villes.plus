@@ -51,6 +51,7 @@
 		"mapshaper": "^0.6.7",
 		"netlify-lambda": "^2.0.15",
 		"osmtogeojson": "^3.0.0-beta.4",
+		"pigeon-maps": "^0.21.3",
 		"polygon-clipping": "^0.15.3",
 		"prettier": "^2.7.1",
 		"ramda": "^0.28.0",
