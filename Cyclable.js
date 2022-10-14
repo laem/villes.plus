@@ -15,9 +15,27 @@ const computeBikeDistance = (from, to) =>
 		.then((res) => res.json())
 		.catch((e) => console.log(e))
 
-const segmentGeoJSON = (geojson) => {
+const getMessages = (geojson) => {
 	const [_, ...table] = geojson.features[0].properties.messages
-	console.log('T', table)
+
+	return table
+}
+const computeSafePercentage = (messages) => {
+	const [safeDistance, total] = messages.reduce(
+		(memo, next) => {
+			const safe = isSafePath(next[9]),
+				distance = next[3]
+			console.log(next[9], distance)
+			return [memo[0] + (safe ? +distance : 0), memo[1] + +distance]
+		},
+		[0, 0]
+	)
+	console.log('safe', safeDistance)
+
+	return Math.round((safeDistance / total) * 100)
+}
+const segmentGeoJSON = (geojson) => {
+	const table = getMessages(geojson)
 	const coordinateStringToNumber = (string) => +string / 10e5
 	const getLineCoordinates = (line) =>
 			line && [line[0], line[1]].map(coordinateStringToNumber),
@@ -58,17 +76,18 @@ const segmentGeoJSON = (geojson) => {
 export default () => {
 	const [couple, setCouple] = useState({ from: null, to: null })
 	console.log(couple)
-	const [data, setData] = useState(null) // use an empty array as initial value
+	const [rawData, setData] = useState(null) // use an empty array as initial value
 	const [clickedSegment, setClickedSegment] = useState()
 
 	useEffect(() => {
 		if (!(couple.to && couple.from)) return undefined
 		computeBikeDistance(couple.from, couple.to).then((res) => {
-			const segmentedResult = segmentGeoJSON(res)
-			console.log('YOYO', res, segmentedResult)
-			setData(segmentedResult) // set the state
+			setData(res) // set the state
 		})
 	}, [couple])
+	const data = rawData && segmentGeoJSON(rawData)
+
+	const safePercentage = rawData && computeSafePercentage(getMessages(rawData))
 
 	console.log(data)
 
@@ -82,12 +101,15 @@ export default () => {
 			<h1>Ma ville est-elle cyclable ?</h1>
 			<p>
 				Précisons : <em>vraiment</em> cyclable, donc avec des pistes cyclables
-				séparées.{' '}
+				séparées ou des voies où le vélo est prioritaire sur les voitures.{' '}
 			</p>
-			<p>
-				Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. Puis
-				recommencez :)
-			</p>
+			<p>Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. </p>
+			<p>Puis recommencez :)</p>
+			{data && (
+				<p>
+					Ce trajet est <strong>sécurisé à {safePercentage}%</strong>.
+				</p>
+			)}
 			{clickedSegment && JSON.stringify(clickedSegment)}
 
 			<Map
