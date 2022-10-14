@@ -43,6 +43,7 @@ export default function App() {
 					<Routes>
 						<Route path="/piétonnes" element={<Classement />} />
 						<Route path="/cyclables" element={<Cyclable />} />
+						<Route path="/cyclables/:ville" element={<Cyclable />} />
 						<Route path="/explications" element={<Explications />} />
 						<Route
 							path="/:ville"
