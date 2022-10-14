@@ -1,6 +1,11 @@
 import { Map, Marker, GeoJson } from 'pigeon-maps'
 import { useEffect, useState } from 'react'
 
+const center = [48.10999850495452, -1.679193852233965]
+
+const isSafePath = (tags) =>
+	tags.includes('highway=living_street') || tags.includes('highway=cycleway')
+
 const computeBikeDistance = (from, to) =>
 	fetch(
 		`https://brouter.de/brouter?lonlats=${from.reverse().join(',')}|${to
@@ -10,17 +15,41 @@ const computeBikeDistance = (from, to) =>
 		.then((res) => res.json())
 		.catch((e) => console.log(e))
 
-const center = [48.10999850495452, -1.679193852233965]
+const segmentGeoJSON = (geojson) => {
+	const [_, ...table] = geojson.features[0].properties.messages
+	console.log('T', table)
+	const coordinateStringToNumber = (string) => +string / 10e5
+	const getLineCoordinates = (line) =>
+			line && [line[0], line[1]].map(coordinateStringToNumber),
+		getLineDistance = (line) => line[3],
+		getLineTags = (line) => line[9]
 
+	return {
+		type: 'FeatureCollection',
+		features: table.slice(0, -1).map((line, i) => ({
+			type: 'Feature',
+			properties: { strokeWidth: '10px', stroke: 'blue' },
+			geometry: {
+				type: 'LineString',
+				coordinates: [
+					getLineCoordinates(line),
+					getLineCoordinates(table[i + 1]),
+				],
+			},
+		})),
+	}
+}
 export default () => {
 	const [couple, setCouple] = useState({ from: null, to: null })
 	console.log(couple)
 	const [data, setData] = useState(null) // use an empty array as initial value
 
 	useEffect(() => {
-		if (!couple.to) return undefined
+		if (!(couple.to && couple.from)) return undefined
 		computeBikeDistance(couple.from, couple.to).then((res) => {
-			setData(res) // set the state
+			const segmentedResult = segmentGeoJSON(res)
+			console.log('YOYO', res, segmentedResult)
+			setData(segmentedResult) // set the state
 		})
 	}, [couple])
 
@@ -44,27 +73,25 @@ export default () => {
 			</p>
 
 			<Map
-				height={'70vh'}
-				width={'70vw'}
+				height={'50vh'}
+				width={'50vw'}
 				defaultCenter={center}
 				defaultZoom={13}
 				onClick={({ event, latLng, pixel }) => {
-					setCouple(!couple.from ? { from: latLng } : { ...couple, to: latLng })
+					setCouple(
+						!couple.from
+							? { from: latLng }
+							: couple.to
+							? { from: latLng }
+							: { ...couple, to: latLng }
+					)
 				}}
 			>
 				{data && (
 					<GeoJson
 						data={data}
 						styleCallback={(feature, hover) => {
-							if (feature.geometry.type === 'LineString') {
-								return { strokeWidth: '3', stroke: 'red' }
-							}
-							return {
-								fill: '#d4e6ec99',
-								strokeWidth: '1',
-								stroke: 'white',
-								r: '20',
-							}
+							return feature.properties
 						}}
 					/>
 				)}
