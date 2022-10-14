@@ -2,6 +2,8 @@ import { Map, Marker, GeoJson } from 'pigeon-maps'
 import { useEffect, useState } from 'react'
 import { maptiler } from 'pigeon-maps/providers'
 import { useParams } from 'react-router-dom'
+import distance from '@turf/distance'
+import point from 'turf-point'
 
 const provider = maptiler('1H6fEpmHR9xGnAYjulX3', 'toner')
 
@@ -52,10 +54,15 @@ export default () => {
 			})
 			.then((json) => {
 				const points = json.elements.slice(0, 10)
-				points.map((p, i) =>
-					points.map(
-						(p2, j) =>
+				points.map((p, i) => {
+					const point1 = point([p.lon, p.lat])
+
+					return points.map((p2, j) => {
+						const point2 = point([p2.lon, p2.lat]),
+							myDistance = distance(point1, point2)
+						return (
 							p2 !== p &&
+							myDistance > 10 &&
 							setTimeout(
 								() =>
 									console.log('go') ||
@@ -64,8 +71,9 @@ export default () => {
 									),
 								100 * (i + j)
 							)
-					)
-				)
+						)
+					})
+				})
 			})
 			.catch((error) => console.log('erreur dans la requête OSM', error))
 	}, [])
