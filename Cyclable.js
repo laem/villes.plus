@@ -26,23 +26,40 @@ const segmentGeoJSON = (geojson) => {
 
 	return {
 		type: 'FeatureCollection',
-		features: table.slice(0, -1).map((line, i) => ({
-			type: 'Feature',
-			properties: { strokeWidth: '10px', stroke: 'blue' },
-			geometry: {
-				type: 'LineString',
-				coordinates: [
-					getLineCoordinates(line),
-					getLineCoordinates(table[i + 1]),
-				],
-			},
-		})),
+		features: table
+			.slice(0, -1)
+			.map((line, i) => {
+				// What a mess, this is hacky
+				// TODO : the "messages" table contains way less segments than the LineString. They are grouped. We should reconstruct them as Brouter Web does
+				const lineBis = table[i + 1]
+				if (!lineBis) return
+
+				return {
+					type: 'Feature',
+					properties: {
+						tags: getLineTags(lineBis),
+						distance: lineBis[3],
+						elevation: lineBis[2],
+						strokeWidth: '4px',
+						stroke: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
+					},
+					geometry: {
+						type: 'LineString',
+						coordinates: [
+							getLineCoordinates(line),
+							getLineCoordinates(table[i + 1]),
+						],
+					},
+				}
+			})
+			.filter(Boolean),
 	}
 }
 export default () => {
 	const [couple, setCouple] = useState({ from: null, to: null })
 	console.log(couple)
 	const [data, setData] = useState(null) // use an empty array as initial value
+	const [clickedSegment, setClickedSegment] = useState()
 
 	useEffect(() => {
 		if (!(couple.to && couple.from)) return undefined
@@ -71,13 +88,15 @@ export default () => {
 				Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. Puis
 				recommencez :)
 			</p>
+			{clickedSegment && JSON.stringify(clickedSegment)}
 
 			<Map
-				height={'50vh'}
-				width={'50vw'}
+				height={'800px'}
+				width={'800px'}
 				defaultCenter={center}
 				defaultZoom={13}
 				onClick={({ event, latLng, pixel }) => {
+					console.log('click', event)
 					setCouple(
 						!couple.from
 							? { from: latLng }
@@ -89,6 +108,9 @@ export default () => {
 			>
 				{data && (
 					<GeoJson
+						onClick={({ event, anchor, payload }) => {
+							setClickedSegment(payload.properties)
+						}}
 						data={data}
 						styleCallback={(feature, hover) => {
 							return feature.properties
