@@ -10,7 +10,7 @@ const computeBikeDistance = (from, to) =>
 	fetch(
 		`https://brouter.de/brouter?lonlats=${from.reverse().join(',')}|${to
 			.reverse()
-			.join(',')}&profile=shortest&alternativeidx=0&format=geojson`
+			.join(',')}&profile=safety&alternativeidx=0&format=geojson`
 	)
 		.then((res) => res.json())
 		.catch((e) => console.log(e))
