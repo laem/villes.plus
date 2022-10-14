@@ -51,13 +51,18 @@ export default () => {
 				return res.json()
 			})
 			.then((json) => {
-				const points = json.elements.slice(0, 4)
-				points.map((p) =>
+				const points = json.elements.slice(0, 10)
+				points.map((p, i) =>
 					points.map(
-						(p2) =>
+						(p2, j) =>
 							p2 !== p &&
-							computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
-								(res) => setRides((rides) => [...rides, res])
+							setTimeout(
+								() =>
+									console.log('go') ||
+									computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
+										(res) => setRides((rides) => [...rides, res])
+									),
+								100 * (i + j)
 							)
 					)
 				)
@@ -98,7 +103,7 @@ export default () => {
 				height={'800px'}
 				width={'800px'}
 				defaultCenter={center}
-				defaultZoom={13}
+				defaultZoom={12}
 				onClick={({ event, latLng, pixel }) => {
 					console.log('click', event)
 					setCouple(
@@ -113,12 +118,14 @@ export default () => {
 				{couple.from && <Marker width={50} anchor={couple.from} />}
 				{couple.to && <Marker width={50} anchor={couple.to} />}
 				{rides.length > 0 &&
-					rides.map((ride) => (
-						<GeoJson
-							data={segmentGeoJSON(ride)}
-							styleCallback={myStyleCallback}
-						/>
-					))}
+					rides
+						.filter(Boolean)
+						.map((ride) => (
+							<GeoJson
+								data={segmentGeoJSON(ride)}
+								styleCallback={myStyleCallback}
+							/>
+						))}
 				{data && (
 					<GeoJson
 						onClick={({ event, anchor, payload }) => {
