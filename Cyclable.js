@@ -1,4 +1,4 @@
-import { Map, Overlay, Marker, GeoJson } from 'pigeon-maps'
+import { Map, Overlay, Marker, GeoJson, GeoJsonFeature } from 'pigeon-maps'
 import { useEffect, useMemo, useState } from 'react'
 import { maptiler } from 'pigeon-maps/providers'
 import { useParams } from 'react-router-dom'
@@ -164,24 +164,31 @@ export default () => {
 			>
 				{couple.from && <Marker width={50} anchor={couple.from} />}
 				{couple.to && <Marker width={50} anchor={couple.to} />}
-				{rides.length > 0 &&
-					rides
-						.filter(Boolean)
-						.map((ride) => (
-							<GeoJson
-								data={segmentGeoJSON(ride)}
-								styleCallback={myStyleCallback}
-							/>
-						))}
-				{data && (
-					<GeoJson
-						onClick={({ event, anchor, payload }) => {
-							setClickedSegment(payload.properties)
-						}}
-						data={data}
-						styleCallback={myStyleCallback}
-					/>
-				)}
+				<GeoJson>
+					{rides.length > 0 &&
+						rides
+							.slice(0, 8)
+							.filter(Boolean)
+							.map((ride) => segmentGeoJSON(ride))
+
+							.map((r) => r.features)
+							.flat()
+							.map((feature) => (
+								<GeoJsonFeature
+									feature={feature}
+									styleCallback={myStyleCallback}
+								/>
+							))}
+					{data && (
+						<GeoJsonFeature
+							onClick={({ event, anchor, payload }) => {
+								setClickedSegment(payload.properties)
+							}}
+							feature={data}
+							styleCallback={myStyleCallback}
+						/>
+					)}
+				</GeoJson>
 				{points.map(({ lon, lat }) => (
 					<Overlay anchor={[lat, lon]} offset={[15, 15]}>
 						<img
