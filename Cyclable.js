@@ -1,5 +1,9 @@
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
+import { GeoJSON } from 'react-leaflet/GeoJSON'
+import { Marker } from 'react-leaflet/Marker'
+import { Popup } from 'react-leaflet/Popup'
+import L from 'leaflet'
 
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -149,18 +153,48 @@ export default () => {
 			)}
 			{clickedSegment && JSON.stringify(clickedSegment)}
 			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}">
-				<MapContainer
-					center={
-						(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
-						defaultCenter
-					}
-					zoom={13}
-				>
-					<TileLayer
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
-						url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
-					/>
-				</MapContainer>
+				{!pointsCenter ? (
+					'Chargement des données'
+				) : (
+					<MapContainer
+						center={
+							(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
+							defaultCenter
+						}
+						zoom={13}
+					>
+						<TileLayer
+							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
+							url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
+						></TileLayer>
+
+						<GeoJSON
+							key={segments.length}
+							data={segments.slice(0, 1000)}
+							style={(feature) =>
+								feature.properties || {
+									color: '#4a83ec',
+									weight: 5,
+									fillColor: '#1a1d62',
+									fillOpacity: 1,
+								}
+							}
+						/>
+						{points.map((point) => (
+							<Marker
+								position={[point.lat, point.lon]}
+								icon={
+									new L.Icon({
+										iconUrl: 'https://openmoji.org/data/color/svg/E209.svg',
+										iconSize: [30, 30],
+									})
+								}
+							>
+								<Popup>{JSON.stringify({ id: point.id, ...point.tags })}</Popup>
+							</Marker>
+						))}
+					</MapContainer>
+				)}
 			</div>
 
 			{/*
@@ -278,8 +312,8 @@ const segmentGeoJSON = (geojson) => {
 						tags: getLineTags(lineBis),
 						distance: lineBis[3],
 						elevation: lineBis[2],
-						strokeWidth: '4px',
-						stroke: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
+						weight: '4',
+						color: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
 					},
 					geometry: {
 						type: 'LineString',
