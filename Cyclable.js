@@ -1,6 +1,7 @@
-import { Map, Overlay, Marker, GeoJson, GeoJsonFeature } from 'pigeon-maps'
+import { MapContainer } from 'react-leaflet/MapContainer'
+import { TileLayer } from 'react-leaflet/TileLayer'
+
 import { useEffect, useMemo, useState } from 'react'
-import { maptiler } from 'pigeon-maps/providers'
 import { useParams } from 'react-router-dom'
 import distance from '@turf/distance'
 import center from '@turf/center'
@@ -18,7 +19,7 @@ const createTurfPointCollection = (points) => ({
 	})),
 })
 
-const provider = maptiler('1H6fEpmHR9xGnAYjulX3', 'toner')
+const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 const request = (name) => `
@@ -147,63 +148,75 @@ export default () => {
 				</p>
 			)}
 			{clickedSegment && JSON.stringify(clickedSegment)}
+			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}">
+				<MapContainer
+					center={
+						(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
+						defaultCenter
+					}
+					zoom={13}
+				>
+					<TileLayer
+						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
+						url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
+					/>
+				</MapContainer>
+			</div>
 
-			<Map
-				provider={provider}
-				height={'800px'}
-				width={'800px'}
-				center={
-					(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
-					defaultCenter
-				}
-				defaultZoom={11}
-				onClick={({ event, latLng, pixel }) => {
-					setCouple(
-						!couple.from
-							? { from: latLng }
-							: couple.to
-							? { from: latLng }
-							: { ...couple, to: latLng }
-					)
-				}}
-			>
-				{couple.from && <Marker width={50} anchor={couple.from} />}
-				{couple.to && <Marker width={50} anchor={couple.to} />}
-				<GeoJson>
-					{rides.length > 0 &&
-						rides
-							.filter(Boolean)
-							.map((ride) => segmentGeoJSON(ride))
+			{/*
+				<Map
+					provider={provider}
+					height={'800px'}
+					width={'800px'}
+					defaultZoom={11}
+					onClick={({ event, latLng, pixel }) => {
+						setCouple(
+							!couple.from
+								? { from: latLng }
+								: couple.to
+								? { from: latLng }
+								: { ...couple, to: latLng }
+						)
+					}}
+				>
+					{couple.from && <Marker width={50} anchor={couple.from} />}
+					{couple.to && <Marker width={50} anchor={couple.to} />}
+					<GeoJson>
+						{rides.length > 0 &&
+							rides
+								.filter(Boolean)
+								.map((ride) => segmentGeoJSON(ride))
 
-							.map((r) => r.features)
-							.flat()
-							.map((feature) => (
-								<GeoJsonFeature
-									feature={feature}
-									styleCallback={myStyleCallback}
-								/>
-							))}
-					{data && (
-						<GeoJsonFeature
-							onClick={({ event, anchor, payload }) => {
-								setClickedSegment(payload.properties)
-							}}
-							feature={data}
-							styleCallback={myStyleCallback}
-						/>
-					)}
-				</GeoJson>
-				{points.map(({ lon, lat }) => (
-					<Overlay anchor={[lat, lon]} offset={[15, 15]}>
-						<img
-							src="https://openmoji.org/data/color/svg/E209.svg"
-							width={30}
-							height={30}
-							alt=""
-						/>
-					</Overlay>
-				))}
-			</Map>
+								.map((r) => r.features)
+								.flat()
+								.map((feature) => (
+									<GeoJsonFeature
+										feature={feature}
+										styleCallback={myStyleCallback}
+									/>
+								))}
+						{data && (
+							<GeoJsonFeature
+								onClick={({ event, anchor, payload }) => {
+									setClickedSegment(payload.properties)
+								}}
+								feature={data}
+								styleCallback={myStyleCallback}
+							/>
+						)}
+					</GeoJson>
+					{points.map(({ lon, lat }) => (
+						<Overlay anchor={[lat, lon]} offset={[15, 15]}>
+							<img
+								src="https://openmoji.org/data/color/svg/E209.svg"
+								width={30}
+								height={30}
+								alt=""
+							/>
+						</Overlay>
+					))}
+				</Map>
+	*/}
 		</div>
 	)
 }
