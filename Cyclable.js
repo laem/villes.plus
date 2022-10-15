@@ -266,6 +266,12 @@ const myStyleCallback = (feature, hover) => {
 
 const isSafePath = (tags) =>
 	tags.includes('highway=living_street') || tags.includes('highway=cycleway')
+//TODO should we include foot paths where bikes have a separated painted lane ? I'm not sure we should. It usually creates friction between bikes and pedestrians
+// maybe when it is segregated ? segregated footway and cycleway tagged on one way highway=path + bicycle=designated + foot=designated + segregated=yes
+// https://wiki.openstreetmap.org/wiki/Tag:bicycle%3Ddesignated
+//
+// https://www.openstreetmap.org/way/190390497
+// bicycle 	designated ?
 
 const computeBikeDistance = (from, to) =>
 	fetch(
