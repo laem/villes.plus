@@ -82,7 +82,7 @@ export default () => {
 						}
 						return element
 					})
-				//.slice(0, 6)
+					.slice(0, 10)
 
 				console.log({ points })
 				setPoints(points)
@@ -122,6 +122,11 @@ export default () => {
 		rides.length > 0 &&
 		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
 
+	const segments = rides
+		.map((ride) => segmentGeoJSON(ride))
+		.map((r) => r.features)
+		.flat()
+	console.log('segments', segments, segments.length)
 	return (
 		<div
 			css={`
@@ -167,7 +172,6 @@ export default () => {
 				<GeoJson>
 					{rides.length > 0 &&
 						rides
-							.slice(0, 8)
 							.filter(Boolean)
 							.map((ride) => segmentGeoJSON(ride))
 
