@@ -23,6 +23,8 @@ const createTurfPointCollection = (points) => ({
 	})),
 })
 
+const maxCityDistance = 10
+
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
@@ -87,7 +89,6 @@ export default () => {
 						}
 						return element
 					})
-					.slice(0, 10)
 
 				console.log({ points })
 				setPoints(points)
@@ -99,7 +100,7 @@ export default () => {
 							myDistance = distance(point1, point2)
 						return (
 							p2 !== p &&
-							myDistance < 10 && //TODO important parameter, document it
+							myDistance < maxCityDistance &&
 							setTimeout(
 								() =>
 									computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
@@ -142,7 +143,11 @@ export default () => {
 			<h1>Ma ville est-elle cyclable ?</h1>
 			<p>
 				Précisons : <em>vraiment</em> cyclable, donc avec des pistes cyclables
-				séparées ou des voies où le vélo est prioritaire sur les voitures.{' '}
+				séparées ou des voies où le vélo est prioritaire sur les voitures.
+				<p>
+					La méthode de test : on calcule le trajet vélo le plus sécurisé entre
+					les mairies des communes séparées de moins de 10km
+				</p>
 			</p>
 			<p>Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. </p>
 			<p>Puis recommencez :)</p>
@@ -152,7 +157,7 @@ export default () => {
 				</p>
 			)}
 			{clickedSegment && JSON.stringify(clickedSegment)}
-			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}">
+			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
 				{!pointsCenter ? (
 					'Chargement des données'
 				) : (
@@ -161,7 +166,7 @@ export default () => {
 							(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
 							defaultCenter
 						}
-						zoom={13}
+						zoom={12}
 					>
 						<TileLayer
 							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
@@ -170,7 +175,7 @@ export default () => {
 
 						<GeoJSON
 							key={segments.length}
-							data={segments.slice(0, 1000)}
+							data={segments}
 							style={(feature) =>
 								feature.properties || {
 									color: '#4a83ec',
@@ -312,7 +317,8 @@ const segmentGeoJSON = (geojson) => {
 						tags: getLineTags(lineBis),
 						distance: lineBis[3],
 						elevation: lineBis[2],
-						weight: '4',
+						weight: '3',
+						opacity: '.8',
 						color: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
 					},
 					geometry: {
