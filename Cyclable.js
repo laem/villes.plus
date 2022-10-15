@@ -1,13 +1,26 @@
-import { Map, Marker, GeoJson } from 'pigeon-maps'
-import { useEffect, useState } from 'react'
+import { Map, Overlay, Marker, GeoJson } from 'pigeon-maps'
+import { useEffect, useMemo, useState } from 'react'
 import { maptiler } from 'pigeon-maps/providers'
 import { useParams } from 'react-router-dom'
 import distance from '@turf/distance'
+import center from '@turf/center'
 import point from 'turf-point'
+
+const createTurfPointCollection = (points) => ({
+	type: 'FeatureCollection',
+	features: points.map((p) => ({
+		type: 'Feature',
+		properties: {},
+		geometry: {
+			type: 'Point',
+			coordinates: [p.lon, p.lat],
+		},
+	})),
+})
 
 const provider = maptiler('1H6fEpmHR9xGnAYjulX3', 'toner')
 
-const center = [48.10999850495452, -1.679193852233965]
+const defaultCenter = [48.10999850495452, -1.679193852233965]
 const request = (name) => `
 
 [out:json][timeout:25];
@@ -33,6 +46,7 @@ export default () => {
 	const [rawData, setData] = useState(null) // use an empty array as initial value
 	const [clickedSegment, setClickedSegment] = useState()
 	const [rides, setRides] = useState([])
+	const [points, setPoints] = useState([])
 
 	useEffect(() => {
 		if (!(couple.to && couple.from)) return undefined
@@ -53,7 +67,25 @@ export default () => {
 				return res.json()
 			})
 			.then((json) => {
-				const points = json.elements.slice(0, 10)
+				console.log('json', json)
+
+				const points = json.elements
+					.filter(
+						(element) => element.tags && element.tags['amenity'] === 'townhall'
+					)
+					.map((element) => {
+						if (element.type === 'way') {
+							const firstNode = json.elements.find(
+								(node) => node.id === element.nodes[0]
+							)
+							return { ...element, lat: firstNode.lat, lon: firstNode.lon }
+						}
+						return element
+					})
+				//.slice(0, 6)
+
+				console.log({ points })
+				setPoints(points)
 				points.map((p, i) => {
 					const point1 = point([p.lon, p.lat])
 
@@ -62,10 +94,9 @@ export default () => {
 							myDistance = distance(point1, point2)
 						return (
 							p2 !== p &&
-							myDistance > 10 &&
+							myDistance < 10 && //TODO important parameter, document it
 							setTimeout(
 								() =>
-									console.log('go') ||
 									computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
 										(res) => setRides((rides) => [...rides, res])
 									),
@@ -78,12 +109,18 @@ export default () => {
 			.catch((error) => console.log('erreur dans la requête OSM', error))
 	}, [])
 
-	console.log('O', rides)
+	const pointsCenter = useMemo(() => {
+		if (!points.length) return
+		const pointCollection = createTurfPointCollection(points)
+		console.log({ pointCollection })
+		return center(pointCollection)
+	}, [points])
+
 	const data = rawData && segmentGeoJSON(rawData)
 
-	const safePercentage = rawData && computeSafePercentage(getMessages(rawData))
-
-	console.log(couple)
+	const safePercentage =
+		rides.length > 0 &&
+		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
 
 	return (
 		<div
@@ -99,7 +136,7 @@ export default () => {
 			</p>
 			<p>Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. </p>
 			<p>Puis recommencez :)</p>
-			{data && (
+			{safePercentage && (
 				<p>
 					Ce trajet est <strong>sécurisé à {safePercentage}%</strong>.
 				</p>
@@ -110,10 +147,12 @@ export default () => {
 				provider={provider}
 				height={'800px'}
 				width={'800px'}
-				defaultCenter={center}
-				defaultZoom={12}
+				center={
+					(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
+					defaultCenter
+				}
+				defaultZoom={11}
 				onClick={({ event, latLng, pixel }) => {
-					console.log('click', event)
 					setCouple(
 						!couple.from
 							? { from: latLng }
@@ -143,6 +182,16 @@ export default () => {
 						styleCallback={myStyleCallback}
 					/>
 				)}
+				{points.map(({ lon, lat }) => (
+					<Overlay anchor={[lat, lon]} offset={[15, 15]}>
+						<img
+							src="https://openmoji.org/data/color/svg/E209.svg"
+							width={30}
+							height={30}
+							alt=""
+						/>
+					</Overlay>
+				))}
 			</Map>
 		</div>
 	)
@@ -174,12 +223,10 @@ const computeSafePercentage = (messages) => {
 		(memo, next) => {
 			const safe = isSafePath(next[9]),
 				distance = next[3]
-			console.log(next[9], distance)
 			return [memo[0] + (safe ? +distance : 0), memo[1] + +distance]
 		},
 		[0, 0]
 	)
-	console.log('safe', safeDistance)
 
 	return Math.round((safeDistance / total) * 100)
 }
