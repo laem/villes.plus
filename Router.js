@@ -41,15 +41,21 @@ export default function App() {
 			>
 				<div css="flex-grow: 1; > a {text-decoration: none}">
 					<Routes>
-						<Route path="/piétonnes" element={<Classement />} />
+						<Route
+							path={`/${encodeURIComponent(`piétonnes`)}`}
+							element={<Classement />}
+						/>
 						<Route path="/cyclables" element={<Cyclable />} />
 						<Route path="/cyclables/:ville" element={<Cyclable />} />
 						<Route path="/explications" element={<Explications />} />
 						<Route
-							path="/:ville"
+							path={`/${encodeURIComponent(`piétonnes`)}/:ville`}
 							element={<Ville {...{ exceptions, toggleException }} />}
 						/>
-						<Route path="/" element={<Navigate to="/piétonnes" />} />
+						<Route
+							path="/"
+							element={<Navigate to={`/${encodeURIComponent('piétonnes')}`} />}
+						/>
 					</Routes>
 				</div>
 				<Nav />

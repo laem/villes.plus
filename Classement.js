@@ -18,7 +18,7 @@ export function Classement() {
 
 	useEffect(() => {
 		let promises = villesList.map((ville) =>
-			fetch(APIUrl + 'meta/' + ville).then((yo) => yo.json())
+			fetch(APIUrl + 'api/meta/' + ville).then((yo) => yo.json())
 		)
 		Promise.all(promises).then((data) => {
 			let villes2 = data.reduce(
@@ -100,7 +100,7 @@ export function Classement() {
 							.map(([ville, data], i) => {
 								return (
 									<li key={ville}>
-										<Link to={'/' + ville}>
+										<Link to={encodeURI('/piétonnes/' + ville)}>
 											<span css="width: 1.5rem; text-align: center">
 												{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
 											</span>
