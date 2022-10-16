@@ -1,5 +1,4 @@
 import express from 'express'
-
 import { compute } from './geoStudio.js'
 import cors from 'cors'
 import fs from 'fs'
@@ -8,6 +7,39 @@ import compression from 'compression'
 import villes from './villesClassées'
 import fetchExceptions from './fetchExceptions'
 import apicache from 'apicache'
+import AWS from 'aws-sdk'
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+
+const BUCKET_NAME = process.env.BUCKET_NAME
+const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
+const ID = process.env.ACCESS_KEY_ID
+const SECRET = process.env.ACCESS_KEY
+
+// Create S3 service object
+const s3 = new AWS.S3({
+	endpoint: S3_ENDPOINT_URL,
+	credentials: {
+		accessKeyId: ID,
+		secretAccessKey: SECRET,
+	},
+})
+
+const params = {
+	Bucket: BUCKET_NAME,
+	Key: 'yo.txt',
+}
+
+const testStorage = async () => {
+	const data = await s3.getObject(params).promise()
+
+	console.log(
+		`Successfully read test file from ${BUCKET_NAME}`,
+		`<<${data.Body.toString('utf-8')}>>`
+	)
+}
+
+testStorage()
 
 const cacheDir = __dirname + '/cache'
 
