@@ -25,13 +25,13 @@ const s3 = new AWS.S3({
 	},
 })
 
-const params = {
-	Bucket: BUCKET_NAME,
-	Key: 'yo.txt',
-}
-
 const testStorage = async () => {
-	const data = await s3.getObject(params).promise()
+	const data = await s3
+		.getObject({
+			Bucket: BUCKET_NAME,
+			Key: 'yo.txt',
+		})
+		.promise()
 
 	console.log(
 		`Successfully read test file from ${BUCKET_NAME}`,
@@ -146,49 +146,54 @@ const scopes = [
 	],
 ]
 
-const readFile = (ville, scope, res) => {
-	let fileName = path.join(cacheDir, ville)
-	fs.readFile(
-		`${fileName}.${scope}.json`,
-		{ encoding: 'utf-8' },
-		function (err, json) {
-			if (json === 'unknown city') return resUnknownCity(res, ville)
-			if (!err) {
-				console.log('les meta sont déjà là pour ' + ville)
+const getDirectory = () =>
+	new Date()
+		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
+		.replace('/', '-')
 
-				let data = JSON.parse(json)
-				res && res.json(data)
-			} else {
-				computeAndCacheCity(ville, scope, res)
-			}
-		}
-	)
+const readFile = async (ville, scope, res) => {
+	try {
+		const file = await s3
+			.getObject({
+				Bucket: BUCKET_NAME,
+				Key: `${getDirectory()}/${ville}.${scope}.json`,
+			})
+			.promise()
+
+		const content = file.Body.toString('utf-8')
+		console.log('les meta sont déjà là pour ' + ville)
+
+		let data = JSON.parse(content)
+		res && res.json(data)
+	} catch (e) {
+		computeAndCacheCity(ville, scope, res)
+	}
 }
-const computeAndCacheCity = (ville, returnScope, res) => {
-	let fileName = path.join(cacheDir, ville)
+const computeAndCacheCity = async (ville, returnScope, res) => {
 	console.log('ville pas encore connue : ', ville)
 	fetchExceptions().then((exceptions) =>
 		compute(ville, exceptions)
 			.then(({ geoAPI, ...data }) => {
-				scopes.map(([scope, selector]) => {
+				scopes.map(async ([scope, selector]) => {
 					const string = JSON.stringify(selector(data, geoAPI))
-					fs.writeFile(`${fileName}.${scope}.json`, string, function (err) {
-						if (err) {
-							console.log(err) || (res && res.status(400).end())
-						}
-						console.log('Fichier écrit :', ville, scope)
 
+					try {
+						const file = await s3
+							.upload({
+								Bucket: BUCKET_NAME,
+								Key: `${getDirectory()}/${ville}.${scope}.json`,
+								Body: string,
+							})
+							.promise()
+
+						console.log('Fichier écrit :', ville, scope)
 						if (returnScope === scope) res && res.json(JSON.parse(string))
-					})
+					} catch (err) {
+						console.log(err) || (res && res.status(400).end())
+					}
 				})
 			})
-			.catch(
-				(e) =>
-					console.log(e) ||
-					fs.writeFile(fileName, 'unknown city', (err) =>
-						resUnknownCity(res, ville)
-					)
-			)
+			.catch((e) => console.log(e))
 	)
 }
 
@@ -197,7 +202,7 @@ let resUnknownCity = (res, ville) =>
 	res.status(404).send('Ville inconnue <br/> Unknown city').end() &&
 	console.log('Unknown city : ' + ville)
 
-app.get('/api/:scope/:ville', function (req, res) {
+app.get('/api/:scope/:ville', cache('1 day'), function (req, res) {
 	const { ville, scope } = req.params
 	console.log('api: ', ville, scope)
 	readFile(ville, scope, res)
