@@ -146,7 +146,7 @@ const computeAndCacheCity = (ville, returnScope, res) => {
 						}
 						console.log('Fichier écrit :', ville, scope)
 
-						if (returnScope === scope) res && res.json(string)
+						if (returnScope === scope) res && res.json(JSON.parse(string))
 					})
 				})
 			})

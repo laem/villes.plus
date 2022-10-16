@@ -14,20 +14,21 @@ export const normalizedScores = (data) => {
 }
 
 export function Classement() {
-	let [villes, setVilles] = useState({})
+	const [villes, setVilles] = useState(
+		Object.fromEntries(villesList.map((key) => [key, null]))
+	)
 
 	useEffect(() => {
-		let promises = villesList.map((ville) =>
+		const promises = villesList.map((ville) =>
 			fetch(APIUrl + 'api/meta/' + ville).then((yo) => yo.json())
 		)
-		Promise.all(promises).then((data) => {
-			let villes2 = data.reduce(
-				(memo, next, i) => ({ ...memo, [villesList[i]]: next }),
-				{}
-			)
-			setVilles(villes2)
-		})
+		promises.map((promise, i) =>
+			promise.then((data) => {
+				setVilles((villes) => ({ ...villes, [villesList[i]]: data }))
+			})
+		)
 	}, [])
+
 	let villesEntries = Object.entries(villes)
 
 	return (
@@ -92,11 +93,11 @@ export function Classement() {
 					<ol>
 						{villesEntries
 							.map(([ville, data]) => {
-								if (!data || !data.geoAPI) return false
+								if (!data || !data.geoAPI)
+									return [ville, { percentage: -Infinity }]
 								return [ville, { ...data, ...normalizedScores(data) }]
 							})
-							.filter(Boolean)
-							.sort(([, { percentage: a1 }], [, { percentage: a2 }]) => a2 - a1)
+							.sort(([, v1], [, v2]) => v2.percentage - v1.percentage)
 							.map(([ville, data], i) => {
 								return (
 									<li key={ville}>
@@ -107,15 +108,19 @@ export function Classement() {
 											<div css="width: 8rem">{ville}</div>
 											<div css="width: 4rem;text-align: center">
 												<span css="font-weight: 600">
-													{data.percentage.toFixed(0)}
+													{data.percentage < 0
+														? '⏳️'
+														: data.percentage.toFixed(0)}
 												</span>
 												<small> %</small>
 											</div>
 											<div css="width: 8rem; text-align: left">
-												<span css="font-size: 80%; color: #1e3799">
-													{data.pedestrianArea.toFixed(1)} sur{' '}
-													{data.relativeArea.toFixed(1)} km²
-												</span>
+												{data.pedestrianArea && data.relativeArea && (
+													<span css="font-size: 80%; color: #1e3799">
+														{data.pedestrianArea.toFixed(1)} sur{' '}
+														{data.relativeArea.toFixed(1)} km²
+													</span>
+												)}
 
 												{/* 			{data.meanStreetWidth +
 													' | ' +
