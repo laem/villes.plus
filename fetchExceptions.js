@@ -1,4 +1,5 @@
-const branch = process.env.BRANCH || process.env.HEROKU_BRANCH
+// I don't why this was deactivated. TODO
+//const branch = process.env.BRANCH || process.env.HEROKU_BRANCH
 
 export default () => {
 	return Promise.resolve({})

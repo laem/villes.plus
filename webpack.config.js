@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const isDevelopment = process.env.NODE_ENV !== 'production'
-const branch = process.env.BRANCH
 const webpack = require('webpack')
 
 module.exports = {
@@ -57,6 +56,5 @@ module.exports = {
 			title: 'Piétonnes',
 			template: 'index.html',
 		}),
-		new webpack.EnvironmentPlugin(['BRANCH']),
 	].filter(Boolean),
 }
