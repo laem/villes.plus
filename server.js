@@ -42,6 +42,38 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 		)
 })
 
+const request = (name) => `
+
+[out:json][timeout:25];
+( area[name="${name}"]; )->.searchArea;
+(
+  node["amenity"="townhall"](area.searchArea);
+  way["amenity"="townhall"](area.searchArea);
+
+   	
+ 
+);
+// print results
+out body;
+>;
+out skel qt;
+`
+const OverpassInstance = 'https://overpass-api.de/api/interpreter'
+
+app.get('/points/:city', cache('1 day'), (req, res) => {
+	const { city } = req.params
+	const myRequest = `${OverpassInstance}?data=${request(city)}`
+	fetch(encodeURI(myRequest))
+		.then((response) => {
+			console.log('did fetch from overpass', city)
+			return response.json()
+		})
+		.then((json) =>
+			// do some work... this will only occur once per 5 minutes
+			res.json(json)
+		)
+})
+
 const scopes = [
 	[
 		'meta', // get data only for the front page, lightweight request

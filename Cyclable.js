@@ -29,23 +29,6 @@ const maxCityDistance = 10
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
-const request = (name) => `
-
-[out:json][timeout:25];
-( area[name="${name}"]; )->.searchArea;
-(
-  node["amenity"="townhall"](area.searchArea);
-  way["amenity"="townhall"](area.searchArea);
-
-   	
- 
-);
-// print results
-out body;
->;
-out skel qt;
-`
-const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
 export default () => {
 	const { ville } = useParams()
@@ -65,9 +48,8 @@ export default () => {
 
 	useEffect(() => {
 		if (!ville) return
-		const myRequest = `${OverpassInstance}?data=${request(ville)}`
 
-		fetch(encodeURI(myRequest))
+		fetch(APIUrl + `points/${ville}`)
 			.then((res) => {
 				if (!res.ok) {
 					throw res
