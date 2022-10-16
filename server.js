@@ -27,7 +27,7 @@ const cache = apicache.options({
 	debug: true,
 }).middleware
 
-app.get('/bikeRouter/:query', cache('5 minutes'), (req, res) => {
+app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
 	fetch(
 		`https://brouter.de/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
