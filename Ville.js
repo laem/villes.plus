@@ -14,20 +14,20 @@ import { normalizedScores } from './Classement'
 
 const Map = ReactMapboxGl({
 	accessToken:
-		'pk.eyJ1Ijoia29udCIsImEiOiJjanRqMmp1OGsxZGFpNGFycnhjamR4b3ZmIn0.GRfAPvtZBKvOdpVYgfpGXg'
+		'pk.eyJ1Ijoia29udCIsImEiOiJjanRqMmp1OGsxZGFpNGFycnhjamR4b3ZmIn0.GRfAPvtZBKvOdpVYgfpGXg',
 })
 
 const cacheDisabled = true
 
 let get = (ville, setData, debug = false) =>
-	fetch(APIUrl((debug ? 'complete/' : 'merged/') + ville))
-		.then(res => res.json())
-		.then(json => {
+	fetch(APIUrl + (debug ? 'complete/' : 'merged/') + ville)
+		.then((res) => res.json())
+		.then((json) => {
 			localforage.setItem(ville, json)
 			setData(json)
 		})
 let getCached = (ville, setData, setRequesting) =>
-	localforage.getItem(ville).then(value => {
+	localforage.getItem(ville).then((value) => {
 		if (value === 'requesting') return
 		if (!value) {
 			setRequesting(true)
@@ -87,7 +87,7 @@ export default ({ exceptions, toggleException }) => {
 							ville,
 							toggleException,
 							debugData,
-							villeExceptions
+							villeExceptions,
 						}}
 					/>
 				)}
@@ -104,7 +104,7 @@ export default ({ exceptions, toggleException }) => {
 						zoom={[12]}
 						containerStyle={{
 							height: '100vh',
-							width: '100vw'
+							width: '100vw',
 						}}
 						center={
 							data.geoAPI?.centre?.coordinates ||
@@ -122,8 +122,8 @@ export default ({ exceptions, toggleException }) => {
 									'line-color': {
 										satellite: 'white',
 										artistique: grey,
-										carte: blue
-									}[style]
+										carte: blue,
+									}[style],
 								}}
 							>
 								<Feature
@@ -138,9 +138,9 @@ export default ({ exceptions, toggleException }) => {
 									'fill-color': {
 										satellite: 'chartreuse',
 										artistique: grey,
-										carte: blue
+										carte: blue,
 									}[style],
-									'fill-opacity': style === 'carte' ? 0.65 : 0.75
+									'fill-opacity': style === 'carte' ? 0.65 : 0.75,
 								}}
 							/>
 						)}
@@ -155,9 +155,8 @@ export default ({ exceptions, toggleException }) => {
 }
 
 const Scores = ({ data }) => {
-	const { pedestrianArea, area, percentage, relativeArea } = normalizedScores(
-		data
-	)
+	const { pedestrianArea, area, percentage, relativeArea } =
+		normalizedScores(data)
 	return (
 		<div id="scores" title={`Surface complète, parcs compris : ${area}`}>
 			{pedestrianArea.toFixed(1)} km² piétons sur {relativeArea.toFixed(1)} km²,

@@ -4,7 +4,7 @@ import APIUrl from './APIUrl'
 import Logo from './Logo'
 import villesList from './villesClassées'
 
-export const normalizedScores = data => {
+export const normalizedScores = (data) => {
 	const million = 1000 * 1000
 	const pedestrianArea = data.pedestrianArea / million,
 		relativeArea = data.relativeArea / million,
@@ -17,10 +17,10 @@ export function Classement() {
 	let [villes, setVilles] = useState({})
 
 	useEffect(() => {
-		let promises = villesList.map(ville =>
-			fetch(APIUrl('meta/' + ville)).then(yo => yo.json())
+		let promises = villesList.map((ville) =>
+			fetch(APIUrl + 'meta/' + ville).then((yo) => yo.json())
 		)
-		Promise.all(promises).then(data => {
+		Promise.all(promises).then((data) => {
 			let villes2 = data.reduce(
 				(memo, next, i) => ({ ...memo, [villesList[i]]: next }),
 				{}

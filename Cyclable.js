@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import distance from '@turf/distance'
 import center from '@turf/center'
 import point from 'turf-point'
+import APIUrl from './APIUrl'
 
 const createTurfPointCollection = (points) => ({
 	type: 'FeatureCollection',
@@ -273,12 +274,10 @@ const isSafePath = (tags) =>
 // https://www.openstreetmap.org/way/190390497
 // bicycle 	designated ?
 
+const createBikeRouterQuery = (from, to) =>
+	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
 const computeBikeDistance = (from, to) =>
-	fetch(
-		`https://brouter.de/brouter?lonlats=${from.reverse().join(',')}|${to
-			.reverse()
-			.join(',')}&profile=safety&alternativeidx=0&format=geojson`
-	)
+	fetch(APIUrl + `bikeRouter/${createBikeRouterQuery(from, to)}`)
 		.then((res) => res.json())
 		.catch((e) => console.log(e))
 

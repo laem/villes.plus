@@ -7,6 +7,7 @@ import path from 'path'
 import compression from 'compression'
 import villes from './villesClassées'
 import fetchExceptions from './fetchExceptions'
+import apicache from 'apicache'
 
 const cacheDir = __dirname + '/cache'
 
@@ -19,6 +20,27 @@ app.use(cors())
 app.use(compression())
 
 app.use(express.static(__dirname))
+const cache = apicache.options({
+	headers: {
+		'cache-control': 'no-cache',
+	},
+	debug: true,
+}).middleware
+
+app.get('/bikeRouter/:query', cache('5 minutes'), (req, res) => {
+	const { query } = req.params
+	fetch(
+		`https://brouter.de/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
+	)
+		.then((response) => {
+			console.log('did fetch from brouter', query)
+			return response.json()
+		})
+		.then((json) =>
+			// do some work... this will only occur once per 5 minutes
+			res.json(json)
+		)
+})
 
 const scopes = [
 	[
