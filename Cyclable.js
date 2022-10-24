@@ -24,7 +24,8 @@ const createTurfPointCollection = (points) => ({
 	})),
 })
 
-const maxCityDistance = 10
+const maxCityDistance = 20 // was used previously, but I think the next threshold is better
+const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -78,21 +79,27 @@ export default () => {
 				points.map((p, i) => {
 					const point1 = point([p.lon, p.lat])
 
-					return points.map((p2, j) => {
-						const point2 = point([p2.lon, p2.lat]),
-							myDistance = distance(point1, point2)
-						return (
-							p2 !== p &&
-							myDistance < maxCityDistance &&
-							setTimeout(
-								() =>
-									computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
-										(res) => setRides((rides) => [...rides, res])
-									),
-								100 * (i + j)
-							)
+					const sorted = points
+						.filter((p2) => p != p2)
+						.sort(
+							(pa, pb) =>
+								distance(point([pa.lon, pa.lat]), point1) -
+								distance(point([pb.lon, pb.lat]), point1)
 						)
-					})
+					const firstX = sorted.slice(0, nearestPointsLimit)
+
+					firstX.map((el) => console.log('plop'))
+
+					return
+					firstX.map((p2, j) =>
+						setTimeout(
+							() =>
+								computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
+									(res) => setRides((rides) => [...rides, res])
+								),
+							100 * (i + j)
+						)
+					)
 				})
 			})
 			.catch((error) => console.log('erreur dans la requête OSM', error))
@@ -139,7 +146,7 @@ export default () => {
 					Ce trajet est <strong>sécurisé à {safePercentage}%</strong>.
 				</p>
 			)}
-			{clickedSegment && JSON.stringify(clickedSegment)}
+			{clickedSegment && JSON.stringify(clickedSegment.properties)}
 			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
 				{!pointsCenter ? (
 					'Chargement des données'
@@ -159,14 +166,20 @@ export default () => {
 						<GeoJSON
 							key={segments.length}
 							data={segments}
-							style={(feature) =>
-								feature.properties || {
+							eventHandlers={{
+								mouseover: (e) => {
+									setClickedSegment(e.sourceTarget.feature)
+								},
+							}}
+							style={(feature) => ({
+								...(feature.properties || {
 									color: '#4a83ec',
 									weight: 5,
 									fillColor: '#1a1d62',
 									fillOpacity: 1,
-								}
-							}
+								}),
+								...(clickedSegment === feature ? { color: 'chartreuse' } : {}),
+							})}
 						/>
 						{points.map((point) => (
 							<Marker
