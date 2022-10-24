@@ -27,7 +27,7 @@ const createTurfPointCollection = (points) => ({
 })
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
-const nearestPointsLimit = 3 // 4 is a symbolic number : think of a compass
+const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
