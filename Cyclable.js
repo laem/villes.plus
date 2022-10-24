@@ -160,7 +160,6 @@ export default () => {
 					Ce trajet est <strong>sécurisé à {safePercentage}%</strong>.
 				</p>
 			)}
-			{clickedSegment && JSON.stringify(clickedSegment.properties)}
 			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
 				{!pointsCenter ? (
 					'Chargement des données'
@@ -211,6 +210,7 @@ export default () => {
 					</MapContainer>
 				)}
 			</div>
+			{clickedSegment && JSON.stringify(clickedSegment.properties)}
 
 			{/*
 				<Map
