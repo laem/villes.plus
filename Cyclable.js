@@ -25,7 +25,7 @@ const createTurfPointCollection = (points) => ({
 })
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
-const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass
+const nearestPointsLimit = 1 // 4 is a symbolic number : think of a compass
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -71,6 +71,15 @@ export default () => {
 							)
 							return { ...element, lat: firstNode.lat, lon: firstNode.lon }
 						}
+						if (element.type === 'relation') {
+							const firstRef = json.elements.find(
+								(node) => node.id === element.members[0].ref
+							)
+							const firstNode = json.elements.find(
+								(node) => node.id === firstRef.nodes[0]
+							)
+							return { ...element, lat: firstNode.lat, lon: firstNode.lon }
+						}
 						return element
 					})
 
@@ -88,9 +97,6 @@ export default () => {
 						)
 					const firstX = sorted.slice(0, nearestPointsLimit)
 
-					firstX.map((el) => console.log('plop'))
-
-					return
 					firstX.map((p2, j) =>
 						setTimeout(
 							() =>

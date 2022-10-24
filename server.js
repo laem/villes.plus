@@ -81,9 +81,7 @@ const request = (name) => `
 (
   node["amenity"="townhall"](area.searchArea);
   way["amenity"="townhall"](area.searchArea);
-
-   	
- 
+  relation["amenity"="townhall"](area.searchArea);
 );
 // print results
 out body;
