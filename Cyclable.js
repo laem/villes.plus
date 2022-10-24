@@ -91,7 +91,7 @@ export default () => {
 						point([p.lon, p.lat])
 					)
 				)
-				console.log({ points })
+				console.log({ worldPoints, points })
 				setPoints(points)
 				points.map((p, i) => {
 					const point1 = point([p.lon, p.lat])
@@ -354,8 +354,9 @@ const segmentGeoJSON = (geojson) => {
 // Hack, breaks Corsica and Outre mer :/
 // (bikes don't exist in Corsica anyway yet)
 const metropolitanFrance = [
-	[3.117332261403533, 42.310950518868566],
-	[8.62616012109811, 48.98439932416892],
-	[2.6058486182378147, 51.30150608949904],
 	[-5.353852828534542, 48.42923941831151],
+	[2.5964340170922924, 51.97021507483498],
+	[8.734619911467632, 49.03027507341659],
+	[10.345413967223578, 41.03091304244174],
+	[-2.447427130244762, 42.92290589918966],
 ]
