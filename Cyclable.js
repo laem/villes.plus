@@ -10,7 +10,9 @@ import { useParams } from 'react-router-dom'
 import distance from '@turf/distance'
 import center from '@turf/center'
 import point from 'turf-point'
+import { polygon } from '@turf/helpers'
 import APIUrl from './APIUrl'
+import booleanContains from '@turf/boolean-contains'
 
 const createTurfPointCollection = (points) => ({
 	type: 'FeatureCollection',
@@ -25,7 +27,7 @@ const createTurfPointCollection = (points) => ({
 })
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
-const nearestPointsLimit = 1 // 4 is a symbolic number : think of a compass
+const nearestPointsLimit = 3 // 4 is a symbolic number : think of a compass
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -60,7 +62,7 @@ export default () => {
 			.then((json) => {
 				console.log('json', json)
 
-				const points = json.elements
+				const worldPoints = json.elements
 					.filter(
 						(element) => element.tags && element.tags['amenity'] === 'townhall'
 					)
@@ -83,6 +85,12 @@ export default () => {
 						return element
 					})
 
+				const points = worldPoints.filter((p) =>
+					booleanContains(
+						polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
+						point([p.lon, p.lat])
+					)
+				)
 				console.log({ points })
 				setPoints(points)
 				points.map((p, i) => {
@@ -339,3 +347,13 @@ const segmentGeoJSON = (geojson) => {
 			.filter(Boolean),
 	}
 }
+
+// the Paris query can return points in the united states ! Hence we test the containment.
+// Hack, breaks Corsica and Outre mer :/
+// (bikes don't exist in Corsica anyway yet)
+const metropolitanFrance = [
+	[3.117332261403533, 42.310950518868566],
+	[8.62616012109811, 48.98439932416892],
+	[2.6058486182378147, 51.30150608949904],
+	[-5.353852828534542, 48.42923941831151],
+]
