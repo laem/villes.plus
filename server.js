@@ -92,7 +92,9 @@ const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
 app.get('/points/:city', cache('1 day'), (req, res) => {
 	const { city } = req.params
-	const myRequest = `${OverpassInstance}?data=${request(city)}`
+	const myRequest = `${OverpassInstance}?data=${request(
+		decodeURIComponent(city)
+	)}`
 	fetch(encodeURI(myRequest))
 		.then((response) => {
 			console.log('did fetch from overpass', city)

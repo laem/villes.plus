@@ -52,7 +52,7 @@ export default () => {
 	useEffect(() => {
 		if (!ville) return
 
-		fetch(APIUrl + `points/${ville}`)
+		fetch(APIUrl + `points/${encodeURIComponent(ville)}`)
 			.then((res) => {
 				if (!res.ok) {
 					throw res
@@ -144,14 +144,16 @@ export default () => {
 				margin: 0 auto;
 			`}
 		>
-			<h1>Ma ville est-elle cyclable ?</h1>
+			<h1>Ma métropole (ou communauté de communes) est-elle cyclable ?</h1>
 			<p>
 				Précisons : <em>vraiment</em> cyclable, donc avec des pistes cyclables
 				séparées ou des voies où le vélo est prioritaire sur les voitures.
-				<p>
-					La méthode de test : on calcule le trajet vélo le plus sécurisé entre
-					les mairies des communes séparées de moins de 10km
-				</p>
+			</p>
+			<p>
+				La méthode de test : on calcule le trajet vélo le plus sécurisé entre
+				les mairies des communes de la métropole. Attention : pour des raisons
+				de performance, pour chaque mairie, seul les trajets vers les 4 mairies
+				adjacentes sont testés.
 			</p>
 			<p>Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. </p>
 			<p>Puis recommencez :)</p>
