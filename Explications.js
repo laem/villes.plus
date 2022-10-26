@@ -43,7 +43,9 @@ export default () => (
 		</p>
 		<p>
 			Attention : pour des raisons de performance, pour chaque mairie, seul les
-			trajets vers les 4 mairies adjacentes sont testés.
+			trajets vers les 4 mairies adjacentes sont testés. La sensibilité à ce
+			paramètre n'a pas été testé. Il serait bon de le faire, et de l'augmenter
+			à 5 ou 6 si c'est raisonnable en termes de combinatoire.
 		</p>
 		<h2>Classement des villes piétonnes</h2>
 		<h3>Qu'est-ce qu'une zone piétonne ? </h3>
