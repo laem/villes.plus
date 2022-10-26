@@ -9,10 +9,17 @@ export default ({ animate, text, color, cyclable, noLink }) => {
 		setTimeout(() => walk(true), 3000)
 	}, [])
 	const goodEmoji = cyclable ? '🚴' : '🚶'
+	const firstEmoji = cyclable ? '🚳' : '🧍'
 	const human =
 		Math.random() > 0.5
-			? { walking: goodEmoji + '‍♀️', standing: '🧍‍♀️' }
-			: { walking: goodEmoji + '‍♂️', standing: '🧍‍♂️' }
+			? {
+					walking: goodEmoji + '‍♀️',
+					standing: firstEmoji + (!cyclable ? '‍♀️' : ''),
+			  }
+			: {
+					walking: goodEmoji + '‍♂️',
+					standing: firstEmoji + (!cyclable ? '‍♂️' : ''),
+			  }
 	const emoji = human[walking ? 'walking' : 'standing']
 
 	const black = !walking ? '#000' : 'none',

@@ -145,7 +145,7 @@ export function Classement({ cyclable }) {
 											</span>
 											<div
 												css={`
-													width: ${cyclable ? '16rem' : '8rem'};
+													width: ${cyclable ? '21rem' : '8rem'};
 												`}
 											>
 												{ville}
