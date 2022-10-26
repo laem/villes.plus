@@ -4,7 +4,7 @@ import APIUrl from './APIUrl'
 import Logo from './Logo'
 import villesListFull from './villesClassées'
 
-const villesListDouble = [villesListFull[0]]
+const villesListDouble = villesListFull
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
