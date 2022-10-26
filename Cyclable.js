@@ -38,7 +38,7 @@ export default () => {
 			//setData(res) // set the state
 		})
 	}, [couple])
-	if (!data) return <p>Chargement...</p>
+	if (!data) return <p css="text-align: center">Chargement...</p>
 	const { segments, points, pointsCenter, score } = data
 
 	console.log('segments', segments, segments.length)
