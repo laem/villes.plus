@@ -45,7 +45,7 @@ export default function App() {
 							path={`/${encodeURIComponent(`piétonnes`)}`}
 							element={<Classement />}
 						/>
-						<Route path="/cyclables" element={<Cyclable />} />
+						<Route path="/cyclables" element={<Classement cyclable />} />
 						<Route path="/cyclables/:ville" element={<Cyclable />} />
 						<Route path="/explications" element={<Explications />} />
 						<Route

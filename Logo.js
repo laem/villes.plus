@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export default ({ animate, text, color }) => {
+export default ({ animate, text, color, cyclable }) => {
 	const blue = '#1e3799'
 
 	const [walking, walk] = useState(animate ? false : true)
 	useEffect(() => {
 		setTimeout(() => walk(true), 3000)
 	}, [])
+	const goodEmoji = cyclable ? '🚴' : '🚶'
 	const human =
 		Math.random() > 0.5
-			? { walking: '🚶‍♀️', standing: '🧍‍♀️' }
-			: { walking: '🚶‍♂️', standing: '🧍‍♂️' }
+			? { walking: goodEmoji + '‍♀️', standing: '🧍‍♀️' }
+			: { walking: goodEmoji + '‍♂️', standing: '🧍‍♂️' }
 	const emoji = human[walking ? 'walking' : 'standing']
 
 	const black = !walking ? '#000' : 'none',

@@ -13,7 +13,7 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement() {
+export function Classement({ cyclable }) {
 	const [villes, setVilles] = useState(
 		Object.fromEntries(villesList.map((key) => [key, null]))
 	)
@@ -33,7 +33,7 @@ export function Classement() {
 
 	return (
 		<>
-			<Logo animate />
+			<Logo animate cyclable />
 			<div
 				css={`
 					max-width: 45rem;
@@ -83,7 +83,10 @@ export function Classement() {
 					}
 				`}
 			>
-				<h2>Quelles grandes villes françaises sont les plus piétonnes ?</h2>
+				<h2>
+					Quelles grandes villes françaises sont les plus{' '}
+					{cyclable ? 'cyclables' : 'piétonnes'} ?
+				</h2>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
 						Chargement en cours ⏳
