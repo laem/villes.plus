@@ -10,6 +10,7 @@ import apicache from 'apicache'
 import AWS from 'aws-sdk'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
+import computeCycling from './computeCycling'
 
 const BUCKET_NAME = process.env.BUCKET_NAME
 const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
@@ -106,57 +107,87 @@ app.get('/points/:city', cache('1 day'), (req, res) => {
 		)
 })
 
-const scopes = [
-	[
-		'meta', // get data only for the front page, lightweight request
-		(
-			{ pedestrianArea, relativeArea, meanStreetWidth, streetsWithWidthCount },
-			geoAPI
-		) => ({
-			pedestrianArea,
-			relativeArea,
-			meanStreetWidth,
-			streetsWithWidthCount,
-			geoAPI,
-		}),
+const scopes = {
+	cycling: [
+		[
+			'meta', // get data only for the front page, lightweight request
+			({ score }) => ({
+				score,
+			}),
+		],
+		[
+			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
+			({ points, segments, score }) => ({
+				points,
+				segments,
+				score,
+			}),
+		],
+		[
+			'complete', // not implemented yet
+			({}) => ({}),
+		],
 	],
-	[
-		'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-		(
-			{
-				mergedPolygons,
+
+	walking: [
+		[
+			'meta', // get data only for the front page, lightweight request
+			(
+				{
+					pedestrianArea,
+					relativeArea,
+					meanStreetWidth,
+					streetsWithWidthCount,
+				},
+				geoAPI
+			) => ({
 				pedestrianArea,
 				relativeArea,
 				meanStreetWidth,
 				streetsWithWidthCount,
-			},
-			geoAPI
-		) => ({
-			mergedPolygons,
-			relativeArea,
-			meanStreetWidth,
-			streetsWithWidthCount,
-			pedestrianArea,
-			geoAPI,
-		}),
+				geoAPI,
+			}),
+		],
+		[
+			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
+			(
+				{
+					mergedPolygons,
+					pedestrianArea,
+					relativeArea,
+					meanStreetWidth,
+					streetsWithWidthCount,
+				},
+				geoAPI
+			) => ({
+				mergedPolygons,
+				relativeArea,
+				meanStreetWidth,
+				streetsWithWidthCount,
+				pedestrianArea,
+				geoAPI,
+			}),
+		],
+		[
+			'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website
+			({ polygons }, geoAPI) => ({ polygons, geoAPI }),
+		],
 	],
-	[
-		'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website
-		({ polygons }, geoAPI) => ({ polygons, geoAPI }),
-	],
-]
+}
 
 const getDirectory = () =>
 	new Date()
 		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
 		.replace('/', '-')
 
-const readFile = async (ville, scope, res) => {
+const readFile = async (dimension, ville, scope, res) => {
 	try {
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
-				Key: `${getDirectory()}/${ville}.${scope}.json`,
+				Key: `${getDirectory()}/${ville}.${scope}${
+					dimension === 'cycling' ? '.cycling' : ''
+				}.json`,
 			})
 			.promise()
 
@@ -166,22 +197,24 @@ const readFile = async (ville, scope, res) => {
 		let data = JSON.parse(content)
 		res && res.json(data)
 	} catch (e) {
-		computeAndCacheCity(ville, scope, res)
+		computeAndCacheCity(dimension, ville, scope, res)
 	}
 }
-const computeAndCacheCity = async (ville, returnScope, res) => {
+const computeAndCacheCity = async (dimension, ville, returnScope, res) => {
 	console.log('ville pas encore connue : ', ville)
 	fetchExceptions().then((exceptions) =>
-		compute(ville, exceptions)
+		(dimension === 'walking' ? compute(ville) : computeCycling(ville))
 			.then(({ geoAPI, ...data }) => {
-				scopes.map(async ([scope, selector]) => {
+				scopes[dimension].map(async ([scope, selector]) => {
 					const string = JSON.stringify(selector(data, geoAPI))
 
 					try {
 						const file = await s3
 							.upload({
 								Bucket: BUCKET_NAME,
-								Key: `${getDirectory()}/${ville}.${scope}.json`,
+								Key: `${getDirectory()}/${ville}.${scope}${
+									dimension === 'cycling' ? '.cycling' : ''
+								}.json`,
 								Body: string,
 							})
 							.promise()
@@ -202,10 +235,10 @@ let resUnknownCity = (res, ville) =>
 	res.status(404).send('Ville inconnue <br/> Unknown city').end() &&
 	console.log('Unknown city : ' + ville)
 
-app.get('/api/:scope/:ville', cache('1 day'), function (req, res) {
-	const { ville, scope } = req.params
-	console.log('api: ', ville, scope)
-	readFile(ville, scope, res)
+app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
+	const { ville, scope, dimension } = req.params
+	console.log('api: ', dimension, ville, scope)
+	readFile(dimension, ville, scope, res)
 })
 
 app.get('*', (req, res) => {
@@ -220,6 +253,6 @@ app.listen(port, function () {
 
 	villes.map((ville, i) =>
 		// settimeout needed, the overpass API instances can raise a "too many requests" error
-		setTimeout(() => readFile(ville, 'complete', null), i * 10000)
+		setTimeout(() => readFile('walking', ville, 'complete', null), i * 10000)
 	)
 })

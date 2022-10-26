@@ -81,11 +81,15 @@ export function Classement({ cyclable }) {
 						font-size: 100%;
 						text-decoration: none;
 					}
+					strong {
+						background: yellow;
+						font-weight: 600;
+					}
 				`}
 			>
 				<h2>
 					Quelles grandes villes françaises sont les plus{' '}
-					{cyclable ? 'cyclables' : 'piétonnes'} ?
+					<strong>{cyclable ? 'cyclables' : 'piétonnes'}</strong> ?
 				</h2>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
