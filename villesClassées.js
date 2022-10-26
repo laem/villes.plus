@@ -3,7 +3,7 @@ const villes = [
 	// Celui du Havre y resterait, certains de Rennes partiraient, Vinennes et Boulogne aussi, Toulouse la base aussi, Brest à voir
 	// Plus compliqué pour Strasbourg...
 
-	//	['Paris', 'Métropole du Grand Paris'],
+	['Paris', 'Métropole du Grand Paris'],
 	// Pas mal de trottoirs à Paris, faut-il les inclure ? Pas celui-là :
 	// https://www.openstreetmap.org/way/664721499
 	// Rues piétonnes privées rue des Vignoles
