@@ -106,6 +106,13 @@ export function Classement({ cyclable }) {
 					Quelles grandes villes françaises sont les plus{' '}
 					<strong>{cyclable ? 'cyclables' : 'piétonnes'}</strong> ?
 				</h2>
+				<p css="text-align: center">
+					🗓️{' '}
+					{new Date().toLocaleString('fr-FR', {
+						month: 'long',
+						year: 'numeric',
+					})}
+				</p>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
 						Chargement en cours ⏳
