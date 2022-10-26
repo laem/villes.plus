@@ -6,7 +6,7 @@ export default ({ animate, text, color, cyclable, noLink }) => {
 
 	const [walking, walk] = useState(animate ? false : true)
 	useEffect(() => {
-		setTimeout(() => walk(true), 3000)
+		setTimeout(() => walk(true), 2000)
 	}, [])
 	const goodEmoji = cyclable ? '🚴' : '🚶'
 	const firstEmoji = cyclable ? '🚳' : '🧍'
