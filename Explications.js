@@ -15,10 +15,10 @@ export default () => (
 		<h1>📖 Explications</h1>
 		<p>
 			Nos villes se transforment. Un critère intéressant est la place donnée aux
-			piétons. Voici{' '}
+			piétons et aux vélos. Voici{' '}
 			<strong>
 				le premier classement libre des grandes villes françaises les plus
-				piétonnes
+				piétonnes et cyclables
 			</strong>
 			.
 		</p>
@@ -34,14 +34,25 @@ export default () => (
 			Tout classement de ce type est bien sûr contestable, mais nous en avons
 			maintenant au moins un 🙂.
 		</p>
-
-		<h2>Qu'est-ce qu'une zone piétonne ? </h2>
+		<h2>Classement des villes cyclables</h2>
+		<p>
+			Précisons : vraiment cyclable, donc avec des pistes cyclables séparées ou
+			des voies où le vélo est prioritaire sur les voitures. La méthode de test
+			: on calcule le trajet vélo le plus sécurisé entre les mairies des
+			communes de la métropole.
+		</p>
+		<p>
+			Attention : pour des raisons de performance, pour chaque mairie, seul les
+			trajets vers les 4 mairies adjacentes sont testés.
+		</p>
+		<h2>Classement des villes piétonnes</h2>
+		<h3>Qu'est-ce qu'une zone piétonne ? </h3>
 		<p>
 			C'est une zone publique où le piéton est prioritaire. Une rue ou une place
 			où l'on peut marcher librement et sans danger. Un chemin dans un parc
 			urbain, dans une forêt urbaine ou au bord d'une rivière, une plage.
 		</p>
-		<h2>Les parcs sont-ils inclus ?</h2>
+		<h3>Les parcs sont-ils inclus ?</h3>
 		<p>
 			Seules les zones piétonnes des parcs et squares sont prises en compte. En
 			effet, dans un parc comme celui de Vincennes, à l'est de Paris, une part
@@ -61,7 +72,7 @@ export default () => (
 			Une autre idée serait d'intégrer le caractère perméable d'une voie
 			piétonne.
 		</p>
-		<h2>Et les trottoirs ?</h2>
+		<h3>Et les trottoirs ?</h3>
 		<p>
 			Un trottoir est une bande piétonne adossée à une rue dédiée aux voitures.
 			Sa surélévation matérialise le danger de la route qu'il borde. Le piéton
@@ -79,7 +90,7 @@ export default () => (
 			N'hésitez pas à corriger la donnée sur OpenStreetMap, c'est un jeu
 			d'enfant.
 		</p>
-		<h2>[Ma ville] est une ville super piétonne, pourquoi ce score ?</h2>
+		<h3>[Ma ville] est une ville super piétonne, pourquoi ce score ?</h3>
 		<p>
 			Nous gardons souvent en mémoire le centre-ville touristique 🏛️, souvent
 			rempli d'histoire et apaisé, plutôt que le reste de la ville, la plupart
@@ -108,8 +119,7 @@ export default () => (
 			N'hésitez pas à proposer des idées de classements complémentaires, par
 			exemple des cercles de 5km autour du coeur des villes.
 		</p>
-
-		<h2>Pourquoi classer les communes, et pas la métropôle ?</h2>
+		<h3>Pourquoi classer les communes, et pas la métropôle ?</h3>
 		<p>
 			Dans une zone comme l'Île de France, difficile en effet de séparer Paris
 			de sa petite couronne, étant donné la continuité urbaine.{' '}
@@ -122,9 +132,9 @@ export default () => (
 			ou encore supprimer une voie d'un boulevard pour la donner aux piétons,
 			sont des moyens peu coûteux 💸 pour gagner de précieux pourcentages.
 		</p>
-		<h2>
+		<h3>
 			Pourquoi mesurer la surface piétonne plutôt que le nombre de kilomètres ?
-		</h2>
+		</h3>
 		<p>
 			Il est vrai que les déplacements à pied se font souvent d'un point A à un
 			point B. Est-il légitime de mettre au même niveau une rue piétonne qui
@@ -151,7 +161,7 @@ export default () => (
 			conséquence beaucoup plus plaisante, à tel point qu'on peut y voir, chose
 			exceptionnelle, des enfants jouer dans les rues de leur capitale !
 		</p>
-		<h2>Le classement est-il exhaustif ?</h2>
+		<h3>Le classement est-il exhaustif ?</h3>
 		<p>
 			Ce classement repose sur les magnifiques cartes libres d'
 			<a href="https://openstreetmap.org">OpenStreetMap</a>, le Wikipedia des
@@ -174,7 +184,7 @@ export default () => (
 			</a>
 			.
 		</p>
-		<h2>Je veux améliorer le score de ma ville !</h2>
+		<h3>Je veux améliorer le score de ma ville !</h3>
 		<p>
 			Il y a deux façons d'améliorer le score d'une ville :
 			<ul>
@@ -198,7 +208,7 @@ export default () => (
 			Le classement est rafraîchi automatiquement tous les jours environ sur les
 			dernières données en date.
 		</p>
-		<h2>Est-il souhaitable de supprimer complètement les voitures 🚗 ?</h2>
+		<h3>Est-il souhaitable de supprimer complètement les voitures 🚗 ?</h3>
 		<p>
 			Non bien sûr ! Le but de ce classement est de récompenser les villes qui
 			donnent la priorité aux piétons, ce que ne veut pas dire supprimer les
@@ -215,7 +225,7 @@ export default () => (
 			vélos. Il est toujours possible, et beaucoup plus efficace, d'y circuler
 			en voiture quand on en a vraiment besoin.
 		</p>
-		<h2>Ville piétonne = ville accessible ?</h2>
+		<h3>Ville piétonne = ville accessible ?</h3>
 		<p>
 			Ceci n'est pas un classement des villes les plus accessibles. Nous
 			considérons par exemple qu'un escalider est une zone piétonne, alors qu'il

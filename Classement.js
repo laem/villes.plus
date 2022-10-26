@@ -137,7 +137,7 @@ export function Classement({ cyclable }) {
 									<li key={ville}>
 										<Link
 											to={encodeURI(
-												(cyclable ? '/cyclables/' : '/piétonnes/') + ville
+												(cyclable ? '/cyclables/' : '/pietonnes/') + ville
 											)}
 										>
 											<span css="width: 1.5rem; text-align: center">

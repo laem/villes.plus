@@ -28,7 +28,7 @@ export function Nav() {
 					<Link to="/explications">Explications</Link>
 				</li>
 				<li>
-					<a href="https://github.com/laem/pietonnes">Code source</a>
+					<a href="https://github.com/laem/villes.plus">Code source</a>
 				</li>
 			</ul>
 		</nav>
