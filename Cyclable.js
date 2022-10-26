@@ -7,6 +7,7 @@ import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import APIUrl from './APIUrl'
+import Logo from './Logo'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -47,9 +48,11 @@ export default () => {
 			css={`
 				max-width: 1000px;
 				margin: 0 auto;
+				padding: 1rem;
 			`}
 		>
-			<h1>Ma métropole est-elle cyclable ?</h1>
+			<Logo color={'black'} text={ville} cyclable />
+			<h2>Ma métropole est-elle cyclable ?</h2>
 			<p>
 				Précisons : <em>vraiment</em> cyclable, donc avec des pistes cyclables
 				séparées ou des voies où le vélo est prioritaire sur les voitures.
@@ -74,6 +77,7 @@ export default () => {
 							(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
 							defaultCenter
 						}
+						style={{ maxWidth: '90vw' }}
 						zoom={12}
 					>
 						<TileLayer
