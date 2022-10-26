@@ -127,7 +127,11 @@ export function Classement({ cyclable }) {
 									return [ville, { percentage: -Infinity }]
 								return [ville, { ...data, ...normalizedScores(data) }]
 							})
-							.sort(([, v1], [, v2]) => v2?.percentage - v1?.percentage)
+							.sort(([, v1], [, v2]) =>
+								cyclable
+									? v2?.score - v1?.score
+									: v2?.percentage - v1?.percentage
+							)
 							.map(([ville, data], i) => {
 								return (
 									<li key={ville}>
