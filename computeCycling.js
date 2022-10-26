@@ -3,7 +3,8 @@ import center from '@turf/center'
 import distance from '@turf/distance'
 import { polygon } from '@turf/helpers'
 import point from 'turf-point'
-import APIUrl from './APIUrl'
+
+const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
 
 const createTurfPointCollection = (points) => ({
 	type: 'FeatureCollection',
