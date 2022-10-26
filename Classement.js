@@ -48,7 +48,7 @@ export function Classement({ cyclable }) {
 
 	return (
 		<>
-			<Logo animate cyclable />
+			<Logo animate cyclable={cyclable} />
 			<div
 				css={`
 					max-width: 45rem;
