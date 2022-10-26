@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-export default ({ animate, text, color, cyclable }) => {
+export default ({ animate, text, color, cyclable, noLink }) => {
 	const blue = '#1e3799'
 
 	const [walking, walk] = useState(animate ? false : true)

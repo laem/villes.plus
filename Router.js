@@ -11,6 +11,7 @@ import Explications from './Explications'
 import fetchExceptions from './fetchExceptions'
 import { Nav } from './Nav'
 import Ville from './Ville'
+import Landing from './Landing'
 
 export default function App() {
 	let [exceptions, setExceptions] = useState({})
@@ -52,10 +53,7 @@ export default function App() {
 							path={`/${encodeURIComponent(`piétonnes`)}/:ville`}
 							element={<Ville {...{ exceptions, toggleException }} />}
 						/>
-						<Route
-							path="/"
-							element={<Navigate to={`/${encodeURIComponent('piétonnes')}`} />}
-						/>
+						<Route path="/" element={<Landing />} />
 					</Routes>
 				</div>
 				<Nav />
