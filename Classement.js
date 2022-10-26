@@ -103,8 +103,9 @@ export function Classement({ cyclable }) {
 				`}
 			>
 				<h2>
-					Quelles grandes villes françaises sont les plus{' '}
-					<strong>{cyclable ? 'cyclables' : 'piétonnes'}</strong> ?
+					{cyclable
+						? 'Quelles métropoles françaises sont les plus cyclables ?'
+						: 'Quelles grandes villes françaises sont les plus piétonnes ?'}
 				</h2>
 				<p css="text-align: center">
 					🗓️{' '}
