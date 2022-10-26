@@ -61,11 +61,16 @@ export default () => {
 				La méthode de test : on calcule le trajet vélo le plus sécurisé entre
 				les mairies des communes de la métropole. Attention : pour des raisons
 				de performance, pour chaque mairie, seul les trajets vers les 4 mairies
-				adjacentes sont testés.
+				adjacentes sont testés. Cela peut{' '}
+				<a href="https://twitter.com/maeool/status/1585356672440348672">
+					désavantager les coeurs de ville, souvent plus cyclables
+				</a>
+				.
 			</p>
 			{score && (
 				<p>
-					Ce trajet est <strong>sécurisé à {score}%</strong>.
+					Les trajets de cette métropole sont{' '}
+					<strong>sécurisés à {score}%</strong>.
 				</p>
 			)}
 			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
