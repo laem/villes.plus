@@ -34,10 +34,9 @@ const testStorage = async () => {
 		})
 		.promise()
 
-	console.log(
-		`Successfully read test file from ${BUCKET_NAME}`,
-		`<<${data.Body.toString('utf-8')}>>`
-	)
+	console.log(`Successfully read test file from ${BUCKET_NAME}`)
+
+	console.log(`<<${data.Body.toString('utf-8')}>>`)
 }
 
 testStorage()
@@ -117,10 +116,11 @@ const scopes = {
 		],
 		[
 			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-			({ points, segments, score }) => ({
+			({ points, segments, score, pointsCenter }) => ({
 				points,
 				segments,
 				score,
+				pointsCenter,
 			}),
 		],
 		[
@@ -251,6 +251,7 @@ app.listen(port, function () {
 		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
 	)
 
+	return // too many requests at once
 	villes.map((ville, i) =>
 		// settimeout needed, the overpass API instances can raise a "too many requests" error
 		setTimeout(() => readFile('walking', ville, 'complete', null), i * 10000)

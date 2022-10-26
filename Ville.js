@@ -20,7 +20,7 @@ const Map = ReactMapboxGl({
 const cacheDisabled = true
 
 let get = (ville, setData, debug = false) =>
-	fetch(APIUrl + 'api/' + (debug ? 'complete/' : 'merged/') + ville)
+	fetch(APIUrl + 'api/walking/' + (debug ? 'complete/' : 'merged/') + ville)
 		.then((res) => res.json())
 		.then((json) => {
 			localforage.setItem(ville, json)

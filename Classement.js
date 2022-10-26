@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
-import villesList from './villesClassées'
+import villesListFull from './villesClassées'
+
+const villesList = [villesListFull[0]]
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -20,7 +22,9 @@ export function Classement({ cyclable }) {
 
 	useEffect(() => {
 		const promises = villesList.map((ville) =>
-			fetch(APIUrl + 'api/meta/' + ville).then((yo) => yo.json())
+			fetch(
+				APIUrl + `api/${cyclable ? 'cycling' : 'walking'}/meta/${ville}`
+			).then((yo) => yo.json())
 		)
 		promises.map((promise, i) =>
 			promise.then((data) => {
@@ -100,6 +104,7 @@ export function Classement({ cyclable }) {
 					<ol>
 						{villesEntries
 							.map(([ville, data]) => {
+								if (cyclable) return [ville, data]
 								if (!data || !data.geoAPI)
 									return [ville, { percentage: -Infinity }]
 								return [ville, { ...data, ...normalizedScores(data) }]
@@ -108,32 +113,40 @@ export function Classement({ cyclable }) {
 							.map(([ville, data], i) => {
 								return (
 									<li key={ville}>
-										<Link to={encodeURI('/piétonnes/' + ville)}>
+										<Link
+											to={encodeURI(
+												(cyclable ? '/cyclables' : '/piétonnes/') + ville
+											)}
+										>
 											<span css="width: 1.5rem; text-align: center">
 												{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
 											</span>
 											<div css="width: 8rem">{ville}</div>
 											<div css="width: 4rem;text-align: center">
 												<span css="font-weight: 600">
-													{data.percentage < 0
+													{cyclable
+														? data && data.score
+														: data.percentage < 0
 														? '⏳️'
 														: data.percentage.toFixed(0)}
 												</span>
 												<small> %</small>
 											</div>
-											<div css="width: 8rem; text-align: left">
-												{data.pedestrianArea && data.relativeArea && (
-													<span css="font-size: 80%; color: #1e3799">
-														{data.pedestrianArea.toFixed(1)} sur{' '}
-														{data.relativeArea.toFixed(1)} km²
-													</span>
-												)}
+											{!cyclable && (
+												<div css="width: 8rem; text-align: left">
+													{data.pedestrianArea && data.relativeArea && (
+														<span css="font-size: 80%; color: #1e3799">
+															{data.pedestrianArea.toFixed(1)} sur{' '}
+															{data.relativeArea.toFixed(1)} km²
+														</span>
+													)}
 
-												{/* 			{data.meanStreetWidth +
+													{/* 			{data.meanStreetWidth +
 													' | ' +
 													data.streetsWithWidthCount}
 										*/}
-											</div>
+												</div>
+											)}
 										</Link>
 									</li>
 								)
