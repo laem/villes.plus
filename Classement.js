@@ -111,7 +111,8 @@ export function Classement({ cyclable }) {
 					{new Date().toLocaleString('fr-FR', {
 						month: 'long',
 						year: 'numeric',
-					})}
+					})}{' '}
+					- v1
 				</p>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
