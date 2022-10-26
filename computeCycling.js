@@ -161,8 +161,11 @@ export default async (ville) => {
 				const firstX = sorted.slice(0, nearestPointsLimit)
 
 				return firstX.map((p2, j) =>
-					computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
-						(res) => res
+					new Promise((resolve) => setTimeout(resolve, 200 * (i + j))).then(
+						() =>
+							computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
+								(res) => res
+							)
 					)
 				)
 			})

@@ -4,7 +4,7 @@ import APIUrl from './APIUrl'
 import Logo from './Logo'
 import villesListFull from './villesClassées'
 
-const villesList = [villesListFull[0]]
+const villesListDouble = [villesListFull[0]]
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -16,6 +16,17 @@ export const normalizedScores = (data) => {
 }
 
 export function Classement({ cyclable }) {
+	const villesList = villesListDouble
+		.map((element) =>
+			typeof element === 'string'
+				? cyclable
+					? null
+					: element
+				: cyclable
+				? element[1]
+				: element[0]
+		)
+		.filter(Boolean)
 	const [villes, setVilles] = useState(
 		Object.fromEntries(villesList.map((key) => [key, null]))
 	)
@@ -115,7 +126,7 @@ export function Classement({ cyclable }) {
 									<li key={ville}>
 										<Link
 											to={encodeURI(
-												(cyclable ? '/cyclables' : '/piétonnes/') + ville
+												(cyclable ? '/cyclables/' : '/piétonnes/') + ville
 											)}
 										>
 											<span css="width: 1.5rem; text-align: center">

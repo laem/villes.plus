@@ -3,29 +3,35 @@ const villes = [
 	// Celui du Havre y resterait, certains de Rennes partiraient, Vinennes et Boulogne aussi, Toulouse la base aussi, Brest à voir
 	// Plus compliqué pour Strasbourg...
 
-	'Paris',
+	//	['Paris', 'Métropole du Grand Paris'],
 	// Pas mal de trottoirs à Paris, faut-il les inclure ? Pas celui-là :
 	// https://www.openstreetmap.org/way/664721499
 	// Rues piétonnes privées rue des Vignoles
 	// le père lachaise doit-il être compté dans son entiereté où comme un enesemvle de chemins ?
-	'Marseille',
-	'Lyon',
-	'Toulouse',
+	['Marseille', 'Aix-Marseille-Provence'],
+	['Lyon', 'Métropole de Lyon'],
+	['Toulouse', 'Toulouse Métropole'],
+	['Nice', "Nice Côte d'Azur"],
 	// Base de la ramée
 	// Retirer l'aéroport lol
-	'Nantes',
+	['Nantes', 'Nantes Métropole'],
 	// Différence entre vert et rouge ...
-	'Montpellier',
-	'Strasbourg',
-	'Bordeaux',
-	'Lille',
-	'Rennes',
+	['Montpellier', 'Montpellier Méditerranée Métropole'],
+	['Strasbourg', 'Strasbourg Eurométropole'],
+	['Bordeaux', 'Bordeaux Métropole'],
+	['Nancy', 'Métropole du Grand Nancy'],
+	['Metz', 'Metz Métropole'],
+	['Rouen', 'Métropole Rouen Normandie'],
+	['Lille', 'Métropole Européenne de Lille'],
+	['Rennes', 'Rennes Métropole'],
+	['Orléans', 'Orléans Métropole'],
 	// Forme étrange sur le périf à gauche, parking
 	'Reims',
-	'Saint-Étienne',
+	['Saint-Étienne', 'Saint-Étienne Métropole'],
 	'Le Havre',
+	['Tours', 'Tours Métropole Val de Loire'],
 	'Toulon',
-	'Grenoble',
+	['Grenoble', 'Grenoble-Alpes Métropole'],
 	// Parc louche en haut à droite et à droite autour d'une rotonde
 	'Dijon',
 	'Angers',
@@ -35,8 +41,8 @@ const villes = [
 	//	'Saint-Denis', // On a un pb avec cette ville, incroyablement étendue
 	'Aix-en-Provence',
 	'Le Mans',
-	'Clermont-Ferrand',
-	'Brest'
+	['Clermont-Ferrand', 'Clermont Auvergne Métropole'],
+	['Brest', 'Brest Métropole'],
 ]
 
 export default villes

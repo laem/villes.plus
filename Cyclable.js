@@ -49,7 +49,7 @@ export default () => {
 				margin: 0 auto;
 			`}
 		>
-			<h1>Ma métropole (ou communauté de communes) est-elle cyclable ?</h1>
+			<h1>Ma métropole est-elle cyclable ?</h1>
 			<p>
 				Précisons : <em>vraiment</em> cyclable, donc avec des pistes cyclables
 				séparées ou des voies où le vélo est prioritaire sur les voitures.
@@ -60,8 +60,6 @@ export default () => {
 				de performance, pour chaque mairie, seul les trajets vers les 4 mairies
 				adjacentes sont testés.
 			</p>
-			<p>Pour le découvrir, cliquez 2 points sur la carte, on vous le dira. </p>
-			<p>Puis recommencez :)</p>
 			{score && (
 				<p>
 					Ce trajet est <strong>sécurisé à {score}%</strong>.
