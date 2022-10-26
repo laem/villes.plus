@@ -120,7 +120,7 @@ export function Classement({ cyclable }) {
 									return [ville, { percentage: -Infinity }]
 								return [ville, { ...data, ...normalizedScores(data) }]
 							})
-							.sort(([, v1], [, v2]) => v2.percentage - v1.percentage)
+							.sort(([, v1], [, v2]) => v2?.percentage - v1?.percentage)
 							.map(([ville, data], i) => {
 								return (
 									<li key={ville}>
@@ -132,7 +132,13 @@ export function Classement({ cyclable }) {
 											<span css="width: 1.5rem; text-align: center">
 												{i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]}&nbsp;
 											</span>
-											<div css="width: 8rem">{ville}</div>
+											<div
+												css={`
+													width: ${cyclable ? '16rem' : '8rem'};
+												`}
+											>
+												{ville}
+											</div>
 											<div css="width: 4rem;text-align: center">
 												<span css="font-weight: 600">
 													{cyclable
