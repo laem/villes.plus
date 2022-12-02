@@ -16,7 +16,7 @@ export default ({ ville, cyclable, data, i }) => {
 
 	useEffect(() => {
 		if (wikidata) return
-		getCityData(métropoleToVille[ville]).then((json) =>
+		getCityData(cyclable ? métropoleToVille[ville] : ville).then((json) =>
 			setWikidata(json?.results?.bindings[0])
 		)
 	}, [wikidata])
@@ -82,32 +82,36 @@ export default ({ ville, cyclable, data, i }) => {
 								font-size: 260%;
 								margin-left: 2rem;
 							}
+							display: flex;
+							flex-direction: column;
 						`}
 					>
-						<span css="font-weight: 600;  ">
-							{cyclable
-								? data && data.score
-								: data.percentage < 0
-								? '⏳️'
-								: data.percentage.toFixed(0)}
-						</span>
-						<small> %</small>
-					</div>
-					{!cyclable && (
-						<div css="width: 8rem; text-align: left">
-							{data.pedestrianArea && data.relativeArea && (
-								<span css="font-size: 80%; color: #1e3799">
-									{data.pedestrianArea.toFixed(1)} sur{' '}
-									{data.relativeArea.toFixed(1)} km²
-								</span>
-							)}
+						<div>
+							<span css="font-weight: 600;  ">
+								{cyclable
+									? data && data.score
+									: data.percentage < 0
+									? '⏳️'
+									: data.percentage.toFixed(0)}
+							</span>
+							<small> %</small>
+						</div>
+						{!cyclable && (
+							<div css="width: 8rem; text-align: left; font-size: 60%">
+								{data.pedestrianArea && data.relativeArea && (
+									<span css="font-size: 80%; color: #1e3799">
+										{data.pedestrianArea.toFixed(1)} sur{' '}
+										{data.relativeArea.toFixed(1)} km²
+									</span>
+								)}
 
-							{/* 			{data.meanStreetWidth +
+								{/* 			{data.meanStreetWidth +
 													' | ' +
 													data.streetsWithWidthCount}
 										*/}
-						</div>
-					)}
+							</div>
+						)}
+					</div>
 				</div>
 			</Link>
 		</li>
