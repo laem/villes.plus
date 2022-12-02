@@ -70,12 +70,7 @@ export function Classement({ cyclable }) {
 					> ol > li > a {
 						display: flex;
 						justify-content: space-between;
-						padding: 0.3rem 0.8rem;
-						background: aliceblue;
 						margin: 0.8rem 0;
-						border-radius: 1rem;
-						box-shadow: 0 1px 3px rgba(41, 117, 209, 0.12),
-							0 1px 2px rgba(41, 117, 209, 0.24);
 					}
 
 					> ol > li > a:hover {
