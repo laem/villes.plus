@@ -77,7 +77,9 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 const request = (name) => `
 
 [out:json][timeout:25];
-( area[name="${name}"]; )->.searchArea;
+( ${
+	/^\d+$/.test(name) ? `area(${3600000000 + +name})` : `area[name="${name}"]`
+}; )->.searchArea;
 (
   node["amenity"="townhall"](area.searchArea);
   way["amenity"="townhall"](area.searchArea);
@@ -92,6 +94,7 @@ const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
 app.get('/points/:city', cache('1 day'), (req, res) => {
 	const { city } = req.params
+
 	const myRequest = `${OverpassInstance}?data=${request(
 		decodeURIComponent(city)
 	)}`

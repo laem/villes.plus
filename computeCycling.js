@@ -35,6 +35,7 @@ const metropolitanFrance = [
 
 const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
+
 const computeBikeDistance = (from, to) =>
 	fetch(APIUrl + `bikeRouter/${createBikeRouterQuery(from, to)}`)
 		.then((res) => res.json())
@@ -139,12 +140,14 @@ export default async (ville) => {
 			return element
 		})
 
-	const points = worldPoints.filter((p) =>
-		booleanContains(
-			polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
-			point([p.lon, p.lat])
-		)
-	)
+	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
+		? worldPoints
+		: worldPoints.filter((p) =>
+				booleanContains(
+					polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
+					point([p.lon, p.lat])
+				)
+		  )
 	console.log({ worldPoints, points })
 
 	const rides = await Promise.all(
