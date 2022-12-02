@@ -28,7 +28,7 @@ export default (cityName) => {
 	return fetch(fullUrl, { headers }).then((body) => body.json())
 }
 
-export const toThumb = (url) => {
+export const toThumb = (url, width = 550) => {
 	console.log(url)
 	const paths = url.includes('FilePath/')
 		? url.split('FilePath/')
@@ -39,5 +39,5 @@ export const toThumb = (url) => {
 	const hash = md5(unescape(encodeURIComponent(decoded)))
 	console.log(decoded, hash)
 
-	return `https://upload.wikimedia.org/wikipedia/commons/thumb/${hash[0]}/${hash[0]}${hash[1]}/${decoded}/400px-${fileName}`
+	return `https://upload.wikimedia.org/wikipedia/commons/thumb/${hash[0]}/${hash[0]}${hash[1]}/${decoded}/${width}px-${fileName}`
 }
