@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 import APIUrl from './APIUrl'
 import CityResult from './CityResult'
 import Logo from './Logo'
-import villesListFull from './villesClassées'
-
-const villesListDouble = villesListFull
+import villesListRaw from './villesClassées'
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -17,7 +15,7 @@ export const normalizedScores = (data) => {
 }
 
 export function Classement({ cyclable }) {
-	const villesList = villesListDouble
+	const villesList = villesListRaw
 		.map((element) =>
 			typeof element === 'string'
 				? cyclable
@@ -136,7 +134,9 @@ export function Classement({ cyclable }) {
 									: v2?.percentage - v1?.percentage
 							)
 							.map(([ville, data], i) => {
-								return <CityResult {...{ ville, cyclable, data, i }} />
+								return (
+									<CityResult {...{ key: ville, ville, cyclable, data, i }} />
+								)
 							})}
 					</ol>
 				}
