@@ -247,5 +247,7 @@ export default () => (
 			données OpenStreetMap existantes, n'hésitez pas si vous connaissez bien ce
 			sujet.
 		</p>
+		<h2>Qui développe ce classement ? </h2>
+		<p><a href="https://boitam.eu/@maeool">Maël THOMAS</a>. Tout le code <a href="https://github.com/laem/villes.plus/">est libre, venez contribuer</a>.</p>
 	</div>
 )
