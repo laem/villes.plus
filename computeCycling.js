@@ -3,20 +3,9 @@ import center from '@turf/center'
 import distance from '@turf/distance'
 import { polygon } from '@turf/helpers'
 import point from 'turf-point'
+import { createTurfPointCollection } from './cyclingGeoStudio'
 
 const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
-
-const createTurfPointCollection = (points) => ({
-	type: 'FeatureCollection',
-	features: points.map((p) => ({
-		type: 'Feature',
-		properties: {},
-		geometry: {
-			type: 'Point',
-			coordinates: [p.lon, p.lat],
-		},
-	})),
-})
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
 const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass

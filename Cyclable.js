@@ -9,6 +9,9 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
+import { overpassRequestURL } from './cyclingPointsRequests'
+import center from '@turf/center'
+import { createTurfPointCollection } from './cyclingGeoStudio'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -24,6 +27,7 @@ export default () => {
 	const [data, setData] = useState()
 
 	useEffect(() => {
+		return
 		const debug = false
 
 		fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
@@ -31,6 +35,28 @@ export default () => {
 			.then((json) => {
 				setData(json)
 			})
+			.catch((e) => console.log("Problème de fetch de l'API"))
+	}, [])
+	useEffect(() => {
+		fetch(
+			overpassRequestURL(
+				ville,
+				`
+  node["amenity"="townhall"](area.searchArea);
+
+			`
+			)
+		)
+			.then((res) => res.json())
+			.then((json) => {
+				console.log(json)
+				const points = json.elements
+				setData({
+					points,
+					pointsCenter: center(createTurfPointCollection(points)),
+				})
+			})
+			.catch((e) => console.log("Problème de fetch de l'API", e))
 	}, [])
 
 	useEffect(() => {
@@ -42,8 +68,9 @@ export default () => {
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement...</p>
 	const { segments, points, pointsCenter, score } = data
+	console.log('points', points)
 
-	console.log('segments', segments, segments.length)
+	console.log('segments', segments, segments?.length)
 	return (
 		<div
 			css={`
@@ -95,24 +122,28 @@ export default () => {
 							url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
 						></TileLayer>
 
-						<GeoJSON
-							key={segments.length}
-							data={segments}
-							eventHandlers={{
-								mouseover: (e) => {
-									setClickedSegment(e.sourceTarget.feature)
-								},
-							}}
-							style={(feature) => ({
-								...(feature.properties || {
-									color: '#4a83ec',
-									weight: 5,
-									fillColor: 'cyan',
-									fillOpacity: 1,
-								}),
-								...(clickedSegment === feature ? { color: 'chartreuse' } : {}),
-							})}
-						/>
+						{segments && (
+							<GeoJSON
+								key={segments.length}
+								data={segments}
+								eventHandlers={{
+									mouseover: (e) => {
+										setClickedSegment(e.sourceTarget.feature)
+									},
+								}}
+								style={(feature) => ({
+									...(feature.properties || {
+										color: '#4a83ec',
+										weight: 5,
+										fillColor: 'cyan',
+										fillOpacity: 1,
+									}),
+									...(clickedSegment === feature
+										? { color: 'chartreuse' }
+										: {}),
+								})}
+							/>
+						)}
 						{points.map((point) => (
 							<Marker
 								position={[point.lat, point.lon]}

@@ -11,6 +11,7 @@ import AWS from 'aws-sdk'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
 import computeCycling from './computeCycling'
+import { overpassRequestURL } from './cyclingPointsRequests'
 
 const BUCKET_NAME = process.env.BUCKET_NAME
 const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
@@ -74,31 +75,16 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 		)
 })
 
-const request = (name) => `
-
-[out:json][timeout:25];
-( ${
-	/^\d+$/.test(name) ? `area(${3600000000 + +name})` : `area[name="${name}"]`
-}; )->.searchArea;
-(
-  node["amenity"="townhall"](area.searchArea);
-  way["amenity"="townhall"](area.searchArea);
-  relation["amenity"="townhall"](area.searchArea);
-);
-// print results
-out body;
->;
-out skel qt;
-`
-const OverpassInstance = 'https://overpass-api.de/api/interpreter'
-
 app.get('/points/:city', cache('1 day'), (req, res) => {
 	const { city } = req.params
 
-	const myRequest = `${OverpassInstance}?data=${request(
-		decodeURIComponent(city)
-	)}`
-	fetch(encodeURI(myRequest))
+	const requestCore = `
+  node["amenity"="townhall"](area.searchArea);
+  way["amenity"="townhall"](area.searchArea);
+  relation["amenity"="townhall"](area.searchArea);
+		`
+	const myRequest = overpassRequestURL(city, requestCore)
+	fetch(myRequest)
 		.then((response) => {
 			console.log('did fetch from overpass', city)
 			return response.json()
@@ -185,6 +171,7 @@ const getDirectory = () =>
 
 const readFile = async (dimension, ville, scope, res) => {
 	try {
+		return Error('désactivation du cache S3')
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
