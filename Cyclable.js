@@ -6,6 +6,7 @@ import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
+import styled from 'styled-components'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
 
@@ -73,6 +74,10 @@ export default () => {
 					<strong>sécurisés à {score}%</strong>, pour {points.length} points.
 				</p>
 			)}
+			<p>
+				En <Legend color="blue" /> les segments cyclables, en{' '}
+				<Legend color="red" /> le reste.
+			</p>
 			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
 				{!pointsCenter ? (
 					'Chargement des données'
@@ -102,7 +107,7 @@ export default () => {
 								...(feature.properties || {
 									color: '#4a83ec',
 									weight: 5,
-									fillColor: '#1a1d62',
+									fillColor: 'cyan',
 									fillOpacity: 1,
 								}),
 								...(clickedSegment === feature ? { color: 'chartreuse' } : {}),
@@ -128,3 +133,11 @@ export default () => {
 		</div>
 	)
 }
+
+const Legend = styled.span`
+	width: 2rem;
+	height: 0.4rem;
+	display: inline-block;
+	vertical-align: middle;
+	background: ${(props) => props.color};
+`
