@@ -12,6 +12,7 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 dotenv.config()
 import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
+import { shuffleArray } from './utils'
 
 const BUCKET_NAME = process.env.BUCKET_NAME
 const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
@@ -62,6 +63,7 @@ const cache = apicache.options({
 
 app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
+	console.log('will fetch', query)
 	fetch(
 		`https://brouter.de/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
 	)
@@ -78,6 +80,29 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 app.get('/points/:city', cache('1 day'), (req, res) => {
 	const { city } = req.params
 
+	fetch(
+		overpassRequestURL(
+			city,
+			`
+  //node["amenity"="pharmacy"](area.searchArea);
+//  node["shop"="bakery"](area.searchArea);
+  node["public_transport"="stop_position"](area.searchArea);
+
+			`
+		)
+	)
+		.then((res) => res.json())
+		.then((json) => {
+			console.log(json.elements.length)
+			const allPoints = json.elements
+
+			const points = shuffleArray(allPoints).slice(0, 100)
+
+			res.json({ elements: points })
+		})
+		.catch((e) => console.log("Problème de fetch de l'API", e))
+
+	return
 	const requestCore = `
   node["amenity"="townhall"](area.searchArea);
   way["amenity"="townhall"](area.searchArea);
@@ -170,8 +195,9 @@ const getDirectory = () =>
 		.replace('/', '-')
 
 const readFile = async (dimension, ville, scope, res) => {
+	return computeAndCacheCity(dimension, ville, scope, res, true)
+	return
 	try {
-		return Error('désactivation du cache S3')
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
@@ -190,7 +216,13 @@ const readFile = async (dimension, ville, scope, res) => {
 		computeAndCacheCity(dimension, ville, scope, res)
 	}
 }
-const computeAndCacheCity = async (dimension, ville, returnScope, res) => {
+const computeAndCacheCity = async (
+	dimension,
+	ville,
+	returnScope,
+	res,
+	doNotCache
+) => {
 	console.log('ville pas encore connue : ', ville)
 	fetchExceptions().then((exceptions) =>
 		(dimension === 'walking' ? compute(ville) : computeCycling(ville))
@@ -199,17 +231,19 @@ const computeAndCacheCity = async (dimension, ville, returnScope, res) => {
 					const string = JSON.stringify(selector(data, geoAPI))
 
 					try {
-						const file = await s3
-							.upload({
-								Bucket: BUCKET_NAME,
-								Key: `${getDirectory()}/${ville}.${scope}${
-									dimension === 'cycling' ? '.cycling' : ''
-								}.json`,
-								Body: string,
-							})
-							.promise()
+						if (!doNotCache) {
+							const file = await s3
+								.upload({
+									Bucket: BUCKET_NAME,
+									Key: `${getDirectory()}/${ville}.${scope}${
+										dimension === 'cycling' ? '.cycling' : ''
+									}.json`,
+									Body: string,
+								})
+								.promise()
 
-						console.log('Fichier écrit :', ville, scope)
+							console.log('Fichier écrit :', ville, scope)
+						}
 						if (returnScope === scope) res && res.json(JSON.parse(string))
 					} catch (err) {
 						console.log(err) || (res && res.status(400).end())

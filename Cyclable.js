@@ -12,6 +12,7 @@ import Logo from './Logo'
 import { overpassRequestURL } from './cyclingPointsRequests'
 import center from '@turf/center'
 import { createTurfPointCollection } from './cyclingGeoStudio'
+import { shuffleArray } from './utils'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -27,7 +28,6 @@ export default () => {
 	const [data, setData] = useState()
 
 	useEffect(() => {
-		return
 		const debug = false
 
 		fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
@@ -37,27 +37,7 @@ export default () => {
 			})
 			.catch((e) => console.log("Problème de fetch de l'API"))
 	}, [])
-	useEffect(() => {
-		fetch(
-			overpassRequestURL(
-				ville,
-				`
-  node["amenity"="pharmacy"](area.searchArea);
-
-			`
-			)
-		)
-			.then((res) => res.json())
-			.then((json) => {
-				console.log(json)
-				const points = json.elements
-				setData({
-					points,
-					pointsCenter: center(createTurfPointCollection(points)),
-				})
-			})
-			.catch((e) => console.log("Problème de fetch de l'API", e))
-	}, [])
+	useEffect(() => {}, [])
 
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved
@@ -100,11 +80,13 @@ export default () => {
 				</a>
 				.
 			</p>
-			{score && (
+			{score ? (
 				<p>
 					Les trajets de cette métropole sont{' '}
 					<strong>sécurisés à {score}%</strong>, pour {points.length} points.
 				</p>
+			) : (
+				<p>{points.length} points.</p>
 			)}
 			<p>
 				En <Legend color="blue" /> les segments cyclables, en{' '}
@@ -112,7 +94,7 @@ export default () => {
 			</p>
 			<div
 				css={`
-					height: 600px;
+					height: 90vh;
 					width: 90vw;
 					max-width: 90vw;
 					> div {
@@ -164,7 +146,7 @@ export default () => {
 								position={[point.lat, point.lon]}
 								icon={
 									new L.Icon({
-										iconUrl: 'https://openmoji.org/data/color/svg/1F48A.svg',
+										iconUrl: 'https://openmoji.org/data/color/svg/1F956.svg',
 										iconSize: [30, 30],
 									})
 								}

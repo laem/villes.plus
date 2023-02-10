@@ -109,6 +109,7 @@ export default async (ville) => {
 	})
 
 	const worldPoints = pointsRaw.elements
+	/*
 		.filter((element) => element.tags && element.tags['amenity'] === 'townhall')
 		.map((element) => {
 			if (element.type === 'way') {
@@ -128,6 +129,7 @@ export default async (ville) => {
 			}
 			return element
 		})
+		*/
 
 	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
 		? worldPoints
@@ -154,7 +156,7 @@ export default async (ville) => {
 				const firstX = sorted.slice(0, nearestPointsLimit)
 
 				return firstX.map((p2, j) =>
-					new Promise((resolve) => setTimeout(resolve, 400 * (i + j))).then(
+					new Promise((resolve) => setTimeout(resolve, 100 * (i + j))).then(
 						() =>
 							computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
 								(res) => res
