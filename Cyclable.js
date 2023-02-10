@@ -70,7 +70,7 @@ export default () => {
 			{score && (
 				<p>
 					Les trajets de cette métropole sont{' '}
-					<strong>sécurisés à {score}%</strong>.
+					<strong>sécurisés à {score}%</strong>, pour {points.length} points.
 				</p>
 			)}
 			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
