@@ -74,9 +74,14 @@ export default () => {
 	return (
 		<div
 			css={`
-				max-width: 1000px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
 				margin: 0 auto;
-				padding: 1rem;
+				padding: 0.6rem;
+				> * {
+					max-width: 700px;
+				}
 			`}
 		>
 			<Logo color={'black'} text={ville} cyclable />
@@ -105,7 +110,18 @@ export default () => {
 				En <Legend color="blue" /> les segments cyclables, en{' '}
 				<Legend color="red" /> le reste.
 			</p>
-			<div css="height: 600px; width: 900px; > div {height: 100%; width: 100%}; margin-bottom: 2rem">
+			<div
+				css={`
+					height: 600px;
+					width: 90vw;
+					max-width: 90vw;
+					> div {
+						height: 100%;
+						width: 100%;
+					}
+					margin-bottom: 2rem;
+				`}
+			>
 				{!pointsCenter ? (
 					'Chargement des données'
 				) : (
@@ -114,7 +130,6 @@ export default () => {
 							(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
 							defaultCenter
 						}
-						style={{ maxWidth: '90vw' }}
 						zoom={12}
 					>
 						<TileLayer
