@@ -42,7 +42,7 @@ export default () => {
 			overpassRequestURL(
 				ville,
 				`
-  node["amenity"="townhall"](area.searchArea);
+  node["amenity"="pharmacy"](area.searchArea);
 
 			`
 			)
@@ -149,7 +149,7 @@ export default () => {
 								position={[point.lat, point.lon]}
 								icon={
 									new L.Icon({
-										iconUrl: 'https://openmoji.org/data/color/svg/E209.svg',
+										iconUrl: 'https://openmoji.org/data/color/svg/1F48A.svg',
 										iconSize: [30, 30],
 									})
 								}
