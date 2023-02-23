@@ -1,19 +1,20 @@
-import express from 'express'
-import { compute } from './geoStudio.js'
-import cors from 'cors'
-import fs from 'fs'
-import path from 'path'
-import compression from 'compression'
-import villes from './villesClassées'
-import fetchExceptions from './fetchExceptions'
 import apicache from 'apicache'
 import AWS from 'aws-sdk'
+import compression from 'compression'
+import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-dotenv.config()
-import computeCycling from './computeCycling'
-import { overpassRequestURL } from './cyclingPointsRequests'
-import { shuffleArray } from './utils'
+import express from 'express'
+import fs from 'fs'
 import http from 'http'
+import path from 'path'
+import computeCycling, { clusterTownhallBorders } from './computeCycling'
+import { overpassRequestURL } from './cyclingPointsRequests'
+import fetchExceptions from './fetchExceptions'
+import { compute } from './geoStudio.js'
+import villes from './villesClassées'
+import { shuffleArray } from './utils'
+
+dotenv.config()
 
 const BUCKET_NAME = process.env.BUCKET_NAME
 const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
@@ -59,7 +60,7 @@ const cache = apicache.options({
 	headers: {
 		'cache-control': 'no-cache',
 	},
-	debug: true,
+	debug: false,
 }).middleware
 
 const host = 'http://localhost:17777'
@@ -69,90 +70,77 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
 	const url = `${host}/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
 	console.log('will fetch', query, url)
-		
-		// For a reason I don't get, after 30 min of searching, using my local brouter server fails with the fetch function for a malformed header reason...
-		if (host.includes('localhost')) {
-http.get(url, (resp) => {
-  let data = '';
 
-  // Un morceau de réponse est reçu
-  resp.on('data', (chunk) => {
-    data += chunk;
-  });
+	// For a reason I don't get, after 30 min of searching, using my local brouter server fails with the fetch function for a malformed header reason...
+	if (host.includes('localhost')) {
+		http
+			.get(url, (resp) => {
+				let data = ''
 
-  // La réponse complète à été reçue. On affiche le résultat.
-  resp.on('end', () => {
-		  try {
-    res.json(JSON.parse(data))
-		  } catch (e) {console.log('error parsing locally', url)
-				  console.log(e)
+				// Un morceau de réponse est reçu
+				resp.on('data', (chunk) => {
+					data += chunk
+				})
 
-		  }
-
-  });
-
-}).on("error", (err) => {
-  console.log("Error: " + err.message);
-});
-
-
-}else {
-	fetch(url)
-		.then((response) => {
-			console.log('did fetch from brouter', query)
-			const json = response.json()
-			console.log('json', json)
-			return json
-		})
-		.then((json) =>
-			// do some work... this will only occur once per 5 minutes
-			res.json(json)
-		)
-}
+				// La réponse complète à été reçue. On affiche le résultat.
+				resp.on('end', () => {
+					try {
+						res.json(JSON.parse(data))
+					} catch (e) {
+						console.log('error parsing locally', url)
+						console.log(e)
+					}
+				})
+			})
+			.on('error', (err) => {
+				console.log('Error: ' + err.message)
+			})
+	} else {
+		fetch(url)
+			.then((response) => {
+				console.log('did fetch from brouter', query)
+				const json = response.json()
+				console.log('json', json)
+				return json
+			})
+			.then((json) =>
+				// do some work... this will only occur once per 5 minutes
+				res.json(json)
+			)
+	}
 })
 
-app.get('/points/:city', cache('1 day'), (req, res) => {
-	const { city } = req.params
-
-	fetch(
-		overpassRequestURL(
-			city,
-			`
+const publicTransportRequestCore = `
   //node["amenity"="pharmacy"](area.searchArea);
 //  node["shop"="bakery"](area.searchArea);
   node["public_transport"="stop_position"](area.searchArea);
-
-			`
-		)
-	)
-		.then((res) => res.json())
-		.then((json) => {
-			console.log(json.elements.length)
-			const allPoints = json.elements
-				console.log('number of points for', city)
-
-			const points = shuffleArray(allPoints).slice(0, 100)
-
-			res.json({ elements: points })
-		})
-		.catch((e) => console.log("Problème de fetch de l'API", e))
-
-	return
-	const requestCore = `
+`
+const townhallsRequestCore = `
   node["amenity"="townhall"](area.searchArea);
   way["amenity"="townhall"](area.searchArea);
   relation["amenity"="townhall"](area.searchArea);
 		`
-	const myRequest = overpassRequestURL(city, requestCore)
-	fetch(myRequest)
-		.then((response) => {
-			console.log('did fetch from overpass', city)
-			return response.json()
-		})
-		.then((json) =>
-			// do some work... this will only occur once per 5 minutes
-			res.json(json)
-		)
+
+app.get('/points/:city', cache('1 day'), async (req, res) => {
+	const { city } = req.params
+
+	try {
+		const townhallResponse = await fetch(
+				overpassRequestURL(city, townhallsRequestCore)
+			),
+			townhallPoints = await townhallResponse.json(),
+			townhalls = clusterTownhallBorders(townhallPoints.elements)
+
+		const transportStopsResponse = await fetch(
+				overpassRequestURL(city, publicTransportRequestCore)
+			),
+			transportStopsRaw = await transportStopsResponse.json(),
+			transportStops = shuffleArray(transportStopsRaw.elements).slice(0, 100)
+		const points = [...townhalls, ...transportStops]
+		res.json(points)
+	} catch (e) {
+		console.log("Problème de fetch de l'API", e)
+	}
 })
 
 const scopes = {

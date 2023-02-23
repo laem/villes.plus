@@ -12,7 +12,7 @@ import Logo from './Logo'
 import { overpassRequestURL } from './cyclingPointsRequests'
 import center from '@turf/center'
 import { createTurfPointCollection } from './cyclingGeoStudio'
-import { shuffleArray } from './utils'
+import { shuffleArray, isTownhall } from './utils'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -146,9 +146,9 @@ export default () => {
 								position={[point.lat, point.lon]}
 								icon={
 									new L.Icon({
-										//										iconUrl: 'https://openmoji.org/data/color/svg/1F956.svg',
+										//										iconUrl:
 										//
-										iconUrl: 'https://openmoji.org/data/color/svg/1F68D.svg',
+										iconUrl: goodIcon(point),
 										iconSize: [30, 30],
 									})
 								}
@@ -163,6 +163,11 @@ export default () => {
 		</div>
 	)
 }
+
+const goodIcon = (point) =>
+	isTownhall(point)
+		? 'https://openmoji.org/data/color/svg/E209.svg'
+		: 'https://openmoji.org/data/color/svg/1F68D.svg'
 
 const Legend = styled.span`
 	width: 2rem;

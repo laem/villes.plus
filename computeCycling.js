@@ -3,6 +3,7 @@ import center from '@turf/center'
 import distance from '@turf/distance'
 import { polygon } from '@turf/helpers'
 import point from 'turf-point'
+import { isTransportStop } from './utils'
 import { createTurfPointCollection } from './cyclingGeoStudio'
 
 const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
@@ -98,8 +99,26 @@ const computeSafePercentage = (messages) => {
 	return Math.round((safeDistance / total) * 100)
 }
 
+export const clusterTownhallBorders = (elements) =>
+	elements
+		.filter((element) => element.tags && element.tags['amenity'] === 'townhall')
+		.map((element) => {
+			if (element.type === 'way') {
+				const firstNode = elements.find((node) => node.id === element.nodes[0])
+				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
+			}
+			if (element.type === 'relation') {
+				const firstRef = elements.find(
+					(node) => node.id === element.members[0].ref
+				)
+				const firstNode = elements.find((node) => node.id === firstRef.nodes[0])
+				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
+			}
+			return element
+		})
+
 export default async (ville) => {
-	const pointsRaw = await fetch(
+	const worldPoints = await fetch(
 		APIUrl + `points/${encodeURIComponent(ville)}`
 	).then((res) => {
 		if (!res.ok) {
@@ -107,29 +126,6 @@ export default async (ville) => {
 		}
 		return res.json()
 	})
-
-	const worldPoints = pointsRaw.elements
-	/*
-		.filter((element) => element.tags && element.tags['amenity'] === 'townhall')
-		.map((element) => {
-			if (element.type === 'way') {
-				const firstNode = pointsRaw.elements.find(
-					(node) => node.id === element.nodes[0]
-				)
-				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
-			}
-			if (element.type === 'relation') {
-				const firstRef = pointsRaw.elements.find(
-					(node) => node.id === element.members[0].ref
-				)
-				const firstNode = pointsRaw.elements.find(
-					(node) => node.id === firstRef.nodes[0]
-				)
-				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
-			}
-			return element
-		})
-		*/
 
 	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
 		? worldPoints
@@ -147,7 +143,11 @@ export default async (ville) => {
 				const point1 = point([p.lon, p.lat])
 
 				const sorted = points
-					.filter((p2) => p != p2)
+					.filter(
+						(p2) =>
+							p != p2 && // suffices for now, it's binary
+							isTransportStop(p) === isTransportStop(p2)
+					)
 					.sort(
 						(pa, pb) =>
 							distance(point([pa.lon, pa.lat]), point1) -
@@ -179,4 +179,3 @@ export default async (ville) => {
 
 	return { pointsCenter, points, segments, score }
 }
-
