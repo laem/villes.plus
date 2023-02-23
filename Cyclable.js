@@ -146,7 +146,9 @@ export default () => {
 								position={[point.lat, point.lon]}
 								icon={
 									new L.Icon({
-										iconUrl: 'https://openmoji.org/data/color/svg/1F956.svg',
+										//										iconUrl: 'https://openmoji.org/data/color/svg/1F956.svg',
+										//
+										iconUrl: 'https://openmoji.org/data/color/svg/1F68D.svg',
 										iconSize: [30, 30],
 									})
 								}
