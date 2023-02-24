@@ -156,20 +156,26 @@ export default async (ville) => {
 				const firstX = sorted.slice(0, nearestPointsLimit)
 
 				return firstX.map((p2, j) =>
-					new Promise((resolve) => setTimeout(resolve, 100 * (i + j))).then(
-						() =>
-							computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
-								(res) => res
-							)
+					new Promise((resolve) => setTimeout(resolve, 10 * (i + j))).then(() =>
+						computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
+							(res) => res
+						)
 					)
 				)
 			})
 			.flat()
 	)
-	const score = computeSafePercentage(
-		rides.map((ride) => getMessages(ride)).flat()
+	const filteredRides = rides.filter(
+		(ride) =>
+			// Exclude itineraries that include a ferry route.
+			// TODO maybe we should just exclude the subrides that are ferry ? Doesn't matter much on the final result
+			!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 	)
-	const segments = rides
+
+	const score = computeSafePercentage(
+		filteredRides.map((ride) => getMessages(ride)).flat()
+	)
+	const segments = filteredRides
 		.map((ride) => segmentGeoJSON(ride))
 		.map((r) => r.features)
 		.flat()
