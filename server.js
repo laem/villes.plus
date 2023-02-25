@@ -5,15 +5,13 @@ import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from 'express'
 import fs from 'fs'
-import http from 'http'
 import path from 'path'
-import computeCycling, { clusterTownhallBorders } from './computeCycling'
+import brouterRequest from './brouterRequest'
+import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
 import fetchExceptions from './fetchExceptions'
 import { compute } from './geoStudio.js'
 import villes from './villesClassées'
-import { shuffleArray } from './utils'
-import brouterRequest from './brouterRequest'
 
 dotenv.config()
 
@@ -69,10 +67,12 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	brouterRequest(query, res.json)
 })
 
-app.get('/points/:city', cache('1 day'), async (req, res) => {
-	const { city } = req.params
+app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
+	const { city, requestCore } = req.params
 
-	pointsRequest(city, res.json)
+	const response = await fetch(overpassRequestURL(city, requestCore))
+	const json = await response.json()
+	res.json(json)
 })
 
 const scopes = {

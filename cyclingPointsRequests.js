@@ -14,7 +14,23 @@ out body;
 >;
 out skel qt;
 `
-export const overpassRequestURL = (city, requestCore) =>
+
+export const requestCores = {
+	stops: `
+  //node["amenity"="pharmacy"](area.searchArea);
+//  node["shop"="bakery"](area.searchArea);
+  node["public_transport"="stop_position"](area.searchArea);
+`,
+	townhalls: `
+  node["amenity"="townhall"](area.searchArea);
+  way["amenity"="townhall"](area.searchArea);
+  relation["amenity"="townhall"](area.searchArea);
+		`,
+}
+export const overpassRequestURL = (city, requestCoreName) =>
 	encodeURI(
-		`${OverpassInstance}?data=${request(decodeURIComponent(city), requestCore)}`
+		`${OverpassInstance}?data=${request(
+			decodeURIComponent(city),
+			requestCores[requestCoreName]
+		)}`
 	)

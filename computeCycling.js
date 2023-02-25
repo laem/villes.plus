@@ -1,27 +1,14 @@
-import booleanContains from '@turf/boolean-contains'
 import center from '@turf/center'
 import distance from '@turf/distance'
 import { polygon } from '@turf/helpers'
 import point from 'turf-point'
 import { isTransportStop } from './utils'
-import { createTurfPointCollection } from './cyclingGeoStudio'
+import { computePointsCenter } from './pointsRequest'
 
-const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
+export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
 const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass
-
-//
-// the Paris query can return points in the united states ! Hence we test the containment.
-// Hack, breaks Corsica and Outre mer :/
-// (bikes don't exist in Corsica anyway yet)
-const metropolitanFrance = [
-	[-5.353852828534542, 48.42923941831151],
-	[2.5964340170922924, 51.97021507483498],
-	[8.734619911467632, 49.03027507341659],
-	[10.345413967223578, 41.03091304244174],
-	[-2.447427130244762, 42.92290589918966],
-]
 
 const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
@@ -99,43 +86,8 @@ const computeSafePercentage = (messages) => {
 	return Math.round((safeDistance / total) * 100)
 }
 
-export const clusterTownhallBorders = (elements) =>
-	elements
-		.filter((element) => element.tags && element.tags['amenity'] === 'townhall')
-		.map((element) => {
-			if (element.type === 'way') {
-				const firstNode = elements.find((node) => node.id === element.nodes[0])
-				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
-			}
-			if (element.type === 'relation') {
-				const firstRef = elements.find(
-					(node) => node.id === element.members[0].ref
-				)
-				const firstNode = elements.find((node) => node.id === firstRef.nodes[0])
-				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
-			}
-			return element
-		})
-
 export default async (ville) => {
-	const worldPoints = await fetch(
-		APIUrl + `points/${encodeURIComponent(ville)}`
-	).then((res) => {
-		if (!res.ok) {
-			throw res
-		}
-		return res.json()
-	})
-
-	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
-		? worldPoints
-		: worldPoints.filter((p) =>
-				booleanContains(
-					polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
-					point([p.lon, p.lat])
-				)
-		  )
-	console.log({ worldPoints, points })
+	const points = await pointsProcess(ville)
 
 	const rides = await Promise.all(
 		points
@@ -180,8 +132,7 @@ export default async (ville) => {
 		.map((r) => r.features)
 		.flat()
 
-	const pointCollection = createTurfPointCollection(points)
-	const pointsCenter = center(pointCollection)
+	const pointsCenter = computePointsCenter(points)
 
 	return { pointsCenter, points, segments, score }
 }

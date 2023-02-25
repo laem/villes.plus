@@ -9,14 +9,15 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
 import Logo from './Logo'
-import { overpassRequestURL } from './cyclingPointsRequests'
-import center from '@turf/center'
-import { createTurfPointCollection } from './cyclingGeoStudio'
-import { shuffleArray, isTownhall } from './utils'
+import { computePointsCenter, pointsProcess } from './pointsRequest'
+import { isTownhall } from './utils'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
+
+const debug = false,
+	clientProcessing = true
 
 export default () => {
 	const { ville } = useParams()
@@ -27,16 +28,22 @@ export default () => {
 
 	const [data, setData] = useState()
 
-	useEffect(() => {
-		const debug = false
-
-		fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
-			.then((res) => res.json())
-			.then((json) => {
-				setData(json)
-			})
-			.catch((e) => console.log("Problème de fetch de l'API"))
+	useEffect(async () => {
+		if (clientProcessing) {
+			const points = await pointsProcess(ville),
+				pointsCenter = computePointsCenter(points)
+			setData({ points, pointsCenter })
+		} else {
+			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
+				.then((res) => res.json())
+				.then((json) => {
+					setData(json)
+				})
+				.catch((e) => console.log("Problème de fetch de l'API"))
+		}
+		return
 	}, [])
+
 	useEffect(() => {}, [])
 
 	useEffect(() => {
