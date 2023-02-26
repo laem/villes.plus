@@ -5,6 +5,5 @@ export function shuffleArray(array) {
 	}
 	return array
 }
-export const isTransportStop = (point) =>
-	point.tags.public_transport === 'stop_position'
+export const isTransportStop = (point) => point.tags.highway === 'bus_stop'
 export const isTownhall = (point) => point.tags.amenity === 'townhall'
