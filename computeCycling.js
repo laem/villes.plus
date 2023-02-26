@@ -81,7 +81,7 @@ export const computeSafePercentage = (messages) => {
 		[0, 0]
 	)
 
-	return Math.round((safeDistance / total) * 100)
+	return (safeDistance / total) * 100
 }
 
 export const ridesPromises = (points) =>
@@ -90,11 +90,15 @@ export const ridesPromises = (points) =>
 			const point1 = point([p.lon, p.lat])
 
 			const sorted = points
-				.filter(
-					(p2) =>
+				.filter((p2) => {
+					const d = distance(point([p2.lon, p2.lat]), point1)
+					console.log(p, p2, d)
+					return (
 						p != p2 && // suffices for now, it's binary
-						isTransportStop(p) === isTransportStop(p2)
-				)
+						isTransportStop(p) === isTransportStop(p2) &&
+						!(d < 1 && p.tags.name === p2.tags.name)
+					)
+				})
 				.sort(
 					(pa, pb) =>
 						distance(point([pa.lon, pa.lat]), point1) -

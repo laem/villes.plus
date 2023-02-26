@@ -35,7 +35,7 @@ export default () => {
 
 	const [clickedSegment, setClickedSegment] = useState()
 
-	const [randomFilter, setRandomFilter] = useState(100)
+	const [randomFilter, setRandomFilter] = useState(50)
 
 	const [data, setData] = useState({
 		points: [],
@@ -95,9 +95,8 @@ export default () => {
 	const score = computeSafePercentage(
 		rides.map((ride) => getMessages(ride)).flat()
 	)
-	console.log('points', points)
+	console.log('SCORE', score)
 
-	console.log('segments', segments, segments?.length)
 	return (
 		<div
 			css={`
@@ -127,7 +126,10 @@ export default () => {
 			{score ? (
 				<p>
 					Les trajets de cette métropole sont{' '}
-					<strong>sécurisés à {score}%</strong>, pour {points.length} points.
+					<strong title={`Précisément, ${score}`}>
+						sécurisés à {Math.round(score)}%
+					</strong>
+					, pour {points.length} points.
 				</p>
 			) : (
 				<p>{points.length} points.</p>
