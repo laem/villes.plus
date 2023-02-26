@@ -82,18 +82,15 @@ export default () => {
 			<Logo color={'black'} text={ville} cyclable />
 			<h2>Ma métropole est-elle cyclable ?</h2>
 			<p>
-				Précisons : <em>vraiment</em> cyclable, donc avec des pistes cyclables
-				séparées ou des voies où le vélo est prioritaire sur les voitures.
+				Précisons : <em>vraiment</em> cyclable, donc des voies cyclables
+				séparées des voitures et piétons, ou des vélorues où le vélo est
+				prioritaire.
 			</p>
 			<p>
 				La méthode de test : on calcule le trajet vélo le plus sécurisé entre
-				les mairies des communes de la métropole. Attention : pour des raisons
-				de performance, pour chaque mairie, seul les trajets vers les 4 mairies
-				adjacentes sont testés. Cela peut{' '}
-				<a href="https://twitter.com/maeool/status/1585356672440348672">
-					désavantager les coeurs de ville, souvent plus cyclables
-				</a>
-				.
+				des points représentatifs du territoire : mairies et sélection d'arrêts
+				de bus. Pour chaque point, les trajets vers les 4 points adjacents sont
+				testés.
 			</p>
 			{score ? (
 				<p>
