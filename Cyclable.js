@@ -26,11 +26,12 @@ export default () => {
 
 	const [clickedSegment, setClickedSegment] = useState()
 
-	const [data, setData] = useState()
+	const [randomFilter, setRandomFilter] = useState(100)
 
-	useEffect(async () => {
+	const [data, setData] = useState()
+	const downloadData = async () => {
 		if (clientProcessing) {
-			const points = await pointsProcess(ville),
+			const points = await pointsProcess(ville, randomFilter),
 				pointsCenter = computePointsCenter(points)
 			setData({ points, pointsCenter })
 		} else {
@@ -41,8 +42,15 @@ export default () => {
 				})
 				.catch((e) => console.log("Problème de fetch de l'API"))
 		}
-		return
-	}, [])
+	}
+
+	useEffect(() => {
+		downloadData()
+
+		return () => {
+			console.log('This will be logged on unmount')
+		}
+	}, [randomFilter])
 
 	useEffect(() => {}, [])
 
@@ -99,6 +107,15 @@ export default () => {
 				En <Legend color="blue" /> les segments cyclables, en{' '}
 				<Legend color="red" /> le reste.
 			</p>
+			<div>
+				<label>
+					Nombre d'arrêts de bus sélectionnés aléatoirement{' '}
+					<input
+						value={randomFilter}
+						onChange={(e) => setRandomFilter(e.target.value)}
+					/>
+				</label>
+			</div>
 			<div
 				css={`
 					height: 90vh;

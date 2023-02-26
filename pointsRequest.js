@@ -7,7 +7,7 @@ import center from '@turf/center'
 import { createTurfPointCollection } from './cyclingGeoStudio'
 
 export const APIUrl = `http://localhost:3000/`
-export const pointsRequest = async (city) => {
+export const pointsRequest = async (city, randomFilter = 100) => {
 	try {
 		const townhallResponse = await fetch(`${APIUrl}points/${city}/townhalls`),
 			townhallPoints = await townhallResponse.json(),
@@ -15,7 +15,10 @@ export const pointsRequest = async (city) => {
 
 		const transportStopsResponse = await fetch(APIUrl + `points/${city}/stops`),
 			transportStopsRaw = await transportStopsResponse.json(),
-			transportStops = shuffleArray(transportStopsRaw.elements).slice(0, 100)
+			transportStops = shuffleArray(transportStopsRaw.elements).slice(
+				0,
+				randomFilter
+			)
 		const points = [...townhalls, ...transportStops]
 		return points
 	} catch (e) {
@@ -23,8 +26,8 @@ export const pointsRequest = async (city) => {
 	}
 }
 
-export const pointsProcess = async (ville) => {
-	const worldPoints = await pointsRequest(ville)
+export const pointsProcess = async (ville, randomFilter) => {
+	const worldPoints = await pointsRequest(ville, randomFilter)
 
 	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
 		? worldPoints
