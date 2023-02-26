@@ -66,12 +66,12 @@ export const segmentGeoJSON = (geojson) => {
 	}
 }
 
-const getMessages = (geojson) => {
+export const getMessages = (geojson) => {
 	const [_, ...table] = geojson.features[0].properties.messages
 
 	return table
 }
-const computeSafePercentage = (messages) => {
+export const computeSafePercentage = (messages) => {
 	const [safeDistance, total] = messages.reduce(
 		(memo, next) => {
 			const safe = isSafePath(next[9]),

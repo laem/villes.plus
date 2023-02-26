@@ -10,7 +10,13 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
-import { isValidRide, ridesPromises, segmentGeoJSON } from './computeCycling'
+import {
+	isValidRide,
+	ridesPromises,
+	segmentGeoJSON,
+	computeSafePercentage,
+	getMessages,
+} from './computeCycling'
 import Logo from './Logo'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
@@ -35,6 +41,7 @@ export default () => {
 		points: [],
 		pointsCenter: null,
 		segments: [],
+		rides: [],
 		score: null,
 	})
 	const downloadData = async () => {
@@ -49,6 +56,7 @@ export default () => {
 					if (isValidRide(result)) {
 						setData((data) => ({
 							...data,
+							rides: [...data.rides, result],
 							segments: [
 								...data.segments,
 								segmentGeoJSON(result).features,
@@ -83,7 +91,10 @@ export default () => {
 		})
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
-	const { segments, points, pointsCenter, score } = data
+	const { segments, points, pointsCenter, rides } = data
+	const score = computeSafePercentage(
+		rides.map((ride) => getMessages(ride)).flat()
+	)
 	console.log('points', points)
 
 	console.log('segments', segments, segments?.length)
