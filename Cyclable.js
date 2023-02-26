@@ -173,7 +173,7 @@ export default () => {
 										//										iconUrl:
 										//
 										iconUrl: goodIcon(point),
-										iconSize: [30, 30],
+										iconSize: [20, 20],
 									})
 								}
 							>
@@ -189,9 +189,7 @@ export default () => {
 }
 
 const goodIcon = (point) =>
-	isTownhall(point)
-		? 'https://openmoji.org/data/color/svg/E209.svg'
-		: 'https://openmoji.org/data/color/svg/1F68D.svg'
+	APIUrl + (isTownhall(point) ? 'images/townhall.svg' : 'images/bus.svg')
 
 const Legend = styled.span`
 	width: 2rem;
