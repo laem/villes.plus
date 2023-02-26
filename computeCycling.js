@@ -1,9 +1,7 @@
-import center from '@turf/center'
 import distance from '@turf/distance'
-import { polygon } from '@turf/helpers'
 import point from 'turf-point'
-import { isTransportStop } from './utils'
 import { computePointsCenter } from './pointsRequest'
+import { isTransportStop } from './utils'
 
 export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
 
@@ -13,10 +11,10 @@ const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass
 const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
 
-const computeBikeDistance = (from, to) =>
+const createItinerary = (from, to) =>
 	fetch(APIUrl + `bikeRouter/${createBikeRouterQuery(from, to)}`)
 		.then((res) => res.json())
-		.catch((e) => console.log(e))
+		.catch((e) => console.log('Erreur dans createItinerary', e))
 
 const isSafePath = (tags) =>
 	tags.includes('highway=living_street') || tags.includes('highway=cycleway')
@@ -27,7 +25,7 @@ const isSafePath = (tags) =>
 // https://www.openstreetmap.org/way/190390497
 // bicycle 	designated ?
 
-const segmentGeoJSON = (geojson) => {
+export const segmentGeoJSON = (geojson) => {
 	const table = getMessages(geojson)
 	const coordinateStringToNumber = (string) => +string / 10e5
 	const getLineCoordinates = (line) =>
@@ -86,53 +84,53 @@ const computeSafePercentage = (messages) => {
 	return Math.round((safeDistance / total) * 100)
 }
 
+export const ridesPromises = (points) =>
+	points
+		.map((p, i) => {
+			const point1 = point([p.lon, p.lat])
+
+			const sorted = points
+				.filter(
+					(p2) =>
+						p != p2 && // suffices for now, it's binary
+						isTransportStop(p) === isTransportStop(p2)
+				)
+				.sort(
+					(pa, pb) =>
+						distance(point([pa.lon, pa.lat]), point1) -
+						distance(point([pb.lon, pb.lat]), point1)
+				)
+			const firstX = sorted.slice(0, nearestPointsLimit)
+
+			return firstX.map((p2, j) =>
+				new Promise((resolve) => setTimeout(resolve, 10 * (i + j))).then(() =>
+					createItinerary([p.lat, p.lon], [p2.lat, p2.lon]).then((res) => res)
+				)
+			)
+		})
+		.flat()
+
+export const isValidRide = (ride) =>
+	// Exclude itineraries that include a ferry route.
+	// TODO maybe we should just exclude the subrides that are ferry ? Doesn't matter much on the final result
+	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
+
 export default async (ville) => {
 	const points = await pointsProcess(ville)
+	const pointsCenter = computePointsCenter(points)
 
-	const rides = await Promise.all(
-		points
-			.map((p, i) => {
-				const point1 = point([p.lon, p.lat])
+	const rides = await Promise.all(ridesPromises(points))
 
-				const sorted = points
-					.filter(
-						(p2) =>
-							p != p2 && // suffices for now, it's binary
-							isTransportStop(p) === isTransportStop(p2)
-					)
-					.sort(
-						(pa, pb) =>
-							distance(point([pa.lon, pa.lat]), point1) -
-							distance(point([pb.lon, pb.lat]), point1)
-					)
-				const firstX = sorted.slice(0, nearestPointsLimit)
-
-				return firstX.map((p2, j) =>
-					new Promise((resolve) => setTimeout(resolve, 10 * (i + j))).then(() =>
-						computeBikeDistance([p.lat, p.lon], [p2.lat, p2.lon]).then(
-							(res) => res
-						)
-					)
-				)
-			})
-			.flat()
-	)
-	const filteredRides = rides.filter(
-		(ride) =>
-			// Exclude itineraries that include a ferry route.
-			// TODO maybe we should just exclude the subrides that are ferry ? Doesn't matter much on the final result
-			!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
-	)
+	const filteredRides = rides.filter(isValidRide)
 
 	const score = computeSafePercentage(
 		filteredRides.map((ride) => getMessages(ride)).flat()
 	)
+
 	const segments = filteredRides
 		.map((ride) => segmentGeoJSON(ride))
 		.map((r) => r.features)
 		.flat()
-
-	const pointsCenter = computePointsCenter(points)
 
 	return { pointsCenter, points, segments, score }
 }

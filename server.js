@@ -64,7 +64,7 @@ const cache = apicache.options({
 
 app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
-	brouterRequest(query, res.json)
+	brouterRequest(query, (json) => console.log('JSON', json) || res.json(json))
 })
 
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {

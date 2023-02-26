@@ -1,13 +1,16 @@
 import L from 'leaflet'
 import { useEffect, useState } from 'react'
+import { useMap } from 'react-leaflet/hooks'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
 import { MapContainer } from 'react-leaflet/MapContainer'
+import { FeatureGroup } from 'react-leaflet/FeatureGroup'
 import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
+import { isValidRide, ridesPromises, segmentGeoJSON } from './computeCycling'
 import Logo from './Logo'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
@@ -28,12 +31,32 @@ export default () => {
 
 	const [randomFilter, setRandomFilter] = useState(100)
 
-	const [data, setData] = useState()
+	const [data, setData] = useState({
+		points: [],
+		pointsCenter: null,
+		segments: [],
+		score: null,
+	})
 	const downloadData = async () => {
 		if (clientProcessing) {
 			const points = await pointsProcess(ville, randomFilter),
 				pointsCenter = computePointsCenter(points)
-			setData({ points, pointsCenter })
+			setData((data) => ({ ...data, points, pointsCenter }))
+
+			const rides = ridesPromises(points)
+			rides.map((ride) =>
+				ride.then((result) => {
+					if (isValidRide(result)) {
+						setData((data) => ({
+							...data,
+							segments: [
+								...data.segments,
+								segmentGeoJSON(result).features,
+							].flat(),
+						}))
+					}
+				})
+			)
 		} else {
 			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
 				.then((res) => res.json())
@@ -52,16 +75,14 @@ export default () => {
 		}
 	}, [randomFilter])
 
-	useEffect(() => {}, [])
-
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved
 		if (!(couple.to && couple.from)) return undefined
-		computeBikeDistance(couple.from, couple.to).then((res) => {
+		createItinerary(couple.from, couple.to).then((res) => {
 			//setData(res) // set the state
 		})
 	}, [couple])
-	if (!data) return <p css="text-align: center">Chargement...</p>
+	if (!data) return <p css="text-align: center">Chargement de la page...</p>
 	const { segments, points, pointsCenter, score } = data
 	console.log('points', points)
 
@@ -135,6 +156,7 @@ export default () => {
 						}
 						zoom={12}
 					>
+						<MapZoomer points={points} />
 						<TileLayer
 							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
 							url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
@@ -162,21 +184,25 @@ export default () => {
 								})}
 							/>
 						)}
-						{points.map((point) => (
-							<Marker
-								position={[point.lat, point.lon]}
-								icon={
-									new L.Icon({
-										//										iconUrl:
-										//
-										iconUrl: goodIcon(point),
-										iconSize: [20, 20],
-									})
-								}
-							>
-								<Popup>{JSON.stringify({ id: point.id, ...point.tags })}</Popup>
-							</Marker>
-						))}
+						<FeatureGroup>
+							{points.map((point) => (
+								<Marker
+									position={[point.lat, point.lon]}
+									icon={
+										new L.Icon({
+											//										iconUrl:
+											//
+											iconUrl: goodIcon(point),
+											iconSize: [20, 20],
+										})
+									}
+								>
+									<Popup>
+										{JSON.stringify({ id: point.id, ...point.tags })}
+									</Popup>
+								</Marker>
+							))}
+						</FeatureGroup>
 					</MapContainer>
 				)}
 			</div>
@@ -195,3 +221,13 @@ const Legend = styled.span`
 	vertical-align: middle;
 	background: ${(props) => props.color};
 `
+
+function MapZoomer({ points }) {
+	const map = useMap()
+	useEffect(() => {
+		var bounds = new L.LatLngBounds(
+			points.map((point) => [point.lat, point.lon])
+		)
+		map.fitBounds(bounds, { padding: [20, 20] })
+	}, [points])
+}

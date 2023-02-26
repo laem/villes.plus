@@ -56,5 +56,8 @@ module.exports = {
 			title: 'Piétonnes',
 			template: 'index.html',
 		}),
+		new webpack.DefinePlugin({
+			'process.env.PORT': JSON.stringify(process.env.PORT || '3000'),
+		}),
 	].filter(Boolean),
 }
