@@ -17,6 +17,7 @@ import {
 	segmentGeoJSON,
 	computeSafePercentage,
 	getMessages,
+	isSafePath,
 } from './computeCycling'
 import Logo from './Logo'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
@@ -38,6 +39,7 @@ export default () => {
 	const [clickedSegment, setClickedSegment] = useState()
 
 	const [randomFilter, setRandomFilter] = useState(100)
+	const [segmentFilter, setSegmentFilter] = useState(null)
 
 	const [data, setData] = useState({
 		points: [],
@@ -103,13 +105,17 @@ export default () => {
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
 	const { segments, points, pointsCenter, rides } = data
-	const segmentsToDisplay = clickedPoint
-		? segments.filter(
-				(segment) =>
-					console.log('SEG', segment) ||
-					segment.properties.fromPoint === clickedPoint
-		  )
-		: segments
+	console.log(segments)
+	const segmentsToDisplay = segments
+		.filter(
+			(segment) =>
+				!clickedPoint || segment.properties.fromPoint === clickedPoint
+		)
+		.filter(
+			(segment) =>
+				segmentFilter == null ||
+				isSafePath(segment.properties.tags) === segmentFilter
+		)
 	const score = computeSafePercentage(
 		rides.map((ride) => getMessages(ride)).flat()
 	)
@@ -162,8 +168,24 @@ export default () => {
 				<p>{points.length} points.</p>
 			)}
 			<p>
-				En <Legend color="blue" /> les segments cyclables, en{' '}
-				<Legend color="red" /> le reste.
+				<button
+					css={segmentFilter === true && `border: 2px solid; font-weight: bold`}
+					onClick={() => setSegmentFilter(segmentFilter === true ? null : true)}
+				>
+					{' '}
+					En <Legend color="blue" /> les segments cyclables
+				</button>
+				<button
+					css={
+						segmentFilter === false && `border: 2px solid; font-weight: bold`
+					}
+					onClick={() =>
+						setSegmentFilter(segmentFilter === false ? null : false)
+					}
+				>
+					En <Legend color="red" /> le reste
+				</button>
+				.
 			</p>
 			<p>Traits épais = reliant deux mairies.</p>
 			<div>
@@ -216,8 +238,12 @@ export default () => {
 								key={segmentsToDisplay.length}
 								data={segmentsToDisplay}
 								eventHandlers={{
-									mouseover: (e) => {
-										setClickedSegment(e.sourceTarget.feature)
+									click: (e) => {
+										setClickedSegment(
+											clickedSegment === e.sourceTarget.feature
+												? null
+												: e.sourceTarget.feature
+										)
 									},
 								}}
 								style={(feature) => ({
@@ -226,13 +252,11 @@ export default () => {
 										weight: 5,
 										fillColor: 'cyan',
 										fillOpacity: 1,
-										opacity: 0.8,
 										dashArray: 'none',
 									}),
 									...(clickedSegment === feature
 										? {
 												color: 'yellow',
-												opacity: 0.8,
 												weight: 10,
 												dashArray: '1.2rem',
 										  }

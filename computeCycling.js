@@ -29,7 +29,7 @@ const createItinerary = (from, to) =>
 		}))
 		.catch((e) => console.log('Erreur dans createItinerary', e))
 
-const isSafePath = (tags) =>
+export const isSafePath = (tags) =>
 	tags.includes('highway=living_street') || tags.includes('highway=cycleway')
 //TODO should we include foot paths where bikes have a separated painted lane ? I'm not sure we should. It usually creates friction between bikes and pedestrians
 // maybe when it is segregated ? segregated footway and cycleway tagged on one way highway=path + bicycle=designated + foot=designated + segregated=yes
@@ -71,7 +71,7 @@ export const segmentGeoJSON = (geojson) => {
 						distance: line[3],
 						elevation: line[2],
 						weight: geojson.backboneRide ? '5' : '3',
-						opacity: '.8',
+						opacity: '.6',
 						color: isSafePath(getLineTags(line)) ? 'blue' : 'red',
 						toPoint,
 						fromPoint,
