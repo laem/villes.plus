@@ -145,7 +145,10 @@ export default () => {
 					>
 						sécurisés à {Math.round(score)}%
 					</strong>
-					, pour {points.length} points.
+					,
+					<br />
+					pour {points.length} points, {rides.length} itinéraires,{' '}
+					{segments.length} segments.
 				</p>
 			) : (
 				<p>{points.length} points.</p>
@@ -177,7 +180,15 @@ export default () => {
 				`}
 			>
 				{!pointsCenter ? (
-					'Chargement des données'
+					<div
+						css={`
+							margin: 0 auto;
+							width: 20rem;
+							margin: 2rem;
+						`}
+					>
+						⏳️ Chargement des données, d'abord les points d'intérêt...
+					</div>
 				) : (
 					<MapContainer
 						center={

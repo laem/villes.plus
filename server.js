@@ -70,9 +70,14 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	const { city, requestCore } = req.params
 
-	const response = await fetch(overpassRequestURL(city, requestCore))
-	const json = await response.json()
-	res.json(json)
+	try {
+		console.log(`Will fetch ${requestCore} points for ${city}`)
+		const response = await fetch(overpassRequestURL(city, requestCore))
+		const json = await response.json()
+		res.json(json)
+	} catch (e) {
+		console.log(`Error fetch points for ${city}`, e)
+	}
 })
 
 const scopes = {

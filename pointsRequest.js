@@ -1,10 +1,9 @@
-import { overpassRequestURL } from './cyclingPointsRequests'
-import { shuffleArray } from './utils'
 import booleanContains from '@turf/boolean-contains'
-import point from 'turf-point'
-import { polygon } from '@turf/helpers'
 import center from '@turf/center'
+import { polygon } from '@turf/helpers'
+import point from 'turf-point'
 import { createTurfPointCollection } from './cyclingGeoStudio'
+import { shuffleArray } from './utils'
 
 export const APIUrl = `http://localhost:3000/`
 export const pointsRequest = async (city, randomFilter = 100) => {

@@ -21,7 +21,7 @@ export const requestCores = {
 //  node["shop"="bakery"](area.searchArea);
 //node["public_transport"="stop_position"](area.searchArea);
 // Beware, a lot of stop positions (where the bus precisely stops, are not available, whereas bus stops are, on the test region of Bretagne, e.g. Lorient and Saint-Brieuc
-  node["highway"="bus_stop"](area.searchArea);
+ node["highway"="bus_stop"](area.searchArea);
 `,
 	townhalls: `
   node["amenity"="townhall"](area.searchArea);
