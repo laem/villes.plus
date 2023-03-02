@@ -24,6 +24,7 @@ const createItinerary = (from, to) =>
 			...json,
 			fromPoint: from.id,
 			toPoint: to.id,
+			backboneRide: to.tags.amenity === 'townhall',
 		}))
 		.catch((e) => console.log('Erreur dans createItinerary', e))
 
@@ -62,7 +63,7 @@ export const segmentGeoJSON = (geojson) => {
 						tags: getLineTags(lineBis),
 						distance: lineBis[3],
 						elevation: lineBis[2],
-						weight: '3',
+						weight: geojson.backboneRide ? '5' : '3',
 						opacity: '.8',
 						color: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
 						toPoint,

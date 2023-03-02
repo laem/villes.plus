@@ -44,6 +44,7 @@ export default () => {
 		rides: [],
 		score: null,
 	})
+	const [clickedPoint, setClickedPoint] = useState(null)
 	const downloadData = async () => {
 		if (clientProcessing) {
 			const points = await pointsProcess(ville, randomFilter),
@@ -92,11 +93,16 @@ export default () => {
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
 	const { segments, points, pointsCenter, rides } = data
+	const segmentsToDisplay = clickedPoint
+		? segments.filter(
+				(segment) =>
+					console.log('SEG', segment) ||
+					segment.properties.fromPoint === clickedPoint
+		  )
+		: segments
 	const score = computeSafePercentage(
 		rides.map((ride) => getMessages(ride)).flat()
 	)
-	console.log('SCORE', score)
-
 	return (
 		<div
 			css={`
@@ -175,13 +181,12 @@ export default () => {
 							url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
 						></TileLayer>
 
-						{segments && (
+						{segmentsToDisplay && (
 							<GeoJSON
-								key={segments.length}
-								data={segments}
+								key={segmentsToDisplay.length}
+								data={segmentsToDisplay}
 								eventHandlers={{
 									mouseover: (e) => {
-										console.log(e.sourceTarget.feature)
 										setClickedSegment(e.sourceTarget.feature)
 									},
 								}}
@@ -201,6 +206,13 @@ export default () => {
 						<FeatureGroup>
 							{points.map((point) => (
 								<Marker
+									eventHandlers={{
+										click: (e) => {
+											setClickedPoint(
+												clickedPoint === point.id ? null : point.id
+											)
+										},
+									}}
 									position={[point.lat, point.lon]}
 									icon={
 										new L.Icon({
