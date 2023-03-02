@@ -12,8 +12,19 @@ const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
 
 const createItinerary = (from, to) =>
-	fetch(APIUrl + `bikeRouter/${createBikeRouterQuery(from, to)}`)
+	fetch(
+		APIUrl +
+			`bikeRouter/${createBikeRouterQuery(
+				[from.lat, from.lon],
+				[to.lat, to.lon]
+			)}`
+	)
 		.then((res) => res.json())
+		.then((json) => ({
+			...json,
+			fromPoint: from.id,
+			toPoint: to.id,
+		}))
 		.catch((e) => console.log('Erreur dans createItinerary', e))
 
 const isSafePath = (tags) =>
@@ -33,6 +44,8 @@ export const segmentGeoJSON = (geojson) => {
 		getLineDistance = (line) => line[3],
 		getLineTags = (line) => line[9]
 
+	const { toPoint, fromPoint } = geojson
+	console.log(toPoint, fromPoint)
 	return {
 		type: 'FeatureCollection',
 		features: table
@@ -52,6 +65,8 @@ export const segmentGeoJSON = (geojson) => {
 						weight: '3',
 						opacity: '.8',
 						color: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
+						toPoint,
+						fromPoint,
 					},
 					geometry: {
 						type: 'LineString',
@@ -108,7 +123,7 @@ export const ridesPromises = (points) =>
 
 			return firstX.map((p2, j) =>
 				new Promise((resolve) => setTimeout(resolve, 10 * (i + j))).then(() =>
-					createItinerary([p.lat, p.lon], [p2.lat, p2.lon]).then((res) => res)
+					createItinerary(p, p2).then((res) => res)
 				)
 			)
 		})

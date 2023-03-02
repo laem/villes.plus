@@ -181,6 +181,7 @@ export default () => {
 								data={segments}
 								eventHandlers={{
 									mouseover: (e) => {
+										console.log(e.sourceTarget.feature)
 										setClickedSegment(e.sourceTarget.feature)
 									},
 								}}
@@ -219,7 +220,10 @@ export default () => {
 					</MapContainer>
 				)}
 			</div>
-			{clickedSegment && JSON.stringify(clickedSegment.properties)}
+			{clickedSegment &&
+				JSON.stringify({
+					...clickedSegment.properties,
+				})}
 		</div>
 	)
 }
