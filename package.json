@@ -30,6 +30,7 @@
 		"@babel/preset-env": "^7.7.6",
 		"@babel/preset-react": "^7.7.4",
 		"@mapbox/geojson-area": "^0.2.2",
+		"@mdx-js/loader": "^2.3.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
 		"@turf/area": "^6.0.1",
 		"@turf/boolean-contains": "^6.5.0",

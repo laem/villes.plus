@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import ExplicationsCyclable from './ExplicationsCyclables.mdx'
 
 export default () => (
 	<div
@@ -14,8 +16,8 @@ export default () => (
 		</a>
 		<h1>📖 Explications</h1>
 		<p>
-			Nos villes se transforment. Un critère intéressant est la place donnée aux
-			piétons et aux vélos. Voici{' '}
+			Nos villes se transforment. Deux critères s'imposent comment fondamentaux
+			: la place donnée aux piétons, et celle donnée aux vélos. Voici{' '}
 			<strong>
 				le premier classement libre des grandes villes françaises les plus
 				piétonnes et cyclables
@@ -35,19 +37,11 @@ export default () => (
 			maintenant au moins un 🙂.
 		</p>
 		<h2>Classement des villes cyclables</h2>
-		<p>
-			Précisons : vraiment cyclable, donc avec des pistes cyclables séparées ou
-			des voies où le vélo est prioritaire sur les voitures. La méthode de test
-			: on calcule le trajet vélo le plus sécurisé entre les mairies des
-			communes de la métropole.
-		</p>
-		<p>
-			Attention : pour des raisons de performance, pour chaque mairie, seul les
-			trajets vers les 4 mairies adjacentes sont testés. La sensibilité à ce
-			paramètre n'a pas été testé. Il serait bon de le faire, et de l'augmenter
-			à 5 ou 6 si c'est raisonnable en termes de combinatoire.
-		</p>
-		<h2>Classement des villes piétonnes</h2>
+		C'est par ici pour{' '}
+		<Link to="/explications/cyclables">
+			comprendre la méthode de classement des territoires cyclables
+		</Link>
+		.<h2>Classement des villes piétonnes</h2>
 		<h3>Qu'est-ce qu'une zone piétonne ? </h3>
 		<p>
 			C'est une zone publique où le piéton est prioritaire. Une rue ou une place
@@ -248,6 +242,12 @@ export default () => (
 			sujet.
 		</p>
 		<h2>Qui développe ce classement ? </h2>
-		<p><a href="https://boitam.eu/@maeool">Maël THOMAS</a>. Tout le code <a href="https://github.com/laem/villes.plus/">est libre, venez contribuer</a>.</p>
+		<p>
+			<a href="https://boitam.eu/@maeool">Maël THOMAS</a>. Tout le code{' '}
+			<a href="https://github.com/laem/villes.plus/">
+				est libre, venez contribuer
+			</a>
+			.
+		</p>
 	</div>
 )

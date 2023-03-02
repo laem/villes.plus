@@ -10,6 +10,7 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
+import { Link } from 'react-router-dom'
 import {
 	isValidRide,
 	ridesPromises,
@@ -20,6 +21,7 @@ import {
 import Logo from './Logo'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
+import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -114,10 +116,13 @@ export default () => {
 				> * {
 					max-width: 700px;
 				}
+				p {
+					margin: 0.6rem;
+				}
 			`}
 		>
 			<Logo color={'black'} text={ville} cyclable />
-			<h2>Ma métropole est-elle cyclable ?</h2>
+			<h2>Mon territoire est-il cyclable ?</h2>
 			<p>
 				Précisons : <em>vraiment</em> cyclable, donc des voies cyclables
 				séparées des voitures et piétons, ou des vélorues où le vélo est
@@ -127,12 +132,17 @@ export default () => {
 				La méthode de test : on calcule le trajet vélo le plus sécurisé entre
 				des points représentatifs du territoire : mairies et sélection d'arrêts
 				de bus. Pour chaque point, les trajets vers les 4 points adjacents sont
-				testés.
+				testés. <Link to="/explications/cyclable">En savoir plus</Link>.
 			</p>
 			{score ? (
 				<p>
 					Les trajets de cette métropole sont{' '}
-					<strong title={`Précisément, ${score}`}>
+					<strong
+						title={`Précisément, ${score}`}
+						css={`
+							background: yellow;
+						`}
+					>
 						sécurisés à {Math.round(score)}%
 					</strong>
 					, pour {points.length} points.
@@ -144,6 +154,7 @@ export default () => {
 				En <Legend color="blue" /> les segments cyclables, en{' '}
 				<Legend color="red" /> le reste.
 			</p>
+			<p>Traits épais = reliant deux mairies.</p>
 			<div>
 				<label>
 					Nombre d'arrêts de bus sélectionnés aléatoirement{' '}
@@ -224,7 +235,9 @@ export default () => {
 									}
 								>
 									<Popup>
-										{JSON.stringify({ id: point.id, ...point.tags })}
+										<FriendlyObjectViewer
+											data={{ id: point.id, ...point.tags }}
+										/>
 									</Popup>
 								</Marker>
 							))}
@@ -232,10 +245,9 @@ export default () => {
 					</MapContainer>
 				)}
 			</div>
-			{clickedSegment &&
-				JSON.stringify({
-					...clickedSegment.properties,
-				})}
+			{clickedSegment && (
+				<FriendlyObjectViewer data={clickedSegment.properties} />
+			)}
 		</div>
 	)
 }

@@ -8,10 +8,13 @@ import {
 import { Classement } from './Classement'
 import Cyclable from './Cyclable'
 import Explications from './Explications'
+import ExplicationsCyclables from './ExplicationsCyclables.mdx'
+
 import fetchExceptions from './fetchExceptions'
 import { Nav } from './Nav'
 import Ville from './Ville'
 import Landing from './Landing'
+import styled from 'styled-components'
 
 export default function App() {
 	let [exceptions, setExceptions] = useState({})
@@ -50,6 +53,14 @@ export default function App() {
 						<Route path="/cyclables/:ville" element={<Cyclable />} />
 						<Route path="/explications" element={<Explications />} />
 						<Route
+							path="/explications/cyclables"
+							element={
+								<Article>
+									<ExplicationsCyclables />
+								</Article>
+							}
+						/>
+						<Route
 							path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
 							element={<Ville {...{ exceptions, toggleException }} />}
 						/>
@@ -61,3 +72,19 @@ export default function App() {
 		</Router>
 	)
 }
+
+const Article = styled.article`
+	max-width: 700px;
+	margin: 0 auto;
+	padding: 0 0.6rem;
+	h1 {
+		font-size: 160%;
+	}
+	h2 {
+		font-size: 140%;
+	}
+	img {
+		width: 700px;
+		max-width: 90vw;
+	}
+`
