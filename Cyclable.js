@@ -37,7 +37,7 @@ export default () => {
 
 	const [clickedSegment, setClickedSegment] = useState()
 
-	const [randomFilter, setRandomFilter] = useState(50)
+	const [randomFilter, setRandomFilter] = useState(100)
 
 	const [data, setData] = useState({
 		points: [],
@@ -46,10 +46,18 @@ export default () => {
 		rides: [],
 		score: null,
 	})
+	const townhallPoints = data.points.filter(
+			(point) => point.tags.amenity === 'townhall'
+		),
+		stopsNumber =
+			townhallPoints.length > randomFilter
+				? townhallPoints.length
+				: randomFilter
+
 	const [clickedPoint, setClickedPoint] = useState(null)
-	const downloadData = async () => {
+	const downloadData = async (stopsNumber) => {
 		if (clientProcessing) {
-			const points = await pointsProcess(ville, randomFilter),
+			const points = await pointsProcess(ville, stopsNumber),
 				pointsCenter = computePointsCenter(points)
 			setData((data) => ({ ...data, points, pointsCenter }))
 
@@ -79,12 +87,12 @@ export default () => {
 	}
 
 	useEffect(() => {
-		downloadData()
+		downloadData(stopsNumber)
 
 		return () => {
 			console.log('This will be logged on unmount')
 		}
-	}, [randomFilter])
+	}, [stopsNumber])
 
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved
