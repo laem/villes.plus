@@ -226,9 +226,16 @@ export default () => {
 										weight: 5,
 										fillColor: 'cyan',
 										fillOpacity: 1,
+										opacity: 0.8,
+										dashArray: 'none',
 									}),
 									...(clickedSegment === feature
-										? { color: 'chartreuse' }
+										? {
+												color: 'yellow',
+												opacity: 0.8,
+												weight: 10,
+												dashArray: '1.2rem',
+										  }
 										: {}),
 								})}
 							/>
