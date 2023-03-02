@@ -1,4 +1,5 @@
 import distance from '@turf/distance'
+import { geometry } from '@turf/helpers'
 import point from 'turf-point'
 import { computePointsCenter } from './pointsRequest'
 import { isTransportStop } from './utils'
@@ -38,6 +39,7 @@ const isSafePath = (tags) =>
 // bicycle 	designated ?
 
 export const segmentGeoJSON = (geojson) => {
+	if (geojson.features.length > 1) throw Error('Oulala pas prévu ça')
 	const table = getMessages(geojson)
 	const coordinateStringToNumber = (string) => +string / 10e5
 	const getLineCoordinates = (line) =>
@@ -46,40 +48,58 @@ export const segmentGeoJSON = (geojson) => {
 		getLineTags = (line) => line[9]
 
 	const { toPoint, fromPoint } = geojson
-	console.log(toPoint, fromPoint)
-	return {
+	let lineStringCoordinates = geojson.features[0].geometry.coordinates
+	console.log('geometry', lineStringCoordinates)
+	console.log('TABLE', table)
+	// As I understand this, the "messages" table contains brouter's real measurement of distance
+	// in segments that are grouped, maybe according to tags ?
+	// The LineString ('geometry') contains the real detailed shape
+	// Important info for score calculation is contained in the table,
+	// whereas important info for map display is contained in the LineString
+	// from the first lineString coords to the first message coords (that correspond to another linestring coord), apply the properties of the message
+	// ...
+	// until the last lineString coord, apply the properties of the message, that goes way further in termes of coords but whose distance is right
+	const featureCollection = {
 		type: 'FeatureCollection',
 		features: table
-			.slice(0, -1)
 			.map((line, i) => {
-				// What a mess, this is hacky
-				// TODO : the "messages" table contains way less segments than the LineString. They are grouped. We should reconstruct them as Brouter Web does
-				const lineBis = table[i + 1]
-				if (!lineBis) return
-
+				const [lon, lat] = getLineCoordinates(line)
 				return {
 					type: 'Feature',
 					properties: {
-						tags: getLineTags(lineBis),
-						distance: lineBis[3],
-						elevation: lineBis[2],
+						tags: getLineTags(line),
+						distance: line[3],
+						elevation: line[2],
 						weight: geojson.backboneRide ? '5' : '3',
 						opacity: '.8',
-						color: isSafePath(getLineTags(lineBis)) ? 'blue' : 'red',
+						color: isSafePath(getLineTags(line)) ? 'blue' : 'red',
 						toPoint,
 						fromPoint,
 					},
 					geometry: {
 						type: 'LineString',
-						coordinates: [
-							getLineCoordinates(line),
-							getLineCoordinates(table[i + 1]),
-						],
+						coordinates: (() => {
+							const selected = lineStringCoordinates.reduce(
+								([selected, shouldContinue, rest], next) => {
+									const [lon2, lat2] = next
+									const foundBoundary = lon2 == lon && lat2 == lat
+									if (!foundBoundary || shouldContinue)
+										return [[...selected, next], !foundBoundary, rest]
+									else return [selected, false, [...rest, next]]
+								},
+								[[], true, []]
+							)
+							lineStringCoordinates = selected[2]
+
+							return selected[0]
+						})(),
 					},
 				}
 			})
 			.filter(Boolean),
 	}
+	console.log('FC', featureCollection)
+	return featureCollection
 }
 
 export const getMessages = (geojson) => {
@@ -108,7 +128,6 @@ export const ridesPromises = (points) =>
 			const sorted = points
 				.filter((p2) => {
 					const d = distance(point([p2.lon, p2.lat]), point1)
-					console.log(p, p2, d)
 					return (
 						p != p2 && // suffices for now, it's binary
 						isTransportStop(p) === isTransportStop(p2) &&
