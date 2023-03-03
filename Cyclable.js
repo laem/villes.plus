@@ -157,17 +157,22 @@ export default () => {
 							</strong>
 							,
 							<br />
-							pour {points.length} points, {rides.length} itinéraires,{' '}
-							{segments.length} segments.
+							<SmallLegend>
+								(pour {points.length} points, {rides.length} itinéraires,{' '}
+								{segments.length} segments).
+							</SmallLegend>
 						</p>
 					) : (
 						<p>{points.length} points.</p>
 					)}
-					<p>
+					<div>
 						<button
-							css={
-								segmentFilter === true && `border: 2px solid; font-weight: bold`
-							}
+							css={`
+								${buttonCSS}
+
+								${segmentFilter === true &&
+								`border: 2px solid; font-weight: bold`}
+							`}
 							onClick={() =>
 								setSegmentFilter(segmentFilter === true ? null : true)
 							}
@@ -176,33 +181,36 @@ export default () => {
 							En <Legend color="blue" /> les segments cyclables
 						</button>
 						<button
-							css={
-								segmentFilter === false &&
-								`border: 2px solid; font-weight: bold`
-							}
+							css={`
+								${buttonCSS}
+								${segmentFilter === false &&
+								`border: 2px solid; font-weight: bold; `}
+							`}
 							onClick={() =>
 								setSegmentFilter(segmentFilter === false ? null : false)
 							}
 						>
 							En <Legend color="red" /> le reste
 						</button>
-						.
-					</p>
-					<p>Traits épais = reliant deux mairies.</p>
-					<div>
-						<label>
-							Nombre d'arrêts de bus sélectionnés aléatoirement{' '}
-							<input
-								value={randomFilter}
-								onChange={(e) => setRandomFilter(e.target.value)}
-							/>
-						</label>
 					</div>
+					<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
+					{clientProcessing && (
+						<div>
+							<label>
+								Nombre d'arrêts de bus sélectionnés aléatoirement{' '}
+								<input
+									value={randomFilter}
+									onChange={(e) => setRandomFilter(e.target.value)}
+								/>
+							</label>
+						</div>
+					)}
 					<div
 						css={`
+							margin-top: 1rem;
 							height: 90vh;
 							width: 90vw;
-							max-width: 90vw;
+							max-width: 90vw !important;
 							> div {
 								height: 100%;
 								width: 100%;
@@ -320,3 +328,13 @@ function MapZoomer({ points }) {
 		map.fitBounds(bounds, { padding: [20, 20] })
 	}, [points])
 }
+
+const buttonCSS = `
+margin: .4rem; background: white; border: 2px solid #4117b3; padding: .1rem .4rem; cursor: pointer; 
+border-radius: .4rem`
+
+const SmallLegend = styled.small`
+	text-align: center;
+	display: block;
+	margin-top: 0.1rem;
+`
