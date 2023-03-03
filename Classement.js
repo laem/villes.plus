@@ -4,6 +4,7 @@ import APIUrl from './APIUrl'
 import CityResult from './CityResult'
 import Logo from './Logo'
 import villesListRaw from './villesClassées'
+import algorithmVersion from './algorithmVersion'
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -102,7 +103,7 @@ export function Classement({ cyclable }) {
 						month: 'long',
 						year: 'numeric',
 					})}{' '}
-					- v1
+					- {cyclable ? algorithmVersion : 'v1'}
 				</p>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
