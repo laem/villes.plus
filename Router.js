@@ -10,29 +10,12 @@ import Cyclable from './Cyclable'
 import Explications from './Explications'
 import ExplicationsCyclables from './ExplicationsCyclables.mdx'
 
-import fetchExceptions from './fetchExceptions'
 import { Nav } from './Nav'
 import Ville from './Ville'
 import Landing from './Landing'
 import styled from 'styled-components'
 
 export default function App() {
-	let [exceptions, setExceptions] = useState({})
-
-	useEffect(() => {
-		fetchExceptions().then((json) => setExceptions(json))
-	}, [])
-
-	console.log({ exceptions })
-
-	const toggleException = (ville, id) => {
-		const list = exceptions[ville] || []
-
-		setExceptions({
-			...exceptions,
-			[ville]: list.includes(id) ? list.filter((e) => e !== id) : [...list, id],
-		})
-	}
 	return (
 		<Router>
 			<div
@@ -62,7 +45,7 @@ export default function App() {
 						/>
 						<Route
 							path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
-							element={<Ville {...{ exceptions, toggleException }} />}
+							element={<Ville />}
 						/>
 						<Route path="/" element={<Landing />} />
 					</Routes>

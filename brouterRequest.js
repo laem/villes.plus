@@ -23,7 +23,7 @@ export default (query, then) => {
 					try {
 						then(JSON.parse(data))
 					} catch (e) {
-						console.log('error parsing locally', url)
+						console.log('error parsing locally', url, data)
 						console.log(e)
 					}
 				})

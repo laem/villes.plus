@@ -36,7 +36,7 @@ export const pointsProcess = async (ville, randomFilter) => {
 					point([p.lon, p.lat])
 				)
 		  )
-	console.log({ worldPoints, points })
+	console.log({ worldPoints: worldPoints.length, points: points.length })
 	return points
 }
 

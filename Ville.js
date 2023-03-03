@@ -35,7 +35,7 @@ let getCached = (ville, setData, setRequesting) =>
 		}
 		setData(value)
 	})
-export default ({ exceptions, toggleException }) => {
+export default ({}) => {
 	let { ville } = useParams()
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
@@ -51,8 +51,6 @@ export default ({ exceptions, toggleException }) => {
 			? get(ville, setData, false)
 			: getCached(ville, setData, setRequesting)
 	}, [debug, ville])
-
-	let villeExceptions = exceptions[ville] || []
 
 	return (
 		<div
@@ -83,11 +81,8 @@ export default ({ exceptions, toggleException }) => {
 				{debug && (
 					<DebugBlock
 						{...{
-							exceptions,
 							ville,
-							toggleException,
 							debugData,
-							villeExceptions,
 						}}
 					/>
 				)}
@@ -144,9 +139,7 @@ export default ({ exceptions, toggleException }) => {
 								}}
 							/>
 						)}
-						{debug && data.polygons && (
-							<DebugMap {...{ setDebugData, villeExceptions, data }} />
-						)}
+						{debug && data.polygons && <DebugMap {...{ setDebugData, data }} />}
 					</Map>
 				</div>
 			)}

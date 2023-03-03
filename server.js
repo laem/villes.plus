@@ -9,7 +9,6 @@ import path from 'path'
 import brouterRequest from './brouterRequest'
 import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
-import fetchExceptions from './fetchExceptions'
 import { compute } from './geoStudio.js'
 import villes from './villesClassées'
 import algorithmVersion from './algorithmVersion'
@@ -62,7 +61,7 @@ const cache = apicache.options({
 
 app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
-	brouterRequest(query, (json) => console.log('JSON', json) || res.json(json))
+	brouterRequest(query, (json) => res.json(json))
 })
 
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
@@ -88,11 +87,12 @@ const scopes = {
 		],
 		[
 			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-			({ points, segments, score, pointsCenter }) => ({
+			({ points, segments, score, pointsCenter, rides }) => ({
 				points,
 				segments,
 				score,
 				pointsCenter,
+				rides,
 			}),
 		],
 		[
@@ -175,6 +175,8 @@ const readFile = async (dimension, ville, scope, res) => {
 		computeAndCacheCity(dimension, ville, scope, res)
 	}
 }
+let computingLock = []
+
 const computeAndCacheCity = async (
 	dimension,
 	ville,
@@ -182,35 +184,57 @@ const computeAndCacheCity = async (
 	res,
 	doNotCache
 ) => {
-	console.log('ville pas encore connue : ', ville)
-	fetchExceptions().then((exceptions) =>
-		(dimension === 'walking' ? compute(ville) : computeCycling(ville))
-			.then(({ geoAPI, ...data }) => {
-				scopes[dimension].map(async ([scope, selector]) => {
-					const string = JSON.stringify(selector(data, geoAPI))
+	const intervalId = setInterval(() => {
+		if (
+			computingLock.length > 0 &&
+			!computingLock.includes(ville + dimension)
+		) {
+			console.log(
+				computingLock,
+				' already being processed, waiting for...',
+				ville
+			)
+		} else {
+			computingLock = [...computingLock, ville + dimension]
+			clearInterval(intervalId)
+			return (dimension === 'walking' ? compute(ville) : computeCycling(ville))
+				.then(({ geoAPI, ...data }) => {
+					scopes[dimension].map(async ([scope, selector]) => {
+						const string = JSON.stringify(selector(data, geoAPI))
 
-					try {
-						if (!doNotCache) {
-							const file = await s3
-								.upload({
-									Bucket: BUCKET_NAME,
-									Key: `${getDirectory()}/${ville}.${scope}${
-										dimension === 'cycling' ? '.cycling' : ''
-									}.json`,
-									Body: string,
-								})
-								.promise()
+						try {
+							if (!doNotCache) {
+								const file = await s3
+									.upload({
+										Bucket: BUCKET_NAME,
+										Key: `${getDirectory()}/${ville}.${scope}${
+											dimension === 'cycling' ? '.cycling' : ''
+										}.json`,
+										Body: string,
+									})
+									.promise()
 
-							console.log('Fichier écrit :', ville, scope)
+								console.log('Fichier écrit :', ville, scope)
+							}
+							if (returnScope === scope) {
+								res && res.json(JSON.parse(string))
+								computingLock = computingLock.filter(
+									(el) => el != ville + dimension
+								)
+							}
+						} catch (err) {
+							console.log('removing lock for ', ville + dimension)
+							computingLock = computingLock.filter(
+								(el) => el != ville + dimension
+							)
+							console.log(err) || (res && res.status(400).end())
 						}
-						if (returnScope === scope) res && res.json(JSON.parse(string))
-					} catch (err) {
-						console.log(err) || (res && res.status(400).end())
-					}
+					})
 				})
-			})
-			.catch((e) => console.log(e))
-	)
+				.catch((e) => console.log(e))
+		}
+	}, 10000)
+	console.log('ville pas encore connue : ', ville)
 }
 
 let resUnknownCity = (res, ville) =>
@@ -220,7 +244,7 @@ let resUnknownCity = (res, ville) =>
 
 app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
 	const { ville, scope, dimension } = req.params
-	console.log('api: ', dimension, ville, scope)
+	console.log('API request : ', dimension, ville, scope)
 	readFile(dimension, ville, scope, res)
 })
 

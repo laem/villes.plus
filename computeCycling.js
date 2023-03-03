@@ -1,7 +1,7 @@
 import distance from '@turf/distance'
 import { geometry } from '@turf/helpers'
 import point from 'turf-point'
-import { computePointsCenter } from './pointsRequest'
+import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTransportStop } from './utils'
 
 export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
@@ -21,12 +21,15 @@ const createItinerary = (from, to) =>
 			)}`
 	)
 		.then((res) => res.json())
-		.then((json) => ({
-			...json,
-			fromPoint: from.id,
-			toPoint: to.id,
-			backboneRide: to.tags.amenity === 'townhall',
-		}))
+		.then(
+			(json) =>
+				console.log('brouter response') || {
+					...json,
+					fromPoint: from.id,
+					toPoint: to.id,
+					backboneRide: to.tags.amenity === 'townhall',
+				}
+		)
 		.catch((e) => console.log('Erreur dans createItinerary', e))
 
 export const isSafePath = (tags) =>
@@ -49,8 +52,6 @@ export const segmentGeoJSON = (geojson) => {
 
 	const { toPoint, fromPoint } = geojson
 	let lineStringCoordinates = geojson.features[0].geometry.coordinates
-	console.log('geometry', lineStringCoordinates)
-	console.log('TABLE', table)
 	// As I understand this, the "messages" table contains brouter's real measurement of distance
 	// in segments that are grouped, maybe according to tags ?
 	// The LineString ('geometry') contains the real detailed shape
@@ -99,10 +100,6 @@ export const segmentGeoJSON = (geojson) => {
 			})
 			.filter(Boolean),
 	}
-	console.log(
-		'FC',
-		featureCollection.features.map((f) => f.geometry.coordinates)
-	)
 	return featureCollection
 }
 
@@ -146,12 +143,14 @@ export const ridesPromises = (points) =>
 			const firstX = sorted.slice(0, nearestPointsLimit)
 
 			return firstX.map((p2, j) =>
-				new Promise((resolve) => setTimeout(resolve, 10 * (i + j))).then(() =>
-					createItinerary(p, p2).then((res) => res)
-				)
+				new Promise((resolve) =>
+					setTimeout(resolve, itineraryRequestDelay * (i + j))
+				).then(() => createItinerary(p, p2).then((res) => res))
 			)
 		})
 		.flat()
+
+const itineraryRequestDelay = 200 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
 
 export const isValidRide = (ride) =>
 	// Exclude itineraries that include a ferry route.
@@ -175,5 +174,5 @@ export default async (ville) => {
 		.map((r) => r.features)
 		.flat()
 
-	return { pointsCenter, points, segments, score }
+	return { pointsCenter, points, segments, score, rides }
 }

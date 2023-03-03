@@ -29,7 +29,7 @@ const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
 const debug = false,
-	clientProcessing = true
+	clientProcessing = false
 
 export default () => {
 	const { ville } = useParams()
@@ -40,6 +40,7 @@ export default () => {
 
 	const [randomFilter, setRandomFilter] = useState(100)
 	const [segmentFilter, setSegmentFilter] = useState(null)
+	const [loadingMessage, setLoadingMessage] = useState(null)
 
 	const [data, setData] = useState({
 		points: [],
@@ -79,12 +80,18 @@ export default () => {
 				})
 			)
 		} else {
+			setLoadingMessage('⏳️ Téléchargement en cours des données...')
 			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
 				.then((res) => res.json())
 				.then((json) => {
 					setData(json)
+					setLoadingMessage(false)
 				})
-				.catch((e) => console.log("Problème de fetch de l'API"))
+				.catch((e) =>
+					console.log(
+						"Problème de fetch de l'API de stockage des calculs pour " + ville
+					)
+				)
 		}
 	}
 
@@ -104,7 +111,7 @@ export default () => {
 		})
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
-	const { segments, points, pointsCenter, rides } = data
+	const { segments, points, pointsCenter, rides, score: serverScore } = data
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>
@@ -115,9 +122,9 @@ export default () => {
 				segmentFilter == null ||
 				isSafePath(segment.properties.tags) === segmentFilter
 		)
-	const score = computeSafePercentage(
-		rides.map((ride) => getMessages(ride)).flat()
-	)
+	const score =
+		serverScore ||
+		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
 	return (
 		<div
 			css={`
@@ -147,6 +154,7 @@ export default () => {
 				de bus. Pour chaque point, les trajets vers les 4 points adjacents sont
 				testés. <Link to="/explications/cyclable">En savoir plus</Link>.
 			</p>
+			<p>{loadingMessage}</p>
 			{score != null ? (
 				<p>
 					Les trajets de ce territoire sont{' '}
