@@ -1,25 +1,24 @@
 import L from 'leaflet'
 import { useEffect, useState } from 'react'
-import { useMap } from 'react-leaflet/hooks'
-import { GeoJSON } from 'react-leaflet/GeoJSON'
-import { MapContainer } from 'react-leaflet/MapContainer'
 import { FeatureGroup } from 'react-leaflet/FeatureGroup'
+import { GeoJSON } from 'react-leaflet/GeoJSON'
+import { useMap } from 'react-leaflet/hooks'
+import { MapContainer } from 'react-leaflet/MapContainer'
 import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
-import { Link } from 'react-router-dom'
 import {
-	isValidRide,
-	ridesPromises,
-	segmentGeoJSON,
 	computeSafePercentage,
 	getMessages,
 	isSafePath,
+	isValidRide,
+	ridesPromises,
+	segmentGeoJSON,
 } from './computeCycling'
-import Logo from './Logo'
+import Header from './cyclable/Header'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
@@ -141,163 +140,161 @@ export default () => {
 				}
 			`}
 		>
-			<Logo color={'black'} text={ville} cyclable />
-			<h2>Mon territoire est-il cyclable ?</h2>
-			<p>
-				Précisons : <em>vraiment</em> cyclable, donc des voies cyclables
-				séparées des voitures et piétons, ou des vélorues où le vélo est
-				prioritaire.
-			</p>
-			<p>
-				La méthode de test : on calcule le trajet vélo le plus sécurisé entre
-				des points représentatifs du territoire : mairies et sélection d'arrêts
-				de bus. Pour chaque point, les trajets vers les 4 points adjacents sont
-				testés. <Link to="/explications/cyclable">En savoir plus</Link>.
-			</p>
+			<Header ville={ville} />
 			<p>{loadingMessage}</p>
-			{score != null ? (
-				<p>
-					Les trajets de ce territoire sont{' '}
-					<strong
-						title={`Précisément, ${score}`}
-						css={`
-							background: yellow;
-						`}
-					>
-						sécurisés à {Math.round(score)}%
-					</strong>
-					,
-					<br />
-					pour {points.length} points, {rides.length} itinéraires,{' '}
-					{segments.length} segments.
-				</p>
-			) : (
-				<p>{points.length} points.</p>
-			)}
-			<p>
-				<button
-					css={segmentFilter === true && `border: 2px solid; font-weight: bold`}
-					onClick={() => setSegmentFilter(segmentFilter === true ? null : true)}
-				>
-					{' '}
-					En <Legend color="blue" /> les segments cyclables
-				</button>
-				<button
-					css={
-						segmentFilter === false && `border: 2px solid; font-weight: bold`
-					}
-					onClick={() =>
-						setSegmentFilter(segmentFilter === false ? null : false)
-					}
-				>
-					En <Legend color="red" /> le reste
-				</button>
-				.
-			</p>
-			<p>Traits épais = reliant deux mairies.</p>
-			<div>
-				<label>
-					Nombre d'arrêts de bus sélectionnés aléatoirement{' '}
-					<input
-						value={randomFilter}
-						onChange={(e) => setRandomFilter(e.target.value)}
-					/>
-				</label>
-			</div>
-			<div
-				css={`
-					height: 90vh;
-					width: 90vw;
-					max-width: 90vw;
-					> div {
-						height: 100%;
-						width: 100%;
-					}
-					margin-bottom: 2rem;
-				`}
-			>
-				{!pointsCenter ? (
+			{!loadingMessage && (
+				<>
+					{score != null ? (
+						<p>
+							Les trajets de ce territoire sont{' '}
+							<strong
+								title={`Précisément, ${score}`}
+								css={`
+									background: yellow;
+								`}
+							>
+								sécurisés à {Math.round(score)}%
+							</strong>
+							,
+							<br />
+							pour {points.length} points, {rides.length} itinéraires,{' '}
+							{segments.length} segments.
+						</p>
+					) : (
+						<p>{points.length} points.</p>
+					)}
+					<p>
+						<button
+							css={
+								segmentFilter === true && `border: 2px solid; font-weight: bold`
+							}
+							onClick={() =>
+								setSegmentFilter(segmentFilter === true ? null : true)
+							}
+						>
+							{' '}
+							En <Legend color="blue" /> les segments cyclables
+						</button>
+						<button
+							css={
+								segmentFilter === false &&
+								`border: 2px solid; font-weight: bold`
+							}
+							onClick={() =>
+								setSegmentFilter(segmentFilter === false ? null : false)
+							}
+						>
+							En <Legend color="red" /> le reste
+						</button>
+						.
+					</p>
+					<p>Traits épais = reliant deux mairies.</p>
+					<div>
+						<label>
+							Nombre d'arrêts de bus sélectionnés aléatoirement{' '}
+							<input
+								value={randomFilter}
+								onChange={(e) => setRandomFilter(e.target.value)}
+							/>
+						</label>
+					</div>
 					<div
 						css={`
-							margin: 0 auto;
-							width: 20rem;
-							margin: 2rem;
+							height: 90vh;
+							width: 90vw;
+							max-width: 90vw;
+							> div {
+								height: 100%;
+								width: 100%;
+							}
+							margin-bottom: 2rem;
 						`}
 					>
-						⏳️ Chargement des données, d'abord les points d'intérêt...
-					</div>
-				) : (
-					<MapContainer
-						center={
-							(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
-							defaultCenter
-						}
-						zoom={12}
-					>
-						<MapZoomer points={points} />
-						<TileLayer
-							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
-							url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
-						></TileLayer>
+						{!pointsCenter ? (
+							<div
+								css={`
+									margin: 0 auto;
+									width: 20rem;
+									margin: 2rem;
+								`}
+							>
+								⏳️ Chargement des données, d'abord les points d'intérêt...
+							</div>
+						) : (
+							<MapContainer
+								center={
+									(pointsCenter &&
+										pointsCenter.geometry.coordinates.reverse()) ||
+									defaultCenter
+								}
+								zoom={12}
+							>
+								<MapZoomer points={points} />
+								<TileLayer
+									attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
+									url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
+								></TileLayer>
 
-						{segmentsToDisplay && (
-							<GeoJSON
-								key={segmentsToDisplay.length}
-								data={segmentsToDisplay}
-								eventHandlers={{
-									click: (e) => {
-										setClickedSegment(
-											clickedSegment === e.sourceTarget.feature
-												? null
-												: e.sourceTarget.feature
-										)
-									},
-								}}
-								style={(feature) => ({
-									...feature.properties,
-									...(clickedSegment === feature
-										? {
-												color: 'yellow',
-												weight: 10,
-												dashArray: '1.2rem',
-										  }
-										: {}),
-								})}
-							/>
+								{segmentsToDisplay && (
+									<GeoJSON
+										key={segmentsToDisplay.length}
+										data={segmentsToDisplay}
+										eventHandlers={{
+											click: (e) => {
+												setClickedSegment(
+													clickedSegment === e.sourceTarget.feature
+														? null
+														: e.sourceTarget.feature
+												)
+											},
+										}}
+										style={(feature) => ({
+											...feature.properties,
+											...(clickedSegment === feature
+												? {
+														color: 'yellow',
+														weight: 10,
+														dashArray: '1.2rem',
+												  }
+												: {}),
+										})}
+									/>
+								)}
+								<FeatureGroup>
+									{points.map((point) => (
+										<Marker
+											eventHandlers={{
+												click: (e) => {
+													setClickedPoint(
+														clickedPoint === point.id ? null : point.id
+													)
+												},
+											}}
+											position={[point.lat, point.lon]}
+											icon={
+												new L.Icon({
+													//										iconUrl:
+													//
+													iconUrl: goodIcon(point),
+													iconSize: [20, 20],
+												})
+											}
+										>
+											<Popup>
+												<FriendlyObjectViewer
+													data={{ id: point.id, ...point.tags }}
+												/>
+											</Popup>
+										</Marker>
+									))}
+								</FeatureGroup>
+							</MapContainer>
 						)}
-						<FeatureGroup>
-							{points.map((point) => (
-								<Marker
-									eventHandlers={{
-										click: (e) => {
-											setClickedPoint(
-												clickedPoint === point.id ? null : point.id
-											)
-										},
-									}}
-									position={[point.lat, point.lon]}
-									icon={
-										new L.Icon({
-											//										iconUrl:
-											//
-											iconUrl: goodIcon(point),
-											iconSize: [20, 20],
-										})
-									}
-								>
-									<Popup>
-										<FriendlyObjectViewer
-											data={{ id: point.id, ...point.tags }}
-										/>
-									</Popup>
-								</Marker>
-							))}
-						</FeatureGroup>
-					</MapContainer>
-				)}
-			</div>
-			{clickedSegment && (
-				<FriendlyObjectViewer data={clickedSegment.properties} />
+					</div>
+					{clickedSegment && (
+						<FriendlyObjectViewer data={clickedSegment.properties} />
+					)}
+				</>
 			)}
 		</div>
 	)
