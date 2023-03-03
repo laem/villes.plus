@@ -149,7 +149,7 @@ export default () => {
 			</p>
 			{score != null ? (
 				<p>
-					Les trajets de cette métropole sont{' '}
+					Les trajets de ce territoire sont{' '}
 					<strong
 						title={`Précisément, ${score}`}
 						css={`
