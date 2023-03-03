@@ -247,13 +247,7 @@ export default () => {
 									},
 								}}
 								style={(feature) => ({
-									...(feature.properties || {
-										color: '#4a83ec',
-										weight: 5,
-										fillColor: 'cyan',
-										fillOpacity: 1,
-										dashArray: 'none',
-									}),
+									...feature.properties,
 									...(clickedSegment === feature
 										? {
 												color: 'yellow',

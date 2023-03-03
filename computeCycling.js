@@ -72,7 +72,7 @@ export const segmentGeoJSON = (geojson) => {
 						elevation: line[2],
 						weight: geojson.backboneRide ? '5' : '3',
 						opacity: '.6',
-						color: isSafePath(getLineTags(line)) ? 'blue' : 'red',
+						color: isSafePath(getLineTags(line)) ? 'blue' : '#ff4800',
 						toPoint,
 						fromPoint,
 					},
