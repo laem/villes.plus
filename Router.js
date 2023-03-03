@@ -10,6 +10,7 @@ import { Classement } from './Classement'
 import Cyclable from './Cyclable'
 import Explications from './Explications'
 import ExplicationsCyclables from './ExplicationsCyclables.mdx'
+import ExplicationsPiétonnes from './ExplicationsPiétonnes.mdx'
 import Landing from './Landing'
 import { Nav } from './Nav'
 import Ville from './Ville'
@@ -41,6 +42,14 @@ export default function App() {
 									element={
 										<Article>
 											<Explications />
+										</Article>
+									}
+								/>
+								<Route
+									path="/explications/piétonnes"
+									element={
+										<Article>
+											<ExplicationsPiétonnes />
 										</Article>
 									}
 								/>
