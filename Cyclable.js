@@ -147,7 +147,7 @@ export default () => {
 				de bus. Pour chaque point, les trajets vers les 4 points adjacents sont
 				testés. <Link to="/explications/cyclable">En savoir plus</Link>.
 			</p>
-			{score ? (
+			{score != null ? (
 				<p>
 					Les trajets de cette métropole sont{' '}
 					<strong
