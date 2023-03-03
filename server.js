@@ -64,16 +64,30 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	brouterRequest(query, (json) => res.json(json))
 })
 
+const fetchRetry = async (url, options, n) => {
+	try {
+		return await fetch(url, options)
+	} catch (err) {
+		if (n === 1) throw err
+		console.log('retry fetch points, ', n, ' try left')
+		return await fetchRetry(url, options, n - 1)
+	}
+}
+
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	const { city, requestCore } = req.params
 
 	try {
 		console.log(`Will fetch ${requestCore} points for ${city}`)
-		const response = await fetch(overpassRequestURL(city, requestCore))
+		const response = await fetchRetry(
+			overpassRequestURL(city, requestCore),
+			{},
+			5
+		)
 		const json = await response.json()
 		res.json(json)
 	} catch (e) {
-		console.log(`Error fetch points for ${city}`, e)
+		res.send(`Error fetching and retry points for ${city}`, e)
 	}
 })
 
@@ -185,10 +199,7 @@ const computeAndCacheCity = async (
 	doNotCache
 ) => {
 	const intervalId = setInterval(() => {
-		if (
-			computingLock.length > 0 &&
-			!computingLock.includes(ville + dimension)
-		) {
+		if (computingLock.length > 0) {
 			console.log(
 				computingLock,
 				' already being processed, waiting for...',

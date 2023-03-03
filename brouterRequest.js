@@ -23,8 +23,11 @@ export default (query, then) => {
 					try {
 						then(JSON.parse(data))
 					} catch (e) {
-						console.log('error parsing locally', url, data)
-						console.log(e)
+						if (e.includes('target island detected')) {
+							console.log('caught error parsing locally', url, data)
+							return then(null)
+						}
+						throw Error('Uncaught brouter error', e)
 					}
 				})
 			})

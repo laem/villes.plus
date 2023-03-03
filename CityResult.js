@@ -89,7 +89,7 @@ export default ({ ville, cyclable, data, i }) => {
 						<div>
 							<span css="font-weight: 600;  ">
 								{cyclable
-									? data && data.score
+									? data && Math.round(data.score)
 									: data.percentage < 0
 									? '⏳️'
 									: data.percentage.toFixed(0)}

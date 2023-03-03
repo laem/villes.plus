@@ -30,7 +30,6 @@ const createItinerary = (from, to) =>
 					backboneRide: to.tags.amenity === 'townhall',
 				}
 		)
-		.catch((e) => console.log('Erreur dans createItinerary', e))
 
 export const isSafePath = (tags) =>
 	tags.includes('highway=living_street') || tags.includes('highway=cycleway')
