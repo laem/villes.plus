@@ -1,58 +1,67 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
-	BrowserRouter as Router,
-	Navigate,
+	createBrowserRouter,
+	createRoutesFromElements,
 	Route,
-	Routes,
+	RouterProvider,
 } from 'react-router-dom'
+import styled from 'styled-components'
 import { Classement } from './Classement'
 import Cyclable from './Cyclable'
 import Explications from './Explications'
 import ExplicationsCyclables from './ExplicationsCyclables.mdx'
-
+import Landing from './Landing'
 import { Nav } from './Nav'
 import Ville from './Ville'
-import Landing from './Landing'
-import styled from 'styled-components'
 
 export default function App() {
 	return (
-		<Router>
-			<div
-				css={`
-					height: 100%;
-					display: flex;
-					flex-direction: column;
-					font-size: 110%;
-				`}
-			>
-				<div css="flex-grow: 1; > a {text-decoration: none}">
-					<Routes>
-						<Route
-							path={`/${encodeURIComponent(`pietonnes`)}`}
-							element={<Classement />}
-						/>
-						<Route path="/cyclables" element={<Classement cyclable />} />
-						<Route path="/cyclables/:ville" element={<Cyclable />} />
-						<Route path="/explications" element={<Explications />} />
-						<Route
-							path="/explications/cyclables"
-							element={
-								<Article>
-									<ExplicationsCyclables />
-								</Article>
-							}
-						/>
-						<Route
-							path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
-							element={<Ville />}
-						/>
-						<Route path="/" element={<Landing />} />
-					</Routes>
-				</div>
-				<Nav />
+		<div
+			css={`
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				font-size: 110%;
+			`}
+		>
+			<div css="flex-grow: 1; > a {text-decoration: none}">
+				<RouterProvider
+					router={createBrowserRouter(
+						createRoutesFromElements(
+							<Route element={<Nav />}>
+								<Route path="/" element={<Landing />} />
+								<Route
+									path={`/${encodeURIComponent(`pietonnes`)}`}
+									element={<Classement />}
+								/>
+								<Route path="/cyclables" element={<Classement cyclable />} />
+								<Route path="/cyclables/:ville" element={<Cyclable />} />
+								<Route
+									path="/explications"
+									element={
+										<Article>
+											<Explications />
+										</Article>
+									}
+								/>
+								<Route
+									path="/explications/cyclables"
+									element={
+										<Article>
+											<ExplicationsCyclables />
+										</Article>
+									}
+								/>
+								<Route
+									path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
+									element={<Ville />}
+								/>
+							</Route>
+						)
+					)}
+				></RouterProvider>
 			</div>
-		</Router>
+		</div>
 	)
 }
 

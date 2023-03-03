@@ -1,19 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import ExplicationsCyclable from './ExplicationsCyclables.mdx'
 
 export default () => (
-	<div
-		css={`
-			margin-top: 2rem;
-			max-width: 45rem;
-			margin: 0 auto;
-			padding: 0 1rem;
-		`}
-	>
-		<a href="/" css="font-size: 150%">
-			Revenir au classement
-		</a>
+	<div>
 		<h1>📖 Explications</h1>
 		<p>
 			Nos villes se transforment. Deux critères s'imposent comment fondamentaux
