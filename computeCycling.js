@@ -75,6 +75,7 @@ export const segmentGeoJSON = (geojson) => {
 						color: isSafePath(getLineTags(line)) ? 'blue' : '#ff4800',
 						toPoint,
 						fromPoint,
+						dashArray: 'none',
 					},
 					geometry: {
 						type: 'LineString',
@@ -83,9 +84,9 @@ export const segmentGeoJSON = (geojson) => {
 								([selected, shouldContinue, rest], next) => {
 									const [lon2, lat2] = next
 									const foundBoundary = lon2 == lon && lat2 == lat
-									if (!foundBoundary || shouldContinue)
-										return [[...selected, next], !foundBoundary, rest]
-									else return [selected, false, [...rest, next]]
+									if (!shouldContinue) return [selected, false, [...rest, next]]
+									if (!foundBoundary) return [[...selected, next], true, rest]
+									if (foundBoundary) return [[...selected, next], false, [next]]
 								},
 								[[], true, []]
 							)
@@ -98,7 +99,10 @@ export const segmentGeoJSON = (geojson) => {
 			})
 			.filter(Boolean),
 	}
-	console.log('FC', featureCollection)
+	console.log(
+		'FC',
+		featureCollection.features.map((f) => f.geometry.coordinates)
+	)
 	return featureCollection
 }
 

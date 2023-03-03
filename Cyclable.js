@@ -105,7 +105,6 @@ export default () => {
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
 	const { segments, points, pointsCenter, rides } = data
-	console.log(segments)
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>
