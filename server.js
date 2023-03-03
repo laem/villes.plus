@@ -12,6 +12,7 @@ import { overpassRequestURL } from './cyclingPointsRequests'
 import fetchExceptions from './fetchExceptions'
 import { compute } from './geoStudio.js'
 import villes from './villesClassées'
+import algorithmVersion from './algorithmVersion'
 
 dotenv.config()
 
@@ -37,24 +38,21 @@ const testStorage = async () => {
 		})
 		.promise()
 
-	console.log(`Successfully read test file from ${BUCKET_NAME}`)
+	console.log(
+		`Successfully read test file from ${BUCKET_NAME} : S3 storage works.`
+	)
 
 	console.log(`<<${data.Body.toString('utf-8')}>>`)
 }
 
 testStorage()
 
-const cacheDir = __dirname + '/cache'
-
-if (!fs.existsSync(cacheDir)) {
-	fs.mkdirSync(cacheDir)
-}
-
 const app = express()
 app.use(cors())
 app.use(compression())
 
 app.use(express.static(__dirname))
+
 const cache = apicache.options({
 	headers: {
 		'cache-control': 'no-cache',
@@ -149,14 +147,14 @@ const scopes = {
 	],
 }
 
-const getDirectory = () =>
-	new Date()
+const getDirectory = () => {
+	const date = new Date()
 		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
 		.replace('/', '-')
+	return `${date}/${algorithmVersion}`
+}
 
 const readFile = async (dimension, ville, scope, res) => {
-	return computeAndCacheCity(dimension, ville, scope, res, true)
-	return
 	try {
 		const file = await s3
 			.getObject({
@@ -173,6 +171,7 @@ const readFile = async (dimension, ville, scope, res) => {
 		let data = JSON.parse(content)
 		res && res.json(data)
 	} catch (e) {
+		console.log('No meta found, unknown territory')
 		computeAndCacheCity(dimension, ville, scope, res)
 	}
 }
