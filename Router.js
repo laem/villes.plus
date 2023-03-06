@@ -32,6 +32,10 @@ export default function App() {
 							<Route element={<Nav />}>
 								<Route path="/" element={<Landing />} />
 								<Route
+									path={`/${encodeURIComponent(`piétonnes`)}`}
+									element={<Classement />}
+								/>
+								<Route
 									path={`/${encodeURIComponent(`pietonnes`)}`}
 									element={<Classement />}
 								/>
@@ -63,6 +67,10 @@ export default function App() {
 								/>
 								<Route
 									path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
+									element={<Ville />}
+								/>
+								<Route
+									path={`/${encodeURIComponent(`piétonnes`)}/:ville`}
 									element={<Ville />}
 								/>
 							</Route>
