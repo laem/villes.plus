@@ -3,6 +3,7 @@ import { geometry } from '@turf/helpers'
 import point from 'turf-point'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTransportStop } from './utils'
+import isSafePath from './isSafePath'
 
 export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
 
@@ -30,15 +31,6 @@ const createItinerary = (from, to) =>
 					backboneRide: to.tags.amenity === 'townhall',
 				}
 		)
-
-export const isSafePath = (tags) =>
-	tags.includes('highway=living_street') || tags.includes('highway=cycleway')
-//TODO should we include foot paths where bikes have a separated painted lane ? I'm not sure we should. It usually creates friction between bikes and pedestrians
-// maybe when it is segregated ? segregated footway and cycleway tagged on one way highway=path + bicycle=designated + foot=designated + segregated=yes
-// https://wiki.openstreetmap.org/wiki/Tag:bicycle%3Ddesignated
-//
-// https://www.openstreetmap.org/way/190390497
-// bicycle 	designated ?
 
 export const segmentGeoJSON = (geojson) => {
 	if (geojson.features.length > 1) throw Error('Oulala pas prévu ça')

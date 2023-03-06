@@ -13,7 +13,6 @@ import APIUrl from './APIUrl'
 import {
 	computeSafePercentage,
 	getMessages,
-	isSafePath,
 	isValidRide,
 	ridesPromises,
 	segmentGeoJSON,
@@ -23,12 +22,14 @@ import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
 
+import isSafePath from './isSafePath'
+
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
 const debug = false,
-	clientProcessing = false
+	clientProcessing = true
 
 export default () => {
 	const { ville } = useParams()
@@ -112,6 +113,7 @@ export default () => {
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
 	const { segments, points, pointsCenter, rides, score: serverScore } = data
 	const segmentsToDisplay = segments
+		.filter((segment) => segment.properties.tags.includes('segregated=yes'))
 		.filter(
 			(segment) =>
 				!clickedPoint || segment.properties.fromPoint === clickedPoint
