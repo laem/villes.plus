@@ -22,7 +22,7 @@ import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
 
-import isSafePath from './isSafePath'
+import isSafePath, { isSafePathV2Diff } from './isSafePath'
 
 const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 
@@ -40,6 +40,7 @@ export default () => {
 
 	const [randomFilter, setRandomFilter] = useState(100)
 	const [segmentFilter, setSegmentFilter] = useState(null)
+	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
 	const [data, setData] = useState({
@@ -113,7 +114,6 @@ export default () => {
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
 	const { segments, points, pointsCenter, rides, score: serverScore } = data
 	const segmentsToDisplay = segments
-		.filter((segment) => segment.properties.tags.includes('segregated=yes'))
 		.filter(
 			(segment) =>
 				!clickedPoint || segment.properties.fromPoint === clickedPoint
@@ -122,6 +122,10 @@ export default () => {
 			(segment) =>
 				segmentFilter == null ||
 				isSafePath(segment.properties.tags) === segmentFilter
+		)
+		.filter(
+			(segment) =>
+				showV2NewRules == false || isSafePathV2Diff(segment.properties.tags)
 		)
 	const score =
 		serverScore ||
@@ -194,6 +198,17 @@ export default () => {
 						>
 							En <Legend color="red" /> le reste
 						</button>
+						{clientProcessing && (
+							<button
+								css={`
+									${buttonCSS}
+									${showV2NewRules && `border: 2px solid; font-weight: bold; `}
+								`}
+								onClick={() => setShowV2NewRules(!showV2NewRules)}
+							>
+								Montrer les nouveautés v2
+							</button>
+						)}
 					</div>
 					<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 					{clientProcessing && (
