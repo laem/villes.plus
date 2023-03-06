@@ -29,7 +29,7 @@ const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
 const debug = false,
-	clientProcessing = true
+	clientProcessing = false
 
 export default () => {
 	const { ville } = useParams()
