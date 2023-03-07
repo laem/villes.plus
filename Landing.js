@@ -16,6 +16,7 @@ export default () => (
 				align-items: center;
 				flex-wrap: wrap;
 				a {
+					margin: 1rem;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
@@ -25,15 +26,20 @@ export default () => (
 					span {
 						font-size: 300%;
 					}
+					text-decoration: none;
+					border: 4px solid #4117b3;
+					border-radius: 0.4rem;
+					padding: 0.6rem;
 				}
 			`}
 		>
 			<Link to="/cyclables">
-				<span>🚲️</span> Les métropoles les plus cyclables
+				<span>🚲️</span> Le classement des métropoles{' '}
+				<strong>les plus cyclables</strong>
 			</Link>
 			<Link to="/pietonnes">
 				<span>🚶</span>
-				Les villes les plus piétonnes
+				Le classement des grandes villes <strong>les plus piétonnes</strong>
 			</Link>
 		</div>
 	</div>

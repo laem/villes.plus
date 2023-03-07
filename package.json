@@ -3,14 +3,15 @@
 	"version": "0.0.1",
 	"description": "",
 	"engines": {
-		"node": "18.x"
+		"node": ">=18.x"
 	},
 	"scripts": {
 		"dev": "webpack-dev-server --hot --mode development",
 		"build": "NODE_ENV=production webpack --mode=production -c webpack.config.js",
 		"clean": "rm -rf cache/*",
 		"s": "node -r esm server.js",
-		"start": "node --optimize_for_size --max_old_space_size=3200 -r esm server.js",
+		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
+		"go": "yarn dev & yarn start",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"repository": {
@@ -29,6 +30,7 @@
 		"@babel/preset-env": "^7.7.6",
 		"@babel/preset-react": "^7.7.4",
 		"@mapbox/geojson-area": "^0.2.2",
+		"@mdx-js/loader": "^2.3.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
 		"@turf/area": "^6.0.1",
 		"@turf/boolean-contains": "^6.5.0",
@@ -76,5 +78,6 @@
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.11.1",
 		"yaml-loader": "^0.8.0"
-	}
+	},
+	"devDependencies": {}
 }

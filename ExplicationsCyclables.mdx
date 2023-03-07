@@ -1,0 +1,78 @@
+import Image from './Image.js'
+import MéthodeCyclable from './MéthodeCyclable.mdx'
+
+# Le classement cyclable 
+
+## Introduction
+
+L’année 2022 a vu fleurir dans nos métropoles des annonces de grands plans de voies vélo structurantes. Pour se distinguer, les équipes municipales ont même innové sur le nom de cette colonne vertébrale du vélo destinée à faciliter la transition vers une métropole avec moins de voitures: Nantes aura ses voies magistrales, Rennes aura son REV (Réseau Express Vélo), Lyon ses Voies Lyonnaises, Paris son RER-Vélo (Réseau express régional).
+
+![Une magnifique voie cyclable du REV de Rennes](https://kont.me/images/weelz-rennes-velo-urbain-cycliste-2019-9389.jpg)
+
+Ces bonnes nouvelles s’étaleront sur la prochaine décennie, sauf si une [loi ambitieuse est passée par des responsables politiques ayant pris conscience de l'urgence](https://kont.me/ville-loi-2024) et il sera donc important de suivre avec attention la construction de ces voies. Qu’en est-il de la situation aujourd’hui, et de son évolution mois par mois?
+
+Le nouveau classement des métropoles les plus cyclables, https://villes.plus/cyclables, permet de mettre un chiffre sur ces avancées.
+
+Pour chaque métropole, des itinéraires sécurisés sont tracées par un logiciel de routage, de chaque mairie vers les quatre autres mairies les plus proches. Dans la v2, les arrêts de bus sont ajoutés. La proportion des km véritablement sécurisés de ces itinéraires est calculée, pour obtenir un score final en pourcentage.
+
+L’idée du classement est la suivante: comment prétendre au titre de métropole cyclable si même les infrastructures les plus sécurisées entre les points importants du territoire exposent les cyclistes à un danger permanent? Si même nos élus sont tentés de prendre la voiture pour ne pas vivre dans la crainte de se faire frôler par un chauffard pendant 15 minutes deux fois par jour?
+
+Les métropoles les plus cyclables dans l’édition de décembre 2022 obtiennent environ 30% (Bordeaux, Strasbourg, Toulouse). Les moins cyclables obtiennent seulement quelques % (Aix-Marseille, Nice, Saint-Étienne).
+
+La première version du classement se concentre sur les métropoles, et non les *communes*. Pourquoi ? Car on a toujours tendance à confondre commune et métropole, voir même centre-ville et commune ! Or, si le centre est souvent piéton et cyclable, il ne concentre en général que moins de 10% de la population. 
+
+
+[<Image alt="Une des rares voies cyclables dans la campagne française" src="/images/campagne.jpeg"/>](https://twitter.com/alechat1/status/1627933640729706496/photo/1)
+
+Notez bien la date: le classement étant complètement automatisé, basé sur OpenStreetMap, un nouveau score sera établi chaque mois. Une fois l’algorithme stabilisé, relu, critiqué, l’évolution de ce score sera à suivre de près pour surveiller et récompenser les métropoles les plus engagées, dans la pratique, pour le vélo.
+
+Bien sûr, comme tout classement, celui-ci n’est que complémentaire de l’existant, en premier lieu du Baromètre des villes cyclables, qui chaque année s’intéresse de façon déclarative au ressenti des cyclistes. On ne sera pourtant pas étonné de voir des similarités entre les résultats de ces initiatives (Strasbourg sur le podium, Marseille dans les choux), mais aussi des divergences, car ils ne mesurent pas la même chose.
+
+
+## La méthode de calcul
+
+
+<MéthodeCyclable/>
+
+
+
+
+## Foire aux Questions
+
+### Qui finance ce classement ?
+
+Le classement est financé par par le Puissant Lobby des Cyclistes. Non, c'est une blague : c'est simplement un projet personnel dont le code est entièrement ouvert. Tout le monde est bienvenu pour critiquer et surtout participer à son amélioration :). 
+
+### Pourquoi je croirais ce classement ? 
+
+Le projet est entièrement open source, chacun peut [le scruter et l’améliorer](https://github.com/laem/villes.plus/issues?q=is%3Aissue+is%3Aopen+label%3ACyclable).
+
+Même si nous pensons qu'il est raisonnable de croire en notre travail, l'idée est que tout le monde peut le vérifier en toute autonomie, plutôt que de reposer sur des arguments d'autorité et des boîtes noires cachées derrières des serveurs et des intérêts douteux. 
+
+### Quels sont les équivalents ? 
+
+À notre connaissance, il n'y a pas d'initiatives équivalentes. Si vous en connaissez, dites-le sur [le forum](https://github.com/laem/villes.plus) !
+
+### Le classement est biaisé, aucune ville ne peut atteindre plus de 50%
+
+Si bien sûr ! Seulement, il ne faut pas rester en France, un pays qui n'a presque aucune considération pour les vélos : direction [Amsterdam et ses presque 80%](/cyclables/47811) ! 
+
+### C'est impossible de rendre cyclable une ville : le score de 100% est impossible
+
+Si bien sûr. La solution la plus simple consiste à y interdire les voitures, et n'autoriser que les véhicules au compte-goutte : urgences, assistance, déménagement, certains professionnels, etc.
+
+Même en gardant le droit de circuler sans attestation en voiture, il est possible de faire des voies cyclables séparées partout où c'est assez large, et de donner la priorité aux cyclistes sur le reste des routes. 
+
+Donc si, le score de 100% est possible. Il faut juste le vouloir, politiquement. Il [suffit d'écrire une loi](https://kont.me/ville-loi-2024) et l'appliquer.
+
+### En ville OK, mais dans la campagne, on peut pas rendre tout cyclable !
+
+Il est vrai qu'on ne maillerai que difficilement tout le territoire avec des voies cyclables, et il semble difficile d'imposer à des automobilistes de rouler derrière les vélos à 20 sur de longues lignes droites entre les champs. 
+
+Pourtant, rappelez-vous que ce test ne teste qu'un pourcentage faible de tous les segments : à la campagne, vu le peu d'arrêts de bus, notre algorithme testera essentiellemen les liaisons principales entre communes. 
+
+D'ailleurs, rappelons aussi que l'algorithme ne trace pas bêtement l'itinéraire le plus court entre les points : si les mairies décidaient de rendre cyclable une route (par exemple, bordant un vignoble, OKLM) en parallèle d'une autre réservée aux voitures, cela serait a priori pris en compte dans le classement. Alors, au boulot ! 
+
+Rendre cyclables les grandes liaisons inter-commune, n'est-ce pas un minimum à exiger ? Avec ce minimum, une métropole pourrait atteindre facilement plus de 50%, voir même 80%. Vivement le futur. 
+
+

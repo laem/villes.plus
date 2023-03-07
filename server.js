@@ -1,16 +1,19 @@
-import express from 'express'
-import { compute } from './geoStudio.js'
-import cors from 'cors'
-import fs from 'fs'
-import path from 'path'
-import compression from 'compression'
-import villes from './villesClassées'
-import fetchExceptions from './fetchExceptions'
 import apicache from 'apicache'
 import AWS from 'aws-sdk'
+import compression from 'compression'
+import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-dotenv.config()
+import express from 'express'
+import fs from 'fs'
+import path from 'path'
+import brouterRequest from './brouterRequest'
 import computeCycling from './computeCycling'
+import { overpassRequestURL } from './cyclingPointsRequests'
+import { compute } from './geoStudio.js'
+import villes from './villesClassées'
+import algorithmVersion from './algorithmVersion'
+
+dotenv.config()
 
 const BUCKET_NAME = process.env.BUCKET_NAME
 const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
@@ -34,79 +37,58 @@ const testStorage = async () => {
 		})
 		.promise()
 
-	console.log(`Successfully read test file from ${BUCKET_NAME}`)
+	console.log(
+		`Successfully read test file from ${BUCKET_NAME} : S3 storage works.`
+	)
 
 	console.log(`<<${data.Body.toString('utf-8')}>>`)
 }
 
 testStorage()
 
-const cacheDir = __dirname + '/cache'
-
-if (!fs.existsSync(cacheDir)) {
-	fs.mkdirSync(cacheDir)
-}
-
 const app = express()
 app.use(cors())
 app.use(compression())
 
 app.use(express.static(__dirname))
+
 const cache = apicache.options({
 	headers: {
 		'cache-control': 'no-cache',
 	},
-	debug: true,
+	debug: false,
 }).middleware
 
 app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
-	fetch(
-		`https://brouter.de/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
-	)
-		.then((response) => {
-			console.log('did fetch from brouter', query)
-			return response.json()
-		})
-		.then((json) =>
-			// do some work... this will only occur once per 5 minutes
-			res.json(json)
-		)
+	brouterRequest(query, (json) => res.json(json))
 })
 
-const request = (name) => `
+const fetchRetry = async (url, options, n) => {
+	try {
+		return await fetch(url, options)
+	} catch (err) {
+		if (n === 1) throw err
+		console.log('retry fetch points, ', n, ' try left')
+		return await fetchRetry(url, options, n - 1)
+	}
+}
 
-[out:json][timeout:25];
-( ${
-	/^\d+$/.test(name) ? `area(${3600000000 + +name})` : `area[name="${name}"]`
-}; )->.searchArea;
-(
-  node["amenity"="townhall"](area.searchArea);
-  way["amenity"="townhall"](area.searchArea);
-  relation["amenity"="townhall"](area.searchArea);
-);
-// print results
-out body;
->;
-out skel qt;
-`
-const OverpassInstance = 'https://overpass-api.de/api/interpreter'
+app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
+	const { city, requestCore } = req.params
 
-app.get('/points/:city', cache('1 day'), (req, res) => {
-	const { city } = req.params
-
-	const myRequest = `${OverpassInstance}?data=${request(
-		decodeURIComponent(city)
-	)}`
-	fetch(encodeURI(myRequest))
-		.then((response) => {
-			console.log('did fetch from overpass', city)
-			return response.json()
-		})
-		.then((json) =>
-			// do some work... this will only occur once per 5 minutes
-			res.json(json)
+	try {
+		console.log(`Will fetch ${requestCore} points for ${city}`)
+		const response = await fetchRetry(
+			overpassRequestURL(city, requestCore),
+			{},
+			5
 		)
+		const json = await response.json()
+		res.json(json)
+	} catch (e) {
+		res.send(`Error fetching and retry points for ${city}`, e)
+	}
 })
 
 const scopes = {
@@ -119,11 +101,12 @@ const scopes = {
 		],
 		[
 			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-			({ points, segments, score, pointsCenter }) => ({
+			({ points, segments, score, pointsCenter, rides }) => ({
 				points,
 				segments,
 				score,
 				pointsCenter,
+				rides,
 			}),
 		],
 		[
@@ -178,10 +161,12 @@ const scopes = {
 	],
 }
 
-const getDirectory = () =>
-	new Date()
+const getDirectory = () => {
+	const date = new Date()
 		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
 		.replace('/', '-')
+	return `${date}/${algorithmVersion}`
+}
 
 const readFile = async (dimension, ville, scope, res) => {
 	try {
@@ -200,37 +185,67 @@ const readFile = async (dimension, ville, scope, res) => {
 		let data = JSON.parse(content)
 		res && res.json(data)
 	} catch (e) {
+		console.log('No meta found, unknown territory')
 		computeAndCacheCity(dimension, ville, scope, res)
 	}
 }
-const computeAndCacheCity = async (dimension, ville, returnScope, res) => {
-	console.log('ville pas encore connue : ', ville)
-	fetchExceptions().then((exceptions) =>
-		(dimension === 'walking' ? compute(ville) : computeCycling(ville))
-			.then(({ geoAPI, ...data }) => {
-				scopes[dimension].map(async ([scope, selector]) => {
-					const string = JSON.stringify(selector(data, geoAPI))
+let computingLock = []
 
-					try {
-						const file = await s3
-							.upload({
-								Bucket: BUCKET_NAME,
-								Key: `${getDirectory()}/${ville}.${scope}${
-									dimension === 'cycling' ? '.cycling' : ''
-								}.json`,
-								Body: string,
-							})
-							.promise()
+const computeAndCacheCity = async (
+	dimension,
+	ville,
+	returnScope,
+	res,
+	doNotCache
+) => {
+	const intervalId = setInterval(() => {
+		if (computingLock.length > 0) {
+			console.log(
+				computingLock,
+				' already being processed, waiting for...',
+				ville
+			)
+		} else {
+			computingLock = [...computingLock, ville + dimension]
+			clearInterval(intervalId)
+			return (dimension === 'walking' ? compute(ville) : computeCycling(ville))
+				.then(({ geoAPI, ...data }) => {
+					scopes[dimension].map(async ([scope, selector]) => {
+						const string = JSON.stringify(selector(data, geoAPI))
 
-						console.log('Fichier écrit :', ville, scope)
-						if (returnScope === scope) res && res.json(JSON.parse(string))
-					} catch (err) {
-						console.log(err) || (res && res.status(400).end())
-					}
+						try {
+							if (!doNotCache) {
+								const file = await s3
+									.upload({
+										Bucket: BUCKET_NAME,
+										Key: `${getDirectory()}/${ville}.${scope}${
+											dimension === 'cycling' ? '.cycling' : ''
+										}.json`,
+										Body: string,
+									})
+									.promise()
+
+								console.log('Fichier écrit :', ville, scope)
+							}
+							if (returnScope === scope) {
+								res && res.json(JSON.parse(string))
+								computingLock = computingLock.filter(
+									(el) => el != ville + dimension
+								)
+							}
+						} catch (err) {
+							console.log('removing lock for ', ville + dimension)
+							computingLock = computingLock.filter(
+								(el) => el != ville + dimension
+							)
+							console.log(err) || (res && res.status(400).end())
+						}
+					})
 				})
-			})
-			.catch((e) => console.log(e))
-	)
+				.catch((e) => console.log(e))
+		}
+	}, 10000)
+	console.log('ville pas encore connue : ', ville)
 }
 
 let resUnknownCity = (res, ville) =>
@@ -240,7 +255,7 @@ let resUnknownCity = (res, ville) =>
 
 app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
 	const { ville, scope, dimension } = req.params
-	console.log('api: ', dimension, ville, scope)
+	console.log('API request : ', dimension, ville, scope)
 	readFile(dimension, ville, scope, res)
 })
 

@@ -8,6 +8,16 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				test: /\.mdx?$/,
+				use: [
+					{
+						loader: '@mdx-js/loader',
+						/** @type {import('@mdx-js/loader').Options} */
+						options: {},
+					},
+				],
+			},
+			{
 				test: /\.jsx?$/,
 				exclude: /node_modules/,
 				use: [
@@ -55,6 +65,9 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: 'Piétonnes',
 			template: 'index.html',
+		}),
+		new webpack.DefinePlugin({
+			'process.env.PORT': JSON.stringify(process.env.PORT || '3000'),
 		}),
 	].filter(Boolean),
 }

@@ -77,6 +77,7 @@ export default ({ animate, text, color, cyclable, noLink }) => {
 				{text && (
 					<span
 						css={`
+							margin-left: 0.6rem;
 							color: ${color || blue};
 						`}
 					>
