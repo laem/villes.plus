@@ -11,6 +11,7 @@ import Cyclable from './Cyclable'
 import Explications from './Explications'
 import ExplicationsCyclables from './ExplicationsCyclables.mdx'
 import ExplicationsPiétonnes from './ExplicationsPiétonnes.mdx'
+import MethodeCyclable from './MéthodeCyclable.mdx'
 import Landing from './Landing'
 import { Nav } from './Nav'
 import Ville from './Ville'
@@ -58,6 +59,14 @@ export default function App() {
 									}
 								/>
 								<Route
+									path="/explications/cyclables/méthode"
+									element={
+										<Article>
+											<MethodeCyclable />
+										</Article>
+									}
+								/>
+								<Route
 									path="/explications/cyclables"
 									element={
 										<Article>
@@ -95,5 +104,10 @@ const Article = styled.article`
 	img {
 		width: 700px;
 		max-width: 90vw;
+	}
+	blockquote {
+		margin-left: 0;
+		padding-left: 1.4rem;
+		border-left: 6px solid #4117b330;
 	}
 `
