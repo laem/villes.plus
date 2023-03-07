@@ -75,6 +75,14 @@ export default function App() {
 									}
 								/>
 								<Route
+									path="/explications/*"
+									element={
+										<Article>
+											<Explications />
+										</Article>
+									}
+								/>
+								<Route
 									path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
 									element={<Ville />}
 								/>

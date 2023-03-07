@@ -1,6 +1,8 @@
 import React from 'react'
-import { Link, Outlet, ScrollRestoration } from 'react-router-dom'
+import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 export function Nav({ children }) {
+	const location = useLocation()
+	const specificExplication = location.pathname
 	return (
 		<div
 			css={`
@@ -56,7 +58,7 @@ export function Nav({ children }) {
 						</Link>
 					</li>
 					<li>
-						<Link to="/explications">Explications</Link>
+						<Link to={`/explications${specificExplication}`}>Explications</Link>
 					</li>
 					<li>
 						<a
