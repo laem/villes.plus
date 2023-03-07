@@ -14,6 +14,9 @@
 		"go": "yarn dev & yarn start",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
+	"reactSnap": {
+		"source": "dist"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+ssh://git@github.com/laem/pietonnes.git"
@@ -67,10 +70,11 @@
 		"ramda": "^0.28.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-helmet": "^6.1.0",
 		"react-leaflet": "^4.1.0",
 		"react-mapbox-gl": "^5.1.1",
 		"react-refresh": "^0.14.0",
-		"react-router-dom": "^6.4.2",
+		"react-router-dom": "^6.8.2",
 		"style-loader": "^3.3.1",
 		"styled-components": "^5.3.6",
 		"turf-point": "^2.0.1",

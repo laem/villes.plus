@@ -5,6 +5,7 @@ import CityResult from './CityResult'
 import Logo from './Logo'
 import villesListRaw from './villesClassées'
 import algorithmVersion from './algorithmVersion'
+import Meta from './Meta'
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -48,6 +49,7 @@ export function Classement({ cyclable }) {
 
 	return (
 		<>
+			<Meta title="Le classement des villes cyclables" />
 			<Logo animate cyclable={cyclable} />
 			<div
 				css={`

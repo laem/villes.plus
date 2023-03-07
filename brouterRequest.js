@@ -23,7 +23,7 @@ export default (query, then) => {
 					try {
 						then(JSON.parse(data))
 					} catch (e) {
-						if (e.includes('target island detected')) {
+						if (e.toString().includes('target island detected')) {
 							console.log('caught error parsing locally', url, data)
 							return then(null)
 						}

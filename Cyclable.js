@@ -10,6 +10,7 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
+import Meta from './Meta'
 import {
 	computeSafePercentage,
 	getMessages,
@@ -29,7 +30,7 @@ const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
 const debug = false,
-	clientProcessing = true
+	clientProcessing = false
 
 export default () => {
 	const { ville } = useParams()
@@ -146,6 +147,7 @@ export default () => {
 				}
 			`}
 		>
+			<Meta title="Le classement des villes cyclables" />
 			<Header ville={ville} />
 			<p>{loadingMessage}</p>
 			{!loadingMessage && (
