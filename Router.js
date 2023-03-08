@@ -32,14 +32,8 @@ export default function App() {
 						createRoutesFromElements(
 							<Route element={<Nav />}>
 								<Route path="/" element={<Landing />} />
-								<Route
-									path={`/${encodeURIComponent(`piétonnes`)}`}
-									element={<Classement />}
-								/>
-								<Route
-									path={`/${encodeURIComponent(`pietonnes`)}`}
-									element={<Classement />}
-								/>
+								<Route path="/piétonnes" element={<Classement />} />
+								<Route path={'pietonnes'} element={<Classement />} />
 								<Route path="/cyclables" element={<Classement cyclable />} />
 								<Route path="/cyclables/:ville" element={<Cyclable />} />
 								<Route
@@ -82,14 +76,8 @@ export default function App() {
 										</Article>
 									}
 								/>
-								<Route
-									path={`/${encodeURIComponent(`pietonnes`)}/:ville`}
-									element={<Ville />}
-								/>
-								<Route
-									path={`/${encodeURIComponent(`piétonnes`)}/:ville`}
-									element={<Ville />}
-								/>
+								<Route path={'/pietonnes/:ville'} element={<Ville />} />
+								<Route path="/piétonnes/:ville" element={<Ville />} />
 							</Route>
 						)
 					)}

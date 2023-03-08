@@ -34,7 +34,7 @@ export default ({ ville, cyclable, data, i }) => {
 				}
 			`}
 		>
-			<Link to={encodeURI((cyclable ? '/cyclables/' : '/pietonnes/') + ville)}>
+			<Link to={encodeURI((cyclable ? '/cyclables/' : '/piétonnes/') + ville)}>
 				<div
 					css={`
 						font-weight: bold;
