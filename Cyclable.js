@@ -25,7 +25,8 @@ import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
 
 import isSafePath, { isSafePathV2Diff } from './isSafePath'
 
-const MapTilerKey = '1H6fEpmHR9xGnAYjulX3'
+const MapBoxToken =
+	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -258,8 +259,8 @@ export default () => {
 							>
 								<MapZoomer points={points} />
 								<TileLayer
-									attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapTiler'
-									url={`https://api.maptiler.com/maps/toner/{z}/{x}/{y}.png?key=${MapTilerKey}`}
+									attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapBox'
+									url={`https://api.mapbox.com/styles/v1/kont/clf45ojd3003301ln8rp5fomd/tiles/{z}/{x}/{y}?access_token=${MapBoxToken}`}
 								></TileLayer>
 
 								{segmentsToDisplay && (

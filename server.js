@@ -4,7 +4,6 @@ import compression from 'compression'
 import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from 'express'
-import fs from 'fs'
 import path from 'path'
 import brouterRequest from './brouterRequest'
 import computeCycling from './computeCycling'
@@ -12,6 +11,7 @@ import { overpassRequestURL } from './cyclingPointsRequests'
 import { compute } from './geoStudio.js'
 import villes from './villesClassées'
 import algorithmVersion from './algorithmVersion'
+import { writeFileSyncRecursive } from './nodeUtils'
 
 dotenv.config()
 
@@ -215,12 +215,26 @@ const computeAndCacheCity = async (
 
 						try {
 							if (!doNotCache) {
+								const fileName = `${getDirectory()}/${ville}.${scope}${
+									dimension === 'cycling' ? '.cycling' : ''
+								}.json`
+								try {
+									writeFileSyncRecursive(
+										`${__dirname}/cache/${fileName}`,
+										string
+									)
+									// fichier écrit avec succès
+								} catch (err) {
+									console.error(
+										"Erreur dans l'écriture du fichier localement",
+										fileName,
+										err
+									)
+								}
 								const file = await s3
 									.upload({
 										Bucket: BUCKET_NAME,
-										Key: `${getDirectory()}/${ville}.${scope}${
-											dimension === 'cycling' ? '.cycling' : ''
-										}.json`,
+										Key: fileName,
 										Body: string,
 									})
 									.promise()

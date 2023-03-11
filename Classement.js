@@ -46,6 +46,7 @@ export function Classement({ cyclable }) {
 	}, [])
 
 	let villesEntries = Object.entries(villes)
+	const [gridView, setGridView] = useState(false)
 
 	return (
 		<>
@@ -53,7 +54,7 @@ export function Classement({ cyclable }) {
 			<Logo animate cyclable={cyclable} />
 			<div
 				css={`
-					max-width: 45rem;
+					${gridView ? 'width: 100%;' : 'max-width: 45rem;'}
 					margin: 0 auto;
 					padding: 0.6rem;
 					h2 {
@@ -106,6 +107,12 @@ export function Classement({ cyclable }) {
 						year: 'numeric',
 					})}{' '}
 					- {cyclable ? algorithmVersion : 'v1'}
+					<button
+						onClick={() => setGridView(!gridView)}
+						css="margin-left: .6rem"
+					>
+						🪟 vue grille
+					</button>
 				</p>
 				{villesEntries.length === 0 && (
 					<p css="font-weight: 600; margin-top: 3rem; text-align: center">
@@ -113,7 +120,18 @@ export function Classement({ cyclable }) {
 					</p>
 				)}
 				{
-					<ol>
+					<ol
+						css={`
+							${gridView
+								? `
+							display: flex; flex-wrap: wrap;
+							padding: 0 2rem !important;
+							li {width: 28rem; height: 20rem; justify-content: center; align-items: center}
+
+							`
+								: ''}
+						`}
+					>
 						{villesEntries
 							.map(([ville, data]) => {
 								if (cyclable) return [ville, data]

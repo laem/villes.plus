@@ -35,7 +35,7 @@ export default ({ ville, cyclable, data, i }) => {
 			`}
 		>
 			<Link to={encodeURI((cyclable ? '/cyclables/' : '/piétonnes/') + ville)}>
-				<div
+				<h3
 					css={`
 						font-weight: bold;
 						font-size: 130%;
@@ -47,7 +47,7 @@ export default ({ ville, cyclable, data, i }) => {
 				>
 					<span css="width: 3rem; text-align: center">{medal}&nbsp;</span>
 					{ville}
-				</div>
+				</h3>
 				<div
 					css={`
 						display: flex;
