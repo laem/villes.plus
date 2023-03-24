@@ -401,6 +401,11 @@ const createStyle = (properties) => ({
 				baseOpacity
 			)) ||
 		0.6,
-	color: properties.isSafePath ? 'blue' : '#ff4800',
+	color:
+		properties.isSafePath == null
+			? properties.color
+			: properties.isSafePath
+			? 'blue'
+			: '#ff4800',
 	dashArray: 'none',
 })

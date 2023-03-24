@@ -103,7 +103,7 @@ const getDirectory = () => {
 	return `${date}/${algorithmVersion}`
 }
 
-const doNotCache = true
+const doNotCache = false
 const readFile = async (dimension, ville, scope, res) => {
 	const compute = () =>
 		computeAndCacheCity(dimension, ville, scope, res, doNotCache)
@@ -121,6 +121,7 @@ const readFile = async (dimension, ville, scope, res) => {
 		const content = file.Body.toString('utf-8')
 		console.log('les meta sont déjà là pour ' + ville)
 
+		console.log('will parse and filter data from S3', ville, scope)
 		let data = JSON.parse(content),
 			filteredData = scopes[dimension].find(
 				([name, selector]) => name === scope
