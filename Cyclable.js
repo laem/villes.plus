@@ -131,6 +131,17 @@ export default () => {
 		score: serverScore,
 		ridesLength,
 	} = data
+
+	const interactiveSegmentDemo = false
+	useEffect(() => {
+		if (!interactiveSegmentDemo) return
+		let counter = 0
+		const interval = setInterval(() => {
+			setClickedSegment(segments[counter])
+			counter += 1
+		}, 50)
+		return () => clearInterval(interval)
+	}, [segments])
 	window.segments = segments
 	const segmentsToDisplay = segments
 		.filter(
@@ -300,6 +311,7 @@ export default () => {
 														color: 'yellow',
 														weight: 10,
 														dashArray: '1.2rem',
+														opacity: 1,
 												  }
 												: {}),
 										})}
