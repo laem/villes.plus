@@ -13,15 +13,23 @@ const omitUselessProperties = (object) => {
 	return result
 }
 
+const coordinatesHash = (s) =>
+	s.geometry.coordinates.map((point) => point.join(',')).join(',')
 const compressSegments = (segments) => {
 	const duplicateGeometrySegments = segments.reduce((memo, s, i) => {
-		const hash = JSON.stringify(s.geometry)
+		const hash = coordinatesHash(s)
 		return { ...memo, [hash]: [...(memo[hash] || []), s] }
 	}, {})
 
 	const result = Object.entries(duplicateGeometrySegments).map(
 		([hash, values]) => ({
-			...values[0],
+			type: 'Feature',
+			geometry: {
+				type: 'LineString',
+				coordinates: values[0].geometry.coordinates.map(
+					(point) => point.slice(0, 2) // remove elevation, useless
+				),
+			},
 			properties: {
 				...omitUselessProperties(values[0].properties),
 				rides: values.map((v) => [
