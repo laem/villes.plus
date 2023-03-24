@@ -132,7 +132,15 @@ const readFile = async (dimension, ville, scope, res) => {
 		compute()
 	}
 }
+
 let computingLock = []
+
+const removeLock = (ville, dimension) => {
+	computingLock = computingLock.filter((el) => el != ville + dimension)
+}
+const addLock = (ville, dimension) => {
+	computingLock = [...computingLock, ville + dimension]
+}
 
 const computeAndCacheCity = async (
 	dimension,
@@ -149,7 +157,7 @@ const computeAndCacheCity = async (
 				ville
 			)
 		} else {
-			computingLock = [...computingLock, ville + dimension]
+			addLock(ville, dimension)
 			clearInterval(intervalId)
 			return (dimension === 'walking' ? compute(ville) : computeCycling(ville))
 				.then(({ geoAPI, ...data }) => {
@@ -186,20 +194,19 @@ const computeAndCacheCity = async (
 							}
 							if (returnScope === scope) {
 								res && res.json(JSON.parse(string))
-								computingLock = computingLock.filter(
-									(el) => el != ville + dimension
-								)
+								removeLock(ville, dimension)
 							}
 						} catch (err) {
 							console.log('removing lock for ', ville + dimension)
-							computingLock = computingLock.filter(
-								(el) => el != ville + dimension
-							)
+							removeLock(ville, dimension)
 							console.log(err) || (res && res.status(400).end())
 						}
 					})
 				})
-				.catch((e) => console.log(e))
+				.catch((e) => {
+					removeLock(ville, dimension)
+					console.log(e)
+				})
 		}
 	}, 10000)
 	console.log('ville pas encore connue : ', ville)
