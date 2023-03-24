@@ -142,11 +142,13 @@ export default () => {
 		}, 50)
 		return () => clearInterval(interval)
 	}, [segments])
-	window.segments = segments
+	console.log(segments)
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>
-				!clickedPoint || segment.properties.fromPoint === clickedPoint
+				!clickedPoint ||
+				segment.properties.fromPoint === clickedPoint ||
+				(segment.properties.rides || []).find((r) => r[1] === clickedPoint)
 		)
 		.filter(
 			(segment) =>
@@ -305,7 +307,7 @@ export default () => {
 											},
 										}}
 										style={(feature) => ({
-											...feature.properties,
+											...createStyle(feature.properties),
 											...(clickedSegment === feature
 												? {
 														color: 'yellow',
@@ -387,3 +389,18 @@ const SmallLegend = styled.small`
 	display: block;
 	margin-top: 0.1rem;
 `
+
+const baseOpacity = 0.6
+const createStyle = (properties) => ({
+	weight:
+		properties.backboneRide || properties.rides?.some((r) => r[2]) ? '6' : '3',
+	opacity:
+		(properties.rides &&
+			properties.rides.reduce(
+				(memo, next) => memo + memo * baseOpacity,
+				baseOpacity
+			)) ||
+		0.6,
+	color: properties.isSafePath ? 'blue' : '#ff4800',
+	dashArray: 'none',
+})

@@ -1,3 +1,24 @@
+const compressSegments = (segments) => {
+	const duplicateGeometrySegments = segments.reduce((memo, s, i) => {
+		const hash = JSON.stringify(s.geometry)
+		return { ...memo, [hash]: [...(memo[hash] || []), s] }
+	}, {})
+
+	const result = Object.entries(duplicateGeometrySegments).map(
+		([hash, values]) => ({
+			...values[0],
+			properties: {
+				...values[0].properties,
+				rides: values.map((v) => [
+					v.properties.toPoint,
+					v.properties.fromPoint,
+					v.properties.backboneRide,
+				]),
+			},
+		})
+	)
+	return result
+}
 export default {
 	cycling: [
 		[
@@ -10,7 +31,8 @@ export default {
 			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
 			({ points, segments, score, pointsCenter, rides }) => ({
 				points,
-				segments,
+				//segments,
+				segments: compressSegments(segments),
 				score,
 				pointsCenter,
 				ridesLength: rides.length,

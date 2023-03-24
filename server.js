@@ -103,7 +103,11 @@ const getDirectory = () => {
 	return `${date}/${algorithmVersion}`
 }
 
+const doNotCache = true
 const readFile = async (dimension, ville, scope, res) => {
+	const compute = () =>
+		computeAndCacheCity(dimension, ville, scope, res, doNotCache)
+	if (doNotCache) return compute()
 	try {
 		const file = await s3
 			.getObject({
@@ -124,7 +128,7 @@ const readFile = async (dimension, ville, scope, res) => {
 		res && res.json(filteredData)
 	} catch (e) {
 		console.log('No meta found, unknown territory')
-		computeAndCacheCity(dimension, ville, scope, res)
+		compute()
 	}
 }
 let computingLock = []
@@ -207,7 +211,7 @@ let resUnknownCity = (res, ville) =>
 
 app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
 	const { ville, scope, dimension } = req.params
-	console.log('API request : ', dimension, ville, scope)
+	console.log('API request : ', dimension, ville, ' for the ', scope, ' scope')
 	readFile(dimension, ville, scope, res)
 })
 
