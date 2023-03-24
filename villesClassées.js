@@ -18,7 +18,7 @@ const villes = [
 	['Saint-Étienne', 'Saint-Étienne Métropole'],
 	'Le Havre',
 	['Tours', 'Tours Métropole Val de Loire'],
-	'Toulon',
+	['Toulon', 'Métropole Toulon-Provence-Méditerranée'],
 	['Grenoble', 'Grenoble-Alpes Métropole'],
 	['Dijon', 'Dijon Métropole'],
 	'Angers',
