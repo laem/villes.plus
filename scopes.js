@@ -1,3 +1,5 @@
+import { groupBy } from 'ramda'
+
 const omitUselessProperties = (object) => {
 	const {
 		distance,
@@ -15,12 +17,21 @@ const omitUselessProperties = (object) => {
 
 const coordinatesHash = (s) =>
 	s.geometry.coordinates.map((point) => point.join(',')).join(',')
-const compressSegments = (segments) => {
-	const duplicateGeometrySegments = segments.reduce((memo, s, i) => {
-		const hash = coordinatesHash(s)
-		return { ...memo, [hash]: [...(memo[hash] || []), s] }
-	}, {})
 
+const compressSegments = (segments) => {
+	console.log('will compress segments', segments.length)
+	console.time('compress')
+
+	const duplicateGeometrySegments0 = segments.map((segment) =>
+		coordinatesHash(segment)
+	)
+	console.log('did build segment hash fake', duplicateGeometrySegments0.length)
+	console.timeLog('compress')
+
+	const duplicateGeometrySegments = groupBy(coordinatesHash, segments)
+
+	console.log('did build segment hash table')
+	console.timeLog('compress')
 	const result = Object.entries(duplicateGeometrySegments).map(
 		([hash, values]) => ({
 			type: 'Feature',
@@ -40,6 +51,8 @@ const compressSegments = (segments) => {
 			},
 		})
 	)
+	console.log('did compress')
+	console.timeEnd('compress')
 	return result
 }
 export default {
