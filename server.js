@@ -12,6 +12,7 @@ import { compute } from './geoStudio.js'
 import villes from './villesClassées'
 import algorithmVersion from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
+import scopes from './scopes'
 
 dotenv.config()
 
@@ -30,18 +31,22 @@ const s3 = new AWS.S3({
 })
 
 const testStorage = async () => {
-	const data = await s3
-		.getObject({
-			Bucket: BUCKET_NAME,
-			Key: 'yo.txt',
-		})
-		.promise()
+	try {
+		const data = await s3
+			.getObject({
+				Bucket: BUCKET_NAME,
+				Key: 'yo.txt',
+			})
+			.promise()
 
-	console.log(
-		`Successfully read test file from ${BUCKET_NAME} : S3 storage works.`
-	)
+		console.log(
+			`Successfully read test file from ${BUCKET_NAME} : S3 storage works.`
+		)
 
-	console.log(`<<${data.Body.toString('utf-8')}>>`)
+		console.log(`<<${data.Body.toString('utf-8')}>>`)
+	} catch (e) {
+		console.log('Problem fetching S3 test object', e)
+	}
 }
 
 testStorage()
@@ -91,76 +96,6 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	}
 })
 
-const scopes = {
-	cycling: [
-		[
-			'meta', // get data only for the front page, lightweight request
-			({ score }) => ({
-				score,
-			}),
-		],
-		[
-			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-			({ points, segments, score, pointsCenter, rides }) => ({
-				points,
-				segments,
-				score,
-				pointsCenter,
-				rides,
-			}),
-		],
-		[
-			'complete', // not implemented yet
-			({}) => ({}),
-		],
-	],
-
-	walking: [
-		[
-			'meta', // get data only for the front page, lightweight request
-			(
-				{
-					pedestrianArea,
-					relativeArea,
-					meanStreetWidth,
-					streetsWithWidthCount,
-				},
-				geoAPI
-			) => ({
-				pedestrianArea,
-				relativeArea,
-				meanStreetWidth,
-				streetsWithWidthCount,
-				geoAPI,
-			}),
-		],
-		[
-			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-			(
-				{
-					mergedPolygons,
-					pedestrianArea,
-					relativeArea,
-					meanStreetWidth,
-					streetsWithWidthCount,
-				},
-				geoAPI
-			) => ({
-				mergedPolygons,
-				relativeArea,
-				meanStreetWidth,
-				streetsWithWidthCount,
-				pedestrianArea,
-				geoAPI,
-			}),
-		],
-		[
-			'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website
-			({ polygons }, geoAPI) => ({ polygons, geoAPI }),
-		],
-	],
-}
-
 const getDirectory = () => {
 	const date = new Date()
 		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
@@ -182,8 +117,11 @@ const readFile = async (dimension, ville, scope, res) => {
 		const content = file.Body.toString('utf-8')
 		console.log('les meta sont déjà là pour ' + ville)
 
-		let data = JSON.parse(content)
-		res && res.json(data)
+		let data = JSON.parse(content),
+			filteredData = scopes[dimension].find(
+				([name, selector]) => name === scope
+			)[1](data)
+		res && res.json(filteredData)
 	} catch (e) {
 		console.log('No meta found, unknown territory')
 		computeAndCacheCity(dimension, ville, scope, res)

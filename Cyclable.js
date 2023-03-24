@@ -24,6 +24,7 @@ import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
 
 import isSafePath, { isSafePathV2Diff } from './isSafePath'
+import deepEqual from 'deep-equal'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -114,7 +115,23 @@ export default () => {
 		})
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
-	const { segments, points, pointsCenter, rides, score: serverScore } = data
+	function bytesCount(s, divider = 1000) {
+		return new TextEncoder().encode(JSON.stringify(s)).length / divider
+	}
+	Object.entries(data).map(([k, v]) =>
+		console.log(k, bytesCount(v, 1000 * 1000))
+	)
+	console.log('DATA', data)
+	//rides are not necessary when using server computed data
+	const {
+		segments,
+		points,
+		pointsCenter,
+		rides,
+		score: serverScore,
+		ridesLength,
+	} = data
+	window.segments = segments
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>
@@ -167,8 +184,8 @@ export default () => {
 							,
 							<br />
 							<SmallLegend>
-								(pour {points.length} points, {rides.length} itinéraires,{' '}
-								{segments.length} segments).
+								(pour {points.length} points, {ridesLength || rides.length}{' '}
+								itinéraires, {segments.length} segments).
 							</SmallLegend>
 						</p>
 					) : (
