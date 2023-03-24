@@ -63,6 +63,7 @@ export default {
 				points,
 				//segments,
 				segments: compressedSegments ? segments : compressSegments(segments),
+				compressedSegments: true,
 				score,
 				pointsCenter,
 				ridesLength: rides.length,
