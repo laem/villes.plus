@@ -20,7 +20,7 @@ const villes = [
 	['Tours', 'Tours Métropole Val de Loire'],
 	'Toulon',
 	['Grenoble', 'Grenoble-Alpes Métropole'],
-	'Dijon',
+	['Dijon', 'Dijon Métropole'],
 	'Angers',
 	'Nîmes',
 	'Villeurbanne',
