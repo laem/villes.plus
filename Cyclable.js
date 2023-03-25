@@ -22,6 +22,7 @@ import Header from './cyclable/Header'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
+import Loader from './Loader'
 
 import isSafePath, { isSafePathV2Diff } from './isSafePath'
 import deepEqual from 'deep-equal'
@@ -180,7 +181,12 @@ export default () => {
 		>
 			<Meta title="Le classement des villes cyclables" />
 			<Header ville={ville} />
-			<p>{loadingMessage}</p>
+			{loadingMessage && (
+				<>
+					<Loader />
+					<p>{loadingMessage}</p>
+				</>
+			)}
 			{!loadingMessage && (
 				<>
 					{score != null ? (
