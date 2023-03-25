@@ -91,15 +91,13 @@ export default {
 	walking: [
 		[
 			'meta', // get data only for the front page, lightweight request
-			(
-				{
-					pedestrianArea,
-					relativeArea,
-					meanStreetWidth,
-					streetsWithWidthCount,
-				},
-				geoAPI
-			) => ({
+			({
+				pedestrianArea,
+				relativeArea,
+				meanStreetWidth,
+				streetsWithWidthCount,
+				geoAPI,
+			}) => ({
 				pedestrianArea,
 				relativeArea,
 				meanStreetWidth,
@@ -109,16 +107,14 @@ export default {
 		],
 		[
 			'merged', //all the above, plus data to visualise the merged polygon from which the area is computed
-			(
-				{
-					mergedPolygons,
-					pedestrianArea,
-					relativeArea,
-					meanStreetWidth,
-					streetsWithWidthCount,
-				},
-				geoAPI
-			) => ({
+			({
+				mergedPolygons,
+				pedestrianArea,
+				relativeArea,
+				meanStreetWidth,
+				streetsWithWidthCount,
+				geoAPI,
+			}) => ({
 				mergedPolygons,
 				relativeArea,
 				meanStreetWidth,
@@ -129,7 +125,7 @@ export default {
 		],
 		[
 			'complete', // all the above, plus all the polygons, to debug the request result and exclude shapes on the website
-			({ polygons }, geoAPI) => ({ polygons, geoAPI }),
+			({ polygons, geoAPI }) => ({ polygons, geoAPI }),
 		],
 	],
 }
