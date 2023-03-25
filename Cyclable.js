@@ -163,6 +163,10 @@ export default () => {
 	const score =
 		serverScore ||
 		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
+	const segmentCount = segments.reduce(
+		(memo, next) => memo + (next.properties.rides || [1]).length,
+		0
+	)
 	return (
 		<div
 			css={`
@@ -204,7 +208,7 @@ export default () => {
 							<br />
 							<SmallLegend>
 								(pour {points.length} points, {ridesLength || rides.length}{' '}
-								itinéraires, {segments.length} segments).
+								itinéraires, {segmentCount} segments).
 							</SmallLegend>
 						</p>
 					) : (
