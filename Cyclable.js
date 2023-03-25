@@ -10,7 +10,6 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
-import Meta from './Meta'
 import {
 	computeSafePercentage,
 	getMessages,
@@ -19,13 +18,12 @@ import {
 	segmentGeoJSON,
 } from './computeCycling'
 import Header from './cyclable/Header'
+import isSafePath, { isSafePathV2Diff } from './isSafePath'
+import Loader from './Loader'
+import Meta from './Meta'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
-import Loader from './Loader'
-
-import isSafePath, { isSafePathV2Diff } from './isSafePath'
-import deepEqual from 'deep-equal'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
