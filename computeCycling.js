@@ -41,7 +41,7 @@ export const segmentGeoJSON = (geojson) => {
 		getLineDistance = (line) => line[3],
 		getLineTags = (line) => line[9]
 
-	const { toPoint, fromPoint } = geojson
+	const { toPoint, fromPoint, backboneRide } = geojson
 	let lineStringCoordinates = geojson.features[0].geometry.coordinates
 	// As I understand this, the "messages" table contains brouter's real measurement of distance
 	// in segments that are grouped, maybe according to tags ?
@@ -62,12 +62,10 @@ export const segmentGeoJSON = (geojson) => {
 						tags: getLineTags(line),
 						distance: line[3],
 						elevation: line[2],
-						weight: geojson.backboneRide ? '5' : '3',
-						opacity: '.6',
-						color: isSafePath(getLineTags(line)) ? 'blue' : '#ff4800',
+						backboneRide,
+						isSafePath: isSafePath(getLineTags(line)),
 						toPoint,
 						fromPoint,
-						dashArray: 'none',
 					},
 					geometry: {
 						type: 'LineString',

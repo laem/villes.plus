@@ -27,7 +27,8 @@ export default (query, then) => {
 							console.log('caught error parsing locally', url, data)
 							return then(null)
 						}
-						throw Error('Uncaught brouter error', e)
+						console.log('Uncaught brouter error', e)
+						throw new Error('brotuer')
 					}
 				})
 			})

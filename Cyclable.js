@@ -10,7 +10,6 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
-import Meta from './Meta'
 import {
 	computeSafePercentage,
 	getMessages,
@@ -19,11 +18,12 @@ import {
 	segmentGeoJSON,
 } from './computeCycling'
 import Header from './cyclable/Header'
+import isSafePath, { isSafePathV2Diff } from './isSafePath'
+import Loader from './Loader'
+import Meta from './Meta'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
-
-import isSafePath, { isSafePathV2Diff } from './isSafePath'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -114,11 +114,40 @@ export default () => {
 		})
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
-	const { segments, points, pointsCenter, rides, score: serverScore } = data
+	function bytesCount(s, divider = 1000) {
+		return new TextEncoder().encode(JSON.stringify(s)).length / divider
+	}
+	Object.entries(data).map(([k, v]) =>
+		console.log(k, bytesCount(v, 1000 * 1000))
+	)
+	console.log('DATA', data)
+	//rides are not necessary when using server computed data
+	const {
+		segments,
+		points,
+		pointsCenter,
+		rides,
+		score: serverScore,
+		ridesLength,
+	} = data
+
+	const interactiveSegmentDemo = false
+	useEffect(() => {
+		if (!interactiveSegmentDemo) return
+		let counter = 0
+		const interval = setInterval(() => {
+			setClickedSegment(segments[counter])
+			counter += 1
+		}, 50)
+		return () => clearInterval(interval)
+	}, [segments])
+	console.log(segments)
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>
-				!clickedPoint || segment.properties.fromPoint === clickedPoint
+				!clickedPoint ||
+				segment.properties.fromPoint === clickedPoint ||
+				(segment.properties.rides || []).find((r) => r[1] === clickedPoint)
 		)
 		.filter(
 			(segment) =>
@@ -132,6 +161,10 @@ export default () => {
 	const score =
 		serverScore ||
 		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
+	const segmentCount = segments.reduce(
+		(memo, next) => memo + (next.properties.rides || [1]).length,
+		0
+	)
 	return (
 		<div
 			css={`
@@ -150,7 +183,12 @@ export default () => {
 		>
 			<Meta title="Le classement des villes cyclables" />
 			<Header ville={ville} />
-			<p>{loadingMessage}</p>
+			{loadingMessage && (
+				<>
+					<Loader />
+					<p>{loadingMessage}</p>
+				</>
+			)}
 			{!loadingMessage && (
 				<>
 					{score != null ? (
@@ -167,8 +205,8 @@ export default () => {
 							,
 							<br />
 							<SmallLegend>
-								(pour {points.length} points, {rides.length} itinéraires,{' '}
-								{segments.length} segments).
+								(pour {points.length} points, {ridesLength || rides.length}{' '}
+								itinéraires, {segmentCount} segments).
 							</SmallLegend>
 						</p>
 					) : (
@@ -277,12 +315,13 @@ export default () => {
 											},
 										}}
 										style={(feature) => ({
-											...feature.properties,
+											...createStyle(feature.properties),
 											...(clickedSegment === feature
 												? {
 														color: 'yellow',
 														weight: 10,
 														dashArray: '1.2rem',
+														opacity: 1,
 												  }
 												: {}),
 										})}
@@ -358,3 +397,23 @@ const SmallLegend = styled.small`
 	display: block;
 	margin-top: 0.1rem;
 `
+
+const baseOpacity = 0.6
+const createStyle = (properties) => ({
+	weight:
+		properties.backboneRide || properties.rides?.some((r) => r[2]) ? '6' : '3',
+	opacity:
+		(properties.rides &&
+			properties.rides.reduce(
+				(memo, next) => memo + memo * baseOpacity,
+				baseOpacity
+			)) ||
+		0.6,
+	color:
+		properties.isSafePath == null
+			? properties.color
+			: properties.isSafePath
+			? 'blue'
+			: '#ff4800',
+	dashArray: 'none',
+})
