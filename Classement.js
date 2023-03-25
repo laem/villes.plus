@@ -152,6 +152,25 @@ export function Classement({ cyclable }) {
 					</ol>
 				}
 			</div>
+			<Link
+				css={`
+					position: fixed;
+					bottom: 2vw;
+					right: 2vw;
+					font-size: 300%;
+					background: #1e3799;
+					width: 3rem;
+					height: 3rem;
+					line-height: 3rem;
+					border-radius: 3rem;
+					color: white;
+					text-align: center;
+				`}
+				to="/recherche"
+				title="Tester un autre territoire"
+			>
+				+
+			</Link>
 		</>
 	)
 }
