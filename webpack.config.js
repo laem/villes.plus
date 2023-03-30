@@ -1,10 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isProduction = process.env.NODE_ENV === 'production'
 const webpack = require('webpack')
 
 module.exports = {
-	mode: isDevelopment ? 'development' : 'production',
+	mode: !isProduction ? 'development' : 'production',
 	module: {
 		rules: [
 			{
@@ -32,7 +32,7 @@ module.exports = {
 							plugins: [
 								'@babel/plugin-proposal-optional-chaining',
 								'babel-plugin-styled-components',
-								isDevelopment && require.resolve('react-refresh/babel'),
+								!isProduction && require.resolve('react-refresh/babel'),
 							].filter(Boolean),
 						},
 					},
@@ -61,7 +61,7 @@ module.exports = {
 	},
 
 	plugins: [
-		isDevelopment && new ReactRefreshWebpackPlugin(),
+		!isProduction && new ReactRefreshWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			title: 'Piétonnes',
 			template: 'index.html',
