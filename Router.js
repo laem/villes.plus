@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import styled from 'styled-components'
 import { Classement } from './Classement'
+import Recherche from './Recherche'
 import Cyclable from './Cyclable'
 import Explications from './Explications'
 import ExplicationsCyclables from './ExplicationsCyclables.mdx'
@@ -15,6 +16,7 @@ import MethodeCyclable from './MéthodeCyclable.mdx'
 import Landing from './Landing'
 import { Nav } from './Nav'
 import Ville from './Ville'
+import Article from './Article'
 
 export default function App() {
 	return (
@@ -33,6 +35,7 @@ export default function App() {
 							<Route element={<Nav />}>
 								<Route path="/" element={<Landing />} />
 								<Route path="/piétonnes" element={<Classement />} />
+								<Route path="/recherche" element={<Recherche />} />
 								<Route path={'pietonnes'} element={<Classement />} />
 								<Route path="/cyclables" element={<Classement cyclable />} />
 								<Route path="/cyclables/:ville" element={<Cyclable />} />
@@ -86,24 +89,3 @@ export default function App() {
 		</div>
 	)
 }
-
-const Article = styled.article`
-	max-width: 700px;
-	margin: 0 auto;
-	padding: 0 0.6rem;
-	h1 {
-		font-size: 160%;
-	}
-	h2 {
-		font-size: 140%;
-	}
-	img {
-		width: 700px;
-		max-width: 90vw;
-	}
-	blockquote {
-		margin-left: 0;
-		padding-left: 1.4rem;
-		border-left: 6px solid #4117b330;
-	}
-`

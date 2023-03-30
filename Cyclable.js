@@ -7,7 +7,7 @@ import { MapContainer } from 'react-leaflet/MapContainer'
 import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 import APIUrl from './APIUrl'
 import {
@@ -34,7 +34,11 @@ const debug = false,
 	clientProcessing = false
 
 export default () => {
-	const { ville } = useParams()
+	const { ville } = useParams(),
+		[searchParams] = useSearchParams(),
+		osmId = searchParams.get('id')
+
+	const id = osmId || ville
 
 	const [couple, setCouple] = useState({ from: null, to: null })
 
@@ -63,7 +67,7 @@ export default () => {
 	const [clickedPoint, setClickedPoint] = useState(null)
 	const downloadData = async (stopsNumber) => {
 		if (clientProcessing) {
-			const points = await pointsProcess(ville, stopsNumber),
+			const points = await pointsProcess(id, stopsNumber),
 				pointsCenter = computePointsCenter(points)
 			setData((data) => ({ ...data, points, pointsCenter }))
 
@@ -84,7 +88,7 @@ export default () => {
 			)
 		} else {
 			setLoadingMessage('⏳️ Téléchargement en cours des données...')
-			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + ville)
+			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + id)
 				.then((res) => res.json())
 				.then((json) => {
 					setData(json)
@@ -92,7 +96,7 @@ export default () => {
 				})
 				.catch((e) =>
 					console.log(
-						"Problème de fetch de l'API de stockage des calculs pour " + ville
+						"Problème de fetch de l'API de stockage des calculs pour " + id
 					)
 				)
 		}

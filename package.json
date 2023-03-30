@@ -11,6 +11,7 @@
 		"clean": "rm -rf cache/*",
 		"s": "node -r esm server.js",
 		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
+		"start-prod": "BROUTER_URL=https://brouter.osc-fr1.scalingo.io node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
 		"go": "yarn dev & yarn start",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
@@ -49,6 +50,7 @@
 		"compression": "^1.7.4",
 		"cors": "^2.8.5",
 		"css-loader": "^6.7.1",
+		"debounce": "^1.2.1",
 		"dotenv": "^16.0.3",
 		"eslint": "^8.25.0",
 		"eslint-config-prettier": "^8.5.0",

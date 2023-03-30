@@ -5,7 +5,7 @@ import point from 'turf-point'
 import { createTurfPointCollection } from './cyclingGeoStudio'
 import { shuffleArray } from './utils'
 
-export const APIUrl = `http://localhost:3000/`
+export const APIUrl = `http://0.0.0.0:3000/`
 export const pointsRequest = async (city, randomFilter = 100) => {
 	try {
 		const townhallResponse = await fetch(`${APIUrl}points/${city}/townhalls`),
