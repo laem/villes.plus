@@ -11,7 +11,7 @@
 		"clean": "rm -rf cache/*",
 		"s": "node -r esm server.js",
 		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
-		"start-prod": "PROD=yes node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
+		"start-prod": "NODE_ENV=production node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
 		"go": "yarn dev & yarn start",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
