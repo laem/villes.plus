@@ -6,7 +6,7 @@ import { createTurfPointCollection } from './cyclingGeoStudio'
 import { shuffleArray } from './utils'
 
 export const APIUrl =
-	process.env.NODE_ENV === 'production'
+	process.env.PROD === 'yes'
 		? `http://0.0.0.0:${PORT}/`
 		: `http://localhost:3000/`
 

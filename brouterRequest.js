@@ -1,7 +1,7 @@
 import http from 'http'
 
 const host =
-	process.env.NODE_ENV === 'production'
+	process.env.PROD === 'yes'
 		? 'https://brouter.osc-fr1.scalingo.io'
 		: 'http://localhost:17777'
 
