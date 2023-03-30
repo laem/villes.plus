@@ -7,7 +7,7 @@ import { shuffleArray } from './utils'
 
 export const APIUrl =
 	process.env.PROD === 'yes'
-		? `http://0.0.0.0:${PORT}/`
+		? `http://0.0.0.0:${process.env.PORT}/`
 		: `http://localhost:3000/`
 
 export const pointsRequest = async (city, randomFilter = 100) => {
