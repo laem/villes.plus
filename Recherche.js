@@ -53,7 +53,9 @@ const AutocompleteInput = () => {
 				<ul className="suggestions">
 					{suggestions.map((suggestion) => (
 						<li key={suggestion.id}>
-							<Link to={'/cyclables/' + suggestion.id}>{suggestion.label}</Link>
+							<Link to={`/cyclables/${suggestion.label}?id=${suggestion.id}`}>
+								{suggestion.label}
+							</Link>
 						</li>
 					))}
 				</ul>
