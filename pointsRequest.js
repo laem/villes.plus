@@ -5,14 +5,20 @@ import point from 'turf-point'
 import { createTurfPointCollection } from './cyclingGeoStudio'
 import { shuffleArray } from './utils'
 
-export const APIUrl = `http://0.0.0.0:3000/`
+export const APIUrl =
+	process.env.NODE_ENV === 'production'
+		? `http://0.0.0.0:${PORT}/`
+		: `http://localhost:3000/`
+
 export const pointsRequest = async (city, randomFilter = 100) => {
 	try {
-		const townhallResponse = await fetch(`${APIUrl}points/${city}/townhalls`),
+		const townhallUrl = `${APIUrl}points/${city}/townhalls`
+		const townhallResponse = await fetch(townhallUrl),
 			townhallPoints = await townhallResponse.json(),
 			townhalls = clusterTownhallBorders(townhallPoints.elements)
 
-		const transportStopsResponse = await fetch(APIUrl + `points/${city}/stops`),
+		const transportUrl = APIUrl + `points/${city}/stops`
+		const transportStopsResponse = await fetch(transportUrl),
 			transportStopsRaw = await transportStopsResponse.json(),
 			transportStops = shuffleArray(transportStopsRaw.elements).slice(
 				0,
@@ -21,6 +27,8 @@ export const pointsRequest = async (city, randomFilter = 100) => {
 		const points = [...townhalls, ...transportStops]
 		return points
 	} catch (e) {
+		console.log(transportUrl)
+		console.log(townhallUrl)
 		throw new Error('Problème de téléchargement des points cyclables' + e)
 	}
 }

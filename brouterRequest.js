@@ -1,6 +1,9 @@
 import http from 'http'
 
-const host = process.env.BROUTER_URL || 'http://localhost:17777'
+const host =
+	process.env.NODE_ENV === 'production'
+		? 'https://brouter.osc-fr1.scalingo.io'
+		: 'http://localhost:17777'
 
 export default (query, then) => {
 	const url = `${host}/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
