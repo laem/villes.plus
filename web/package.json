@@ -19,5 +19,8 @@
     "react-dom": "18.2.0",
     "styled-components": "^5.3.9",
     "typescript": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.26"
   }
 }

@@ -1,3 +1,4 @@
+'use client'
 import L from 'leaflet'
 import { useEffect, useState } from 'react'
 import { FeatureGroup } from 'react-leaflet/FeatureGroup'
@@ -7,8 +8,7 @@ import { MapContainer } from 'react-leaflet/MapContainer'
 import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
-import { useParams, useSearchParams } from 'react-router-dom'
-import styled from 'styled-components'
+import { useSearchParams } from 'next/navigation'
 import APIUrl from './APIUrl'
 import {
 	computeSafePercentage,
@@ -16,12 +16,13 @@ import {
 	isValidRide,
 	ridesPromises,
 	segmentGeoJSON,
-} from './computeCycling'
+} from '../../../../computeCycling'
 import Header from './cyclable/Header'
 import isSafePath, { isSafePathV2Diff } from './isSafePath'
 import Loader from './Loader'
 import Meta from './Meta'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
+import { buttonCSS, Legend, SmallLegend } from './UI'
 import { isTownhall } from './utils'
 import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
 
@@ -33,9 +34,9 @@ const defaultCenter = [48.10999850495452, -1.679193852233965]
 const debug = false,
 	clientProcessing = false
 
-export default () => {
-	const { ville } = useParams(),
-		[searchParams] = useSearchParams(),
+export default ({ params }) => {
+	const { ville } = params,
+		searchParams = useSearchParams(),
 		osmId = searchParams.get('id')
 
 	const id = osmId || ville
@@ -374,14 +375,6 @@ export default () => {
 const goodIcon = (point) =>
 	APIUrl + (isTownhall(point) ? 'images/townhall.svg' : 'images/bus.svg')
 
-const Legend = styled.span`
-	width: 2rem;
-	height: 0.4rem;
-	display: inline-block;
-	vertical-align: middle;
-	background: ${(props) => props.color};
-`
-
 function MapZoomer({ points }) {
 	const map = useMap()
 	useEffect(() => {
@@ -391,16 +384,6 @@ function MapZoomer({ points }) {
 		map.fitBounds(bounds, { padding: [20, 20] })
 	}, [points])
 }
-
-const buttonCSS = `
-margin: .4rem; background: white; border: 2px solid #4117b3; padding: .1rem .4rem; cursor: pointer; 
-border-radius: .4rem`
-
-const SmallLegend = styled.small`
-	text-align: center;
-	display: block;
-	margin-top: 0.1rem;
-`
 
 const baseOpacity = 0.6
 const createStyle = (properties) => ({
