@@ -1,8 +1,10 @@
-import React from 'react'
-import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
-export function Nav({ children }) {
-	const location = useLocation()
-	const specificExplication = location.pathname
+'use client'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Footer } from './NavUI'
+
+export default function Nav({}) {
+	const pathname = usePathname()
 	return (
 		<div
 			css={`
@@ -11,7 +13,6 @@ export function Nav({ children }) {
 				grid-template-rows: auto 1fr auto;
 			`}
 		>
-			<ScrollRestoration />
 			<nav
 				css={`
 					flex-shrink: 0;
@@ -44,7 +45,7 @@ export function Nav({ children }) {
 					`}
 				>
 					<li>
-						<Link to="/">
+						<Link href="/">
 							<img
 								src="https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg"
 								width="10px"
@@ -58,7 +59,7 @@ export function Nav({ children }) {
 						</Link>
 					</li>
 					<li>
-						<Link to={`/explications${specificExplication}`}>Explications</Link>
+						<Link href={`/explications${pathname}`}>Explications</Link>
 					</li>
 					<li>
 						<a
@@ -79,22 +80,9 @@ export function Nav({ children }) {
 					</li>
 				</ul>
 			</nav>
-			<Outlet />
-			<footer
-				css={`
-					font-size: 80%;
-					color: white;
-					font-style: italic;
-					background: linear-gradient(#1e3799, #1e3799cc);
-					padding: 0.4rem;
-					text-align: center;
-					a {
-						color: inherit;
-					}
-				`}
-			>
+			<Footer>
 				Fait avec 💙 à Rennes par <a href="https://kont.me">Maël THOMAS</a>
-			</footer>
+			</Footer>
 		</div>
 	)
 }

@@ -1,0 +1,47 @@
+Arguments: 
+  /home/sapin/.nvm/versions/node/v18.12.1/bin/node /usr/share/yarn/bin/yarn.js add styled-components
+
+PATH: 
+  /home/sapin/Telegram:/home/sapin/adb-fastboot/platform-tools:/home/sapin/.deno/bin:/home/sapin/bin:/home/sapin/.nvm/versions/node/v18.12.1/bin:/home/sapin/.local/bin:/home/sapin/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  18.12.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: ENOSPC: no space left on device, write
+
+npm manifest: 
+  {
+    "name": "www.villes.plus",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint"
+    },
+    "dependencies": {
+      "@types/node": "18.15.11",
+      "@types/react": "18.0.31",
+      "@types/react-dom": "18.0.11",
+      "eslint": "8.37.0",
+      "eslint-config-next": "13.2.4",
+      "next": "13.2.4",
+      "react": "18.2.0",
+      "react-dom": "18.2.0",
+      "typescript": "5.0.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

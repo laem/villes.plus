@@ -1,0 +1,25 @@
+:root {
+	--color: rgb(30, 55, 153);
+}
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html,
+body {
+	max-width: 100vw;
+	overflow-x: hidden;
+	height: 100%;
+}
+
+body {
+	color: var(--foreground-rgb);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
