@@ -2,7 +2,6 @@
 import styled from 'styled-components'
 
 export const LandingWrapper = styled.div`
-	height: 100%;
 	text-align: center;
 `
 

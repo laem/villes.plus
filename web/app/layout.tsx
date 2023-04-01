@@ -1,6 +1,6 @@
 import './globals.css'
 import StyledComponentsRegistry from '../lib/registry'
-import Nav from './Nav'
+import Nav, { NavFooter } from './Nav'
 
 export const metadata = {
 	title: 'Villes.plus',
@@ -18,6 +18,7 @@ export default function RootLayout({
 				<StyledComponentsRegistry>
 					<Nav />
 					{children}
+					<NavFooter />
 				</StyledComponentsRegistry>
 			</body>
 		</html>
