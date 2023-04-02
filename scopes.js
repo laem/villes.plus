@@ -72,6 +72,7 @@ export default {
 				pointsCenter,
 				rides,
 				compressedSegments,
+				ridesLength,
 			}) => ({
 				points,
 				//segments,
@@ -79,7 +80,7 @@ export default {
 				compressedSegments: true,
 				score,
 				pointsCenter,
-				ridesLength: rides.length,
+				ridesLength: ridesLength || rides.length,
 			}),
 		],
 		[
