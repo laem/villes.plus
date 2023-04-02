@@ -12,7 +12,7 @@ const métropoleToVille = villesList.reduce(
 	{}
 )
 
-export default ({ ville, cyclable, data, i }) => {
+export default ({ ville, cyclable, data, i, gridView }) => {
 	const [wikidata, setWikidata] = useState()
 
 	useEffect(() => {
@@ -46,6 +46,11 @@ export default ({ ville, cyclable, data, i }) => {
 							font-size: 160%;
 						}
 						margin: 0.4rem 0;
+						${gridView &&
+						`
+						white-space: nowrap;
+						max-width: 20rem;
+						overflow: scroll;`}
 					`}
 				>
 					<span

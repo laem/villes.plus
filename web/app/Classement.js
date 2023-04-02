@@ -84,7 +84,10 @@ export function Classement({ cyclable, data }) {
 							)
 							.map(([ville, data], i) => {
 								return (
-									<CityResult key={ville} {...{ ville, cyclable, data, i }} />
+									<CityResult
+										key={ville}
+										{...{ gridView, ville, cyclable, data, i }}
+									/>
 								)
 							})}
 					</ol>
