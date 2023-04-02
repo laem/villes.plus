@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev -p 8080",
-		"build": "next build",
+		"build": "cd .. && yarn && cd web && next build",
 		"start": "next start",
 		"lint": "next lint"
 	},
