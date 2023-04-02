@@ -9,22 +9,21 @@ import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useSearchParams } from 'next/navigation'
-import APIUrl from './APIUrl'
+import APIUrl from '@/app/APIUrl'
 import {
 	computeSafePercentage,
 	getMessages,
 	isValidRide,
 	ridesPromises,
 	segmentGeoJSON,
-} from '../../../../computeCycling'
-import Header from './cyclable/Header'
-import isSafePath, { isSafePathV2Diff } from './isSafePath'
-import Loader from './Loader'
-import Meta from './Meta'
-import { computePointsCenter, pointsProcess } from './pointsRequest'
-import { buttonCSS, Legend, SmallLegend } from './UI'
-import { isTownhall } from './utils'
-import FriendlyObjectViewer from './utils/FriendlyObjectViewer'
+} from '@/../computeCycling'
+import Header from './Header'
+import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
+import Loader from '@/Loader'
+import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
+import { buttonCSS, Legend, SmallLegend } from '../UI'
+import { isTownhall } from '@/../utils'
+import FriendlyObjectViewer from '@/FriendlyObjectViewer'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -186,7 +185,6 @@ export default ({ params }) => {
 				}
 			`}
 		>
-			<Meta title="Le classement des villes cyclables" />
 			<Header ville={ville} />
 			{loadingMessage && (
 				<>

@@ -1,5 +1,6 @@
+'use client'
 import styled from 'styled-components'
-import APIUrl from './APIUrl'
+import APIUrl from '@/app/APIUrl'
 
 export default () => (
 	<Wrapper>

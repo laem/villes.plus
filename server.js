@@ -5,12 +5,11 @@ import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from 'express'
 import path from 'path'
+import algorithmVersion from './algorithmVersion'
 import brouterRequest from './brouterRequest'
 import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
 import { compute } from './geoStudio.js'
-import villes from './villesClassées'
-import algorithmVersion from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
 
@@ -109,6 +108,7 @@ const readFile = async (dimension, ville, scope, res) => {
 		computeAndCacheCity(dimension, ville, scope, res, doNotCache)
 	if (doNotCache) return compute()
 	try {
+		console.log('Will try to retrieve s3 data for ', ville, scope)
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
@@ -128,6 +128,7 @@ const readFile = async (dimension, ville, scope, res) => {
 			)[1](data)
 		res && res.json(filteredData)
 	} catch (e) {
+		console.log(e)
 		console.log('No meta found, unknown territory')
 		compute()
 	}
@@ -231,11 +232,5 @@ let port = process.env.PORT
 app.listen(port, function () {
 	console.log(
 		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
-	)
-
-	return // too many requests at once
-	villes.map((ville, i) =>
-		// settimeout needed, the overpass API instances can raise a "too many requests" error
-		setTimeout(() => readFile('walking', ville, 'complete', null), i * 10000)
 	)
 })
