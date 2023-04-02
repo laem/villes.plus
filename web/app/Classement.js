@@ -63,6 +63,7 @@ export function Classement({ cyclable, data }) {
 							${gridView
 								? `
 							display: flex; flex-wrap: wrap;
+							justify-content: center;
 							padding: 0 2rem !important;
 							li {width: 28rem; height: 20rem; justify-content: center; align-items: center}
 
