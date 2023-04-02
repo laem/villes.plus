@@ -18,6 +18,15 @@ const nextConfig = {
 		// !! WARN !!
 		ignoreBuildErrors: true,
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'upload.wikimedia.org',
+				pathname: '**',
+			},
+		],
+	},
 }
 
 module.exports = nextConfig

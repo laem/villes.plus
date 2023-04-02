@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import getCityData, { toThumb } from './wikidata'
 import villesList from '../villesClassées'
+import Image from 'next/image'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -71,20 +72,26 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 					`}
 				>
 					{imageURL && (
-						<img
-							src={imageURL}
+						<div
 							css={`
 								width: 75%;
 								height: 8rem;
 								@media (min-width: 800px) {
 									height: 12rem;
 								}
-								object-fit: cover;
-								border-radius: 1rem;
+								img {
+									border-radius: 1rem;
+								}
+								position: relative;
 							`}
-							width="240"
-							height="100"
-						/>
+						>
+							<Image
+								src={imageURL}
+								style={{ objectFit: 'cover' }}
+								fill={true}
+								alt={'Une photo emblématique de la ville de ' + ville}
+							/>
+						</div>
 					)}
 
 					<div
