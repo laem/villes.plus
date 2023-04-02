@@ -1,6 +1,13 @@
 import { Classement } from '../Classement'
 import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/villesClassées'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Le classement des villes les plus cyclables - villes.plus',
+	description:
+		'Chaque ville est testée pour déterminer le pourcentage de km cyclables, strictement sécurisés.',
+}
 
 const cyclable = true
 const villesList = villesListRaw
