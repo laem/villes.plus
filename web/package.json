@@ -18,7 +18,14 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"styled-components": "^5.3.9",
-		"typescript": "5.0.3"
+		"typescript": "5.0.3",
+		"@turf/area": "^6.0.1",
+		"@turf/boolean-contains": "^6.5.0",
+		"@turf/buffer": "^6.5.0",
+		"@turf/center": "^6.5.0",
+		"@turf/distance": "^6.5.0",
+		"@turf/helpers": "^6.5.0",
+		"turf-point": "^2.0.1"
 	},
 	"devDependencies": {
 		"@types/styled-components": "^5.1.26"

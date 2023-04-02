@@ -1,9 +1,8 @@
 import distance from '@turf/distance'
-import { geometry } from '@turf/helpers'
 import point from 'turf-point'
+import isSafePath from './isSafePath'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTransportStop } from './utils'
-import isSafePath from './isSafePath'
 
 export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
 
