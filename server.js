@@ -110,6 +110,7 @@ const readFile = async (dimension, ville, scope, res) => {
 		computeAndCacheCity(dimension, ville, scope, res, doNotCache)
 	if (doNotCache) return compute()
 	try {
+		throw Error("On doit recalculer les données d'avril")
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
