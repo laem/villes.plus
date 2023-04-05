@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { Cards, LandingWrapper } from './UI'
 import type { Metadata } from 'next'
+import Image from 'next/image'
+import logo from '@/images/logo.svg'
 
 export const metadata: Metadata = {
 	title:
@@ -10,7 +12,11 @@ export const metadata: Metadata = {
 
 export default () => (
 	<LandingWrapper>
-		<h1>Villes.plus</h1>
+		<header>
+			<Image src={logo} alt="Logo de villes.plus" width={'30'} height={'30'} />
+
+			<h1>Villes.plus</h1>
+		</header>
 		<Cards>
 			<Link href="/cyclables">
 				<span>🚲️</span> Le classement des métropoles{' '}
