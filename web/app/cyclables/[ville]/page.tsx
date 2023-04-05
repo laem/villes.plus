@@ -5,6 +5,7 @@ import Ville from './Ville'
 import getCityData, { toThumb } from '@/app/wikidata'
 
 import villesList from '@/villesClassées'
+import { Suspense } from 'react'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -18,7 +19,6 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 	const ville = decodeURIComponent(params.ville)
 
 	const response = await getCityData(métropoleToVille[ville] || ville)
-	console.log('W', ville, response)
 	const wikidata = response?.results?.bindings[0]
 
 	const image = wikidata?.pic.value && toThumb(wikidata.pic.value),
@@ -37,7 +37,11 @@ export default ({ params, searchParams }) => {
 	return (
 		<Wrapper>
 			<Header ville={ville} />
-			<Ville {...{ osmId, ville }} />
+			<Suspense fallback={<Fallback />}>
+				<Ville {...{ osmId, ville }} />
+			</Suspense>
 		</Wrapper>
 	)
 }
+
+const Fallback = () => <div>Chargement de la carte dynamique</div>
