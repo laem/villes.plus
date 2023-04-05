@@ -29,15 +29,12 @@ export default (cityName) => {
 }
 
 export const toThumb = (url, width = 550) => {
-	console.log(url)
 	const paths = url.includes('FilePath/')
 		? url.split('FilePath/')
 		: url.split('Fichier:')
 	const fileName = paths[1]
-	console.log(fileName)
 	const decoded = decodeURIComponent(fileName).replaceAll(' ', '_')
 	const hash = md5(unescape(encodeURIComponent(decoded)))
-	console.log(decoded, hash)
 
 	return `https://upload.wikimedia.org/wikipedia/commons/thumb/${hash[0]}/${hash[0]}${hash[1]}/${decoded}/${width}px-${fileName}`
 }

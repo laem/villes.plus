@@ -92,6 +92,7 @@ export default ({}) => {
 			{data && data.realArea}
 			<Switch {...{ setStyle, style }} />
 			{data?.geoAPI && !debug && <Scores data={data} />}
+			{console.log('D', data)}
 			{data && (
 				<div css="position: absolute; top: 0; z-index: 10">
 					<Map

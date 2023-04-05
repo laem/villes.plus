@@ -11,9 +11,10 @@ export const normalizedScores = (data) => {
 	const million = 1000 * 1000
 	const pedestrianArea = data.pedestrianArea / million,
 		relativeArea = data.relativeArea / million,
-		area = data.geoAPI.surface / 100, // looks to be defined in the 'hectares' unit
+		area = data.geoAPI?.surface / 100, // looks to be defined in the 'hectares' unit
 		percentage = (pedestrianArea / relativeArea) * 100
-	return { pedestrianArea, area, relativeArea, percentage }
+	const result = { pedestrianArea, area, relativeArea, percentage }
+	return result
 }
 
 export function Classement({ cyclable }) {
@@ -31,6 +32,7 @@ export function Classement({ cyclable }) {
 	const [villes, setVilles] = useState(
 		Object.fromEntries(villesList.map((key) => [key, null]))
 	)
+	console.log('V', villes)
 
 	useEffect(() => {
 		const promises = villesList.map((ville) =>
@@ -134,9 +136,9 @@ export function Classement({ cyclable }) {
 					>
 						{villesEntries
 							.map(([ville, data]) => {
+								console.log(ville, data)
 								if (cyclable) return [ville, data]
-								if (!data || !data.geoAPI)
-									return [ville, { percentage: -Infinity }]
+								if (!data) return [ville, { percentage: -Infinity }]
 								return [ville, { ...data, ...normalizedScores(data) }]
 							})
 							.sort(([, v1], [, v2]) =>
