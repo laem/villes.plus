@@ -25,9 +25,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.4204826"
-     inkscape:cx="248.52396"
-     inkscape:cy="412.62111"
+     inkscape:zoom="0.5946522"
+     inkscape:cx="157.23477"
+     inkscape:cy="365.76002"
      inkscape:window-width="1920"
      inkscape:window-height="1055"
      inkscape:window-x="0"
@@ -36,49 +36,40 @@
      inkscape:current-layer="layer1" />
   <defs
      id="defs13614">
-    <radialGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient5582"
-       id="radialGradient5588"
-       cx="103.73703"
-       cy="209.85289"
-       fx="103.73703"
-       fy="209.85289"
-       r="41.424"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(2.2941217,0,0,2.2941217,-130.83999,-376.65649)" />
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient5582">
+       id="linearGradient21182">
       <stop
-         style="stop-color:#57bff5;stop-opacity:0;"
-         offset="0.01283731"
-         id="stop9222" />
+         style="stop-color:#976aec;stop-opacity:1;"
+         offset="0.47901005"
+         id="stop21178" />
       <stop
-         style="stop-color:#57bff5;stop-opacity:1;"
-         offset="0.53065306"
-         id="stop5578" />
+         style="stop-color:#7f6be0;stop-opacity:1;"
+         offset="0.77123266"
+         id="stop24092" />
       <stop
-         style="stop-color:#185abd;stop-opacity:1;"
+         style="stop-color:#7056e7;stop-opacity:1;"
          offset="1"
-         id="stop5580" />
+         id="stop21180" />
     </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient21182"
+       id="radialGradient21186"
+       cx="104.41995"
+       cy="105.26627"
+       fx="104.41995"
+       fy="105.26627"
+       r="95.921356"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       id="path1150"
-       style="fill:url(#radialGradient5588);fill-opacity:1;fill-rule:evenodd;stroke-width:0.849729"
-       d="M 202.17705,104.77154 A 95.031691,95.031691 0 0 1 107.14536,199.80324 95.031691,95.031691 0 0 1 12.113698,104.77154 95.031691,95.031691 0 0 1 107.14536,9.7398574 95.031691,95.031691 0 0 1 202.17705,104.77154 Z" />
-    <path
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:43.3202;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
-       d="M 106.74053,25.7324 V 186.15813"
-       id="path245-5" />
-    <path
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:43.1016;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
-       d="M 185.5904,107.47114 H 26.779803"
-       id="path245-3-3" />
+       id="rect18998"
+       style="fill:url(#radialGradient21186);fill-opacity:1;fill-rule:evenodd;stroke-width:0.369829"
+       d="M 51.832495 9.345166 C 27.825416 9.345166 8.4987061 28.671876 8.4987061 52.678955 L 8.4987061 157.85341 C 8.4987061 181.86049 27.825416 201.18772 51.832495 201.18772 L 157.00695 201.18772 C 181.01403 201.18772 200.34126 181.86049 200.34126 157.85341 L 200.34126 52.678955 C 200.34126 28.671876 181.01403 9.345166 157.00695 9.345166 L 51.832495 9.345166 z M 95.634989 46.192013 L 113.16622 46.192013 C 117.68466 46.192013 121.32231 49.829654 121.32231 54.348104 L 121.32231 89.824491 L 156.06386 89.824491 C 160.5823 89.824491 164.21995 93.462133 164.21995 97.980583 L 164.21995 115.51233 C 164.21995 120.03077 160.5823 123.66842 156.06386 123.66842 L 121.32231 123.66842 L 121.32231 159.42903 C 121.32231 163.94747 117.68466 167.58512 113.16622 167.58512 L 95.634989 167.58512 C 91.116541 167.58512 87.478898 163.94747 87.478898 159.42903 L 87.478898 123.66842 L 50.983451 123.66842 C 46.465003 123.66842 42.82736 120.03077 42.82736 115.51233 L 42.82736 97.980583 C 42.82736 93.462133 46.465003 89.824491 50.983451 89.824491 L 87.478898 89.824491 L 87.478898 54.348104 C 87.478898 49.829654 91.116541 46.192013 95.634989 46.192013 z " />
   </g>
 </svg>
