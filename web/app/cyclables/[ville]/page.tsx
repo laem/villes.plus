@@ -1,5 +1,7 @@
 'use client'
+
 import L from 'leaflet'
+import 'node_modules/leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import { FeatureGroup } from 'react-leaflet/FeatureGroup'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
@@ -34,7 +36,8 @@ const debug = false,
 	clientProcessing = false
 
 export default ({ params }) => {
-	const { ville } = params,
+	const { ville: villeRaw } = params,
+		ville = decodeURIComponent(villeRaw),
 		searchParams = useSearchParams(),
 		osmId = searchParams.get('id')
 
@@ -370,8 +373,7 @@ export default ({ params }) => {
 	)
 }
 
-const goodIcon = (point) =>
-	APIUrl + (isTownhall(point) ? 'images/townhall.svg' : 'images/bus.svg')
+const goodIcon = (point) => (isTownhall(point) ? '/townhall.svg' : '/bus.svg')
 
 function MapZoomer({ points }) {
 	const map = useMap()

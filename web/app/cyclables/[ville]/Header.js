@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import Logo from '@/app/Logo'
 export default ({ ville }) => (
 	<header>
@@ -12,7 +12,7 @@ export default ({ ville }) => (
 			La méthode de test : on calcule le trajet vélo le plus sécurisé entre des
 			points représentatifs du territoire : mairies et sélection d'arrêts de
 			bus. Pour chaque point, les trajets vers les 4 points adjacents sont
-			testés. <Link to="/explications/cyclable">En savoir plus</Link>.
+			testés. <Link href="/explications/cyclable">En savoir plus</Link>.
 		</p>
 	</header>
 )

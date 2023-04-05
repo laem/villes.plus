@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import logo from '@/images/logo.svg'
+import logo from '@/public/logo.svg'
 import styled from 'styled-components'
 export default () => (
 	<Header>

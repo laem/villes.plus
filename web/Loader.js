@@ -6,7 +6,7 @@ export default () => (
 	<Wrapper>
 		<div id="loop" className="center"></div>
 		<div id="bike-wrapper" className="center">
-			<img src={APIUrl + 'images/velo.svg'} className="centerBike" />
+			<img src={'/velo.svg'} className="centerBike" />
 		</div>
 	</Wrapper>
 )

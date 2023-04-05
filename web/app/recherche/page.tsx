@@ -1,7 +1,8 @@
-import Article from './Article'
+'use client'
+import Article from '@/app/Article'
 import React, { useState, useEffect } from 'react'
 import debounce from 'debounce'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 export default () => (
 	<Article>
@@ -53,7 +54,7 @@ const AutocompleteInput = () => {
 				<ul className="suggestions">
 					{suggestions.map((suggestion) => (
 						<li key={suggestion.id}>
-							<Link to={`/cyclables/${suggestion.label}?id=${suggestion.id}`}>
+							<Link href={`/cyclables/${suggestion.label}?id=${suggestion.id}`}>
 								{suggestion.label}
 							</Link>
 						</li>
