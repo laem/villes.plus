@@ -25,13 +25,15 @@ body {
 }
 
 a {
-	color: inherit;
-	text-decoration: none;
 }
 
 h1,
 h2,
 h3,
 h4 {
-	margin: 1rem;
+	margin: 1rem 0 0.6rem 0;
+}
+
+p {
+	margin: 1rem 0;
 }

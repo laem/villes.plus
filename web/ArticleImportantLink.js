@@ -1,7 +1,13 @@
-import { Link } from 'react-router-dom'
+'use client'
+import Link from 'next/link'
 
 export default ({ children, to }) => (
-	<Link to={to} css="text-decoration: none">
+	<Link
+		href={to}
+		css={`
+			text-decoration: none;
+		`}
+	>
 		<div
 			css={`
 				width: 16rem;
