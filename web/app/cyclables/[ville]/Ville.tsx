@@ -9,7 +9,6 @@ import {
 } from '@/../computeCycling'
 import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
-import { isTownhall } from '@/../utils'
 import APIUrl from '@/app/APIUrl'
 import FriendlyObjectViewer from '@/FriendlyObjectViewer'
 import Loader from '@/Loader'
@@ -24,6 +23,7 @@ import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
+import MarkersWrapper from './MarkersWrapper'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -318,34 +318,7 @@ export default ({ ville, osmId }) => {
 								})}
 							/>
 						)}
-						<FeatureGroup>
-							{points.map((point) => (
-								<Marker
-									eventHandlers={{
-										click: (e) => {
-											setClickedPoint(
-												clickedPoint === point.id ? null : point.id
-											)
-										},
-									}}
-									position={[point.lat, point.lon]}
-									icon={
-										new L.Icon({
-											//										iconUrl:
-											//
-											iconUrl: goodIcon(point),
-											iconSize: [20, 20],
-										})
-									}
-								>
-									<Popup>
-										<FriendlyObjectViewer
-											data={{ id: point.id, ...point.tags }}
-										/>
-									</Popup>
-								</Marker>
-							))}
-						</FeatureGroup>
+						<MarkersWrapper {...{ clickedPoint, setClickedPoint, points }} />
 					</MapContainer>
 				)}
 			</div>
@@ -355,8 +328,6 @@ export default ({ ville, osmId }) => {
 		</>
 	)
 }
-
-const goodIcon = (point) => (isTownhall(point) ? '/townhall.svg' : '/bus.svg')
 
 function MapZoomer({ points }) {
 	const map = useMap()
