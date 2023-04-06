@@ -37,7 +37,7 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 			`}
 		>
 			<Link
-				href={encodeURI((cyclable ? '/cyclables/' : '/piétonnes/') + ville)}
+				href={encodeURI((cyclable ? '/cyclables/' : '/pietonnes/') + ville)}
 			>
 				<h3
 					css={`

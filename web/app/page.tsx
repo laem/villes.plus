@@ -17,7 +17,7 @@ export default () => (
 				<span>🚲️</span> Le classement des métropoles{' '}
 				<strong>les plus cyclables</strong>
 			</Link>
-			<Link href="/piétonnes">
+			<Link href="/pietonnes">
 				<span>🚶</span>
 				Le classement des grandes villes <strong>les plus piétonnes</strong>
 			</Link>
