@@ -5,10 +5,9 @@ import styled from 'styled-components'
 export default () => (
 	<Header>
 		<Image src={logo} alt="Logo de villes.plus" />
-
 		<h1>
 			<span>Villes</span>
-			<span css={'color: #7e69e1'}>.</span>
+			<span css={'color: var(--color2)'}>.</span>
 			<span>plus</span>
 		</h1>
 	</Header>
@@ -21,5 +20,6 @@ const Header = styled.header`
 	img {
 		width: 3rem;
 		height: auto;
+		margin-right: 0.4rem;
 	}
 `

@@ -8,7 +8,7 @@ export const Legend = styled.span`
 	background: ${(props) => props.color};
 `
 export const buttonCSS = `
-margin: .4rem; background: white; border: 2px solid #4117b3; padding: .1rem .4rem; cursor: pointer; 
+margin: .4rem; background: white; border: 2px solid var(--color2); padding: .1rem .4rem; cursor: pointer; 
 border-radius: .4rem`
 
 export const SmallLegend = styled.small`

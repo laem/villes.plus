@@ -32,13 +32,13 @@ const Wrapper = styled.div`
 	}
 
 	#loop:before {
-		--color: #1e3799;
+		--color: var(--color1);
 		background: linear-gradient(
 			to left,
-			var(--color) 0%,
-			var(--color) 30%,
-			var(--color) 70%,
-			var(--color) 100%
+			var(--color1) 0%,
+			var(--color1) 30%,
+			var(--color1) 70%,
+			var(--color1) 100%
 		);
 		content: '';
 		display: block;

@@ -14,7 +14,7 @@ export default ({ children, to }) => (
 				font-weight: bold;
 				text-align: center;
 				max-width: 80vw;
-				background: #4117b330;
+				background: var(--color1);
 				padding: 0.4rem 1rem;
 				margin: 0 auto;
 			`}

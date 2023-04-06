@@ -23,7 +23,7 @@ export const Cards = styled.div`
 			font-size: 300%;
 		}
 		text-decoration: none;
-		border: 4px solid #4117b3;
+		border: 4px solid var(--color2);
 		border-radius: 0.4rem;
 		padding: 0.6rem;
 	}

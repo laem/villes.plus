@@ -1,5 +1,7 @@
 :root {
-	--color: rgb(30, 55, 153);
+	--color1: #976aec;
+	--color2: #7963e3;
+	--darkColor: #121226;
 }
 
 * {
@@ -18,7 +20,7 @@ body {
 }
 
 body {
-	color: var(--foreground-rgb);
+	color: #111;
 	min-height: 100%;
 	display: grid;
 	grid-template-rows: auto 1fr auto;

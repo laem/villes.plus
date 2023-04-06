@@ -14,7 +14,7 @@ export default function Nav({}) {
 				justify-content: center;
 				align-items: center;
 
-				background: linear-gradient(#1e3799, #1e3799cc);
+				background: linear-gradient(var(--color1), var(--color2));
 				a {
 					color: white;
 					text-decoration: none;

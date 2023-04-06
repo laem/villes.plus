@@ -18,7 +18,7 @@ const Article = styled.article`
 	blockquote {
 		margin-left: 0;
 		padding-left: 1.4rem;
-		border-left: 6px solid #4117b330;
+		border-left: 6px solid var(--color1);
 	}
 `
 
