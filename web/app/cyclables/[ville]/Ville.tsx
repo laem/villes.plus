@@ -84,6 +84,7 @@ export default ({ ville, osmId }) => {
 			)
 		} else {
 			setLoadingMessage('⏳️ Téléchargement en cours des données...')
+			console.log('will fetch', stopsNumber)
 			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + id)
 				.then((res) => res.json())
 				.then((json) => {
@@ -99,12 +100,22 @@ export default ({ ville, osmId }) => {
 	}
 
 	useEffect(() => {
+		if (!clientProcessing) return undefined
 		downloadData(stopsNumber)
 
 		return () => {
 			console.log('This will be logged on unmount')
 		}
 	}, [stopsNumber])
+	useEffect(() => {
+		if (clientProcessing) return undefined
+		console.log('will downloadData')
+		downloadData()
+
+		return () => {
+			console.log('This will be logged on unmount')
+		}
+	}, [])
 
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved
