@@ -1,10 +1,8 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { Footer } from './NavUI'
 
 export default function Nav({}) {
-	const pathname = usePathname()
 	return (
 		<nav
 			css={`
@@ -52,7 +50,7 @@ export default function Nav({}) {
 					</Link>
 				</li>
 				<li>
-					<Link href={`/explications${pathname}`}>Explications</Link>
+					<Link href={`/explications`}>Explications</Link>
 				</li>
 				<li>
 					<a
