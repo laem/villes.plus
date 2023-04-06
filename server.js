@@ -56,8 +56,6 @@ const app = express()
 app.use(cors())
 app.use(compression())
 
-app.use(express.static(__dirname))
-
 const cache = apicache.options({
 	headers: {
 		'cache-control': 'no-cache',

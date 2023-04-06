@@ -6,13 +6,10 @@
 		"node": ">=18.x"
 	},
 	"scripts": {
-		"dev": "PORT=3000 webpack-dev-server --hot --mode development",
-		"build": "NODE_ENV=production webpack --mode=production -c webpack.config.js",
 		"clean": "rm -rf cache/*",
 		"s": "node -r esm server.js",
 		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
 		"start-prod": "NODE_ENV=production node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
-		"go": "yarn dev & yarn start",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"reactSnap": {
