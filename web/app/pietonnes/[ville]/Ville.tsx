@@ -1,16 +1,13 @@
+'use client'
 import React, { useState, useEffect } from 'react'
 import localforage from 'localforage'
 import ReactMapboxGl, { GeoJSONLayer, Layer, Feature } from 'react-mapbox-gl'
-import APIUrl from './APIUrl'
-import Logo from './Logo'
-import { useParams, useLocation } from 'react-router-dom'
-function useQuery() {
-	return new URLSearchParams(useLocation().search)
-}
+import APIUrl from '@/app/APIUrl'
+import Logo from '@/app/Logo'
 import { blue, grey, Switch, styles } from './mapStyles'
 import DebugMap from './DebugMap'
 import DebugBlock from './DebugBlock'
-import { normalizedScores } from './Classement'
+import { normalizedScores } from '@/app/Classement'
 
 const Map = ReactMapboxGl({
 	accessToken:
@@ -35,13 +32,10 @@ let getCached = (ville, setData, setRequesting) =>
 		}
 		setData(value)
 	})
-export default ({}) => {
-	let { ville } = useParams()
+export default ({ ville, debug }) => {
 	let [data, setData] = useState(null)
 	let [requesting, setRequesting] = useState(null)
 	let [style, setStyle] = useState('satellite')
-	let query = useQuery()
-	let debug = query.get('debug') != null
 	let [debugData, setDebugData] = useState(null)
 
 	useEffect(() => {
@@ -73,7 +67,7 @@ export default ({}) => {
 				}
 			`}
 		>
-			<div css="z-index: 20">
+			<div css={'z-index: 20'}>
 				<Logo
 					color={!data ? undefined : style === 'satellite' ? 'white' : 'black'}
 					text={ville}
@@ -93,7 +87,13 @@ export default ({}) => {
 			<Switch {...{ setStyle, style }} />
 			{data?.geoAPI && !debug && <Scores data={data} />}
 			{data && (
-				<div css="position: absolute; top: 0; z-index: 10">
+				<div
+					css={`
+						position: absolute;
+						top: 0;
+						z-index: 10;
+					`}
+				>
 					<Map
 						style={'mapbox://styles/' + styles[style]}
 						zoom={[12]}
