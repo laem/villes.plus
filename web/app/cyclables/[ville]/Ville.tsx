@@ -207,7 +207,13 @@ export default ({ ville, osmId }) => {
 			) : (
 				<p>{points.length} points.</p>
 			)}
-			<div>
+			<div
+				css={`
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+				`}
+			>
 				<button
 					css={`
 						${buttonCSS}
@@ -242,8 +248,8 @@ export default ({ ville, osmId }) => {
 						Montrer les nouveautés v2
 					</button>
 				)}
+				<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			</div>
-			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			{clientProcessing && (
 				<div>
 					<label>
