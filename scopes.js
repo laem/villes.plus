@@ -71,7 +71,6 @@ export default {
 				score,
 				pointsCenter,
 				rides,
-				ridesLength,
 				compressedSegments,
 				ridesLength,
 			}) => ({
