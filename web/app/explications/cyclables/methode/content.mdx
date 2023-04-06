@@ -1,0 +1,97 @@
+Comment s'y prendre pour tester la cyclabilité d'une ville ? Il y a mille façons de le faire! Nous en avons choisi une, voici laquelle et pourquoi.
+
+### Le principe général
+
+Notre démarche est simple : simuler des trajets sur le territoire que nous voulons tester. 
+
+> En bref, on va créer des cyclistes virtuels, qui se déplacent d'un point A à un point B, et on va mesurer le % de km cyclables qu'ils parcourent. 
+
+
+Pourtant, d'autres idées d'approches pourraient consister en un test "dans l'absolu" des km cyclables : tout compter ! 
+
+#### Pourquoi ne pas tester toutes les routes ?
+
+Tout compter pose quelques problèmes. 
+
+Le principal est évident : on met tous les km de voirie d'une ville à pied d'égalité. Or, il semble peu logique de pondérer autant les km de l'artère principale de la ville, et ceux d'une petite voie rurale de fond de métropole ! 
+
+D'autres part, contrairement à la marche pour laquelle le trottoir a été inventé pour séparer le piéton de la dangereuse et indésirable automobile, le vélo ne dispose en France que d'une infrastructure naissante. Ainsi, tout compter dans nos villes, en prenant en compte la surface, donc la faible largeur des voies vélo par rapport à celles des voitures, donnerait des scores de cyclabilité abyssaux...
+
+> Tout compter, c'est l'approche que nous avons prise pour le pendant piéton du classement, qui a été réalisé le premier. Pour le classement piéton, la méthode globale en surface se défend : nous voyons ici davantage le vélo comme un moyen de déplacement, et la marche comme un droit à flaner. 
+
+Concentrons-nous donc déjà sur un objectif atteignable : viser une France où sur une sélection d'itinéraires importants dans une ville, il soit possible de circuler à vélo en toute sécurité. 
+
+### Comment choisir les points ? 
+
+Donc, nous devons choisir des points à partir desquels tracer un jeu d'itinéraires à tester.
+
+#### Version 1 : les mairies
+
+Dans une première version du classement, pour faire simple, nous avions choisi les mairies des métropoles. S'il n'y avait que quelques points à retenir, ce serait bien sûr ces places centrales de nos communes, du village à la grande ville régionale qui comporte souvent plusieurs mairies historiques (les communes rattachées qui ont gardé une identité), jusqu'aux plus grandes villes pour lesquelles plusieurs mairies d'arrondissement ont été établies. 
+
+Seulement cette v1 avait ses limitations : les mairies sont peu nombreuses. Les trajets entre les communes étaient bien testés (mais avec un seul itinéraire), mais les trajets au sein même des communes, pourtant sûrement les plus fréquents, l'étaient très peu. 
+
+D'autre part, outre les communes comme Paris et ses 20 arrondissements, cette sélection de points mairie ne permettait pas de tester la cyclabilité d'une commune hors métropole. 
+
+#### Version 2 : mairies + arrêts de bus
+
+Pour compléter les mairies, plusieurs idées ont été soumises. Par exemple, créer une sélections de points à la main. La gare principale (mais laquelle ?), le stade de foot principal (lequel ? Quid du stad de rugby ?)...  Mais quelle corvée de faire une sélection pour toutes les communes ! Et comment être objectif ? 
+
+Il serait aussi possible de sélectionner des types de points : les églises ? Dans de nombreux cas, elles sont en effet des places de vie, mais tant de nouveaux quartiers en sont dépourvues (et bonjour la laïcité). Les bibliothèques ? Pourquoi pas, mais il n'y en a pas tant que ça et comme les églises, beaucoup de quartier et communes n'en ont pas. 
+
+La densité de population ? L'INSEE publie des données à la maille précise de carrés de 200m. Mais ne se déplace-t-on que d'un carré peuplé à un carré peuplé ? Non, pas du tout : les déplacements domicile-travail se font souvent vers des zones non peuplées, comme des usines ou des zones d'entreprise. Et que dire des zones touristiques comme des parcs, forêts où la densité est nulle ?
+
+Il y a pourtant un type de point qui n'a aucun de ces défauts : les arrêts de bus ! Leur localisation est a priori définie justement pour couvrir non seulement la densité de population, mais également les destinations de cette population. 
+
+> Note : nous pourrions ajouter les arrêts de métro et de tram, et leur donner une importance plus grande, car ils représentent des axes majeures d'une ville. #v3
+
+Seulement, des arrêts de bus, il y en a trop dans les métropoles pour nos petits serveurs 🤭. Comment en prendre une sélection ? Les regrouper en "clusters" ? Non, car on perdrait la représentativité. Il vaut mieux les sélectionner aléatoirement. 
+
+Par exemple à Paris, il y a des milliers d'arrêts de bus. En en sélectionnant 100 au hasard, on garde une certaine distribution des arrêts dans la ville qui n'est justement pas faite au hasard ! 
+
+Quid de ce nombre ? Le score final n'est-il pas sensible ? Nous avons testé le score de plusieurs villes différentes avec 50, 100, 300 arrêts de bus. Résultat : l'ordre de grandeur du score ne change pas. 
+
+C'est rassurant : cela veut dire que la sélection aléatoire de points est a priori une bonne idée ! Il suffit de tester une partie seulement des itinéraires d'une ville pour se rendre compte de sa cyclabilité. 
+
+D'ailleurs, c'est très intuitif : au bout de 3-4 trajets à Strasbourg, on comprendre que c'est pas Saint-Étienne : il y a des voies cyclables dignes de ce nom. À Paris, il suffit de quelques trajets pour avoir la chance de tester l'une des magnifiques voies cyclables de nouvelle génération, telle que Nation-Faidherbe.
+
+Notons aussi que la sélection aléatoire permet de tester, dans la durée, chaque mois, d'autres itinéraires, et donc d'éviter d'être trop sensible à un axe qui serait testé chaque mois. Au final, c'est l'évolution au fil des années du score des villes, en dizaines de %, qui importera ! 
+
+> Pour en savoir plus sur la démarche de recherche sur ce sujet de la sélection des points, voir [cette page illustrée](https://github.com/laem/villes.plus/issues/64) qui comporte de nombreux tests sur plusieurs villes.
+
+
+### Comment tracer les itinéraires entre les points ?
+
+Nos points sont choisis, c'est super. Mais comment simuler les trajets entre eux ?
+
+#### Combien d'itinéraires ? 
+
+À partir de chaque point, nous traçons 4 itinéraires dans un seul sens, vers les points les plus proches à vol d'oiseau. 
+
+Nous l'avons fixé à 4. Chaque point est relié à 4 autres points de la même catégorie (mairie ou arrêt de bus). 
+
+Pourquoi 4 et pas 10 ? Parce que c'est explosif en temps de calcul, encore plus que le nombre de points ! D'autre part, 4 directions, c'est symboliquement les quatre points cardinaux, même si en pratique pour un point donné, les points les plus proches sont rarement répartis comme une boussole. 
+
+#### Comment tracer l'itinéraire entre deux points ?
+
+Nous utilisons la magnifique bibliothèque de calcul GPS `bRouter`. Si vous ne la connaissez pas, [testez-là](https://brouter.damsy.net/latest/), c'est très efficace.
+
+Pour ne pas être trop sévère avec les villes, et parce que c'est logique, nous avons choisi le mode d'itinéraire `vélo sécurisé` : ainsi, un écart est toléré pour aller chercher des voies cyclables, dans une certaine limite. 
+
+
+### Un itinéraire est-il cyclable ? 
+
+
+Chaque itinéraire est constitué de plusieurs segments, souvent beaucoup. Chaque segment peut être cyclable ou non. Le score de cyclabilité sera la somme des km de segments cyclables, divisée par la somme des km totaux.
+
+Le classement est exigeant : une piste cyclable peinte au sol qui permet à un cycliste d'être frolé par un SUV de 2 tonnes ou bloqué par un automobiliste garé en double file, n'est *pas* un segment cyclable. 
+
+Ainsi, deux types de voies sont aujourd'hui considérées cyclables : 
+- une voie cyclable dédiée aux vélo et uniquement aux vélos (donc pas aux voitures évidemment, et pas aux piétons non plus), séparée physiquement du reste de la voirie (par une bordure, par une différence de niveau)
+- une "vélorue" ou "voie douce", dans laquelle les vélos sont prioritaires par rapport aux voitures
+- une voie piétonne suffisamment large pour que les vélos et piétons cohabitent, ou un chemin piéton de quelques mètres de large mais avec un tracé vélo clairement séparé.
+
+Voilà pour les grandes lignes. En pratique, [l'algorithme exact est simple à lire](https://github.com/laem/villes.plus/blob/master/isSafePath.js), mais il demande à être familier ou s'intéresser aux tags OpenStreetMap.
+
+
+

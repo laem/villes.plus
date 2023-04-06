@@ -4,19 +4,19 @@ import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'Le classement des métropoles les plus cyclables - villes.plus',
+	title: 'Le classement des villes les plus piétonnes - villes.plus',
 
 	description:
-		'Chaque métropole est testée pour déterminer le pourcentage de km cyclables, strictement sécurisés.',
+		'Chaque ville est testée pour déterminer le pourcentage de sa surface qui est dédié aux piétons',
 	openGraph: {
-		images: 'https://villes-plus.vercel.app/cyclables.png',
+		images: 'https://villes-plus.vercel.app/pietonnes.png',
 	},
 	twitter: {
 		card: 'summary_large_image',
 	},
 }
 
-const cyclable = true
+const cyclable = false
 const villesList = villesListRaw
 	.map((element) =>
 		typeof element === 'string'
@@ -48,5 +48,5 @@ async function getData() {
 }
 export default async function Page() {
 	const data = await getData()
-	return <Classement cyclable data={data} />
+	return <Classement data={data} />
 }
