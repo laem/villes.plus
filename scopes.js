@@ -73,6 +73,7 @@ export default {
 				rides,
 				ridesLength,
 				compressedSegments,
+				ridesLength,
 			}) => ({
 				points,
 				//segments,

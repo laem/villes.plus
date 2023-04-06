@@ -9,7 +9,9 @@ import algorithmVersion from './algorithmVersion'
 import brouterRequest from './brouterRequest'
 import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
-import { compute } from './geoStudio.js'
+import { compute as computeWalking } from './geoStudio.js'
+
+import algorithmVersion from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
 
@@ -160,10 +162,12 @@ const computeAndCacheCity = async (
 		} else {
 			addLock(ville, dimension)
 			clearInterval(intervalId)
-			return (dimension === 'walking' ? compute(ville) : computeCycling(ville))
-				.then(({ geoAPI, ...data }) => {
+			return (
+				dimension === 'walking' ? computeWalking(ville) : computeCycling(ville)
+			)
+				.then((data) => {
 					scopes[dimension].map(async ([scope, selector]) => {
-						const string = JSON.stringify(selector(data, geoAPI))
+						const string = JSON.stringify(selector(data))
 
 						try {
 							if (!doNotCache) {

@@ -86,6 +86,7 @@ export default ({ ville, debug }) => {
 			{data && data.realArea}
 			<Switch {...{ setStyle, style }} />
 			{data?.geoAPI && !debug && <Scores data={data} />}
+			{console.log('D', data)}
 			{data && (
 				<div
 					css={`
