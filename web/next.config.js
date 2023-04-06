@@ -27,6 +27,20 @@ const nextConfig = {
 			},
 		],
 	},
+	async redirects() {
+		return [
+			{
+				source: '/yo',
+				destination: '/pietonnes',
+				permanent: true,
+			},
+			{
+				source: `/${encodeURIComponent('piétonnes')}/:path*`,
+				destination: '/pietonnes/:path*',
+				permanent: true,
+			},
+		]
+	},
 }
 
 const withMDX = require('@next/mdx')()
