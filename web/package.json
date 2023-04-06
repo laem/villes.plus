@@ -1,0 +1,38 @@
+{
+	"name": "www.villes.plus",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev -p 8080",
+		"build": "cd .. && yarn && cd web && next build",
+		"start": "next start -p 8080",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@next/mdx": "^13.2.4",
+		"@turf/area": "^6.0.1",
+		"@turf/boolean-contains": "^6.5.0",
+		"@turf/buffer": "^6.5.0",
+		"@turf/center": "^6.5.0",
+		"@turf/distance": "^6.5.0",
+		"@turf/helpers": "^6.5.0",
+		"@types/node": "18.15.11",
+		"@types/react": "18.0.31",
+		"@types/react-dom": "18.0.11",
+		"@vercel/og": "^0.5.0",
+		"eslint": "8.37.0",
+		"eslint-config-next": "13.2.4",
+		"leaflet": "^1.9.3",
+		"next": "^13.2.4",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-leaflet": "^4.2.1",
+		"styled-components": "^5.3.9",
+		"turf-point": "^2.0.1",
+		"typescript": "5.0.3"
+	},
+	"devDependencies": {
+		"@types/leaflet": "^1.9.3",
+		"@types/styled-components": "^5.1.26"
+	}
+}
