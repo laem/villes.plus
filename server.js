@@ -5,7 +5,6 @@ import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from 'express'
 import path from 'path'
-import algorithmVersion from './algorithmVersion'
 import brouterRequest from './brouterRequest'
 import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'

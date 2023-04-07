@@ -29,7 +29,8 @@
 		"react-leaflet": "^4.2.1",
 		"styled-components": "^5.3.9",
 		"turf-point": "^2.0.1",
-		"typescript": "5.0.3"
+		"typescript": "5.0.3",
+		"yaml-loader": "^0.8.0"
 	},
 	"devDependencies": {
 		"@types/leaflet": "^1.9.3",
