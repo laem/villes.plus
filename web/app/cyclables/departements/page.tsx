@@ -30,7 +30,9 @@ Promise.raceAll = function (promises, timeoutTime, timeoutVal) {
 }
 
 async function getData() {
-	const sobreList = list.slice(0, 40).map(({ nom }) => nom)
+	const sobreList = list
+		.slice(0, 94) // not ready yet for worldwide tiles, we need to set up brouter, downloading all the tiles is huge
+		.map(({ nom }) => nom)
 
 	const response = await Promise.raceAll(
 		sobreList.map((territory) => {
@@ -43,13 +45,16 @@ async function getData() {
 		6000,
 		false
 	)
+	console.log(response)
 
-	return response
-		.filter(Boolean)
-		.reduce((memo, data, i) => ({ ...memo, [sobreList[i]]: data }), {})
+	return response.reduce(
+		(memo, data, i) => (!data ? memo : { ...memo, [sobreList[i]]: data }),
+		{}
+	)
 }
 
 export default async function Page() {
 	const data = await getData()
+	console.log(data)
 	return <Classement cyclable data={data} />
 }

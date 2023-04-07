@@ -11,13 +11,13 @@ export const APIUrl =
 		: `http://localhost:3000/`
 
 export const pointsRequest = async (city, randomFilter = 100) => {
+	const townhallUrl = `${APIUrl}points/${city}/townhalls`
+	const transportUrl = APIUrl + `points/${city}/stops`
 	try {
-		const townhallUrl = `${APIUrl}points/${city}/townhalls`
 		const townhallResponse = await fetch(townhallUrl),
 			townhallPoints = await townhallResponse.json(),
 			townhalls = clusterTownhallBorders(townhallPoints.elements)
 
-		const transportUrl = APIUrl + `points/${city}/stops`
 		const transportStopsResponse = await fetch(transportUrl),
 			transportStopsRaw = await transportStopsResponse.json(),
 			transportStops = shuffleArray(transportStopsRaw.elements).slice(
@@ -63,11 +63,14 @@ export const clusterTownhallBorders = (elements) =>
 				const firstRef = elements.find(
 					(node) => node.id === element.members[0].ref
 				)
+				if (!firstRef.nodes) return null // Exception introduces for Loir-et-Cher element. Dunno why such a rare event, didn't investigate
+
 				const firstNode = elements.find((node) => node.id === firstRef.nodes[0])
 				return { ...element, lat: firstNode.lat, lon: firstNode.lon }
 			}
 			return element
 		})
+		.filter(Boolean)
 
 // the Paris query can return points in the united states ! Hence we test the containment.
 // Hack, breaks Corsica and Outre mer :/

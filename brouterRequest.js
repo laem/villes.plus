@@ -37,6 +37,22 @@ export default (query, then) => {
 							)
 							return then(null)
 						}
+						if (data.includes('-position not mapped in existing datafile')) {
+							console.log(
+								'🛑 Une erreur rare, je ne la comprends pas',
+								url,
+								data
+							)
+							return then(null)
+						}
+						if (data.includes('no track found at pass=0')) {
+							console.log(
+								'🛑 Une autre erreur rare, je ne la comprends pas, rien sur internet',
+								url,
+								data
+							)
+							return then(null)
+						}
 						console.log('Uncaught brouter error', e)
 						console.log(data)
 						throw new Error('brotuer')
