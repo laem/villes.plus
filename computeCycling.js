@@ -143,6 +143,7 @@ const itineraryRequestDelay = 300 // This is fined tuned to handle the brouter s
 export const isValidRide = (ride) =>
 	// Exclude itineraries that include a ferry route.
 	// TODO maybe we should just exclude the subrides that are ferry ? Doesn't matter much on the final result
+	ride.features &&
 	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 
 export default async (ville) => {

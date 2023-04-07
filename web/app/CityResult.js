@@ -18,8 +18,8 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 
 	useEffect(() => {
 		if (wikidata) return
-		getCityData(cyclable ? métropoleToVille[ville] : ville).then((json) =>
-			setWikidata(json?.results?.bindings[0])
+		getCityData(cyclable ? métropoleToVille[ville] || ville : ville).then(
+			(json) => setWikidata(json?.results?.bindings[0])
 		)
 	}, [wikidata])
 

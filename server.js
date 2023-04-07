@@ -127,7 +127,6 @@ const readFile = async (dimension, ville, scope, res) => {
 			)[1](data)
 		res && res.json(filteredData)
 	} catch (e) {
-		console.log(e)
 		console.log('No meta found, unknown territory')
 		compute()
 	}
@@ -141,6 +140,8 @@ const removeLock = (ville, dimension) => {
 const addLock = (ville, dimension) => {
 	computingLock = [...computingLock, ville + dimension]
 }
+
+const waitingForLockInterval = 10000
 
 const computeAndCacheCity = async (
 	dimension,
@@ -210,7 +211,7 @@ const computeAndCacheCity = async (
 					console.log(e)
 				})
 		}
-	}, 10000)
+	}, waitingForLockInterval)
 	console.log('ville pas encore connue : ', ville)
 }
 

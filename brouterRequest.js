@@ -26,7 +26,15 @@ export default (query, then) => {
 						then(JSON.parse(data))
 					} catch (e) {
 						if (data.includes('target island detected')) {
-							console.log('caught error parsing locally', url, data)
+							console.log('🛑 caught error parsing locally', url, data)
+							return then(null)
+						}
+						if (data.includes('operation killed by thread-priority-watchdog')) {
+							console.log(
+								'🛑 Cest le bouchon côté brouter on dirait',
+								url,
+								data
+							)
 							return then(null)
 						}
 						console.log('Uncaught brouter error', e)
