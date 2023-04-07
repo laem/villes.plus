@@ -3,7 +3,6 @@ import { Metadata } from 'next'
 import list from '@/départements.yaml'
 import APIUrl from '@/app/APIUrl'
 
-console.log(list)
 export const metadata: Metadata = {
 	title: 'Le classement des départements les plus cyclables - villes.plus',
 
@@ -16,23 +15,38 @@ export const metadata: Metadata = {
 		card: 'summary_large_image',
 	},
 }
-async function getData() {
-	const sobreList = list.slice(0, 5).map(({ nom }) => nom)
+Promise.delay = function (t, val) {
+	return new Promise((resolve) => {
+		setTimeout(resolve.bind(null, val), t)
+	})
+}
 
-	const response = await Promise.all(
+Promise.raceAll = function (promises, timeoutTime, timeoutVal) {
+	return Promise.all(
+		promises.map((p) => {
+			return Promise.race([p, Promise.delay(timeoutTime, timeoutVal)])
+		})
+	)
+}
+
+async function getData() {
+	const sobreList = list.slice(0, 40).map(({ nom }) => nom)
+
+	const response = await Promise.raceAll(
 		sobreList.map((territory) => {
 			const url = APIUrl + `api/cycling/meta/${territory}`
 			return fetch(
 				url,
 				{ cache: 'no-store' } // I don't get why next caches a wrong version
 			).then((yo) => yo.json())
-		})
+		}),
+		6000,
+		false
 	)
 
-	return response.reduce(
-		(memo, data, i) => ({ ...memo, [sobreList[i]]: data }),
-		{}
-	)
+	return response
+		.filter(Boolean)
+		.reduce((memo, data, i) => ({ ...memo, [sobreList[i]]: data }), {})
 }
 
 export default async function Page() {
