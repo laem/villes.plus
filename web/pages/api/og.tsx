@@ -5,52 +5,57 @@ export const config = {
 	runtime: 'edge',
 }
 
-export default async function handler(req) {
-	//	const response = await fetch()
-	const response = await getCityData('Reims')
-	const wikidata = response?.results?.bindings[0]
+// Make sure the font exists in the specified path:
+const font = fetch(
+	new URL('../../assets/Inter-ExtraBold.ttf', import.meta.url)
+).then((res) => res.arrayBuffer())
 
-	const image = wikidata?.pic.value && toThumb(wikidata.pic.value)
+export default async function handler() {
+	const fontData = await font
+
 	return new ImageResponse(
 		(
 			<div
 				style={{
 					display: 'flex',
-					width: '550px',
-					height: '300px',
+					height: '100%',
+					width: '100%',
+					alignItems: 'center',
+					justifyContent: 'center',
+					fontFamily: '"Inter"',
+					backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+					fontSize: 80,
+					letterSpacing: -2,
+					fontWeight: 1200,
+					textAlign: 'center',
 				}}
 			>
 				<img
-					src={image}
-					style={{
-						objectFit: 'cover',
-						position: 'absolute',
-						height: '100%',
-						width: '100%',
-						inset: '0px',
-						color: 'transparent',
-						opacity: 0.6,
-					}}
+					src="https://www.villes.plus/_next/static/media/logo.2b7c4ed7.svg"
+					width="90"
 				/>
 				<div
 					style={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translateX(-50%)',
-						fontSize: '300%',
+						marginLeft: '1rem',
+						backgroundImage: 'linear-gradient(90deg, #7b65e2, #af3dbb)',
+						backgroundClip: 'text',
+						'-webkit-background-clip': 'text',
+						color: 'transparent',
 					}}
 				>
-					Score cyclable : 3 / 10
+					Villes.plus
 				</div>
 			</div>
 		),
 		{
 			width: 550,
 			height: 300,
-			// Supported options: 'twemoji', 'blobmoji', 'noto', 'openmoji', 'fluent' and 'fluentFlat'
-			// Default to 'twemoji'
-			emoji: 'openmoji',
+			fonts: [
+				{
+					name: 'Inter',
+					data: fontData,
+				},
+			],
 		}
 	)
 }
