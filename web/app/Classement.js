@@ -5,6 +5,7 @@ import CityResult from './CityResult'
 import Logo from './Logo'
 import algorithmVersion from '../../algorithmVersion'
 import { ClassementWrapper, NewCityLink } from './ClassementUI'
+import ScoreLegend from '@/ScoreLegend'
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -57,6 +58,8 @@ export function Classement({ cyclable, data }) {
 						Chargement en cours ⏳
 					</p>
 				)}
+
+				{cyclable && <ScoreLegend />}
 				{
 					<ol
 						css={`
@@ -64,7 +67,7 @@ export function Classement({ cyclable, data }) {
 								? `
 							display: flex; flex-wrap: wrap;
 							justify-content: center;
-							padding: 0 2rem !important;
+							padding: 0 1rem !important;
 							li {width: 28rem; height: 20rem; justify-content: center; align-items: center}
 
 							`

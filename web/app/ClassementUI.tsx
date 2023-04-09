@@ -13,7 +13,7 @@ export const ClassementWrapper = styled.div`
 	}
 	> ol {
 		padding: 0;
-		margin-top: 2rem;
+		margin-top: 1rem;
 	}
 
 	> ol > li {
