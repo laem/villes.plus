@@ -47,10 +47,9 @@ export default ({ data }) => {
 			css={`
 				text-align: center;
 				margin-left: 2rem;
-
 				@media (min-width: 800px) {
 					font-size: 260%;
-					margin-left: 2rem;
+					margin-left: 4rem;
 				}
 				display: flex;
 				flex-direction: column;

@@ -6,6 +6,7 @@ export default ({ scores }) => (
 		css={`
 			width: 100%;
 			position: relative;
+			margin-top: 2rem;
 		`}
 	>
 		{scores.map(([ville, { score }]) => (
