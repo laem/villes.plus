@@ -17,6 +17,9 @@ export const metadata = {
 	openGraph: {
 		images: ['https://villes.plus/api/og'],
 	},
+	twitter: {
+		card: 'summary_large_image',
+	},
 }
 
 export default function RootLayout({
