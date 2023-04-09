@@ -33,9 +33,9 @@ export default async function handler() {
 				<img src="https://www.villes.plus/logo.svg" width="90" />
 				<div
 					style={{
-						marginleft: '1rem',
-						backgroundimage: 'linear-gradient(90deg, #7b65e2, #af3dbb)',
-						backgroundclip: 'text',
+						marginLeft: '1rem',
+						backgroundImage: 'linear-gradient(90deg, #7b65e2, #af3dbb)',
+						backgroundClip: 'text',
 						'-webkit-background-clip': 'text',
 						color: 'transparent',
 					}}
