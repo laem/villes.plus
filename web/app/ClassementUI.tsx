@@ -38,10 +38,6 @@ export const ClassementWrapper = styled.div`
 		font-size: 100%;
 		text-decoration: none;
 	}
-	strong {
-		background: yellow;
-		font-weight: 600;
-	}
 `
 
 export const NewCityLink = () => (

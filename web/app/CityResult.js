@@ -4,6 +4,8 @@ import Link from 'next/link'
 import getCityData, { toThumb } from './wikidata'
 import villesList from '../villesClassées'
 import Image from 'next/image'
+import CyclableScoreVignette from '@/CyclableScoreVignette'
+import WalkableScoreVignette from '@/WalkableScoreVignette'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -95,61 +97,11 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 						</div>
 					)}
 
-					<div
-						css={`
-							text-align: center;
-							font-size: 170%;
-							margin-left: 1rem;
-
-							@media (min-width: 800px) {
-								font-size: 260%;
-								margin-left: 2rem;
-							}
-							display: flex;
-							flex-direction: column;
-						`}
-					>
-						<div>
-							<span
-								css={`
-									font-weight: 600;
-								`}
-							>
-								{cyclable
-									? data && Math.round(data.score)
-									: data.percentage < 0
-									? '⏳️'
-									: data.percentage.toFixed(0)}
-							</span>
-							<small> %</small>
-						</div>
-						{!cyclable && (
-							<div
-								css={`
-									width: 8rem;
-									text-align: left;
-									font-size: 60%;
-								`}
-							>
-								{data.pedestrianArea && data.relativeArea && (
-									<span
-										css={`
-											font-size: 80%;
-											color: #1e3799;
-										`}
-									>
-										{data.pedestrianArea.toFixed(1)} sur{' '}
-										{data.relativeArea.toFixed(1)}&nbsp;km²
-									</span>
-								)}
-
-								{/* 			{data.meanStreetWidth +
-													' | ' +
-													data.streetsWithWidthCount}
-										*/}
-							</div>
-						)}
-					</div>
+					{cyclable ? (
+						<CyclableScoreVignette data={data} />
+					) : (
+						<WalkableScoreVignette data={data} />
+					)}
 				</div>
 			</Link>
 		</li>
