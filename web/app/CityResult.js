@@ -97,7 +97,7 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 					)}
 
 					{cyclable ? (
-						<CyclableScoreVignette data={data} />
+						<CyclableScoreVignette score={data.score} />
 					) : (
 						<WalkableScoreVignette data={data} />
 					)}

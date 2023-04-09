@@ -35,11 +35,12 @@ const gradient = tinygradient(
 export const colors = gradient.rgb(20)
 
 const getBackgroundColor = (score) => colors[Math.round(score / 5)]
-export default ({ data }) => {
-	const note = data.score / 10
+export default ({ score, margin = '' }) => {
+	if (!score) return null
+	const note = score / 10
 	const noteDigit = Math.floor(note),
 		noteDecimalDigit = Math.round((note - noteDigit) * 10)
-	const background = getBackgroundColor(data.score),
+	const background = getBackgroundColor(score),
 		color = findContrastedTextColor(background, false)
 
 	return (
@@ -47,10 +48,12 @@ export default ({ data }) => {
 			css={`
 				text-align: center;
 				margin: 0 2rem;
+				${margin && `margin: ${margin} !important;`}
 				@media (min-width: 800px) {
 					font-size: 260%;
 					margin: 0 4rem;
 				}
+
 				display: flex;
 				flex-direction: column;
 				justify-content: center;

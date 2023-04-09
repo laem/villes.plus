@@ -10,6 +10,7 @@ import {
 import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
+import CyclableScoreVignette from '@/CyclableScoreVignette'
 import FriendlyObjectViewer from '@/FriendlyObjectViewer'
 import Loader from '@/Loader'
 import L from 'leaflet'
@@ -187,32 +188,43 @@ export default ({ ville, osmId }) => {
 
 	return (
 		<>
-			{score != null ? (
-				<p>
-					Les trajets de ce territoire sont{' '}
-					<strong
-						title={`Précisément, ${score}`}
-						css={`
-							background: yellow;
-						`}
-					>
-						sécurisés à {Math.round(score)}%
-					</strong>
-					,
-					<br />
-					<SmallLegend>
-						(pour {points.length} points, {ridesLength || rides.length}{' '}
-						itinéraires, {segmentCount} segments).
-					</SmallLegend>
-				</p>
-			) : (
-				<p>{points.length} points.</p>
-			)}
+			<div
+				css={`
+					display: flex;
+					align-items: center;
+				`}
+			>
+				<div>
+					{score != null ? (
+						<p>
+							<strong
+								title={`Précisément, ${score}`}
+								css={`
+									background: yellow;
+								`}
+							>
+								{Math.round(score)}%
+							</strong>{' '}
+							des trajets du territoires sont sécurisés
+							<br />
+							<SmallLegend>
+								({points.length} points,{' '}
+								{(ridesLength || rides.length).toLocaleString('fr-FR')}{' '}
+								itinéraires, {segmentCount.toLocaleString('fr-FR')} segments)
+							</SmallLegend>
+						</p>
+					) : (
+						<p>{points.length} points.</p>
+					)}
+				</div>
+				<CyclableScoreVignette score={score} margin={'0 .4rem'} />
+			</div>
 			<div
 				css={`
 					display: flex;
 					flex-wrap: wrap;
 					align-items: center;
+					margin-top: 1rem;
 				`}
 			>
 				<button
@@ -224,7 +236,7 @@ export default ({ ville, osmId }) => {
 					onClick={() => setSegmentFilter(segmentFilter === true ? null : true)}
 				>
 					{' '}
-					En <Legend color="blue" /> les segments cyclables
+					<Legend color="blue" /> segments cyclables
 				</button>
 				<button
 					css={`
@@ -236,7 +248,7 @@ export default ({ ville, osmId }) => {
 						setSegmentFilter(segmentFilter === false ? null : false)
 					}
 				>
-					En <Legend color="red" /> le reste
+					<Legend color="red" /> le reste
 				</button>
 				{clientProcessing && (
 					<button
@@ -265,7 +277,7 @@ export default ({ ville, osmId }) => {
 			<AssoPromo ville={ville} />
 			<div
 				css={`
-					margin-top: 1rem;
+					margin-top: 0.2rem;
 					height: 90vh;
 					width: 90vw;
 					max-width: 90vw !important;

@@ -89,6 +89,9 @@ export default ({ animate, text, color, cyclable, noLink }) => {
 							color: ${color || blue};
 							font-size: 100%;
 							display: inline;
+							@media (max-width: 500px) {
+								font-size: 80%;
+							}
 						`}
 					>
 						{text}
