@@ -46,10 +46,10 @@ export default ({ data }) => {
 		<div
 			css={`
 				text-align: center;
-				margin-left: 2rem;
+				margin: 0 2rem;
 				@media (min-width: 800px) {
 					font-size: 260%;
-					margin-left: 4rem;
+					margin: 0 4rem;
 				}
 				display: flex;
 				flex-direction: column;

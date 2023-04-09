@@ -7,6 +7,8 @@ export default ({ scores }) => (
 			width: 100%;
 			position: relative;
 			margin-top: 2rem;
+			max-width: 700px;
+			margin: 0 auto;
 		`}
 	>
 		{scores.map(([ville, { score }]) => (
