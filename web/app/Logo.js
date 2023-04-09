@@ -83,14 +83,16 @@ export default ({ animate, text, color, cyclable, noLink }) => {
 					</span>
 				)}
 				{text && (
-					<span
+					<h1
 						css={`
 							margin-left: 0.6rem;
 							color: ${color || blue};
+							font-size: 100%;
+							display: inline;
 						`}
 					>
 						{text}
-					</span>
+					</h1>
 				)}
 			</Link>
 		</div>
