@@ -30,10 +30,7 @@ export default async function handler() {
 					textAlign: 'center',
 				}}
 			>
-				<img
-					src="https://www.villes.plus/_next/static/media/logo.2b7c4ed7.svg"
-					width="90"
-				/>
+				<img src="https://www.villes.plus/logo.svg" width="90" />
 				<div
 					style={{
 						marginleft: '1rem',
