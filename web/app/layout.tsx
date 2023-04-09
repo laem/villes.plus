@@ -11,7 +11,6 @@ const inter = Inter({
 })
 
 export const metadata = {
-	icons: { icon: 'public/logo.svg' },
 	title: 'Villes.plus',
 	description: 'Le classement des territoires les plus cyclables et piétons.',
 	openGraph: {

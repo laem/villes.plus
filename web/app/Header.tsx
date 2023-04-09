@@ -10,6 +10,7 @@ export default () => (
 				margin: 0;
 				background-image: linear-gradient(90deg, #7b65e2, #af3dbb);
 				background-clip: text;
+				-webkit-background-clip: text;
 				color: transparent;
 			`}
 		>
