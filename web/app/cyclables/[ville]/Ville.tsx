@@ -23,6 +23,7 @@ import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
+import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
 
 const MapBoxToken =
@@ -261,6 +262,7 @@ export default ({ ville, osmId }) => {
 					</label>
 				</div>
 			)}
+			<AssoPromo ville={ville} />
 			<div
 				css={`
 					margin-top: 1rem;

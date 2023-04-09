@@ -1,0 +1,36 @@
+# Pour chaque asso, il faut une ville, une métropole, un département, une région, ou une combinaison de tous ces attributs (si l'asso s'occupe de plusieurs zones géographiques combinées).
+# Il en faut au moins une !
+# Respectez bien les noms Wikipedia des entités géographiques. Ce n'est pas "Nice Métropole", c'est "Nice Côte d'Azur"
+
+- nom: Rayons d'Action
+  ville: Rennes
+  twitter: Rayons_Action
+  site: https://www.rayonsdaction.org
+  métropole: Rennes Métropole
+  logo: https://s3-eu-west-1.amazonaws.com/buypacker-prod/picture/2319913.small.png?response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27logo-master__2_-removebg-preview.small.png&response-x-robots-tag=noindex&AWSAccessKeyId=AKIAIAGCEPGSROXYCM3A&Expires=1707091200&Signature=58MOY3Ahxg1AfMXxq%2FYHXYmsVFU%3D&cache=1650961463
+  adhésion: https://www.rayonsdaction.org/collect/choice/155541-t-adherez-readherez-a-rayons-d-action
+
+- nom: Collectif Bicyclette Bretagne
+  diminutif: CBB
+  région: Bretagne
+  logo: http://collectif-bicyclette.bzh/wp-content/uploads/2023/02/cropped-logo-CBB-essai-2.jpg
+  site: http://collectif-bicyclette.bzh
+  twitter: VeloBzh
+  mastodon: rayonsdaction@mastodon.top
+
+- nom: Nice à Vélo
+  site: https://niceavelo.org
+  ville: Nice
+  métropole: Nice Côte d'Azur
+  logo: https://niceavelo.org/wp-content/uploads/2022/10/cropped-logo-NAV_V2.png
+  adhésion: https://niceavelo.org/adhesion
+  twitter: niceavelo
+  mastodon: nice_a_velo@mastouille.fr
+
+- nom: Brest à Pied et à Vélo
+  diminutif: BaPaV
+  site: https://www.bapav.org
+  métropole: Brest Métropole
+  adhésion: https://www.bapav.org/adherez-a-bapav/
+  twitter: BrestPiedVelo
+  logo: https://www.bapav.org/wp-content/uploads/2020/04/cropped-Logo-BaPaV-Bleu-Noir.png

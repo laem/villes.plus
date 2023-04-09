@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import Logo from '@/app/Logo'
+import Link from 'next/link'
+
 export default ({ ville }) => (
 	<header style={{ marginBottom: '1rem' }}>
 		<Logo color={'black'} text={ville} cyclable />
