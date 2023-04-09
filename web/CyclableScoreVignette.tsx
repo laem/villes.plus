@@ -40,13 +40,13 @@ export default ({ data }) => {
 	const noteDigit = Math.floor(note),
 		noteDecimalDigit = Math.round((note - noteDigit) * 10)
 	const background = getBackgroundColor(data.score),
-		color = findContrastedTextColor(background, true)
+		color = findContrastedTextColor(background, false)
 
 	return (
 		<div
 			css={`
 				text-align: center;
-				margin-left: 1rem;
+				margin-left: 2rem;
 
 				@media (min-width: 800px) {
 					font-size: 260%;
@@ -57,8 +57,8 @@ export default ({ data }) => {
 				justify-content: center;
 				background: ${background};
 				color: ${color};
-				border: 5px solid var(--color1);
-				border-radius: 0.6rem;
+				border: 3px solid black;
+				border-radius: 0.2rem;
 				padding: 0.4rem 1rem;
 				width: 5.5rem;
 				font-size: 250%;

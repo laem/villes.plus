@@ -27,7 +27,6 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 
 	const imageURL = wikidata?.pic.value && toThumb(wikidata.pic.value)
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]
-	console.log('D', data)
 
 	return (
 		<li

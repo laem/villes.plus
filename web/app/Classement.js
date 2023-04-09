@@ -59,7 +59,7 @@ export function Classement({ cyclable, data }) {
 					</p>
 				)}
 
-				{cyclable && <ScoreLegend />}
+				{cyclable && <ScoreLegend scores={villesEntries} />}
 				{
 					<ol
 						css={`
