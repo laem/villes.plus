@@ -1,16 +1,14 @@
 import { ImageResponse } from '@vercel/og'
-import getCityData, { toThumb } from '@/app/wikidata'
+import getCityData from '@/app/wikidata'
 
 export const config = {
 	runtime: 'edge',
 }
 
 export default async function handler(req) {
-	//	const response = await fetch()
 	const response = await getCityData('Reims')
-	const wikidata = response?.results?.bindings[0]
 
-	const image = wikidata?.pic.value && toThumb(wikidata.pic.value)
+	const image = response.image
 	return new ImageResponse(
 		(
 			<div

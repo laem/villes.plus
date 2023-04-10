@@ -1,11 +1,10 @@
 'use client'
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import getCityData, { toThumb } from './wikidata'
-import villesList from '../villesClassées'
-import Image from 'next/image'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
 import WalkableScoreVignette from '@/WalkableScoreVignette'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import villesList from '../villesClassées'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -15,21 +14,22 @@ const métropoleToVille = villesList.reduce(
 	{}
 )
 
-async function getData(ville) {
+async function getData(ville, then) {
 	const response = await fetch(`/api/wikidata/${ville}`)
 
 	if (!response.ok) {
 		// This will activate the closest `error.js` Error Boundary
 		throw new Error('Failed to fetch wiki data for ', ville)
 	}
-	const json = response.json()
-	return json
+	const json = await response.json()
+	then(json)
 }
 
-export default async ({ ville, cyclable, data, i, gridView }) => {
-	const wikidata = await getData(
-		cyclable ? métropoleToVille[ville] || ville : ville
-	)
+export default ({ ville, cyclable, data, i, gridView }) => {
+	const [wikidata, setWikidata] = useState({})
+	useEffect(() => {
+		getData(cyclable ? métropoleToVille[ville] || ville : ville, setWikidata)
+	}, [ville, cyclable])
 
 	const imageURL = wikidata.image
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]

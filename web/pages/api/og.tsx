@@ -1,5 +1,4 @@
 import { ImageResponse } from '@vercel/og'
-import getCityData, { toThumb } from '@/app/wikidata'
 
 export const config = {
 	runtime: 'edge',

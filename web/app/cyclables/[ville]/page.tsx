@@ -2,10 +2,10 @@ import { Metadata } from 'next'
 import Header from './Header'
 import { Wrapper } from './UI'
 import Ville from './Ville'
-import getCityData, { toThumb } from '@/app/wikidata'
 
 import villesList from '@/villesClassées'
 import { Suspense } from 'react'
+import wikidata from '@/app/wikidata'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -18,17 +18,19 @@ const métropoleToVille = villesList.reduce(
 export async function generateMetadata({ params }): Promise<Metadata> {
 	const ville = decodeURIComponent(params.ville)
 
-	const response = await fetch(
-		`/api/wikidata/${métropoleToVille[ville] || ville}`
-	)
-	const json = response.json()
+	try {
+		const response = await wikidata(métropoleToVille[ville] || ville)
 
-	const image = json.image,
-		images = [image]
-	return {
-		title: `${ville} - Carte cyclable - villes.plus`,
-		description: `À quel point ${ville} est-elle cyclable ?`,
-		openGraph: { images },
+		const image = response.image,
+			images = [image]
+
+		return {
+			title: `${ville} - Carte cyclable - villes.plus`,
+			description: `À quel point ${ville} est-elle cyclable ?`,
+			openGraph: { images },
+		}
+	} catch (e) {
+		console.log('oups', e)
 	}
 }
 

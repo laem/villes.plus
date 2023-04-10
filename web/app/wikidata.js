@@ -16,7 +16,7 @@ SELECT distinct ?item ?itemLabel ?itemDescription ?pic ?population ?area WHERE{
 }
  `
 
-export default (cityName) => {
+export default async (cityName) => {
 	const correspondance = correspondanceMétropoleVille[cityName]
 	const queryCity = correspondance || cityName
 
@@ -25,10 +25,19 @@ export default (cityName) => {
 	const fullUrl = endpointUrl + '?query=' + encodeURIComponent(query)
 	const headers = { Accept: 'application/sparql-results+json' }
 
-	return fetch(fullUrl, { headers }).then((body) => body.json())
+	console.log('will fetch wikidata server')
+
+	const response = await fetch(fullUrl, { headers })
+	const json = await response.json()
+
+	const wikidata = json?.results?.bindings[0]
+
+	const image = wikidata?.pic.value && toThumb(wikidata.pic.value)
+
+	return { image, data: wikidata }
 }
 
-export const toThumb = (url, width = 550) => {
+const toThumb = (url, width = 550) => {
 	const paths = url.includes('FilePath/')
 		? url.split('FilePath/')
 		: url.split('Fichier:')

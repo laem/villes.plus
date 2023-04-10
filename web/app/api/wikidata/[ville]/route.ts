@@ -1,4 +1,4 @@
-import getCityData, { toThumb } from '@/app/wikidata'
+import getCityData from '@/app/wikidata'
 import { NextResponse } from 'next/server'
 
 export async function GET(
@@ -13,12 +13,8 @@ export async function GET(
 
 	try {
 		const response = await getCityData([ville] || ville)
-		const wikidata = response?.results?.bindings[0]
 
-		const image = wikidata?.pic.value && toThumb(wikidata.pic.value)
-		console.log(ville, image)
-
-		return NextResponse.json({ image, data: wikidata })
+		return NextResponse.json(response)
 	} catch (e) {
 		console.log(e)
 	}
