@@ -30,9 +30,11 @@ export default function RootLayout({
 		<html lang="fr" className={inter.className}>
 			<body>
 				<StyledComponentsRegistry>
-					<Nav />
-					{children}
-					<NavFooter />
+					<main>
+						<Nav />
+						{children}
+						<NavFooter />
+					</main>
 				</StyledComponentsRegistry>
 			</body>
 		</html>
