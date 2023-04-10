@@ -16,7 +16,7 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data }) {
+export function Classement({ cyclable, data, text }) {
 	const villes = data
 
 	let villesEntries = Object.entries(villes)
@@ -27,9 +27,10 @@ export function Classement({ cyclable, data }) {
 			<Logo animate cyclable={cyclable} />
 			<ClassementWrapper gridView={gridView}>
 				<h2>
-					{cyclable
-						? 'Quelles métropoles françaises sont les plus cyclables ?'
-						: 'Quelles grandes villes françaises sont les plus piétonnes ?'}
+					{text ||
+						(cyclable
+							? 'Quelles métropoles françaises sont les plus cyclables ?'
+							: 'Quelles grandes villes françaises sont les plus piétonnes ?')}
 				</h2>
 				<p
 					css={`
