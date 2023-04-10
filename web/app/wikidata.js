@@ -25,7 +25,9 @@ export default async (cityName) => {
 	const fullUrl = endpointUrl + '?query=' + encodeURIComponent(query)
 	const headers = { Accept: 'application/sparql-results+json' }
 
-	console.log('will fetch wikidata server')
+	console.log(
+		'will fetch wikidata server, this could maybe be cached if happens too many times ?'
+	)
 
 	const response = await fetch(fullUrl, { headers })
 	const json = await response.json()
