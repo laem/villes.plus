@@ -8,6 +8,7 @@ export const LandingWrapper = styled.div`
 export const Cards = styled.div`
 	height: 70%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;

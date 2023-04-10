@@ -14,8 +14,12 @@ export default () => (
 		<Header />
 		<Cards>
 			<Link href="/cyclables">
-				<span>🚲️</span> Le classement des métropoles{' '}
-				<strong>les plus cyclables</strong>
+				<span>🚲️</span> Le classement des <strong>métropoles</strong> les plus
+				cyclables.
+			</Link>
+			<Link href="/cyclables/departements">
+				<span>🚲️</span> Le classement des <strong>départements</strong> les
+				plus cyclables.
 			</Link>
 			<Link href="/pietonnes">
 				<span>🚶</span>
