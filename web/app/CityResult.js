@@ -15,17 +15,23 @@ const métropoleToVille = villesList.reduce(
 	{}
 )
 
-export default ({ ville, cyclable, data, i, gridView }) => {
-	const [wikidata, setWikidata] = useState()
+async function getData(ville) {
+	const response = await fetch(`/api/wikidata/${ville}`)
 
-	useEffect(() => {
-		if (wikidata) return
-		getCityData(cyclable ? métropoleToVille[ville] || ville : ville).then(
-			(json) => setWikidata(json?.results?.bindings[0])
-		)
-	}, [wikidata])
+	if (!response.ok) {
+		// This will activate the closest `error.js` Error Boundary
+		throw new Error('Failed to fetch wiki data for ', ville)
+	}
+	const json = response.json()
+	return json
+}
 
-	const imageURL = wikidata?.pic.value && toThumb(wikidata.pic.value)
+export default async ({ ville, cyclable, data, i, gridView }) => {
+	const wikidata = await getData(
+		cyclable ? métropoleToVille[ville] || ville : ville
+	)
+
+	const imageURL = wikidata.image
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]
 
 	return (

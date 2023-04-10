@@ -18,10 +18,12 @@ const métropoleToVille = villesList.reduce(
 export async function generateMetadata({ params }): Promise<Metadata> {
 	const ville = decodeURIComponent(params.ville)
 
-	const response = await getCityData(métropoleToVille[ville] || ville)
-	const wikidata = response?.results?.bindings[0]
+	const response = await fetch(
+		`/api/wikidata/${métropoleToVille[ville] || ville}`
+	)
+	const json = response.json()
 
-	const image = wikidata?.pic.value && toThumb(wikidata.pic.value),
+	const image = json.image,
 		images = [image]
 	return {
 		title: `${ville} - Carte cyclable - villes.plus`,
