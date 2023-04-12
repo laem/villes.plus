@@ -37,14 +37,16 @@ export const colors = gradient.rgb(20)
 const getBackgroundColor = (score) => colors[Math.round(score / 5)]
 export default ({ score, margin = '' }) => {
 	if (!score) return null
-	const note = score / 10
-	const noteDigit = Math.floor(note),
+	const roundScore = Math.round(score),
+		note = roundScore / 10,
+		noteDigit = Math.floor(note),
 		noteDecimalDigit = Math.round((note - noteDigit) * 10)
 	const background = getBackgroundColor(score),
 		color = findContrastedTextColor(background, false)
 
 	return (
 		<div
+			title={`${score.toFixed(2)} % des km testés sont cyclables`}
 			css={`
 				text-align: center;
 				margin: 0 2rem;
@@ -71,7 +73,7 @@ export default ({ score, margin = '' }) => {
 		>
 			<div>
 				<strong>{noteDigit}</strong>
-				<small>,{noteDecimalDigit}</small>
+				{noteDecimalDigit !== 0 && <small>,{noteDecimalDigit}</small>}
 			</div>
 			<span
 				css={`
