@@ -10,7 +10,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 	const response = await getCityData(ville)
 
 	const image = response.image,
-		images = [image]
+		images = [image].filter(Boolean)
 	return {
 		title: `${ville} - Carte cyclable - villes.plus`,
 		description: `À quel point ${ville} est-elle cyclable ?`,

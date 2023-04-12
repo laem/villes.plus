@@ -22,7 +22,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 		const response = await wikidata(métropoleToVille[ville] || ville)
 
 		const image = response.image,
-			images = [image]
+			images = [image].filter(Boolean)
 
 		return {
 			title: `${ville} - Carte cyclable - villes.plus`,
