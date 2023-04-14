@@ -47,9 +47,9 @@ export function Classement({ cyclable, data, text }) {
 					})}{' '}
 					-{' '}
 					{cyclable ? (
-						<Link href="/explications/cyclables">{algorithmVersion}</Link>
+						<Link href="/explications/cyclables">algo {algorithmVersion}</Link>
 					) : (
-						<Link href="/explications/pietonnes">v1</Link>
+						<Link href="/explications/pietonnes">algo v1</Link>
 					)}
 					<button onClick={() => setGridView(!gridView)}>🪟 vue grille</button>
 				</p>
