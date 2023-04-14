@@ -58,7 +58,7 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 						${gridView &&
 						`
 						white-space: nowrap;
-						max-width: 20rem;
+						max-width: 85%;
 						overflow: scroll;`}
 					`}
 				>
