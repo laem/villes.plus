@@ -45,7 +45,12 @@ export function Classement({ cyclable, data, text }) {
 						month: 'long',
 						year: 'numeric',
 					})}{' '}
-					- {cyclable ? algorithmVersion : 'v1'}
+					-{' '}
+					{cyclable ? (
+						<Link href="/explications/cyclables">{algorithmVersion}</Link>
+					) : (
+						<Link href="/explications/pietonnes">v1</Link>
+					)}
 					<button onClick={() => setGridView(!gridView)}>🪟 vue grille</button>
 				</p>
 				{villesEntries.length === 0 && (
