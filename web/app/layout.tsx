@@ -2,6 +2,7 @@ import './globals.css'
 import StyledComponentsRegistry from '../lib/registry'
 import Nav, { NavFooter } from './Nav'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({
@@ -28,6 +29,12 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="fr" className={inter.className}>
+			<Script
+				defer
+				strategy="lazyOnload"
+				data-domain="villes.plus"
+				src="https://plausible.io/js/script.js"
+			/>
 			<body>
 				<StyledComponentsRegistry>
 					<main>
