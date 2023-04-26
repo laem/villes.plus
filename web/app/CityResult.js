@@ -97,7 +97,7 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 								src={imageURL}
 								style={{ objectFit: 'cover' }}
 								fill={true}
-								alt={'Une photo emblématique du territoire mesuré (' + ville + ')'}
+								alt={`Une photo emblématique du territoire mesuré (${ville})`}
 							/>
 						</div>
 					)}
