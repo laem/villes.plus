@@ -10,22 +10,32 @@ Comment s'y prendre pour tester la cyclabilité d'une ville ? Il y a mille faço
 
 Notre démarche est simple : simuler des trajets sur le territoire que nous voulons tester. 
 
-> En bref, on va créer des cyclistes virtuels, qui se déplacent d'un point A à un point B, et on va mesurer le % de km cyclables qu'ils parcourent. 
+> On va créer des cyclistes virtuels, qui se déplacent d'un point A à un point B, et on va mesurer le % de km qu'ils parcourent qui s'avèrent cyclables. 
 
-
-Pourtant, d'autres idées d'approches pourraient consister en un test « dans l'absolu » des kms cyclables : tout compter ! 
+Une autre approche pourrait consister en un test "absolu" des km cyclables : tout compter ! 
 
 #### Pourquoi ne pas tester toutes les routes ?
 
 Tout compter pose quelques problèmes. 
 
-Le principal est évident : on met tous les kms de voirie d'une ville à pied d'égalité. Or, il semble peu logique de pondérer autant les kms de l'artère principale de la ville, et ceux d'une petite voie rurale de fond de métropole ! 
+Le principal est évident : cela revient à mettre tous les kms de voirie d'une ville à pied d'égalité. Or, il semble peu logique de pondérer autant les kms de l'artère principale de la ville, et ceux d'une petite voie rurale de fond de métropole ! Le problème d'un tel score serait évident : il suffirait qu'un territoire ait un itinéraire cyclable touristique hors de la ville mais peu emprunté (car personne n'habite, ne travaille là), mais zéro infrastructures cyclables sur les trajets empruntés par ses citoyens au quotidien, pour biaiser fortement le score. 
 
-D'autres part, contrairement à la marche pour laquelle le trottoir a été inventé pour séparer le piéton de la dangereuse et indésirable automobile, le vélo ne dispose en France que d'une infrastructure naissante. Ainsi, tout compter dans nos villes, en prenant en compte la surface, donc la faible largeur des voies vélo par rapport à celles des voitures, donnerait des scores de cyclabilité abyssaux...
+Soyons clair : l'objectif de villes.plus est d'établir un score de cyclabilité du quotidien. Pas de la cyclabilité de tourisme. Les segments sécurisés de la Loire à vélo qui passent à 10km au nord de Chinon ne font pas de cette ville ni de sa communauté de communes un territoire cyclable, loin s'en faut ! Pire : d'après nos calculs, ils ne couvrent a priori pas un trajet réel. On suit la Loire pour suivre la Loire, pas pour aller du domicile au travail, du travail à la boulangerie, et de la boulangerie à la crèche.
+
+
+![](/chinon-loire-a-velo.png)
+*La théorie des voies vertes, qui sont d'ailleurs souvent oranges...*
+
+![](/chinon-pratique.png)
+*La réalité, beaucoup plus complexe et rouge, des déplacements du quotidien*
+
+
+
+Tout compter sans sélectionner des trajets ni les pondérer, cela poserait la question de la mesure : doit-on mesurer la distance cyclable ? Le nombre de voies ? La surface ? Contrairement à la marche pour laquelle le trottoir a été inventé pour séparer le piéton de la dangereuse automobile, le vélo ne dispose en France que d'une infrastructure naissante. Ainsi, tout compter dans nos villes, en prenant en compte la surface, donnerait des scores de cyclabilité abyssaux... Sans compter que le vélo est si efficace par rapport à l'automobile qu'il nécessite pour un trafic plus élevé, beaucoup moins de surface au sol. 
 
 > Tout compter, c'est l'approche que nous avons prise pour le pendant piéton du classement, qui a été réalisé le premier. Pour le classement piéton, la méthode globale en surface se défend : nous voyons ici davantage le vélo comme un moyen de déplacement, et la marche comme un droit à flaner. 
 
-Concentrons-nous donc déjà sur un objectif atteignable : viser une France où sur une sélection d'itinéraires importants dans une ville, il soit possible de circuler à vélo en toute sécurité. 
+Concentrons-nous donc déjà sur un objectif atteignable : viser une France où **sur une sélection d'itinéraires importants dans une ville**, il soit possible de circuler à vélo en toute sécurité. 
 
 ### Comment choisir les points ? 
 
