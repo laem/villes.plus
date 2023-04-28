@@ -45,3 +45,31 @@
   twitter: Velocite63
   mastodon: velocite63@pouet.chapril.org
   facebook: velocite63
+
+- nom: Association Vélo Besançon
+  diminutif: AVB
+  région: Bourgogne-Franche-Comté
+  métropole: Grand Besançon Métropole
+  logo: https://asso.velobesancon.info/logo_avb1/
+  site: https://asso.velobesancon.info/
+  adhésion: https://asso.velobesancon.info/contact/
+  twitter: VeloBesancon
+  facebook: AssociationVeloBesancon
+  
+- nom: Selle Vous Plait
+  diminutif: SVP
+  région: Bourgogne-Franche-Comté
+  métropole: Communauté de communes du Grand Pontarlier
+  logo: https://static.wixstatic.com/media/ce908a_6d01a01cf28540d180d52dd83c09faf8~mv2.png/v1/fill/w_475,h_336,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/logo-sellevousplait.png
+  site: https://sellevousplait.wixsite.com/home
+  adhésion: https://sellevousplait.wixsite.com/home/devenir-membre
+
+- nom: Strasbourg À Vélo
+  diminutif: SAV
+  région: Grand-Est
+  métropole: Eurométropole de Strasbourg
+  site: https://www.strasbourgavelo.org/
+  adhésion: https://www.strasbourgavelo.org/association/
+  twitter: strasbourgavelo
+  mastodon: @SAV@masto.bike
+  facebook: strasbourgavelo
