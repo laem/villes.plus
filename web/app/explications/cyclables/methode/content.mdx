@@ -51,27 +51,30 @@ Outre les communes comme Paris et ses 20 arrondissements donc au moins 20 mairie
 
 #### Version 2 : mairies + arrêts de bus
 
-Pour compléter les mairies, plusieurs idées ont été soumises. Par exemple, créer une sélections de points à la main. La gare principale (mais laquelle ?), le stade de foot principal (lequel ? Quid du stad de rugby ?)...  Mais quelle corvée de faire une sélection pour toutes les communes ! Et comment être objectif ? 
+Pour compléter les mairies, plusieurs idées ont été soumises. Par exemple, créer une sélections de points à la main. La gare (mais laquelle ?), le stade de foot principal (lequel ? Quid du stad de rugby ?)... Quelle corvée de faire une sélection pour toutes les communes ! Et comment être objectif ? Il faudrait faire une sélection équivalente dans chaque territoire, pour ne pas biaiser les classements.
 
-Il serait aussi possible de sélectionner des types de points : les églises ? Dans de nombreux cas, elles sont en effet des places de vie, mais tant de nouveaux quartiers en sont dépourvues (et bonjour la laïcité). Les bibliothèques ? Pourquoi pas, mais il n'y en a pas tant que ça et comme les églises, beaucoup de quartier et communes n'en ont pas. 
+Il serait aussi possible de sélectionner l'intégralité d'un ou plusieurs types de points : les églises ? Dans de nombreux cas, elles sont en effet des places de vie, mais tant de nouveaux quartiers en sont dépourvues (et bonjour la laïcité). Les bibliothèques ? Pourquoi pas, mais il n'y en a pas tant que ça et comme les églises, beaucoup de quartiers et communes n'en ont pas. Une sélection de tous ces commerces et services publics ? On risque d'omettre les quartiers résidentiels, pourtant source ou destination de chacun de nos trajets ! 
 
-La densité de population ? L'INSEE publie des données à la maille précise de carrés de 200 m. Mais ne se déplace-t-on que d'un carré peuplé à un carré peuplé ? Non, pas du tout : les déplacements domicile-travail se font souvent vers des zones non peuplées, comme des usines ou des zones d'entreprise. Et que dire des zones touristiques comme des parcs, forêts où la densité est nulle ?
+La densité de population ? L'INSEE publie des données à la maille précise de carrés de 200 m. Mais ne se déplace-t-on que d'un carré peuplé à un carré peuplé ? Non, pas du tout : les déplacements domicile-travail se font souvent vers des zones non peuplées, comme des usines ou des zones d'entreprise. Et que dire des zones touristiques comme des parcs, forêts où la densité est nulle mais l'intérêt d'y aller à vélo est grand ?
 
-Il y a pourtant un type de point qui n'a aucun de ces défauts : les arrêts de bus ! Leur localisation est a priori définie justement pour couvrir non seulement la densité de population, mais également les destinations de cette population. 
+Il y a pourtant un type de point qui n'a aucun de ces défauts : les arrêts de bus ! Leur localisation est a priori définie justement pour couvrir non seulement la densité de population, mais également les destinations de cette population. Du moins, si l'autorité des transports en commun a bien fait son travail, mais il semble raisonnable de partir du principe que oui.
 
 > Note : nous pourrions ajouter les arrêts de métro et de tram, et leur donner une importance plus grande, car ils représentent des axes majeures d'une ville. #v3
 
-Seulement, des arrêts de bus, il y en a trop dans les métropoles pour nos petits serveurs 🤭. Comment en prendre une sélection ? Les regrouper en « clusters » ? Non, car on perdrait la représentativité. Il vaut mieux les sélectionner aléatoirement. 
+Seulement, des arrêts de bus, il y en a trop dans les métropoles pour nos petits serveurs 🤭. Comment en prendre une sélection ? Les regrouper en « clusters » ? Non, car on perdrait la représentativité et le détail du dernier kilomètre. Il vaut mieux les sélectionner aléatoirement. 
 
 Par exemple à Paris, il y a des milliers d'arrêts de bus. En en sélectionnant 100 au hasard, on garde une certaine distribution des arrêts dans la ville qui n'est justement pas faite au hasard ! 
 
-Quid de ce nombre ? Le score final n'est-il pas sensible ? Nous avons testé le score de plusieurs villes différentes avec 50, 100, 300 arrêts de bus. Résultat : l'ordre de grandeur du score ne change pas. 
+![](/rennes-arrets-bus.png)
+*Ici à Rennes, la densité d'arrêt de bus sur la place de la République lui donne de très grandes chances d'être bien représentée par le tirage au sort.*
+
+Quid de ce nombre ? Le score final n'y est-il pas sensible ? Nous avons testé le score de plusieurs villes différentes avec 50, 100, 300 arrêts de bus. Résultat : l'ordre de grandeur du score ne change pas. 
 
 C'est rassurant : cela veut dire que la sélection aléatoire de points est a priori une bonne idée ! Il suffit de tester une partie seulement des itinéraires d'une ville pour se rendre compte de sa cyclabilité. 
 
-D'ailleurs, c'est très intuitif : au bout de 3-4 trajets à Strasbourg, on comprendre que c'est pas Saint-Étienne : il y a des voies cyclables dignes de ce nom. À Paris, il suffit de quelques trajets pour avoir la chance de tester l'une des magnifiques voies cyclables de nouvelle génération, telle que Nation-Faidherbe.
+D'ailleurs, c'est très intuitif : au bout de 3-4 trajets à Strasbourg, on comprendre que c'est pas Saint-Étienne : on roule souvent sur des voies cyclables. À Paris, il suffit de quelques trajets pour avoir la chance de tester l'une des magnifiques voies cyclables de nouvelle génération, telle que l'axe Nation-Faidherbe.
 
-Notons aussi que la sélection aléatoire permet de tester, dans la durée, chaque mois, d'autres itinéraires, et donc d'éviter d'être trop sensible à un axe qui serait testé chaque mois. Au final, c'est l'évolution au fil des années du score des villes, en dizaines de %, qui importera ! 
+Notons aussi que la sélection aléatoire permet de tester, dans la durée, via la mise à jour mensuelle qui rebat les cartes des arrêts de bus, d'autres itinéraires. Et donc d'éviter d'être trop sensible à un axe qui serait testé chaque mois. Au final, c'est l'évolution au fil des années du score des villes, en dizaines de %, qui importera ! Que Nantes Métropole passe de `1,7/10` à `1,8`, ni le classement villes.plus ni les cyclistes Nantais n'en verront la couleur. L'objectif, c'est que Nantes passe de 17% à 30% *dans les années qui viennent*. Oui, ça demande une révolution cyclable.
 
 > Pour en savoir plus sur la démarche de recherche sur ce sujet de la sélection des points, voir [cette page illustrée](https://github.com/laem/villes.plus/issues/64) qui comporte de nombreux tests sur plusieurs villes.
 
@@ -88,26 +91,48 @@ Nous l'avons fixé à 4. Chaque point est relié à 4 autres points de la même 
 
 Pourquoi 4 et pas 10 ? Parce que c'est explosif en temps de calcul, encore plus que le nombre de points ! D'autre part, 4 directions, c'est symboliquement les quatre points cardinaux, même si en pratique pour un point donné, les points les plus proches sont rarement répartis comme une boussole. 
 
+> Dans la prochaine version, nous comptons orienter les 4 itinéraires testés : l'un partira plutôt vers le nord, l'autre vers l'est, etc. Voyez pourquoi dans [ce ticket](https://github.com/laem/villes.plus/issues/88) : en bref, cela peut créer des clusters de villes proches (4 villes à 3km les unes des autres), non reliées au cluster suivant qui se trouve nettement plus loin (7km) mais dans une autre direction.
+
 #### Comment tracer l'itinéraire entre deux points ?
 
-Nous utilisons la magnifique bibliothèque de calcul GPS `bRouter`. Si vous ne la connaissez pas, [testez-là](https://brouter.damsy.net/latest/), c'est très efficace.
+Nous utilisons la magnifique bibliothèque de calcul GPS `bRouter`. Si vous ne la connaissez pas, [testez-là](https://brouter.damsy.net/latest/), c'est très efficace, notamment pour imaginer vos futures randonnées et trajets.
 
-Pour ne pas être trop sévère avec les villes, et parce que c'est logique, nous avons choisi le mode d'itinéraire `vélo sécurisé` : ainsi, un écart est toléré pour aller chercher des voies cyclables, dans une certaine limite. 
-
-
-### Un itinéraire est-il cyclable ? 
+Pour ne pas être trop sévère avec les villes, et parce que c'est logique, nous avons choisi le mode d'itinéraire `vélo sécurisé` : ainsi, un écart est toléré pour aller chercher des voies cyclables, dans une certaine limite. Mais c'est potentiellement un cadeau fait aux territoires ! Car l'algorithme `sécurisé` peut faire [de trop grands détours](https://github.com/laem/villes.plus/issues/89) pour un cycliste. Nous allons investiguer ce point. 
 
 
-Chaque itinéraire est constitué de plusieurs segments, souvent beaucoup. Chaque segment peut être cyclable ou non. Le score de cyclabilité sera la somme des kms de segments cyclables, divisée par la somme des kms totaux.
+### Comment décider si un itinéraire est-il cyclable ? 
 
-Le classement est exigeant : une piste cyclable peinte au sol qui permet à un cycliste d'être frolé par un SUV de 2 tonnes ou bloqué par un automobiliste garé en double file, n'est *pas* un segment cyclable. 
 
-Ainsi, deux types de voies sont aujourd'hui considérées cyclables : 
-- une voie cyclable dédiée aux vélo et uniquement aux vélos (donc pas aux voitures évidemment, et pas aux piétons non plus), séparée physiquement du reste de la voirie (par une bordure, par une différence de niveau)
+C'est *la* question compliquée, qui sera assurément le sujet de la plupart des débats. 
+
+> Profitons-en pour rappeler qu'aucun classement n'est parfait. Ils comportent tous des choix qui orientent les résultats. La différence entre villes.plus et les autres, c'est qu'il est *open source*. Chacun peut le scruter, proposer des changements, et pour quelques euros par mois en coûts de serveurs, en faire sa propre version.
+
+Chaque itinéraire est constitué de plusieurs segments, souvent beaucoup. Chaque segment peut être cyclable ou non. Le score de cyclabilité sera la somme des kms de segments cyclables, divisée par la somme totale des kms.
+
+Le critère de classement cyclable / non cyclable sera par beaucoup considéré exigeant : une piste cyclable peinte au sol qui permet à un cycliste d'être frolé par un SUV de 2 tonnes ou bloqué par un automobiliste garé en double file, n'est *pas* un segment cyclable. 
+
+> Gardons en tête l'immense biais que nous avons tous, car nous avons grandi avec l'expérience vécue suivante : la voie cyclable la plus courante en France est *un coup de peinture au sol* en marge d'une route voiture. Alors forcément, une voie dédiée aux vélos et séparée des voitures, ça nous semble royal. À l'inverse, un Amstellodamois qui viendrait visiter [la ville de Dreux](https://www.villes.plus/cyclables/Dreux) (`0,3/10`), se demanderait comment une ville peut à ce point décider d'une infrastructures 100% bagnole. 
+
+Ainsi, trois types de voies sont aujourd'hui considérées cyclables : 
+- une voie cyclable dédiée aux vélo et uniquement aux vélos (donc pas aux voitures évidemment, et pas aux piétons non plus), séparée physiquement du reste de la voirie (par une bordure, une différence de niveau)
 - une « vélorue » ou « voie douce », dans laquelle les vélos sont prioritaires par rapport aux voitures
 - une voie piétonne suffisamment large pour que les vélos et piétons cohabitent, ou un chemin piéton de quelques mètres de large mais avec un tracé vélo clairement séparé.
 
-Voilà pour les grandes lignes. En pratique, [l'algorithme exact est simple à lire](https://github.com/laem/villes.plus/blob/master/isSafePath.js), mais il demande d'être familier ou s'intéresser [aux attributs d'OpenStreetMap](https://wiki.openstreetmap.org/wiki/FR:Bicycle).
+Voilà pour les grandes lignes. À partir de là, pour chaque segment, nous analysons les labels OpenStreetMap (le Wikipedia de la cartographie) qui décrivent chaque portion de route française. 
+
+L'[algorithme exact est simple à lire](https://github.com/laem/villes.plus/blob/master/isSafePath.js), mais il demande d'être familier ou s'intéresser [aux attributs d'OpenStreetMap](https://wiki.openstreetmap.org/wiki/FR:Bicycle).
+
+### Les données d'OpenStreetMap sont-elles fiables ? 
+
+En bref : oui. Je vous invite à consulter la carte d'une zone que vous connaissez. Sauf exception (coin reculé dans la montagne), vous y découvrirez probablement des informations que vous ne connaissiez pas. 
+
+Mieux : sur https://www.openstreetmap.org, chacun peut contribuer à l'aide d'un éditeur graphique très bien ficelé. Il manque une voie cyclable près de chez vous ? Suivez un guide d'édition, et tracez la voie en 5 minutes ! 
+
+Pour revenir à la qualité des données : dans de nombreux cas, les voies cyclables *en construction* sont déjà présentes sur OSM (OpenStreetMap). 
+
+Encore une fois, aucune source de données, aucun classement n'est infaillible, mais il nous apparait évident que (1) OpenStreetMap est la meilleure source de données existantes pour notre affaire, et (2) elle est d'une qualité bien suffisante pour calculer les scores de cyclabilité des territoires.
+
+> Quelques chose ne va pas ? Vous ne comprenez pas un des points discuté dans ce guide ? Vous avez un autre avis à exposer ? ➡️  Direction [le forum Github](https://github.com/laem/villes.plus/issues?q=is%3Aissue+is%3Aopen+label%3ACyclable) pour poser la question :)
 
 
 
