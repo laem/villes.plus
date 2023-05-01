@@ -41,6 +41,7 @@ export default ({ ville, osmId }) => {
 	const [couple, setCouple] = useState({ from: null, to: null })
 
 	const [clickedSegment, setClickedSegment] = useState()
+	const [clickedLatLon, setClickedLatLon] = useState()
 
 	const [randomFilter, setRandomFilter] = useState(100)
 	const [segmentFilter, setSegmentFilter] = useState(null)
@@ -319,10 +320,11 @@ export default ({ ville, osmId }) => {
 								eventHandlers={{
 									click: (e) => {
 										const { lat, lng: lon } = e.latlng
+										setClickedLatLon(clickedLatLon ? null : { lat, lon })
 										setClickedSegment(
 											clickedSegment === e.sourceTarget.feature
 												? null
-												: { ...e.sourceTarget.feature, click: { lat, lon } }
+												: e.sourceTarget.feature
 										)
 									},
 								}}
@@ -343,10 +345,21 @@ export default ({ ville, osmId }) => {
 					</MapContainer>
 				)}
 			</div>
-			{clickedSegment &&
-				(console.log(clickedSegment) || (
-					<div>
-						<h3>Informations sur le segment cliqué</h3>
+			{console.log(clickedSegment) || (
+				<div
+					css={`
+						min-height: 10rem;
+						margin-bottom: 4rem;
+					`}
+				>
+					<h3>Informations sur le segment cliqué</h3>
+					{!clickedSegment && (
+						<p>
+							💡 Pour comprendre pourquoi un segment est classifié cyclable
+							(bleu) ou non cyclable (rouge), cliquez dessus !
+						</p>
+					)}
+					{clickedLatLon && (
 						<div
 							css={`
 								a {
@@ -356,19 +369,21 @@ export default ({ ville, osmId }) => {
 							`}
 						>
 							<a
-								href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedSegment.click.lat},${clickedSegment.click.lon}`}
+								href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedLatLon.lat},${clickedLatLon.lon}`}
 								target="_blank"
 							>
 								📸 Vue Google StreetView
 							</a>
 							<a
-								href={`https://www.openstreetmap.org/query?lat=${clickedSegment.click.lat}&lon=${clickedSegment.click.lon}`}
+								href={`https://www.openstreetmap.org/query?lat=${clickedLatLon.lat}&lon=${clickedLatLon.lon}`}
 								target="_blank"
 							>
 								🗺️ Carte OpenStreetMap
 							</a>
 						</div>
-						<br />
+					)}
+					<br />
+					{clickedSegment && (
 						<div>
 							Tags OSM du segment :{' '}
 							<ul
@@ -381,8 +396,9 @@ export default ({ ville, osmId }) => {
 								))}
 							</ul>
 						</div>
-					</div>
-				))}
+					)}
+				</div>
+			)}
 		</>
 	)
 }
