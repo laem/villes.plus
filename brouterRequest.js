@@ -1,9 +1,12 @@
 import http from 'http'
+import https from 'https'
 
 const host =
 	process.env.NODE_ENV === 'production'
 		? 'https://brouter.osc-fr1.scalingo.io'
 		: 'http://localhost:17777'
+
+const requestHandler = process.env.NODE_ENV === 'production' ? https : http
 
 export default (query, then) => {
 	const url = `${host}/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
@@ -11,7 +14,7 @@ export default (query, then) => {
 
 	// For a reason I don't get, after 30 min of searching, using my local brouter server fails with the fetch function for a malformed header reason...
 	// see fetch code commented below
-	http
+	requestHandler
 		.get(url, (resp) => {
 			let data = ''
 
