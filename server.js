@@ -77,22 +77,30 @@ const fetchRetry = async (url, options, n) => {
 	}
 }
 
-app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
-	const { city, requestCore } = req.params
+app.get(
+	'/points/:city/:requestCore/:adminLevel?',
+	cache('1 day'),
+	async (req, res) => {
+		const { city, requestCore, adminLevel } = req.params
 
-	try {
-		console.log(`Will fetch ${requestCore} points for ${city}`)
-		const response = await fetchRetry(
-			overpassRequestURL(city, requestCore),
-			{},
-			5
-		)
-		const json = await response.json()
-		res.json(json)
-	} catch (e) {
-		res.send(`Error fetching and retry points for ${city}`, e)
+		try {
+			console.log(
+				`Will fetch ${requestCore} ${
+					adminLevel ? 'adminLevel : ' + adminLevel : ''
+				} points for ${city}`
+			)
+			const response = await fetchRetry(
+				overpassRequestURL(city, requestCore, adminLevel),
+				{},
+				5
+			)
+			const json = await response.json()
+			res.json(json)
+		} catch (e) {
+			res.send(`Error fetching and retry points for ${city}`, e)
+		}
 	}
-})
+)
 
 const getDirectory = () => {
 	const date = new Date()

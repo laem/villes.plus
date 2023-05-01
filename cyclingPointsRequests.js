@@ -1,10 +1,12 @@
 const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
-export const request = (name, requestCore) => `
+export const request = (name, requestCore, adminLevel) => `
 
 [out:json][timeout:25];
 ( ${
-	/^\d+$/.test(name) ? `area(${3600000000 + +name})` : `area[name="${name}"]`
+	/^\d+$/.test(name)
+		? `area(${3599999999 + +name})`
+		: `area[name="${name}"]${adminLevel ? `[admin_level="${adminLevel}"]` : ''}`
 }; )->.searchArea;
 (
 ${requestCore}
