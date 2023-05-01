@@ -76,6 +76,6 @@ export default function Nav({}) {
 
 export const NavFooter = () => (
 	<Footer>
-		Fait avec 💙 à Rennes par <a href="https://kont.me">Maël THOMAS</a>
+		Fait avec 🥞 à Rennes par <a href="https://kont.me">Maël THOMAS</a>
 	</Footer>
 )
