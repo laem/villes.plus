@@ -10,59 +10,53 @@ export default (query, then) => {
 	console.log('will fetch', query, url)
 
 	// For a reason I don't get, after 30 min of searching, using my local brouter server fails with the fetch function for a malformed header reason...
-	if (host.includes('localhost')) {
-		http
-			.get(url, (resp) => {
-				let data = ''
+	// see fetch code commented below
+	http
+		.get(url, (resp) => {
+			let data = ''
 
-				// Un morceau de réponse est reçu
-				resp.on('data', (chunk) => {
-					data += chunk
-				})
+			// Un morceau de réponse est reçu
+			resp.on('data', (chunk) => {
+				data += chunk
+			})
 
-				// La réponse complète à été reçue. On affiche le résultat.
-				resp.on('end', () => {
-					try {
-						then(JSON.parse(data))
-					} catch (e) {
-						if (data.includes('target island detected')) {
-							console.log('🛑 caught error parsing locally', url, data)
-							return then(null)
-						}
-						if (data.includes('operation killed by thread-priority-watchdog')) {
-							console.log(
-								'🛑 Cest le bouchon côté brouter on dirait',
-								url,
-								data
-							)
-							return then(null)
-						}
-						if (data.includes('-position not mapped in existing datafile')) {
-							console.log(
-								'🛑 Une erreur rare, je ne la comprends pas',
-								url,
-								data
-							)
-							return then(null)
-						}
-						if (data.includes('no track found at pass=0')) {
-							console.log(
-								'🛑 Une autre erreur rare, je ne la comprends pas, rien sur internet',
-								url,
-								data
-							)
-							return then(null)
-						}
-						console.log('Uncaught brouter error', e)
-						console.log(data)
-						throw new Error('brotuer')
+			// La réponse complète à été reçue. On affiche le résultat.
+			resp.on('end', () => {
+				try {
+					then(JSON.parse(data))
+				} catch (e) {
+					if (data.includes('target island detected')) {
+						console.log('🛑 caught error parsing locally', url, data)
+						return then(null)
 					}
-				})
+					if (data.includes('operation killed by thread-priority-watchdog')) {
+						console.log('🛑 Cest le bouchon côté brouter on dirait', url, data)
+						return then(null)
+					}
+					if (data.includes('-position not mapped in existing datafile')) {
+						console.log('🛑 Une erreur rare, je ne la comprends pas', url, data)
+						return then(null)
+					}
+					if (data.includes('no track found at pass=0')) {
+						console.log(
+							'🛑 Une autre erreur rare, je ne la comprends pas, rien sur internet',
+							url,
+							data
+						)
+						return then(null)
+					}
+					console.log('Uncaught brouter error', e)
+					console.log(data)
+					throw new Error('brotuer')
+				}
 			})
-			.on('error', (err) => {
-				console.log('Error: ' + err.message)
-			})
-	} else {
+		})
+		.on('error', (err) => {
+			console.log('Error: ' + err.message)
+		})
+
+	/*
+		else {
 		fetch(url)
 			.then((response) => {
 				console.log('did fetch from brouter', query)
@@ -75,4 +69,5 @@ export default (query, then) => {
 				then(json)
 			)
 	}
+	*/
 }
