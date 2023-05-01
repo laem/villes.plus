@@ -318,10 +318,11 @@ export default ({ ville, osmId }) => {
 								data={segmentsToDisplay}
 								eventHandlers={{
 									click: (e) => {
+										const { lat, lng: lon } = e.latlng
 										setClickedSegment(
 											clickedSegment === e.sourceTarget.feature
 												? null
-												: e.sourceTarget.feature
+												: { ...e.sourceTarget.feature, click: { lat, lon } }
 										)
 									},
 								}}
@@ -342,9 +343,46 @@ export default ({ ville, osmId }) => {
 					</MapContainer>
 				)}
 			</div>
-			{clickedSegment && (
-				<FriendlyObjectViewer data={clickedSegment.properties} />
-			)}
+			{clickedSegment &&
+				(console.log(clickedSegment) || (
+					<div>
+						<h3>Informations sur le segment cliqué</h3>
+						<div
+							css={`
+								a {
+									display: block;
+									margin: 0.2rem 0;
+								}
+							`}
+						>
+							<a
+								href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedSegment.click.lat},${clickedSegment.click.lon}`}
+								target="_blank"
+							>
+								📸 Vue Google StreetView
+							</a>
+							<a
+								href={`https://www.openstreetmap.org/query?lat=${clickedSegment.click.lat}&lon=${clickedSegment.click.lon}`}
+								target="_blank"
+							>
+								🗺️ Carte OpenStreetMap
+							</a>
+						</div>
+						<br />
+						<div>
+							Tags OSM du segment :{' '}
+							<ul
+								css={`
+									margin-left: 2rem;
+								`}
+							>
+								{clickedSegment.properties.tags.split(' ').map((tag) => (
+									<li key={tag}>{tag}</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				))}
 		</>
 	)
 }
