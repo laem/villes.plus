@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import debounce from 'debounce'
 import Link from 'next/link'
 
+const disactived = true
 export default () => (
 	<Article>
 		<h1>Calculer le score d'un autre territoire</h1>
@@ -11,11 +12,19 @@ export default () => (
 			Un autre territoire vous intéresse ? Vous pouvez le rechercher puis lancer
 			le calcul.{' '}
 		</p>
-		<p>
-			⚠️ Attention, ne lancez pas le calcul sur un trop grand territoire, comme
-			une région française ou un pays, vous risqueriez de faire planter le
-			serveur{' '}
-		</p>
+		{disactived ? (
+			<p>
+				🤖 Pour ne pas trop surcharger le serveur, la création de nouvelles
+				cartes est temporairement désactivée. Nous allons dédier un serveur à la
+				création de nouvelles cartes, revenez bientôt !
+			</p>
+		) : (
+			<p>
+				⚠️ Attention, ne lancez pas le calcul sur un trop grand territoire,
+				comme une région française ou un pays, vous risqueriez de faire planter
+				le serveur{' '}
+			</p>
+		)}
 		<AutocompleteInput />
 	</Article>
 )
@@ -54,9 +63,15 @@ const AutocompleteInput = () => {
 				<ul className="suggestions">
 					{suggestions.map((suggestion) => (
 						<li key={suggestion.id}>
-							<Link href={`/cyclables/${suggestion.label}?id=${suggestion.id}`}>
-								{suggestion.label}
-							</Link>
+							{disactived ? (
+								<span>{suggestion.label}</span>
+							) : (
+								<Link
+									href={`/cyclables/${suggestion.label}?id=${suggestion.id}`}
+								>
+									{suggestion.label}
+								</Link>
+							)}
 						</li>
 					))}
 				</ul>
