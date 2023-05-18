@@ -58,9 +58,13 @@ export default ({ ville, osmId, clientProcessing }) => {
 			(point) => point.tags.amenity === 'townhall'
 		),
 		stopsNumber =
+			/* This idea was to have as many stop points as townhalls, but it was only applied in client mode, not server mode, yet
 			townhallPoints.length > randomFilter
 				? townhallPoints.length
 				: randomFilter
+
+				*/
+			randomFilter
 
 	const [clickedPoint, setClickedPoint] = useState(null)
 	const downloadData = async (stopsNumber) => {
