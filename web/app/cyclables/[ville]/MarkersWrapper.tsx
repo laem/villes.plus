@@ -24,6 +24,7 @@ export default function MyComponent({ points, setClickedPoint, clickedPoint }) {
 		<FeatureGroup>
 			{points.map((point) => (
 				<Marker
+					key={point.lat + point.lon}
 					eventHandlers={{
 						click: (e) => {
 							setClickedPoint(clickedPoint === point.id ? null : point.id)

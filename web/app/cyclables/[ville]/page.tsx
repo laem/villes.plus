@@ -37,12 +37,13 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 export default ({ params, searchParams }) => {
 	const { ville: villeRaw } = params,
 		ville = decodeURIComponent(villeRaw),
-		osmId = searchParams.id
+		osmId = searchParams.id,
+		clientProcessing = searchParams.client
 	return (
 		<Wrapper>
 			<Header ville={ville} />
 			<Suspense fallback={<Fallback />}>
-				<Ville {...{ osmId, ville }} />
+				<Ville {...{ osmId, ville, clientProcessing }} />
 			</Suspense>
 		</Wrapper>
 	)

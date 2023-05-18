@@ -32,10 +32,9 @@ const MapBoxToken =
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
-const debug = false,
-	clientProcessing = false
+const debug = false
 
-export default ({ ville, osmId }) => {
+export default ({ ville, osmId, clientProcessing }) => {
 	const id = osmId || ville
 
 	const [couple, setCouple] = useState({ from: null, to: null })
