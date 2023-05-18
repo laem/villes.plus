@@ -120,19 +120,21 @@ export const ridesPromises = (points) =>
 			const point1 = point([p.lon, p.lat])
 
 			const nearestPoints = points
-				.filter((p2) => {
+				.map((p2) => {
 					const d = distance(point([p2.lon, p2.lat]), point1)
-					return (
+
+					const notSame =
 						p != p2 && // suffices for now, it's binary
 						isTransportStop(p) === isTransportStop(p2) &&
+						// don't consider the sibling bus stop for the other bus direction
 						!(d < 1 && p.tags.name === p2.tags.name)
-					)
+					return { point: p2, d, notSame }
 				})
-				.sort(
-					(pa, pb) =>
-						distance(point([pa.lon, pa.lat]), point1) -
-						distance(point([pb.lon, pb.lat]), point1)
-				)
+				.filter((p) => p.notSame)
+				.sort((pa, pb) => pa.d - pb.d)
+				.map((p) => p.point)
+			console.log('NP', nearestPoints)
+
 			const firstX = nearestPoints.slice(0, nearestPointsLimit)
 
 			return firstX.map((p2, j) =>
