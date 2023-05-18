@@ -332,17 +332,9 @@ export default ({ ville, osmId, clientProcessing }) => {
 										)
 									},
 								}}
-								style={(feature) => ({
-									...createStyle(feature.properties),
-									...(clickedSegment === feature
-										? {
-												color: 'yellow',
-												weight: 10,
-												dashArray: '1.2rem',
-												opacity: 1,
-										  }
-										: {}),
-								})}
+								style={(feature) =>
+									createStyle(feature.properties, clickedSegment === feature)
+								}
 							/>
 						)}
 						<MarkersWrapper {...{ clickedPoint, setClickedPoint, points }} />
@@ -418,21 +410,26 @@ function MapZoomer({ points }) {
 }
 
 const baseOpacity = 0.6
-const createStyle = (properties) => ({
-	weight:
-		properties.backboneRide || properties.rides?.some((r) => r[2]) ? '6' : '3',
-	opacity:
-		(properties.rides &&
-			properties.rides.reduce(
-				(memo, next) => memo + memo * baseOpacity,
-				baseOpacity
-			)) ||
-		0.6,
-	color:
-		properties.isSafePath == null
-			? properties.color
-			: properties.isSafePath
-			? 'blue'
-			: '#ff4800',
-	dashArray: 'none',
-})
+const createStyle = (properties, highlight) =>
+	!highlight
+		? {
+				weight:
+					properties.backboneRide || properties.rides?.some((r) => r[2])
+						? '6'
+						: '3',
+				opacity:
+					(properties.rides &&
+						properties.rides.reduce(
+							(memo, next) => memo + memo * baseOpacity,
+							baseOpacity
+						)) ||
+					0.6,
+				color:
+					properties.isSafePath == null
+						? properties.color
+						: properties.isSafePath
+						? 'blue'
+						: '#ff4800',
+				dashArray: 'none',
+		  }
+		: { color: 'yellow', weight: 10, dashArray: '1.2rem', opacity: 1 }
