@@ -3,8 +3,7 @@ import point from 'turf-point'
 import isSafePath from './isSafePath'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTransportStop } from './utils'
-
-export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
+import APIUrl from './web/app/APIUrl'
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
 

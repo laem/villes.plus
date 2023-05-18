@@ -4,13 +4,7 @@ import { polygon } from '@turf/helpers'
 import point from 'turf-point'
 import { createTurfPointCollection } from './cyclingGeoStudio'
 import { shuffleArray } from './utils'
-
-export const APIUrl =
-	process.env.NODE_ENV === 'production'
-		? typeof window !== 'undefined'
-			? `https://villes.osc-fr1.scalingo.io/`
-			: `http://0.0.0.0:${process.env.PORT}/`
-		: `http://localhost:3000/`
+import APIUrl from './web/app/APIUrl'
 
 export const pointsRequest = async (city, randomFilter = 100) => {
 	const townhallUrl = `${APIUrl}points/${city}/townhalls`
