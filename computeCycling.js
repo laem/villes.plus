@@ -7,7 +7,13 @@ import { isTransportStop } from './utils'
 export const APIUrl = `http://localhost:${process.env.PORT || '3000'}/`
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
-const nearestPointsLimit = 4 // 4 is a symbolic number : think of a compass
+
+/* VERY IMPORTANT PARAM
+ * 4 is a symbolic number : think of a compass
+ * but any other number could be argued
+ * the only limit is the server weight, and map lisibility
+ * */
+const nearestPointsLimit = 4
 
 const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
