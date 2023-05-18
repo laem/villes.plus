@@ -319,7 +319,12 @@ export default ({ ville, osmId, clientProcessing }) => {
 								eventHandlers={{
 									click: (e) => {
 										const { lat, lng: lon } = e.latlng
-										setClickedLatLon(clickedLatLon ? null : { lat, lon })
+										setClickedLatLon(
+											JSON.stringify(clickedLatLon) ===
+												JSON.stringify({ lat, lon })
+												? null
+												: { lat, lon }
+										)
 										setClickedSegment(
 											clickedSegment === e.sourceTarget.feature
 												? null
