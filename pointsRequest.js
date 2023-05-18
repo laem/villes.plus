@@ -7,7 +7,9 @@ import { shuffleArray } from './utils'
 
 export const APIUrl =
 	process.env.NODE_ENV === 'production'
-		? `http://0.0.0.0:${process.env.PORT}/`
+		? typeof window !== 'undefined'
+			? `https://villes.osc-fr1.scalingo.io/`
+			: `http://0.0.0.0:${process.env.PORT}/`
 		: `http://localhost:3000/`
 
 export const pointsRequest = async (city, randomFilter = 100) => {
