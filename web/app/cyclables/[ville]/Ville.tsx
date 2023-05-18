@@ -11,18 +11,14 @@ import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
-import FriendlyObjectViewer from '@/FriendlyObjectViewer'
 import Loader from '@/Loader'
 import L from 'leaflet'
 import 'node_modules/leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
-import { FeatureGroup } from 'react-leaflet/FeatureGroup'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
-import { Polyline } from 'react-leaflet/Polyline'
 import { useMap } from 'react-leaflet/hooks'
 import { MapContainer } from 'react-leaflet/MapContainer'
-import { Marker } from 'react-leaflet/Marker'
-import { Popup } from 'react-leaflet/Popup'
+import { Polyline } from 'react-leaflet/Polyline'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
@@ -363,9 +359,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 													: { lat, lon }
 											)
 											setClickedSegment(
-												segmentIdentity(clickedSegment, segment)
-													? null
-													: segment
+												clickedSegment === segment ? null : segment
 											)
 										},
 									}}
@@ -377,7 +371,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 										// style for polylines is injected as a root prop
 										...createStyle(
 											segment.properties,
-											segmentIdentity(clickedSegment, segment)
+											clickedSegment === segment
 										),
 									}}
 								/>
