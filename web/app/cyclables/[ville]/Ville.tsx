@@ -18,6 +18,7 @@ import 'node_modules/leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import { FeatureGroup } from 'react-leaflet/FeatureGroup'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
+import { Polyline } from 'react-leaflet/Polyline'
 import { useMap } from 'react-leaflet/hooks'
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { Marker } from 'react-leaflet/Marker'
@@ -312,7 +313,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 							url={`https://api.mapbox.com/styles/v1/kont/clf45ojd3003301ln8rp5fomd/tiles/{z}/{x}/{y}?access_token=${MapBoxToken}`}
 						></TileLayer>
 
-						{segmentsToDisplay && (
+						{false && segmentsToDisplay && (
 							<GeoJSON
 								key={segmentsToDisplay.length}
 								data={segmentsToDisplay}
@@ -345,6 +346,42 @@ export default ({ ville, osmId, clientProcessing }) => {
 								})}
 							/>
 						)}
+						{segmentsToDisplay &&
+							segmentsToDisplay.map((segment) => (
+								<Polyline
+									key={
+										segmentHash(segment) +
+										(clickedSegment && segmentHash(clickedSegment))
+									}
+									eventHandlers={{
+										click: (e) => {
+											const { lat, lng: lon } = e.latlng
+											setClickedLatLon(
+												JSON.stringify(clickedLatLon) ===
+													JSON.stringify({ lat, lon })
+													? null
+													: { lat, lon }
+											)
+											setClickedSegment(
+												segmentIdentity(clickedSegment, segment)
+													? null
+													: segment
+											)
+										},
+									}}
+									positions={segment.geometry.coordinates.map(([lon, lat]) => [
+										lat,
+										lon,
+									])}
+									{...{
+										// style for polylines is injected as a root prop
+										...createStyle(
+											segment.properties,
+											segmentIdentity(clickedSegment, segment)
+										),
+									}}
+								/>
+							))}
 						<MarkersWrapper {...{ clickedPoint, setClickedPoint, points }} />
 					</MapContainer>
 				)}
@@ -407,6 +444,10 @@ export default ({ ville, osmId, clientProcessing }) => {
 	)
 }
 
+const segmentHash = (segment) =>
+		segment.geometry.coordinates.join('-') + segment.properties.tags,
+	segmentIdentity = (s1, s2) => s1 && s2 && segmentHash(s1) === segmentHash(s2)
+
 function MapZoomer({ points }) {
 	const map = useMap()
 	useEffect(() => {
@@ -418,21 +459,26 @@ function MapZoomer({ points }) {
 }
 
 const baseOpacity = 0.6
-const createStyle = (properties) => ({
-	weight:
-		properties.backboneRide || properties.rides?.some((r) => r[2]) ? '6' : '3',
-	opacity:
-		(properties.rides &&
-			properties.rides.reduce(
-				(memo, next) => memo + memo * baseOpacity,
-				baseOpacity
-			)) ||
-		0.6,
-	color:
-		properties.isSafePath == null
-			? properties.color
-			: properties.isSafePath
-			? 'blue'
-			: '#ff4800',
-	dashArray: 'none',
-})
+const createStyle = (properties, highlight) =>
+	!highlight
+		? {
+				weight:
+					properties.backboneRide || properties.rides?.some((r) => r[2])
+						? '6'
+						: '3',
+				opacity:
+					(properties.rides &&
+						properties.rides.reduce(
+							(memo, next) => memo + memo * baseOpacity,
+							baseOpacity
+						)) ||
+					0.6,
+				color:
+					properties.isSafePath == null
+						? properties.color
+						: properties.isSafePath
+						? 'blue'
+						: '#ff4800',
+				dashArray: 'none',
+		  }
+		: { color: 'yellow', weight: 10, dashArray: '1.2rem', opacity: 1 }
