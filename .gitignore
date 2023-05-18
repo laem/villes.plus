@@ -6,3 +6,4 @@ dist/
 .netlify
 .env
 .next/
+web/.next/
