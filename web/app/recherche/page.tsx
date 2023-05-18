@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import debounce from 'debounce'
 import Link from 'next/link'
 
-const disactived = true
+const disactived = false
 export default () => (
 	<Article>
 		<h1>Calculer le score d'un autre territoire</h1>

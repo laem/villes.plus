@@ -37,7 +37,8 @@ export const pointsProcess = async (ville, randomFilter) => {
 	const worldPoints = await pointsRequest(ville, randomFilter)
 
 	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
-		? worldPoints
+		? //TODO this should be changed to handle famous names like "Oslo" for example directly by URL. But for nos the /recherche URL helps find the id without hassle
+		  worldPoints
 		: worldPoints.filter((p) =>
 				booleanContains(
 					polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
