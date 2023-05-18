@@ -119,7 +119,7 @@ export const ridesPromises = (points) =>
 		.map((p, i) => {
 			const point1 = point([p.lon, p.lat])
 
-			const sorted = points
+			const nearestPoints = points
 				.filter((p2) => {
 					const d = distance(point([p2.lon, p2.lat]), point1)
 					return (
@@ -133,7 +133,7 @@ export const ridesPromises = (points) =>
 						distance(point([pa.lon, pa.lat]), point1) -
 						distance(point([pb.lon, pb.lat]), point1)
 				)
-			const firstX = sorted.slice(0, nearestPointsLimit)
+			const firstX = nearestPoints.slice(0, nearestPointsLimit)
 
 			return firstX.map((p2, j) =>
 				new Promise((resolve) =>
