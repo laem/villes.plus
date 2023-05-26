@@ -92,10 +92,16 @@ export default ({ ville, osmId, clientProcessing }) => {
 			setLoadingMessage('⏳️ Téléchargement en cours des données...')
 			console.log('will fetch', stopsNumber)
 			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + id)
-				.then((res) => res.json())
-				.then((json) => {
-					setData(json)
-					setLoadingMessage(false)
+				.then((r) =>
+					r.json().then((data) => ({ status: r.status, body: data }))
+				)
+				.then(({ status, body }) => {
+					console.log('S', status, body)
+					if (status === 202) setLoadingMessage('⚙️  Le calcul est lancé...')
+					else {
+						setData(body)
+						setLoadingMessage(false)
+					}
 				})
 				.catch((e) =>
 					console.log(
