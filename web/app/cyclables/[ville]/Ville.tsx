@@ -26,6 +26,7 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
+import { io } from 'socket.io-client'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -97,8 +98,19 @@ export default ({ ville, osmId, clientProcessing }) => {
 				)
 				.then(({ status, body }) => {
 					console.log('S', status, body)
-					if (status === 202) setLoadingMessage('⚙️  Le calcul est lancé...')
-					else {
+					if (status === 202) {
+						setLoadingMessage('⚙️  Le calcul est lancé...')
+
+						const socket = io.connect(APIUrl)
+						socket.emit(`api`, { dimension: 'cycling', scope: 'merged', ville })
+						socket.on('api', function (body) {
+							if (body.loading) setLoadingMessage(body.loading)
+							else if (body.data) {
+								setData(body.data)
+								setLoadingMessage(false)
+							}
+						})
+					} else {
 						setData(body)
 						setLoadingMessage(false)
 					}

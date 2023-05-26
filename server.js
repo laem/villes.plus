@@ -15,10 +15,15 @@ import scopes from './scopes'
 dotenv.config()
 import { testStorage, s3, BUCKET_NAME, getDirectory } from './storage'
 import { fetchRetry } from './utils'
+import http from 'http'
+import { Server } from 'socket.io'
 
 testStorage()
 
 const app = express()
+const io = new Server(server)
+const server = http.createServer(app)
+
 app.use(cors())
 app.use(compression())
 
@@ -28,6 +33,13 @@ const cache = apicache.options({
 	},
 	debug: false,
 }).middleware
+
+io.on('connection', (socket) => {
+	console.log('a user connected')
+	socket.on('api', ({ dimension, scope, ville }) => {
+		console.log('message: ' + msg)
+	})
+})
 
 app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
