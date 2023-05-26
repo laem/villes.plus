@@ -21,11 +21,22 @@ import { Server } from 'socket.io'
 testStorage()
 
 const app = express()
-const io = new Server(server)
-const server = http.createServer(app)
-
-app.use(cors())
+app.use(
+	cors({
+		origin: '*',
+	})
+)
 app.use(compression())
+
+let port = process.env.PORT
+
+const httpServer = app.listen(port, function () {
+	console.log(
+		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
+	)
+})
+
+const io = new Server(httpServer)
 
 const cache = apicache.options({
 	headers: {
@@ -34,9 +45,15 @@ const cache = apicache.options({
 	debug: false,
 }).middleware
 
+console.log('io initialisaed')
+
 io.on('connection', (socket) => {
 	console.log('a user connected')
+	socket.on('yo', () => console.log('yoyoyo'))
 	socket.on('api', ({ dimension, scope, ville }) => {
+		const inform = (message) =>
+			socket.emit(`api/${dimension}/${scope}/${ville}`, message)
+		computeAndCacheCity(dimension, ville, scope, inform, null, null, inform)
 		console.log('message: ' + msg)
 	})
 })
@@ -91,8 +108,7 @@ const readFile = async (dimension, ville, scope, res) => {
 	} catch (e) {
 		console.log('No meta found, unknown territory')
 		console.log('Will launch compute')
-		res.status(202).send({ message: 'Calcul lancé' }).end()
-		compute()
+		return res.status(202).send({ message: 'Calcul lancé' }).end()
 	}
 }
 
@@ -112,7 +128,8 @@ const computeAndCacheCity = async (
 	ville,
 	returnScope,
 	res,
-	doNotCache
+	doNotCache,
+	inform
 ) => {
 	const intervalId = setInterval(() => {
 		if (computingLock.length > 0) {
@@ -125,7 +142,9 @@ const computeAndCacheCity = async (
 			addLock(ville, dimension)
 			clearInterval(intervalId)
 			return (
-				dimension === 'walking' ? computeWalking(ville) : computeCycling(ville)
+				dimension === 'walking'
+					? computeWalking(ville)
+					: computeCycling(ville, inform)
 			)
 				.then((data) => {
 					scopes[dimension].map(async ([scope, selector]) => {
@@ -192,11 +211,4 @@ app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
 
 app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'index.html'))
-})
-
-let port = process.env.PORT
-app.listen(port, function () {
-	console.log(
-		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
-	)
 })

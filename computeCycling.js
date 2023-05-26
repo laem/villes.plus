@@ -151,8 +151,9 @@ export const isValidRide = (ride) =>
 	ride.features &&
 	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 
-export default async (ville) => {
+export default async (ville, inform) => {
 	const points = await pointsProcess(ville)
+	inform('points collected')
 	const pointsCenter = computePointsCenter(points)
 
 	const rides = await Promise.all(ridesPromises(points))

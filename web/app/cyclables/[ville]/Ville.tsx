@@ -100,10 +100,13 @@ export default ({ ville, osmId, clientProcessing }) => {
 					console.log('S', status, body)
 					if (status === 202) {
 						setLoadingMessage('⚙️  Le calcul est lancé...')
+						return
 
-						const socket = io.connect(APIUrl)
-						socket.emit(`api`, { dimension: 'cycling', scope: 'merged', ville })
-						socket.on('api', function (body) {
+						const socket = io('http://localhost')
+						const dimension = `cycling`,
+							scope = `merged`
+						socket.emit(`api`, { dimension, scope, ville })
+						socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {
 							if (body.loading) setLoadingMessage(body.loading)
 							else if (body.data) {
 								setData(body.data)
@@ -122,6 +125,12 @@ export default ({ ville, osmId, clientProcessing }) => {
 				)
 		}
 	}
+	useEffect(() => {
+		const socket = io('ws://localhost:3000')
+		socket.connect()
+		console.log('le client a tenté de se connecter au socket')
+		socket.emit('yo')
+	}, [])
 
 	useEffect(() => {
 		if (!clientProcessing) return undefined
