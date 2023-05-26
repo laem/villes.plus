@@ -1,5 +1,4 @@
 import apicache from 'apicache'
-import AWS from 'aws-sdk'
 import compression from 'compression'
 import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
@@ -13,41 +12,9 @@ import { compute as computeWalking } from './geoStudio.js'
 import algorithmVersion from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
-
 dotenv.config()
-
-const BUCKET_NAME = process.env.BUCKET_NAME
-const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
-const ID = process.env.ACCESS_KEY_ID
-const SECRET = process.env.ACCESS_KEY
-
-// Create S3 service object
-const s3 = new AWS.S3({
-	endpoint: S3_ENDPOINT_URL,
-	credentials: {
-		accessKeyId: ID,
-		secretAccessKey: SECRET,
-	},
-})
-
-const testStorage = async () => {
-	try {
-		const data = await s3
-			.getObject({
-				Bucket: BUCKET_NAME,
-				Key: 'yo.txt',
-			})
-			.promise()
-
-		console.log(
-			`Successfully read test file from ${BUCKET_NAME} : S3 storage works.`
-		)
-
-		console.log(`<<${data.Body.toString('utf-8')}>>`)
-	} catch (e) {
-		console.log('Problem fetching S3 test object', e)
-	}
-}
+import { testStorage, s3, BUCKET_NAME, getDirectory } from './storage'
+import { fetchRetry } from './utils'
 
 testStorage()
 
@@ -67,16 +34,6 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	brouterRequest(query, (json) => res.json(json))
 })
 
-const fetchRetry = async (url, options, n) => {
-	try {
-		return await fetch(url, options)
-	} catch (err) {
-		if (n === 1) throw err
-		console.log('retry fetch points, ', n, ' try left')
-		return await fetchRetry(url, options, n - 1)
-	}
-}
-
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	const { city, requestCore } = req.params
 
@@ -93,13 +50,6 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 		res.send(`Error fetching and retry points for ${city}`, e)
 	}
 })
-
-const getDirectory = () => {
-	const date = new Date()
-		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
-		.replace('/', '-')
-	return `${date}/${algorithmVersion}`
-}
 
 const doNotCache = false
 const readFile = async (dimension, ville, scope, res) => {
