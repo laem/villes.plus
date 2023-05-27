@@ -36,7 +36,11 @@ const httpServer = app.listen(port, function () {
 	)
 })
 
-const io = new Server(httpServer)
+const io = new Server(httpServer, {
+	cors: {
+		origin: '*',
+	},
+})
 
 const cache = apicache.options({
 	headers: {
@@ -49,12 +53,16 @@ console.log('io initialisaed')
 
 io.on('connection', (socket) => {
 	console.log('a user connected')
-	socket.on('yo', () => console.log('yoyoyo'))
+	socket.on('message-socket-initial', () =>
+		console.log('message socket initial bien reçu !')
+	)
 	socket.on('api', ({ dimension, scope, ville }) => {
-		const inform = (message) =>
+		console.log('socket message API received', dimension, scope, ville)
+		const inform = (message) => {
+			console.log('will server emit', message)
 			socket.emit(`api/${dimension}/${scope}/${ville}`, message)
-		computeAndCacheCity(dimension, ville, scope, inform, null, null, inform)
-		console.log('message: ' + msg)
+		}
+		computeAndCacheCity(dimension, ville, scope, null, null, inform)
 	})
 })
 

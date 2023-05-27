@@ -39,6 +39,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 	const id = osmId || ville
 
 	const [couple, setCouple] = useState({ from: null, to: null })
+	const [socket, setSocket] = useState(null)
 
 	const [clickedSegment, setClickedSegment] = useState()
 	const [clickedLatLon, setClickedLatLon] = useState()
@@ -68,7 +69,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 			randomFilter
 
 	const [clickedPoint, setClickedPoint] = useState(null)
-	const downloadData = async (stopsNumber) => {
+	const downloadData = async (stopsNumber, socket) => {
 		if (clientProcessing) {
 			const points = await pointsProcess(id, stopsNumber),
 				pointsCenter = computePointsCenter(points)
@@ -100,13 +101,12 @@ export default ({ ville, osmId, clientProcessing }) => {
 					console.log('S', status, body)
 					if (status === 202) {
 						setLoadingMessage('⚙️  Le calcul est lancé...')
-						return
 
-						const socket = io('http://localhost')
 						const dimension = `cycling`,
 							scope = `merged`
 						socket.emit(`api`, { dimension, scope, ville })
 						socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {
+							console.log('did client on api', body)
 							if (body.loading) setLoadingMessage(body.loading)
 							else if (body.data) {
 								setData(body.data)
@@ -126,15 +126,16 @@ export default ({ ville, osmId, clientProcessing }) => {
 		}
 	}
 	useEffect(() => {
-		const socket = io('ws://localhost:3000')
-		socket.connect()
+		const newSocket = io('ws://localhost:3000')
+		if (!socket) setSocket(newSocket)
+		newSocket.connect()
 		console.log('le client a tenté de se connecter au socket')
-		socket.emit('yo')
+		newSocket.emit('message-socket-initial')
 	}, [])
 
 	useEffect(() => {
 		if (!clientProcessing) return undefined
-		downloadData(stopsNumber)
+		downloadData(stopsNumber, null)
 
 		return () => {
 			console.log('This will be logged on unmount')
@@ -143,12 +144,12 @@ export default ({ ville, osmId, clientProcessing }) => {
 	useEffect(() => {
 		if (clientProcessing) return undefined
 		console.log('will downloadData')
-		downloadData()
+		downloadData(null, socket)
 
 		return () => {
 			console.log('This will be logged on unmount')
 		}
-	}, [])
+	}, [socket])
 
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved

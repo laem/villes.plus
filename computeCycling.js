@@ -114,7 +114,7 @@ export const computeSafePercentage = (messages) => {
 	return (safeDistance / total) * 100
 }
 
-export const ridesPromises = (points) =>
+export const createRidesPromises = (points) =>
 	points
 		.map((p, i) => {
 			const point1 = point([p.lon, p.lat])
@@ -151,12 +151,21 @@ export const isValidRide = (ride) =>
 	ride.features &&
 	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 
-export default async (ville, inform) => {
+export default async (ville, inform = () => null) => {
 	const points = await pointsProcess(ville)
-	inform('points collected')
+	inform({ loading: `Points téléchargés : ${points.length} points` })
 	const pointsCenter = computePointsCenter(points)
 
-	const rides = await Promise.all(ridesPromises(points))
+	let resolvedPromisesCount = 0
+	const ridesPromises = createRidesPromises(points)
+	ridesPromises.map((promise) =>
+		promise.then(() => {
+			resolvedPromisesCount += 1
+
+			inform({ loading: `🧭 ${resolvedPromisesCount} itinéraires calculés` })
+		})
+	)
+	const rides = await Promise.all(ridesPromises)
 
 	const filteredRides = rides.filter(isValidRide)
 
@@ -169,5 +178,7 @@ export default async (ville, inform) => {
 		.map((r) => r.features)
 		.flat()
 
-	return { pointsCenter, points, segments, score, rides }
+	const result = { pointsCenter, points, segments, score, rides }
+	inform({ data: result })
+	return result
 }

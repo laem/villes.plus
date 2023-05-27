@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import algorithmVersion from './algorithmVersion'
 dotenv.config()
 export const BUCKET_NAME = process.env.BUCKET_NAME
 console.log(BUCKET_NAME)
