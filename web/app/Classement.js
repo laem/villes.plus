@@ -16,11 +16,14 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data, text }) {
+export function Classement({ cyclable, data, text, level = 'métropoles' }) {
 	const villes = data
+	console.log('VILLES', villes)
 
 	let villesEntries = Object.entries(villes)
+
 	const [gridView, setGridView] = useState(false)
+	const counterLevel = level === 'métropoles' ? 'villes' : 'métropoles'
 
 	return (
 		<>
@@ -29,9 +32,16 @@ export function Classement({ cyclable, data, text }) {
 				<h2>
 					{text ||
 						(cyclable
-							? 'Quelles métropoles françaises sont les plus cyclables ?'
+							? `Quelles ${level} françaises sont les plus cyclables ?`
 							: 'Quelles grandes villes françaises sont les plus piétonnes ?')}
 				</h2>
+				{cyclable && (
+					<div>
+						<Link href={`/cyclables/${counterLevel}`}>
+							Voir le classement des {counterLevel}
+						</Link>
+					</div>
+				)}
 				<p
 					css={`
 						text-align: center;

@@ -1,4 +1,5 @@
 const villes = [
+	/*
 	['Paris', 'Métropole du Grand Paris'],
 	['Marseille', 'Aix-Marseille-Provence'],
 	['Lyon', 'Métropole de Lyon'],
@@ -27,6 +28,7 @@ const villes = [
 	'Aix-en-Provence',
 	'Le Mans',
 	['Clermont-Ferrand', 'Clermont Auvergne Métropole'],
+	*/
 	['Brest', 'Brest Métropole'],
 ]
 

@@ -95,12 +95,15 @@ const readFile = async (dimension, ville, scope, res) => {
 	if (doNotCache) return compute()
 	try {
 		console.log('Will try to retrieve s3 data for ', ville, scope)
+		const key = `${getDirectory()}/${ville}.${scope}${
+			dimension === 'cycling' ? '.cycling' : ''
+		}.json`
+		console.log('key', key)
+		console.log('dimension', dimension)
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
-				Key: `${getDirectory()}/${ville}.${scope}${
-					dimension === 'cycling' ? '.cycling' : ''
-				}.json`,
+				Key: key,
 			})
 			.promise()
 
@@ -116,7 +119,10 @@ const readFile = async (dimension, ville, scope, res) => {
 	} catch (e) {
 		console.log('No meta found, unknown territory')
 		console.log('Will launch compute')
-		return res.status(202).send({ message: 'Calcul lancé' }).end()
+		return res
+			.status(202)
+			.send({ message: "Ce territoire n'est pas encore calculé" })
+			.end()
 	}
 }
 
