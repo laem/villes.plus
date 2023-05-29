@@ -40,7 +40,7 @@ async function getData() {
 			return fetch(
 				url,
 				{ cache: 'no-store' } // I don't get why next caches a wrong version
-			).then((yo) => yo.json())
+			).then((r) => r.json().then((data) => ({ ...data, status: r.status })))
 		}),
 		6000,
 		false

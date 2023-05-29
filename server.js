@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
 			console.log('will server emit', message)
 			const path = `api/${dimension}/${scope}/${ville}`
 			if (message.data) apicache.clear('/' + path)
-			socket.emit(path, message)
+			io.emit(path, message)
 		}
 		computeAndCacheCity(dimension, ville, scope, null, null, inform)
 	})

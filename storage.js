@@ -40,5 +40,5 @@ export const getDirectory = () => {
 	const date = new Date()
 		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
 		.replace('/', '-')
-	return `${date}/${algorithmVersion}`
+	return `${'06-2023'}/${algorithmVersion}`
 }
