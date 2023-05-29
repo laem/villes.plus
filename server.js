@@ -211,7 +211,7 @@ const computeAndCacheCity = async (
 				})
 		}
 	}, waitingForLockInterval)
-	console.log('ville pas encore connue : ', ville)
+	console.log('territoire pas encore connu : ', ville)
 }
 
 let resUnknownCity = (res, ville) =>
