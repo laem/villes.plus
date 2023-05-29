@@ -126,7 +126,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 		}
 	}
 	useEffect(() => {
-		const socket = io(APIUrl.replace('http', 'ws'))
+		const newSocket = io(APIUrl.replace('http', 'ws'))
 		if (!socket) setSocket(newSocket)
 		newSocket.connect()
 		console.log('le client a tenté de se connecter au socket')

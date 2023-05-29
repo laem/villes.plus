@@ -38,7 +38,8 @@ export function Classement({ cyclable, data, text, level = 'métropoles' }) {
 				{cyclable && (
 					<div>
 						<Link href={`/cyclables/${counterLevel}`}>
-							Voir le classement des {counterLevel}
+							Voir le classement des{' '}
+							{counterLevel === 'villes' ? 'cœurs de ville' : counterLevel}
 						</Link>
 					</div>
 				)}
