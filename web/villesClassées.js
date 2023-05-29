@@ -24,11 +24,12 @@ const villes = [
 	['Dijon', 'Dijon Métropole'],
 	'Angers',
 	'Nîmes',
+	*/
+	'Saint-Renan',
 	'Villeurbanne',
 	'Aix-en-Provence',
 	'Le Mans',
 	['Clermont-Ferrand', 'Clermont Auvergne Métropole'],
-	*/
 	['Brest', 'Brest Métropole'],
 ]
 

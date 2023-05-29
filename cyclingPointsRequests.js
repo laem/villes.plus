@@ -2,6 +2,7 @@ const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
 const testHasLevel = (name) => /.+\.\d$/.test(name)
 const splitName = (name) => name.split('.')
+
 export const processName = (name) =>
 	testHasLevel(name) ? splitName(name)[0] : name
 

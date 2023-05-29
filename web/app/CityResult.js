@@ -135,7 +135,14 @@ export default ({ ville, cyclable, data: initialData, i, gridView }) => {
 					)}
 
 					{loadingMessage ? (
-						<div>{loadingMessage}</div>
+						<div
+							css={`
+								margin: 0.6rem;
+								width: 25%;
+							`}
+						>
+							{loadingMessage}
+						</div>
 					) : cyclable ? (
 						<CyclableScoreVignette score={data.score} />
 					) : (
