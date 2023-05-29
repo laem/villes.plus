@@ -126,7 +126,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 		}
 	}
 	useEffect(() => {
-		const newSocket = io('ws://localhost:3000')
+		const socket = io(APIUrl.replace('http', 'ws'))
 		if (!socket) setSocket(newSocket)
 		newSocket.connect()
 		console.log('le client a tenté de se connecter au socket')

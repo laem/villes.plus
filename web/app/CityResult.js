@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import villesList from '../villesClassées'
 import { io } from 'socket.io-client'
 import { processName } from '../../cyclingPointsRequests'
+import APIUrl from '@/app/APIUrl'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -44,7 +45,7 @@ export default ({ ville, cyclable, data: initialData, i, gridView }) => {
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]
 
 	useEffect(() => {
-		const socket = io('ws://localhost:3000')
+		const socket = io(APIUrl.replace('http', 'ws'))
 		socket.connect()
 		console.log('le client a tenté de se connecter au socket')
 		socket.emit('message-socket-initial')
