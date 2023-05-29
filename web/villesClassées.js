@@ -18,13 +18,13 @@ const villes = [
 	'Reims',
 	['Saint-Étienne', 'Saint-Étienne Métropole'],
 	'Le Havre',
+	*/
 	['Tours', 'Tours Métropole Val de Loire'],
 	['Toulon', 'Métropole Toulon-Provence-Méditerranée'],
 	['Grenoble', 'Grenoble-Alpes Métropole'],
 	['Dijon', 'Dijon Métropole'],
 	'Angers',
 	'Nîmes',
-	*/
 	'Villeurbanne',
 	'Aix-en-Provence',
 	'Le Mans',
