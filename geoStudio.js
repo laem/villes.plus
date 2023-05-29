@@ -51,6 +51,7 @@ export const compute = (ville, inform = () => null) => {
 		request = `${OverpassInstance}?data=${overpassRequest}`
 
 	console.log('On va lancer les requêtes pour ', ville)
+	inform({ loading: `On va lancer les requêtes pour ${ville}` })
 
 	return (
 		Promise.all([

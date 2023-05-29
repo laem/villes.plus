@@ -55,7 +55,7 @@ export default ({
 		if (initialData.status === 202) {
 			setLoadingMessage('⚙️  Le calcul est lancé...')
 
-			const dimension = `cycling`,
+			const dimension = cyclable ? `cycling` : 'walking',
 				scope = `meta`
 			socket.emit(`api`, { dimension, scope, ville })
 			socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {

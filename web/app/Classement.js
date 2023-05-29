@@ -120,7 +120,7 @@ export function Classement({ cyclable, data, text, level }) {
 							.map(([ville, data]) => {
 								if (cyclable) return [ville, data]
 								if (!data || !data.geoAPI)
-									return [ville, { percentage: -Infinity }]
+									return [ville, { percentage: -Infinity, status: data.status }]
 								return [ville, { ...data, ...normalizedScores(data) }]
 							})
 							.sort(([, v1], [, v2]) =>

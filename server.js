@@ -119,12 +119,9 @@ const readFile = async (dimension, ville, scope, res) => {
 			)[1](data)
 		res && res.json(filteredData)
 	} catch (e) {
-		console.log('No meta found, unknown territory')
-		console.log('Will launch compute')
-		return res
-			.status(202)
-			.send({ message: "Ce territoire n'est pas encore calculé" })
-			.end()
+		const message = "Ce territoire n'est pas encore calculé"
+		console.log(message)
+		return res.status(202).send({ message }).end()
 	}
 }
 
