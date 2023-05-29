@@ -13,9 +13,13 @@ export default () => (
 	<LandingWrapper>
 		<Header />
 		<Cards>
-			<Link href="/cyclables">
+			<Link href="/cyclables/metropoles">
 				<span>🚲️</span> Le classement des <strong>métropoles</strong> les plus
 				cyclables.
+			</Link>
+			<Link href="/cyclables/communes">
+				<span>🚲️</span> Le classement des <strong>grandes villes</strong> les
+				plus cyclables.
 			</Link>
 			<Link href="/cyclables/departements">
 				<span>🚲️</span> Le classement des <strong>départements</strong> les

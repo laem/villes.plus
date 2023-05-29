@@ -6,6 +6,8 @@ import Logo from './Logo'
 import algorithmVersion from '../../algorithmVersion'
 import { ClassementWrapper, NewCityLink } from './ClassementUI'
 import ScoreLegend from '@/ScoreLegend'
+import { io } from 'socket.io-client'
+import APIUrl from '@/app/APIUrl'
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -16,14 +18,23 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data, text, level = 'metropoles' }) {
+export function Classement({ cyclable, data, text, level }) {
 	const villes = data
 	console.log('VILLES', villes)
 
 	let villesEntries = Object.entries(villes)
 
 	const [gridView, setGridView] = useState(false)
-	const counterLevel = level === 'metropoles' ? 'communes' : 'metropoles'
+	const [socket, setSocket] = useState(null)
+	const counterLevel =
+		level && (level === 'metropoles' ? 'communes' : 'metropoles')
+	useEffect(() => {
+		const socket = io(APIUrl.replace('http', 'ws'))
+		setSocket(socket)
+		socket.connect()
+		console.log('le client a tenté de se connecter au socket')
+		socket.emit('message-socket-initial')
+	}, [setSocket])
 
 	return (
 		<>
@@ -35,10 +46,25 @@ export function Classement({ cyclable, data, text, level = 'metropoles' }) {
 							? `Quelles ${level} françaises sont les plus cyclables ?`
 							: 'Quelles grandes villes françaises sont les plus piétonnes ?')}
 				</h2>
-				{cyclable && (
+				{counterLevel && cyclable && (
 					<div>
-						<Link href={`/cyclables/${counterLevel}`}>
-							Voir le classement des {counterLevel}
+						<Link
+							href={`/cyclables/${counterLevel}`}
+							css={`
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							`}
+						>
+							<img
+								src={`/${counterLevel}.svg`}
+								css={`
+									width: 2rem;
+									height: auto;
+									margin-right: 0.6rem;
+								`}
+							/>{' '}
+							<div>Voir le classement des {counterLevel}</div>
 						</Link>
 					</div>
 				)}
@@ -107,6 +133,7 @@ export function Classement({ cyclable, data, text, level = 'metropoles' }) {
 									<CityResult
 										key={ville}
 										{...{ gridView, ville, cyclable, data, i }}
+										socket={socket}
 									/>
 								)
 							})}

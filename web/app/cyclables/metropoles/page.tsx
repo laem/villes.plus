@@ -38,5 +38,5 @@ async function getData() {
 }
 export default async function Page() {
 	const data = await getData()
-	return <Classement cyclable data={data} />
+	return <Classement cyclable data={data} level="metropoles" />
 }

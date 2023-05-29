@@ -5,9 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import villesList from '../villesClassées'
-import { io } from 'socket.io-client'
 import { processName } from '../../cyclingPointsRequests'
-import APIUrl from '@/app/APIUrl'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -28,7 +26,14 @@ async function getData(ville, then) {
 	then(json)
 }
 
-export default ({ ville, cyclable, data: initialData, i, gridView }) => {
+export default ({
+	ville,
+	cyclable,
+	data: initialData,
+	i,
+	gridView,
+	socket,
+}) => {
 	const [wikidata, setWikidata] = useState({})
 	const [loadingMessage, setLoadingMessage] = useState(null)
 	const [socketData, setSocketData] = useState(null)
@@ -45,10 +50,7 @@ export default ({ ville, cyclable, data: initialData, i, gridView }) => {
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]
 
 	useEffect(() => {
-		const socket = io(APIUrl.replace('http', 'ws'))
-		socket.connect()
-		console.log('le client a tenté de se connecter au socket')
-		socket.emit('message-socket-initial')
+		if (!socket) return
 
 		if (initialData.status === 202) {
 			setLoadingMessage('⚙️  Le calcul est lancé...')
@@ -64,7 +66,7 @@ export default ({ ville, cyclable, data: initialData, i, gridView }) => {
 				}
 			})
 		}
-	}, [])
+	}, [socket])
 
 	const data = socketData || initialData
 	return (
