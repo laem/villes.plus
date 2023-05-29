@@ -16,14 +16,14 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data, text, level = 'métropoles' }) {
+export function Classement({ cyclable, data, text, level = 'metropoles' }) {
 	const villes = data
 	console.log('VILLES', villes)
 
 	let villesEntries = Object.entries(villes)
 
 	const [gridView, setGridView] = useState(false)
-	const counterLevel = level === 'métropoles' ? 'villes' : 'métropoles'
+	const counterLevel = level === 'metropoles' ? 'communes' : 'metropoles'
 
 	return (
 		<>
@@ -38,8 +38,7 @@ export function Classement({ cyclable, data, text, level = 'métropoles' }) {
 				{cyclable && (
 					<div>
 						<Link href={`/cyclables/${counterLevel}`}>
-							Voir le classement des{' '}
-							{counterLevel === 'villes' ? 'cœurs de ville' : counterLevel}
+							Voir le classement des {counterLevel}
 						</Link>
 					</div>
 				)}

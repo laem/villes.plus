@@ -1,4 +1,4 @@
-import { Classement } from '../Classement'
+import { Classement } from '../../Classement'
 import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
