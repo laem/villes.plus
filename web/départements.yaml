@@ -394,10 +394,11 @@
   nom: Guyane
   code_region: 03
   nom_region: Guyane
-- code: 974
-  nom: La Réunion
-  code_region: 04
-  nom_region: La Réunion
+
+#- code: 974
+#nom: La Réunion
+#code_region: 04
+#nom_region: La Réunion
 - code: 976
   nom: Mayotte
   code_region: 06
