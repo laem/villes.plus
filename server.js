@@ -159,7 +159,7 @@ const computeAndCacheCity = async (
 			clearInterval(intervalId)
 			return (
 				dimension === 'walking'
-					? computeWalking(ville)
+					? computeWalking(ville, inform)
 					: computeCycling(ville, inform)
 			)
 				.then((data) => {

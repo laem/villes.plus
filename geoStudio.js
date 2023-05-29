@@ -45,7 +45,7 @@ const findCity = (ville) =>
 
 export const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
-export const compute = (ville, exceptions0) => {
+export const compute = (ville, inform = () => null) => {
 	const exceptions = {}
 	const overpassRequest = makeRequest(ville),
 		request = `${OverpassInstance}?data=${overpassRequest}`
@@ -83,9 +83,13 @@ export const compute = (ville, exceptions0) => {
 				const typesCount = countTypes(features)
 				const [polygons, meanStreetWidth, streetsWithWidthCount] =
 					linesToPolygons(ville, features)
+				inform({
+					loading: `Donnés OSM récupérées, ${polygons.length} polygones`,
+				})
 
 				console.log('will merge')
 				const mergedPolygons0 = await mergePolygons2(polygons)
+				inform({ loading: `La fusion a été opérée` })
 
 				console.log('merged, will exclude')
 				const toCoord = (f) => f.coordinates
@@ -113,6 +117,7 @@ export const compute = (ville, exceptions0) => {
 					//typesCount,
 					//geojson,
 				}
+				inform({ data: result })
 				return result
 			})
 	)
