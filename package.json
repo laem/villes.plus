@@ -34,6 +34,7 @@
 		"@mdx-js/loader": "^2.3.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
 		"@turf/area": "^6.0.1",
+		"@turf/bearing": "^6.5.0",
 		"@turf/boolean-contains": "^6.5.0",
 		"@turf/buffer": "^6.5.0",
 		"@turf/center": "^6.5.0",

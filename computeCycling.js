@@ -1,4 +1,5 @@
 import distance from '@turf/distance'
+import bearing from '@turf/bearing'
 import point from 'turf-point'
 import isSafePath from './isSafePath'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
@@ -13,6 +14,13 @@ const maxCityDistance = 20 // was used previously, but I think the next threshol
  * the only limit is the server weight, and map lisibility
  * */
 const nearestPointsLimit = 4
+/* This is a daily cycling infra testing algorithm : we're not really interested in testing rides that
+ * represent more than 25 km à vol d'oiseau.
+ * 20 km is the approximate distance ridden by an electric bike in 45 minutes
+ * considering the real distance is a little bit more than the point to point straight distance.
+ * */
+
+const maximumBikingDistance = 20
 
 const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
@@ -114,28 +122,59 @@ export const computeSafePercentage = (messages) => {
 	return (safeDistance / total) * 100
 }
 
+const roseDirections = ['sud-ouest', 'nord-ouest', 'nord-est', 'sud-est']
+const computeRoseDirection = (bearing) =>
+	bearing < -90
+		? 'sud-ouest'
+		: bearing < 0
+		? 'nord-ouest'
+		: bearing < 90
+		? 'nord-est'
+		: 'sud-est'
 export const ridesPromises = (points) =>
 	points
 		.map((p, i) => {
 			const point1 = point([p.lon, p.lat])
 
-			const sorted = points
-				.filter((p2) => {
-					const d = distance(point([p2.lon, p2.lat]), point1)
-					return (
+			const nearestPoints = points
+				.map((p2) => {
+					const point2 = point([p2.lon, p2.lat])
+					const d = distance(point2, point1)
+
+					const notSame =
 						p != p2 && // suffices for now, it's binary
 						isTransportStop(p) === isTransportStop(p2) &&
+						// don't consider the sibling bus stop for the other bus direction
 						!(d < 1 && p.tags.name === p2.tags.name)
-					)
+					const pointBearing = bearing(point1, point2),
+						roseDirection = computeRoseDirection(pointBearing)
+					return { point: p2, d, notSame, roseDirection }
 				})
-				.sort(
-					(pa, pb) =>
-						distance(point([pa.lon, pa.lat]), point1) -
-						distance(point([pb.lon, pb.lat]), point1)
-				)
-			const firstX = sorted.slice(0, nearestPointsLimit)
+				.filter((p) => p.notSame)
+				.sort((pa, pb) => pa.d - pb.d)
 
-			return firstX.map((p2, j) =>
+			console.log('NP', nearestPoints)
+
+			const firstX = nearestPoints
+				.slice(0, nearestPointsLimit)
+				.map((p) => p.point)
+
+			const mostInterestingXPoints = nearestPoints
+				.reduce((memo, next) => {
+					if (memo.length === nearestPointsLimit) return memo
+					return memo.find(
+						(element) => element.roseDirection === next.roseDirection
+					)
+						? memo
+						: next.d < maximumBikingDistance
+						? [...memo, next]
+						: memo
+				}, [])
+				.map((p) => p.point)
+
+			console.log('MOST', mostInterestingXPoints)
+
+			return mostInterestingXPoints.map((p2, j) =>
 				new Promise((resolve) =>
 					setTimeout(resolve, itineraryRequestDelay * (i + j))
 				).then(() => createItinerary(p, p2).then((res) => res))

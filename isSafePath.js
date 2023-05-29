@@ -15,6 +15,7 @@ export default (tags) =>
 	isSafePathV2Diff(tags)
 
 export const isSafePathV2Diff = (tags) =>
+	tags.includes('cyclestreet=yes') ||
 	tags.includes('highway=pedestrian') || // pedestrian ways are wide enough to be considered cyclable (contrary to footways and paths, as stated here https://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway), we believe bikes and pedestrian can safely cohabit
 	tags.includes('cycleway=track') || // analysing Bretagne's cycleway=track makes me think it's a good candidate for level 0 safe ways, as they are all (at least slightly with some grass) separated from cars
 	((tags.includes('highway=path') || tags.includes('highway=footway')) &&
