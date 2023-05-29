@@ -25,7 +25,6 @@ const villes = [
 	'Angers',
 	'Nîmes',
 	*/
-	'Saint-Renan',
 	'Villeurbanne',
 	'Aix-en-Provence',
 	'Le Mans',
