@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import villesList from '../villesClassées'
+import { processName } from '../../cyclingPointsRequests'
 
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -25,15 +26,49 @@ async function getData(ville, then) {
 	then(json)
 }
 
-export default ({ ville, cyclable, data, i, gridView }) => {
+export default ({
+	ville,
+	cyclable,
+	data: initialData,
+	i,
+	gridView,
+	socket,
+}) => {
 	const [wikidata, setWikidata] = useState({})
+	const [loadingMessage, setLoadingMessage] = useState(null)
+	const [socketData, setSocketData] = useState(null)
+	const villeName = processName(ville)
+
 	useEffect(() => {
-		getData(cyclable ? métropoleToVille[ville] || ville : ville, setWikidata)
+		getData(
+			processName(cyclable ? métropoleToVille[ville] || ville : ville),
+			setWikidata
+		)
 	}, [ville, cyclable])
 
 	const imageURL = wikidata.image
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]
 
+	useEffect(() => {
+		if (!socket) return
+
+		if (initialData.status === 202) {
+			setLoadingMessage('⚙️  Le calcul est lancé...')
+
+			const dimension = cyclable ? `cycling` : 'walking',
+				scope = `meta`
+			socket.emit(`api`, { dimension, scope, ville })
+			socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {
+				if (body.loading) setLoadingMessage(body.loading)
+				else if (body.data) {
+					setSocketData(body.data)
+					setLoadingMessage(false)
+				}
+			})
+		}
+	}, [socket])
+
+	const data = socketData || initialData
 	return (
 		<li
 			key={ville}
@@ -70,7 +105,7 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 					>
 						{medal}&nbsp;
 					</span>
-					{ville}
+					{villeName}
 				</h3>
 				<div
 					css={`
@@ -102,7 +137,16 @@ export default ({ ville, cyclable, data, i, gridView }) => {
 						</div>
 					)}
 
-					{cyclable ? (
+					{loadingMessage ? (
+						<div
+							css={`
+								margin: 0.6rem;
+								width: 25%;
+							`}
+						>
+							{loadingMessage}
+						</div>
+					) : cyclable ? (
 						<CyclableScoreVignette score={data.score} />
 					) : (
 						<WalkableScoreVignette data={data} />

@@ -131,7 +131,7 @@ const computeRoseDirection = (bearing) =>
 		: bearing < 90
 		? 'nord-est'
 		: 'sud-est'
-export const ridesPromises = (points) =>
+export const createRidesPromises = (points) =>
 	points
 		.map((p, i) => {
 			const point1 = point([p.lon, p.lat])
@@ -153,8 +153,6 @@ export const ridesPromises = (points) =>
 				.filter((p) => p.notSame)
 				.sort((pa, pb) => pa.d - pb.d)
 
-			console.log('NP', nearestPoints)
-
 			const firstX = nearestPoints
 				.slice(0, nearestPointsLimit)
 				.map((p) => p.point)
@@ -172,8 +170,6 @@ export const ridesPromises = (points) =>
 				}, [])
 				.map((p) => p.point)
 
-			console.log('MOST', mostInterestingXPoints)
-
 			return mostInterestingXPoints.map((p2, j) =>
 				new Promise((resolve) =>
 					setTimeout(resolve, itineraryRequestDelay * (i + j))
@@ -182,7 +178,7 @@ export const ridesPromises = (points) =>
 		})
 		.flat()
 
-const itineraryRequestDelay = 150 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
+const itineraryRequestDelay = 80 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
 
 export const isValidRide = (ride) =>
 	// Exclude itineraries that include a ferry route.
@@ -190,11 +186,22 @@ export const isValidRide = (ride) =>
 	ride.features &&
 	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 
-export default async (ville) => {
+export default async (ville, inform = () => null) => {
+	inform({ loading: `Les points vont être téléchargés` })
 	const points = await pointsProcess(ville)
+	inform({ loading: `Points téléchargés : ${points.length} points` })
 	const pointsCenter = computePointsCenter(points)
 
-	const rides = await Promise.all(ridesPromises(points))
+	let resolvedPromisesCount = 0
+	const ridesPromises = createRidesPromises(points)
+	ridesPromises.map((promise) =>
+		promise.then(() => {
+			resolvedPromisesCount += 1
+
+			inform({ loading: `🧭 ${resolvedPromisesCount} itinéraires calculés` })
+		})
+	)
+	const rides = await Promise.all(ridesPromises)
 
 	const filteredRides = rides.filter(isValidRide)
 
@@ -207,5 +214,7 @@ export default async (ville) => {
 		.map((r) => r.features)
 		.flat()
 
-	return { pointsCenter, points, segments, score, rides }
+	const result = { pointsCenter, points, segments, score, rides }
+	inform({ data: result })
+	return result
 }

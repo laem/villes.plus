@@ -21,7 +21,9 @@ export default ({ data }) => (
 					font-weight: 600;
 				`}
 			>
-				{data.percentage < 0 ? '⏳️' : data.percentage.toFixed(0)}
+				{!data.percentage || data.percentage < 0
+					? '⏳️'
+					: data.percentage.toFixed(0)}
 			</span>
 			<small> %</small>
 		</div>

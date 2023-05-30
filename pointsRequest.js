@@ -29,18 +29,32 @@ export const pointsRequest = async (city, randomFilter = 100) => {
 	}
 }
 
+// the Paris query can return points in the united states ! Hence we test the containment.
+// Hack, breaks Corsica and Outre mer :/
+// (bikes don't exist in Corsica anyway yet)
+const metropolitanFrance = [
+	[-5.353852828534542, 48.42923941831151],
+	[2.5964340170922924, 51.97021507483498],
+	[8.734619911467632, 49.03027507341659],
+	[10.345413967223578, 41.03091304244174],
+	[-2.447427130244762, 42.92290589918966],
+]
+const isSafeFrenchName = (name) =>
+	['Guadeloupe', 'La Réunion', 'Martinique', 'Guyane', 'Mayotte'].includes(name)
+
 export const pointsProcess = async (ville, randomFilter) => {
 	const worldPoints = await pointsRequest(ville, randomFilter)
 
-	const points = /^\d+$/.test(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
-		? //TODO this should be changed to handle famous names like "Oslo" for example directly by URL. But for nos the /recherche URL helps find the id without hassle
-		  worldPoints
-		: worldPoints.filter((p) =>
-				booleanContains(
-					polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
-					point([p.lon, p.lat])
-				)
-		  )
+	const points =
+		/^\d+$/.test(ville) || isSafeFrenchName(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
+			? //TODO this should be changed to handle famous names like "Oslo" for example directly by URL. But for nos the /recherche URL helps find the id without hassle
+			  worldPoints
+			: worldPoints.filter((p) =>
+					booleanContains(
+						polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
+						point([p.lon, p.lat])
+					)
+			  )
 	console.log({ worldPoints: worldPoints.length, points: points.length })
 	return points
 }
@@ -68,14 +82,3 @@ export const clusterTownhallBorders = (elements) =>
 			return element
 		})
 		.filter(Boolean)
-
-// the Paris query can return points in the united states ! Hence we test the containment.
-// Hack, breaks Corsica and Outre mer :/
-// (bikes don't exist in Corsica anyway yet)
-const metropolitanFrance = [
-	[-5.353852828534542, 48.42923941831151],
-	[2.5964340170922924, 51.97021507483498],
-	[8.734619911467632, 49.03027507341659],
-	[10.345413967223578, 41.03091304244174],
-	[-2.447427130244762, 42.92290589918966],
-]

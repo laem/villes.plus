@@ -26,6 +26,7 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
+import { io } from 'socket.io-client'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -38,6 +39,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 	const id = osmId || ville
 
 	const [couple, setCouple] = useState({ from: null, to: null })
+	const [socket, setSocket] = useState(null)
 
 	const [clickedSegment, setClickedSegment] = useState()
 	const [clickedLatLon, setClickedLatLon] = useState()
@@ -67,7 +69,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 			randomFilter
 
 	const [clickedPoint, setClickedPoint] = useState(null)
-	const downloadData = async (stopsNumber) => {
+	const downloadData = async (stopsNumber, socket) => {
 		if (clientProcessing) {
 			const points = await pointsProcess(id, stopsNumber),
 				pointsCenter = computePointsCenter(points)
@@ -92,10 +94,29 @@ export default ({ ville, osmId, clientProcessing }) => {
 			setLoadingMessage('⏳️ Téléchargement en cours des données...')
 			console.log('will fetch', stopsNumber)
 			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + id)
-				.then((res) => res.json())
-				.then((json) => {
-					setData(json)
-					setLoadingMessage(false)
+				.then((r) =>
+					r.json().then((data) => ({ status: r.status, body: data }))
+				)
+				.then(({ status, body }) => {
+					console.log('S', status, body)
+					if (status === 202) {
+						setLoadingMessage('⚙️  Le calcul est lancé...')
+
+						const dimension = `cycling`,
+							scope = `merged`
+						socket.emit(`api`, { dimension, scope, ville })
+						socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {
+							console.log('did client on api', body)
+							if (body.loading) setLoadingMessage(body.loading)
+							else if (body.data) {
+								setData(body.data)
+								setLoadingMessage(false)
+							}
+						})
+					} else {
+						setData(body)
+						setLoadingMessage(false)
+					}
 				})
 				.catch((e) =>
 					console.log(
@@ -104,10 +125,17 @@ export default ({ ville, osmId, clientProcessing }) => {
 				)
 		}
 	}
+	useEffect(() => {
+		const newSocket = io(APIUrl.replace('http', 'ws'))
+		if (!socket) setSocket(newSocket)
+		newSocket.connect()
+		console.log('le client a tenté de se connecter au socket')
+		newSocket.emit('message-socket-initial')
+	}, [])
 
 	useEffect(() => {
 		if (!clientProcessing) return undefined
-		downloadData(stopsNumber)
+		downloadData(stopsNumber, null)
 
 		return () => {
 			console.log('This will be logged on unmount')
@@ -116,12 +144,12 @@ export default ({ ville, osmId, clientProcessing }) => {
 	useEffect(() => {
 		if (clientProcessing) return undefined
 		console.log('will downloadData')
-		downloadData()
+		downloadData(null, socket)
 
 		return () => {
 			console.log('This will be logged on unmount')
 		}
-	}, [])
+	}, [socket])
 
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved

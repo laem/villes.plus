@@ -35,8 +35,8 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
-				source: '/yo',
-				destination: '/pietonnes',
+				source: '/cyclables',
+				destination: '/cyclables/metropoles',
 				permanent: true,
 			},
 			{

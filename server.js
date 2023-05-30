@@ -1,5 +1,4 @@
 import apicache from 'apicache'
-import AWS from 'aws-sdk'
 import compression from 'compression'
 import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
@@ -13,47 +12,35 @@ import { compute as computeWalking } from './geoStudio.js'
 import algorithmVersion from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
-
 dotenv.config()
-
-const BUCKET_NAME = process.env.BUCKET_NAME
-const S3_ENDPOINT_URL = process.env.S3_ENDPOINT_URL
-const ID = process.env.ACCESS_KEY_ID
-const SECRET = process.env.ACCESS_KEY
-
-// Create S3 service object
-const s3 = new AWS.S3({
-	endpoint: S3_ENDPOINT_URL,
-	credentials: {
-		accessKeyId: ID,
-		secretAccessKey: SECRET,
-	},
-})
-
-const testStorage = async () => {
-	try {
-		const data = await s3
-			.getObject({
-				Bucket: BUCKET_NAME,
-				Key: 'yo.txt',
-			})
-			.promise()
-
-		console.log(
-			`Successfully read test file from ${BUCKET_NAME} : S3 storage works.`
-		)
-
-		console.log(`<<${data.Body.toString('utf-8')}>>`)
-	} catch (e) {
-		console.log('Problem fetching S3 test object', e)
-	}
-}
+import { testStorage, s3, BUCKET_NAME, getDirectory } from './storage'
+import { fetchRetry } from './utils'
+import http from 'http'
+import { Server } from 'socket.io'
 
 testStorage()
 
 const app = express()
-app.use(cors())
+app.use(
+	cors({
+		origin: '*',
+	})
+)
 app.use(compression())
+
+let port = process.env.PORT
+
+const httpServer = app.listen(port, function () {
+	console.log(
+		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
+	)
+})
+
+const io = new Server(httpServer, {
+	cors: {
+		origin: '*',
+	},
+})
 
 const cache = apicache.options({
 	headers: {
@@ -62,20 +49,29 @@ const cache = apicache.options({
 	debug: false,
 }).middleware
 
+console.log('io initialisaed')
+
+io.on('connection', (socket) => {
+	console.log('a user connected')
+	socket.on('message-socket-initial', () =>
+		console.log('message socket initial bien reçu !')
+	)
+	socket.on('api', ({ dimension, scope, ville }) => {
+		console.log('socket message API received', dimension, scope, ville)
+		const inform = (message) => {
+			console.log('will server emit', message)
+			const path = `api/${dimension}/${scope}/${ville}`
+			if (message.data) apicache.clear('/' + path)
+			io.emit(path, message)
+		}
+		computeAndCacheCity(dimension, ville, scope, null, null, inform)
+	})
+})
+
 app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 	const { query } = req.params
 	brouterRequest(query, (json) => res.json(json))
 })
-
-const fetchRetry = async (url, options, n) => {
-	try {
-		return await fetch(url, options)
-	} catch (err) {
-		if (n === 1) throw err
-		console.log('retry fetch points, ', n, ' try left')
-		return await fetchRetry(url, options, n - 1)
-	}
-}
 
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	const { city, requestCore } = req.params
@@ -94,13 +90,6 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	}
 })
 
-const getDirectory = () => {
-	const date = new Date()
-		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
-		.replace('/', '-')
-	return `${date}/${algorithmVersion}`
-}
-
 const doNotCache = false
 const readFile = async (dimension, ville, scope, res) => {
 	const compute = () =>
@@ -108,12 +97,15 @@ const readFile = async (dimension, ville, scope, res) => {
 	if (doNotCache) return compute()
 	try {
 		console.log('Will try to retrieve s3 data for ', ville, scope)
+		const key = `${getDirectory()}/${ville}.${scope}${
+			dimension === 'cycling' ? '.cycling' : ''
+		}.json`
+		console.log('key', key)
+		console.log('dimension', dimension)
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
-				Key: `${getDirectory()}/${ville}.${scope}${
-					dimension === 'cycling' ? '.cycling' : ''
-				}.json`,
+				Key: key,
 			})
 			.promise()
 
@@ -127,8 +119,9 @@ const readFile = async (dimension, ville, scope, res) => {
 			)[1](data)
 		res && res.json(filteredData)
 	} catch (e) {
-		console.log('No meta found, unknown territory')
-		compute()
+		const message = "Ce territoire n'est pas encore calculé"
+		console.log(message)
+		return res.status(202).send({ message }).end()
 	}
 }
 
@@ -148,7 +141,8 @@ const computeAndCacheCity = async (
 	ville,
 	returnScope,
 	res,
-	doNotCache
+	doNotCache,
+	inform
 ) => {
 	const intervalId = setInterval(() => {
 		if (computingLock.length > 0) {
@@ -161,7 +155,9 @@ const computeAndCacheCity = async (
 			addLock(ville, dimension)
 			clearInterval(intervalId)
 			return (
-				dimension === 'walking' ? computeWalking(ville) : computeCycling(ville)
+				dimension === 'walking'
+					? computeWalking(ville, inform)
+					: computeCycling(ville, inform)
 			)
 				.then((data) => {
 					scopes[dimension].map(async ([scope, selector]) => {
@@ -212,7 +208,7 @@ const computeAndCacheCity = async (
 				})
 		}
 	}, waitingForLockInterval)
-	console.log('ville pas encore connue : ', ville)
+	console.log('territoire pas encore connu : ', ville)
 }
 
 let resUnknownCity = (res, ville) =>
@@ -228,11 +224,4 @@ app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
 
 app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'index.html'))
-})
-
-let port = process.env.PORT
-app.listen(port, function () {
-	console.log(
-		'Allez là ! Piétonniez les toutes les villles  ! Sur le port ' + port
-	)
 })

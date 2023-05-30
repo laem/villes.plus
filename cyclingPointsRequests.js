@@ -1,11 +1,27 @@
 const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 
-export const request = (name, requestCore) => `
+const testHasLevel = (name) => /.+\.\d$/.test(name)
+const splitName = (name) => name.split('.')
+
+export const processName = (name) =>
+	testHasLevel(name) ? splitName(name)[0] : name
+
+export const request = (name, requestCore) => {
+	const isId = /^\d+$/.test(name)
+	const hasLevel = testHasLevel(name)
+
+	const processedName = processName(name),
+		level = hasLevel && splitName(name)[1],
+		levelModifier = hasLevel ? `[admin_level="${level}"]` : ''
+
+	return `
 
 [out:json][timeout:25];
 ( ${
-	/^\d+$/.test(name) ? `area(${3600000000 + +name})` : `area[name="${name}"]`
-}; )->.searchArea;
+		isId
+			? `area(${3600000000 + +name})`
+			: `area[name="${processedName}"]${levelModifier}`
+	}; )->.searchArea;
 (
 ${requestCore}
 );
@@ -14,6 +30,7 @@ out body;
 >;
 out skel qt;
 `
+}
 
 export const requestCores = {
 	stops: `
@@ -29,10 +46,11 @@ export const requestCores = {
   relation["amenity"="townhall"](area.searchArea);
 		`,
 }
-export const overpassRequestURL = (city, requestCoreName) =>
-	encodeURI(
-		`${OverpassInstance}?data=${request(
-			decodeURIComponent(city),
-			requestCores[requestCoreName]
-		)}`
+export const overpassRequestURL = (city, requestCoreName) => {
+	const requestContent = request(
+		decodeURIComponent(city),
+		requestCores[requestCoreName]
 	)
+	console.log(requestContent)
+	return encodeURI(`${OverpassInstance}?data=${requestContent}`)
+}

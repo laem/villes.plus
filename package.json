@@ -7,7 +7,7 @@
 	},
 	"scripts": {
 		"clean": "rm -rf cache/*",
-		"s": "node -r esm server.js",
+		"s": "DEBUG=socket* node -r esm server.js",
 		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
 		"start-prod": "NODE_ENV=production node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
@@ -75,6 +75,8 @@
 		"react-mapbox-gl": "^5.1.1",
 		"react-refresh": "^0.14.0",
 		"react-router-dom": "^6.8.2",
+		"socket.io": "^4.6.1",
+		"socket.io-client": "^4.6.1",
 		"style-loader": "^3.3.1",
 		"styled-components": "^5.3.6",
 		"turf-point": "^2.0.1",

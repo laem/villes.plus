@@ -31,7 +31,8 @@ Promise.raceAll = function (promises, timeoutTime, timeoutVal) {
 
 async function getData() {
 	const sobreList = list
-		.slice(0, 94) // not ready yet for worldwide tiles, we need to set up brouter, downloading all the tiles is huge
+		//.slice(0, 96) // not ready yet for worldwide tiles, we need to set up brouter, downloading all the tiles is huge
+		// Only La Réunion is removed, we've got a problem with a small french town named La Réunion...
 		.map(({ nom }) => nom)
 
 	const response = await Promise.raceAll(
@@ -40,7 +41,7 @@ async function getData() {
 			return fetch(
 				url,
 				{ cache: 'no-store' } // I don't get why next caches a wrong version
-			).then((yo) => yo.json())
+			).then((r) => r.json().then((data) => ({ ...data, status: r.status })))
 		}),
 		6000,
 		false

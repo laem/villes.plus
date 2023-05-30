@@ -1,15 +1,15 @@
-import { Classement } from '../Classement'
+import { Classement } from '@/app/Classement'
 import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'Le classement des villes les plus piétonnes - villes.plus',
+	title: 'Le classement des grandes communes les plus cyclables - villes.plus',
 
 	description:
-		'Chaque ville est testée pour déterminer le pourcentage de sa surface qui est dédié aux piétons',
+		'Chaque grande commune est testée pour déterminer le pourcentage de km cyclables strictement sécurisés.',
 	openGraph: {
-		images: 'https://villes-plus.vercel.app/pietonnes.png',
+		images: 'https://villes.plus/cyclables.png',
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -17,13 +17,16 @@ export const metadata: Metadata = {
 }
 
 const villesList = villesListRaw
-	.map((element) => (typeof element === 'string' ? element : element[0]))
+	.map((element) => {
+		const name = typeof element === 'string' ? element : element[0]
+		return name + '.' + 8 // level 8 is a commune in France
+	})
 	.filter(Boolean)
 
 async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
-			const url = APIUrl + `api/walking/meta/${ville}`
+			const url = APIUrl + `api/cycling/meta/${ville}`
 			return fetch(
 				url,
 				{ cache: 'no-store' } // I don't get why next caches a wrong version
@@ -38,5 +41,5 @@ async function getData() {
 }
 export default async function Page() {
 	const data = await getData()
-	return <Classement data={data} />
+	return <Classement cyclable data={data} level="communes" />
 }
