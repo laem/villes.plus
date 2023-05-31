@@ -4,6 +4,7 @@
 
 - nom: Rayons d'Action
   ville: Rennes
+  département: Ille-et-Vilaine
   twitter: Rayons_Action
   site: https://www.rayonsdaction.org
   métropole: Rennes Métropole
@@ -21,6 +22,7 @@
 - nom: Nice à Vélo
   site: https://niceavelo.org
   ville: Nice
+  département: Alpes-Maritimes
   métropole: Nice Côte d'Azur
   logo: https://niceavelo.org/wp-content/uploads/2022/10/cropped-logo-NAV_V2.png
   adhésion: https://niceavelo.org/adhesion
@@ -29,15 +31,17 @@
 
 - nom: Brest à Pied et à Vélo
   diminutif: BaPaV
+  département: Finistère
   site: https://www.bapav.org
   métropole: Brest Métropole
   adhésion: https://www.bapav.org/adherez-a-bapav/
   twitter: BrestPiedVelo
   logo: https://www.bapav.org/wp-content/uploads/2020/04/cropped-Logo-BaPaV-Bleu-Noir.png
-  
+
 - nom: Vélo-cité 63
   diminutif: VC63
   région: Auvergne Rhône-Alpes
+  département: Puy-de-Dôme
   métropole: Clermont Auvergne Métropole
   logo: https://www.velocite63.fr/velocite63/logo.jpg
   site: https://www.velocite63.fr
@@ -49,6 +53,7 @@
 - nom: Association Vélo Besançon
   diminutif: AVB
   région: Bourgogne-Franche-Comté
+  département: Doubs
   métropole: Grand Besançon Métropole
   logo: https://imgur.com/kWbW1JH.jpg
   site: https://asso.velobesancon.info
@@ -65,7 +70,7 @@
   adhésion: https://www.helloasso.com/associations/evad/adhesions/adhesion-ensemble-a-velo
   twitter: evad_dijon
   facebook: Dijon.EVAD
-  
+
 - nom: Selle Vous Plait
   diminutif: SVP
   région: Bourgogne-Franche-Comté
@@ -77,17 +82,19 @@
 - nom: Strasbourg À Vélo
   diminutif: SAV
   région: Grand-Est
+  département: Bas-Rhin
   métropole: Strasbourg Eurométropole
   site: https://www.strasbourgavelo.org
   logo: https://imgur.com/X0VKdpL.jpg
   adhésion: https://www.strasbourgavelo.org/association/
   twitter: strasbourgavelo
-  mastodon: "@SAV@masto.bike"
+  mastodon: '@SAV@masto.bike'
   facebook: strasbourgavelo
-  
+
 - nom: Paris En Selle
   diminutif: PES
   région: Paris
+  département: Paris
   ville: Paris
   métropole: Métropole du Grand Paris
   site: https://www.parisenselle.fr
@@ -96,3 +103,13 @@
   twitter: ParisEnSelle
   facebook: parisenselle
 
+- nom: Vélo-Cité Bordeaux Metropole
+  diminutif: VCBx
+  région: Nouvelle-Aquitaine
+  département: Gironde
+  métropole: Bordeaux Métropole
+  site: https://velo-cite.org
+  logo: https://velo-cite.org/wp-content/uploads/2023/01/cropped-cropped-logo-header-3.png
+  adhésion: https://www.helloasso.com/associations/velo-cite-bordeaux-metropole/
+  twitter: VeloCiteBdx
+  facebook: velocite.bordeauxmetropole
