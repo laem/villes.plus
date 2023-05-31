@@ -104,8 +104,8 @@ export default ({ ville, osmId, clientProcessing }) => {
 
 						const dimension = `cycling`,
 							scope = `merged`
-						socket.emit(`api`, { dimension, scope, ville })
-						socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {
+						socket.emit(`api`, { dimension, scope, ville: id })
+						socket.on(`api/${dimension}/${scope}/${id}`, function (body) {
 							console.log('did client on api', body)
 							if (body.loading) setLoadingMessage(body.loading)
 							else if (body.data) {
