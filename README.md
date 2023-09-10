@@ -18,7 +18,7 @@ L'architecture du projet est la suivante :
 
 > Bon à savoir : sur scalingo, il est très facile de scaler les serveurs. Quand la campagne mensuelle de recalcul des classements commence, mettre 1 ou 2 machines à la taille 2XL. Quand elle est terminée, je vous conseille de les remettre à une taille S. Ça rendra les calculs rapides, sans trop de risque de dépassement de mémoire, et ça ne vous coutera pas grand chose. On peut s'attendre à un coût de ~ 500€ / an si bien géré, voir beaucoup moins.
 
-> À vrai dire, c'est la principale difficulté de la maintenance de cette application : parfois, ça crashe. Manque de mémoire, timeout du côté de scalingo, etc. Les fonctions de fetch dans le code sont en général englobées dans un try {} catch () qui explique ce qui se passe mal, mais des fois ça reste compliqué à débugguer.
+> À vrai dire, c'est la principale difficulté de la maintenance de cette application : parfois, ça crashe. Manque de mémoire, timeout du côté de scalingo, etc. Les fonctions de fetch dans le code sont en général englobées dans un try {} catch () qui explique ce qui se passe mal, mais des fois ça reste compliqué à débugguer. Par exemple, en ne mettant que deux serveurs brouter taille M, certaines requêtes passent en timeout (il doit calculer trop d'itinéraires à la fois, et l'un prend plus de 30 secondes, et là scalingo envoie un message HTML d'erreur au lieu du résultat JSON) pour la Métropole du Grand Paris. Avec 4 serveurs, ça passe.
 
 Pour mener une campagne de mise à jour, il est important de relancer les serveurs laem/brouter-standalone sur scalingo : les dernières données OSM sont téléchargées à l'initialisation du serveur via le script https://github.com/laem/brouter-standalone/blob/master/download.sh.
 
