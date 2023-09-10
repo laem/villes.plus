@@ -1,33 +1,19 @@
-## L'objectif 
+## L'objectif
 
-Présenter bien avant les municipales un classement des villes les plus piétonnes. Faire connaitre les résultats dans la presse 🗞️ et le communiquer aux maires 🏅 et candidats.
+À l'origine, ce site a vu le jour pour porter le sujet du caractère piéton des villes à l'aube des municipales des 2020 en France, faire connaitre les résultats dans la presse 🗞️ et le communiquer aux maires 🏅 et candidats.
 
-![](https://user-images.githubusercontent.com/1177762/69954623-05cf3080-14fc-11ea-9cef-953b5e968776.jpg)
+Depuis, le site a été complété avec un classement des territoires cyclables, qui est devenu le sujet principal, l'intérêt des français pour le caractère piéton des villes étant bien plus faible.
 
-## La méthode
+Ce qui fait l'originalité du classement villes.plus, c'est son ouverture totale. Non seulement le code est ouvert, mais la méthode de calcul est entièrement [documentée en ligne](https://www.villes.plus/explications). Avant toute question, parcourez attentivement cette documentation.
 
-On va se baser sur les magnifiques données d'Openstreetmap. 
+## Techniquement
 
-On aura alors non pas un classement des villes piétonnes, mais un classement des villes piétonnes **et** donnant de l'importance à la publication de données de voirie libres.
+L'architecture du projet est la suivante :
 
-Pour améliorer sa place dans le classement il faudra donc jouer sur ces deux points, ce qui me semble vertueux.
+- un serveur en NodeJS qui s'occupe de faire les requêtes et les calculs pour les classements, hébergé sur scalingo
+- des fichiers de calcul différents pour le calcul piéton (qui comporte beaucoup d'opérations topologiques) et pour le calcul cyclable (plus simple mais pas trivial non plus)
+- un serveur [BRouter](https://brouter.de) pour les calculs d'itinéraires cyclables, hébergé sur scalingo
+- un site Web en NextJS v13 "app router" dans le dossier web/
+- un serveur de stockage de type S3 chez Scaleway qui historise les fichiers générées (plusieurs Mo pour chaque territoire) pour très peu de coût.
 
-## L'algorithme version 1
-
-- faire une requete openstreemap via l'API overpass, qui va chercher toutes les formes que l'on considère comme piétonnes et publiques dans une ville
-- transformer les résultats en geojson
-- transformer les rues piétonnes en polygones, avec le paramètre width si existant, sinon avec une valeur par défaut
-- calculer l'aire totale des formes et la comparer à l'aire de la ville, probablement en pour mille, pas en pour cent, vu l'état déplorable de nos villes
-- classer les villes françaises sur un site très simple et mobile qui explique la démarche
-
-## Version 2
-
-### Interface 
-
-- présenter les résultats sous forme de carte. C'est compliqué, car les outils actuels (mapbox par exemple) cachent les détails au niveau de zoom de la ville. Or ici on voudrait visualiser une carte noir et blanc : zones piétonnes publiques vs le reste.
-
-### Mesure 
-
-- ajouter les rivières et plans d'eau ? Intégrer un bonus "plage / mer" à proximité ?
-- calculer le linéaire de rues piétonnes et le comparer au linéaire de rues motorisées, faire 2 scores
-- intégrer aussi les voies cyclables 🚴‍
+> Bon à savoir : sur scalingo, il est très facile de scaler les serveurs. Quand la campagne mensuelle de recalcul des classements commence, mettre 1 ou 2 machines à la taille 2XL. Quand elle est terminée, je vous conseille de les remettre à une taille S. Ça rendra les calculs rapides, sans trop de risque de dépassement de mémoire, et ça ne vous coutera pas grand chose.
