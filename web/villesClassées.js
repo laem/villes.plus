@@ -1,5 +1,5 @@
 const villes = [
-	['Paris', 'Métropole du Grand Paris'],
+	//	['Paris', 'Métropole du Grand Paris'],
 	['Marseille', 'Aix-Marseille-Provence'],
 	['Lyon', 'Métropole de Lyon'],
 	['Toulouse', 'Toulouse Métropole'],
