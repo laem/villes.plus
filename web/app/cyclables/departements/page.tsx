@@ -54,7 +54,7 @@ async function getData() {
 	)
 }
 
-export default async function Page() {
+export default async function Page({ searchParams }) {
 	const data = await getData()
 	console.log(data)
 	return (
@@ -62,6 +62,7 @@ export default async function Page() {
 			cyclable
 			data={data}
 			text={'Quelles départements français sont les plus cyclables ?'}
+			gridView={searchParams.gridView}
 		/>
 	)
 }

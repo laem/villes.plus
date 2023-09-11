@@ -61,3 +61,46 @@ export const NewCityLink = () => (
 		+
 	</Link>
 )
+
+export const CounterLevel = styled.div`
+	a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	img {
+		width: 2rem;
+		height: auto;
+		margin-right: 0.6rem;
+	}
+`
+
+export const Ol = styled.ol`
+	${(props) =>
+		props.$gridView
+			? `
+							display: flex; flex-wrap: wrap;
+							justify-content: center;
+							padding: 0 1rem !important;
+							li {width: 28rem; height: 20rem; justify-content: center; align-items: center}
+
+							`
+			: ''}
+`
+
+export const Loading = styled.p`
+	font-weight: 600;
+	margin-top: 3rem;
+	text-align: center;
+`
+
+export const DateBlock = styled.div`
+	margin: 1rem 0;
+	text-align: center;
+	button {
+		margin-left: 0.6rem;
+	}
+	a {
+		margin: 0 0.6rem;
+	}
+`

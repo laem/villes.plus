@@ -1,13 +1,18 @@
-'use client'
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import CityResult from './CityResult'
-import Logo from './Logo'
-import algorithmVersion from '../../algorithmVersion'
-import { ClassementWrapper, NewCityLink } from './ClassementUI'
 import ScoreLegend from '@/ScoreLegend'
-import { io } from 'socket.io-client'
-import APIUrl from '@/app/APIUrl'
+import Link from 'next/link'
+import algorithmVersion from '../../algorithmVersion'
+import CityResult from './CityResult'
+import {
+	ClassementWrapper,
+	CounterLevel,
+	NewCityLink,
+	DateBlock,
+	Loading,
+	Ol,
+} from './ClassementUI'
+import Logo from './Logo'
+
+// TODO this component should probably not be common for both cyclable & pietonnes, but rather juste share UI components and socket hooks
 
 export const normalizedScores = (data) => {
 	const million = 1000 * 1000
@@ -18,23 +23,13 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data, text, level }) {
+export function Classement({ cyclable, data, text, level, gridView }) {
 	const villes = data
-	console.log('VILLES', villes)
 
 	let villesEntries = Object.entries(villes)
 
-	const [gridView, setGridView] = useState(false)
-	const [socket, setSocket] = useState(null)
 	const counterLevel =
 		level && (level === 'metropoles' ? 'communes' : 'metropoles')
-	useEffect(() => {
-		const socket = io(APIUrl.replace('http', 'ws'))
-		setSocket(socket)
-		socket.connect()
-		console.log('le client a tenté de se connecter au socket')
-		socket.emit('message-socket-initial')
-	}, [setSocket])
 
 	return (
 		<>
@@ -47,75 +42,39 @@ export function Classement({ cyclable, data, text, level }) {
 							: 'Quelles grandes villes françaises sont les plus piétonnes ?')}
 				</h2>
 				{counterLevel && cyclable && (
-					<div>
-						<Link
-							href={`/cyclables/${counterLevel}`}
-							css={`
-								display: flex;
-								align-items: center;
-								justify-content: center;
-							`}
-						>
-							<img
-								src={`/${counterLevel}.svg`}
-								css={`
-									width: 2rem;
-									height: auto;
-									margin-right: 0.6rem;
-								`}
-							/>{' '}
+					<CounterLevel>
+						<Link href={`/cyclables/${counterLevel}`}>
+							<img src={`/${counterLevel}.svg`} />{' '}
 							<div>Voir le classement des {counterLevel}</div>
 						</Link>
-					</div>
+					</CounterLevel>
 				)}
-				<p
-					css={`
-						text-align: center;
-						button {
-							margin-left: 0.6rem;
-						}
-					`}
-				>
+				<DateBlock>
 					🗓️{' '}
 					{new Date().toLocaleString('fr-FR', {
 						month: 'long',
 						year: 'numeric',
 					})}{' '}
-					-{' '}
 					{cyclable ? (
 						<Link href="/explications/cyclables">algo {algorithmVersion}</Link>
 					) : (
 						<Link href="/explications/pietonnes">algo v1</Link>
 					)}
-					<button onClick={() => setGridView(!gridView)}>🪟 vue grille</button>
-				</p>
-				{villesEntries.length === 0 && (
-					<p
-						css={`
-							font-weight: 600;
-							margin-top: 3rem;
-							text-align: center;
-						`}
+					<Link
+						href={`/${
+							cyclable ? 'cyclables' : 'pietonnes'
+						}/${level}/?gridView=${!gridView}`}
 					>
-						Chargement en cours ⏳
-					</p>
+						🪟 vue grille
+					</Link>
+				</DateBlock>
+				{villesEntries.length === 0 && (
+					<Loading>Chargement en cours ⏳</Loading>
 				)}
 
 				{cyclable && <ScoreLegend scores={villesEntries} />}
 				{
-					<ol
-						css={`
-							${gridView
-								? `
-							display: flex; flex-wrap: wrap;
-							justify-content: center;
-							padding: 0 1rem !important;
-							li {width: 28rem; height: 20rem; justify-content: center; align-items: center}
-
-							`
-								: ''}
-						`}
-					>
+					<Ol $gridView={gridView}>
 						{villesEntries
 							.map(([ville, data]) => {
 								if (cyclable) return [ville, data]
@@ -133,11 +92,10 @@ export function Classement({ cyclable, data, text, level }) {
 									<CityResult
 										key={ville}
 										{...{ gridView, ville, cyclable, data, i }}
-										socket={socket}
 									/>
 								)
 							})}
-					</ol>
+					</Ol>
 				}
 			</ClassementWrapper>
 			<NewCityLink />

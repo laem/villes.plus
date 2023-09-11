@@ -36,7 +36,7 @@ async function getData() {
 		{}
 	)
 }
-export default async function Page() {
+export default async function Page({ searchParams }) {
 	const data = await getData()
-	return <Classement data={data} />
+	return <Classement data={data} gridView={searchParams.gridView} />
 }
