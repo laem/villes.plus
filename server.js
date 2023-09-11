@@ -227,7 +227,7 @@ app.get(
 		)
 		const data = await readFile(dimension, ville, scope)
 
-		if (data.message) res.status(202).send(data).end()
+		if (data.message) return res.status(202).send(data).end()
 
 		if (scope !== 'meta') return res.json(data)
 
