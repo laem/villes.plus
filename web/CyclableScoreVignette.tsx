@@ -1,4 +1,7 @@
+'use client'
+import styled from 'styled-components'
 import tinygradient from 'tinygradient'
+import { previousDate } from '@/../algorithmVersion'
 /*
 	Hex to RGB conversion:
  	http://www.javascripter.net/faq/hextorgb.htm
@@ -35,7 +38,8 @@ const gradient = tinygradient(
 export const colors = gradient.rgb(20)
 
 const getBackgroundColor = (score) => colors[Math.round(score / 5)]
-export default ({ score, margin = '' }) => {
+export default ({ data, margin = '' }) => {
+	const score = data.score
 	if (!score) return null
 	const roundScore = Math.round(score),
 		note = roundScore / 10,
@@ -45,47 +49,75 @@ export default ({ score, margin = '' }) => {
 		color = findContrastedTextColor(background, false)
 
 	return (
-		<div
-			title={`${score.toFixed(2)} % des km testés sont cyclables`}
-			css={`
-				text-align: center;
-				margin: 0 2rem;
-				${margin && `margin: ${margin} !important;`}
-				@media (min-width: 800px) {
-					font-size: 260%;
-					margin: 0 4rem;
-				}
-
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				background: ${background};
-				color: ${color};
-				border: 3px solid black;
-				border-radius: 0.2rem;
-				padding: 0.4rem 1rem;
-				width: 5.5rem;
-				font-size: 250%;
-				small {
-					font-size: 50%;
-				}
-			`}
-		>
-			<div>
-				<strong>{noteDigit}</strong>
-				{noteDecimalDigit !== 0 && <small>,{noteDecimalDigit}</small>}
-			</div>
-			<span
+		<Wrapper>
+			<div
+				title={`${score.toFixed(2)} % des km testés sont cyclables`}
 				css={`
-					font-size: 60%;
+					text-align: center;
+					margin: 0 2rem;
+					${margin && `margin: ${margin} !important;`}
+					@media (min-width: 800px) {
+						font-size: 260%;
+						margin: 0 4rem;
+					}
+
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					background: ${background};
+					color: ${color};
+					border: 3px solid black;
+					border-radius: 0.2rem;
+					padding: 0.4rem 1rem;
+					width: 5.5rem;
+					font-size: 250%;
+					small {
+						font-size: 50%;
+					}
 				`}
 			>
-				/10
-			</span>
-		</div>
+				<div>
+					<strong>{noteDigit}</strong>
+					{noteDecimalDigit !== 0 && <small>,{noteDecimalDigit}</small>}
+				</div>
+				<span
+					css={`
+						font-size: 60%;
+					`}
+				>
+					/10
+				</span>
+			</div>
+			<Evolution data={data} />
+		</Wrapper>
 	)
 }
 
+const Evolution = ({ data }) => {
+	console.log(data)
+	const previous = data.previousData.score
+	if (!previous) return null
+	const diff = (data.score - previous) / 10, // No use comparing %, the random of the algorithm makes variability a feature
+		rounded = roundHalf(diff),
+		prefix = rounded >= 0 ? '+ ' : '',
+		text = prefix + rounded
+
+	const legend = `Le nouveau score mensuel est de ${Math.round(
+		data.score
+	)} % versus l'ancien de ${Math.round(
+		previous
+	)} % pour le mois de ${previousDate}`
+	return <small title={legend}>{text} pt</small>
+}
 const roundHalf = function (n) {
 	return +(Math.round(n * 2) / 2).toFixed(1)
 }
+
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	small {
+		margin: 0.3rem 0;
+	}
+`

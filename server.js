@@ -12,16 +12,11 @@ import { compute as computeWalking } from './geoStudio.js'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
 dotenv.config()
-import {
-	testStorage,
-	s3,
-	BUCKET_NAME,
-	getDirectory,
-	previousDate,
-} from './storage'
+import { testStorage, s3, BUCKET_NAME, getDirectory } from './storage'
 import { fetchRetry } from './utils'
 import http from 'http'
 import { Server } from 'socket.io'
+import { previousDate } from './algorithmVersion'
 
 testStorage()
 
@@ -235,9 +230,13 @@ app.get(
 		if (scope !== 'meta') return res.json(data)
 
 		const previousData = await readFile(dimension, ville, scope, previousDate)
+
 		return res.json({
 			...data,
-			previousData: { date: previousDate, data: previousData },
+			previousData: previousData.score && {
+				date: previousDate,
+				score: previousData.score,
+			},
 		})
 	}
 )

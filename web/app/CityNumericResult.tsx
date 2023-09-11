@@ -32,7 +32,7 @@ export default function CityNumericResult({ cyclable, ville, initialData }) {
 	return loadingMessage ? (
 		<LoadingMessage>{loadingMessage}</LoadingMessage>
 	) : cyclable ? (
-		<CyclableScoreVignette score={data.score} />
+		<CyclableScoreVignette data={data} />
 	) : (
 		<WalkableScoreVignette data={data} />
 	)
