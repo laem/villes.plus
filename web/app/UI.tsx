@@ -7,7 +7,7 @@ export const LandingWrapper = styled.div`
 
 export const Cards = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
@@ -27,5 +27,25 @@ export const Cards = styled.div`
 		border-radius: 0.4rem;
 		padding: 0.6rem;
 		box-shadow: rgb(187, 187, 187) 2px 2px 10px;
+	}
+`
+export const Header = styled.header`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	img {
+		width: 4rem;
+		height: auto;
+		margin-right: 0.4rem;
+	}
+	font-size: 140%;
+	margin: 4vh 0;
+
+	h1 {
+		margin: 0;
+		background-image: linear-gradient(90deg, #7b65e2, #af3dbb);
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
 	}
 `

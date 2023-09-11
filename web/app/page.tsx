@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { Cards, LandingWrapper } from './UI'
+import { Cards, LandingWrapper, Header } from './UI'
 import type { Metadata } from 'next'
-import Header from './Header'
+import Image from 'next/image'
+import logo from '@/public/logo.svg'
 
 export const metadata: Metadata = {
 	title:
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
 
 export default () => (
 	<LandingWrapper>
-		<Header />
+		<Header>
+			<Image src={logo} alt="Logo de villes.plus" />
+			<h1>Villes.plus</h1>
+		</Header>
 		<Cards>
 			<Link href="/cyclables/metropoles">
 				<span>🚲️</span> Le classement des <strong>métropoles</strong> les plus
@@ -25,6 +29,8 @@ export default () => (
 				<span>🚲️</span> Le classement des <strong>départements</strong> les
 				plus cyclables.
 			</Link>
+		</Cards>
+		<Cards>
 			<Link href="/pietonnes">
 				<span>🚶</span>
 				Le classement des grandes villes <strong>les plus piétonnes</strong>
