@@ -14,9 +14,9 @@ const métropoleToVille = villesList.reduce(
 )
 
 async function getData(ville) {
-	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_URL}/api/wikidata/${ville}`
-	)
+	const url = process.env.VERCEL_URL,
+		protocol = url.startsWith('http') ? '' : 'https://'
+	const response = await fetch(`${protocol}${url}/api/wikidata/${ville}`)
 
 	if (!response.ok) {
 		// This will activate the closest `error.js` Error Boundary
