@@ -9,11 +9,16 @@ import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
 import { compute as computeWalking } from './geoStudio.js'
 
-import algorithmVersion from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
 dotenv.config()
-import { testStorage, s3, BUCKET_NAME, getDirectory } from './storage'
+import {
+	testStorage,
+	s3,
+	BUCKET_NAME,
+	getDirectory,
+	previousDate,
+} from './storage'
 import { fetchRetry } from './utils'
 import http from 'http'
 import { Server } from 'socket.io'
@@ -90,14 +95,10 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	}
 })
 
-const doNotCache = false
-const readFile = async (dimension, ville, scope, res) => {
-	const compute = () =>
-		computeAndCacheCity(dimension, ville, scope, res, doNotCache)
-	if (doNotCache) return compute()
+const readFile = async (dimension, ville, scope, overrideDate) => {
 	try {
 		console.log('Will try to retrieve s3 data for ', ville, scope)
-		const key = `${getDirectory()}/${ville}.${scope}${
+		const key = `${getDirectory(overrideDate)}/${ville}.${scope}${
 			dimension === 'cycling' ? '.cycling' : ''
 		}.json`
 		console.log('key', key)
@@ -117,7 +118,7 @@ const readFile = async (dimension, ville, scope, res) => {
 			filteredData = scopes[dimension].find(
 				([name, selector]) => name === scope
 			)[1](data)
-		res && res.json(filteredData)
+		return filteredData
 	} catch (e) {
 		const message = "Ce territoire n'est pas encore calculé"
 		console.log(message)
@@ -216,11 +217,30 @@ let resUnknownCity = (res, ville) =>
 	res.status(404).send('Ville inconnue <br/> Unknown city').end() &&
 	console.log('Unknown city : ' + ville)
 
-app.get('/api/:dimension/:scope/:ville', cache('1 day'), function (req, res) {
-	const { ville, scope, dimension } = req.params
-	console.log('API request : ', dimension, ville, ' for the ', scope, ' scope')
-	readFile(dimension, ville, scope, res)
-})
+app.get(
+	'/api/:dimension/:scope/:ville',
+	cache('1 day'),
+	async function (req, res) {
+		const { ville, scope, dimension } = req.params
+		console.log(
+			'API request : ',
+			dimension,
+			ville,
+			' for the ',
+			scope,
+			' scope'
+		)
+		const data = await readFile(dimension, ville, scope)
+
+		if (scope !== 'meta') return res.json(data)
+
+		const previousData = await readFile(dimension, ville, scope, previousDate)
+		return res.json({
+			...data,
+			previousData: { date: previousDate, data: previousData },
+		})
+	}
+)
 
 app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'index.html'))
