@@ -117,7 +117,7 @@ const readFile = async (dimension, ville, scope, overrideDate) => {
 	} catch (e) {
 		const message = "Ce territoire n'est pas encore calculé"
 		console.log(message)
-		return res.status(202).send({ message }).end()
+		return { message }
 	}
 }
 
@@ -226,6 +226,8 @@ app.get(
 			' scope'
 		)
 		const data = await readFile(dimension, ville, scope)
+
+		if (data.message) res.status(202).send(data).end()
 
 		if (scope !== 'meta') return res.json(data)
 
