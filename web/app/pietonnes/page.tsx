@@ -24,10 +24,9 @@ async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
 			const url = APIUrl + `api/walking/meta/${ville}`
-			return fetch(
-				url,
-				{ cache: 'no-store' } // I don't get why next caches a wrong version
-			).then((r) => r.json().then((data) => ({ ...data, status: r.status })))
+			return fetch(url).then((r) =>
+				r.json().then((data) => ({ ...data, status: r.status }))
+			)
 		})
 	)
 

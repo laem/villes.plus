@@ -38,10 +38,9 @@ async function getData() {
 	const response = await Promise.raceAll(
 		sobreList.map((territory) => {
 			const url = APIUrl + `api/cycling/meta/${territory}`
-			return fetch(
-				url,
-				{ cache: 'no-store' } // I don't get why next caches a wrong version
-			).then((r) => r.json().then((data) => ({ ...data, status: r.status })))
+			return fetch(url).then((r) =>
+				r.json().then((data) => ({ ...data, status: r.status }))
+			)
 		}),
 		6000,
 		false
