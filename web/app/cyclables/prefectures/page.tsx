@@ -3,8 +3,6 @@ import APIUrl from '@/app/APIUrl'
 import prefectures from '@/préfectures'
 import type { Metadata } from 'next'
 
-console.log(prefectures.slice(0, 4))
-
 export const metadata: Metadata = {
 	title: 'Le classement des préfectures les plus cyclables - villes.plus',
 
@@ -19,7 +17,7 @@ export const metadata: Metadata = {
 }
 
 const villesList = prefectures
-	.filter((element) => +element.population < +'100 000') // large prefectures are already in the large cities ranking
+	.filter((element) => +element.population.replace(/\s/g, '') < +100000) // large prefectures are already in the large cities ranking
 	.map((element) => {
 		const name = element.nom
 		return name + '.' + 8 // level 8 is a commune in France
