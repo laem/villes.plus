@@ -40,7 +40,10 @@ const metropolitanFrance = [
 	[-2.447427130244762, 42.92290589918966],
 ]
 const isSafeFrenchName = (name) =>
-	['Guadeloupe', 'La Réunion', 'Martinique', 'Guyane', 'Mayotte'].includes(name)
+	[
+		...['Guadeloupe', 'La Réunion', 'Martinique', 'Guyane', 'Mayotte'],
+		...['Basse-Terre', 'Fort-de-France', 'Cayenne', 'Mamoudzou'],
+	].includes(name)
 
 export const pointsProcess = async (ville, randomFilter) => {
 	const worldPoints = await pointsRequest(ville, randomFilter)
@@ -49,7 +52,11 @@ export const pointsProcess = async (ville, randomFilter) => {
 		/^\d+$/.test(ville) || isSafeFrenchName(ville) // If it's an ID, it's unique, we don't need to filter for points only present in France
 			? //TODO this should be changed to handle famous names like "Oslo" for example directly by URL. But for nos the /recherche URL helps find the id without hassle
 			  worldPoints
-			: worldPoints.filter((p) =>
+			: console.log(
+					'Points will be filtered to only metropolitan France, see pointsRequest.js for info',
+					ville
+			  ) ||
+			  worldPoints.filter((p) =>
 					booleanContains(
 						polygon([[...metropolitanFrance, metropolitanFrance.at(0)]]),
 						point([p.lon, p.lat])
