@@ -42,7 +42,9 @@ const metropolitanFrance = [
 const isSafeFrenchName = (name) =>
 	[
 		...['Guadeloupe', 'La Réunion', 'Martinique', 'Guyane', 'Mayotte'],
-		...['Basse-Terre', 'Fort-de-France', 'Cayenne', 'Mamoudzou'],
+		...['Basse-Terre', 'Fort-de-France', 'Cayenne', 'Mamoudzou'].map(
+			(el) => el + '.8'
+		),
 	].includes(name)
 
 export const pointsProcess = async (ville, randomFilter) => {
