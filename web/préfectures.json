@@ -1,1 +1,326 @@
-[[["No Insee","Département","Préfecture","Population communale[1](dernière pop. légale)","Sous-préfectures"],["010","Ain","Bourg-en-Bresse","41 681","Belley, Gex, Nantua"],["020","Aisne","Laon","24 091","Château-Thierry, Saint-Quentin, Soissons, Vervins"],["030","Allier","Moulins","19 444","Montluçon, Vichy"],["040","Alpes-de-Haute-Provence","Digne-les-Bains","16 864","Barcelonnette, Castellane, Forcalquier"],["050","Hautes-Alpes","Gap","40 111","Briançon"],["060","Alpes-Maritimes","Nice","343 477","Grasse"],["070","Ardèche","Privas","8 567","Largentière, Tournon-sur-Rhône"],["080","Ardennes","Charleville-Mézières","46 388","Rethel, Sedan, Vouziers"],["090","Ariège","Foix","9 515","Pamiers, Saint-Girons"],["100","Aube","Troyes","62 597","Bar-sur-Aube, Nogent-sur-Seine"],["110","Aude","Carcassonne","46 673","Limoux, Narbonne"],["120","Aveyron","Rodez","24 397","Millau, Villefranche-de-Rouergue"],["130","Bouches-du-Rhône","Marseille","870 321","Aix-en-Provence, Arles, Istres"],["140","Calvados","Caen","107 250","Bayeux, Lisieux, Vire Normandie"],["150","Cantal","Aurillac","25 703","Mauriac, Saint-Flour"],["160","Charente","Angoulême","41 407","Cognac, Confolens"],["170","Charente-Maritime","La Rochelle","77 210","Jonzac, Rochefort, Saintes, Saint-Jean-d'Angély"],["180","Cher","Bourges","64 362","Saint-Amand-Montrond, Vierzon"],["190","Corrèze","Tulle","14 314","Brive-la-Gaillarde, Ussel"],["2A0","Corse-du-Sud","Ajaccio","72 647","Sartène"],["2B0","Haute-Corse","Bastia","48 296","Calvi, Corte"],["210","Côte-d'Or","Dijon","159 106","Beaune, Montbard"],["220","Côtes-d'Armor","Saint-Brieuc","44 166","Dinan, Guingamp, Lannion"],["230","Creuse","Guéret","12 698","Aubusson"],["240","Dordogne","Périgueux","29 255","Bergerac, Nontron, Sarlat-la-Canéda"],["250","Doubs","Besançon","118 258","Montbéliard, Pontarlier"],["260","Drôme","Valence","64 431","Die, Nyons"],["270","Eure","Évreux","46 869","Les Andelys, Bernay"],["280","Eure-et-Loir","Chartres","38 443","Châteaudun, Dreux, Nogent-le-Rotrou"],["290","Finistère","Quimper","63 473","Brest, Châteaulin, Morlaix"],["300","Gard","Nîmes","147 496","Alès, Le Vigan"],["310","Haute-Garonne","Toulouse","498 003","Muret, Saint-Gaudens"],["320","Gers","Auch","22 518","Condom, Mirande"],["330","Gironde","Bordeaux","259 809","Arcachon, Blaye, Langon, Lesparre-Médoc, Libourne"],["340","Hérault","Montpellier","299 096","Béziers, Lodève"],["350","Ille-et-Vilaine","Rennes","222 485","Fougères, Redon, Saint-Malo"],["360","Indre","Châteauroux","43 331","Le Blanc, La Châtre, Issoudun"],["370","Indre-et-Loire","Tours","137 850","Chinon, Loches"],["380","Isère","Grenoble","158 240","La Tour-du-Pin, Vienne"],["390","Jura","Lons-le-Saunier","17 092","Dole, Saint-Claude"],["400","Landes","Mont-de-Marsan","29 953","Dax"],["410","Loir-et-Cher","Blois","46 660","Romorantin-Lanthenay, Vendôme"],["420","Loire","Saint-Étienne","174 082","Montbrison, Roanne"],["430","Haute-Loire","Le Puy-en-Velay","18 947","Brioude, Yssingeaux"],["440","Loire-Atlantique","Nantes","320 732","Châteaubriant, Saint-Nazaire"],["450","Loiret","Orléans","117 026","Montargis, Pithiviers"],["460","Lot","Cahors","20 159","Figeac, Gourdon"],["470","Lot-et-Garonne","Agen","32 214","Marmande, Nérac, Villeneuve-sur-Lot"],["480","Lozère","Mende","12 336","Florac Trois Rivières"],["490","Maine-et-Loire","Angers","155 876","Cholet, Saumur, Segré-en-Anjou Bleu"],["500","Manche","Saint-Lô","19 206","Avranches, Cherbourg-en-Cotentin, Coutances"],["510","Marne","Châlons-en-Champagne","44 336","Épernay, Reims, Vitry-le-François"],["520","Haute-Marne","Chaumont","21 770","Langres, Saint-Dizier"],["530","Mayenne","Laval","49 617","Château-Gontier-sur-Mayenne, Mayenne"],["540","Meurthe-et-Moselle","Nancy","104 403","Lunéville, Toul, Val de Briey"],["550","Meuse","Bar-le-Duc","14 592","Commercy, Verdun"],["560","Morbihan","Vannes","54 017","Lorient, Pontivy"],["570","Moselle","Metz","120 211","Forbach, Sarrebourg, Sarreguemines, Thionville"],["580","Nièvre","Nevers","32 284","Château-Chinon (Ville), Clamecy, Cosne-Cours-sur-Loire"],["590","Nord","Lille","236 234","Avesnes-sur-Helpe, Cambrai, Douai, Dunkerque, Valenciennes"],["600","Oise","Beauvais","56 889","Clermont, Compiègne, Senlis"],["610","Orne","Alençon","25 744","Argentan, Mortagne-au-Perche"],["620","Pas-de-Calais","Arras","42 337","Béthune, Boulogne-sur-Mer, Calais, Lens, Montreuil-sur-Mer, Saint-Omer"],["630","Puy-de-Dôme","Clermont-Ferrand","147 284","Ambert, Issoire, Riom, Thiers"],["640","Pyrénées-Atlantiques","Pau","75 665","Bayonne, Oloron-Sainte-Marie"],["650","Hautes-Pyrénées","Tarbes","42 925","Argelès-Gazost, Bagnères-de-Bigorre"],["660","Pyrénées-Orientales","Perpignan","118 032","Céret, Prades"],["670","Bas-Rhin","Strasbourg","290 576","Haguenau, Molsheim, Saverne, Sélestat"],["680","Haut-Rhin","Colmar","68 294","Altkirch, Mulhouse, Thann"],["690","Rhône","Lyon","522 228","Villefranche-sur-Saône"],["700","Haute-Saône","Vesoul","14 866","Lure"],["710","Saône-et-Loire","Mâcon","34 414","Autun, Chalon-sur-Saône, Charolles, Louhans"],["720","Sarthe","Le Mans","145 155","La Flèche, Mamers"],["730","Savoie","Chambéry","59 172","Albertville, Saint-Jean-de-Maurienne"],["740","Haute-Savoie","Annecy","131 766","Bonneville, Saint-Julien-en-Genevois, Thonon-les-Bains"],["750","Paris","Paris (C)","2 145 906",""],["760","Seine-Maritime","Rouen","114 187","Dieppe, Le Havre"],["770","Seine-et-Marne","Melun","41 609","Fontainebleau, Meaux, Provins, Torcy"],["780","Yvelines","Versailles","83 583","Mantes-la-Jolie, Rambouillet, Saint-Germain-en-Laye"],["790","Deux-Sèvres","Niort","58 966","Bressuire, Parthenay"],["800","Somme","Amiens","134 167","Abbeville, Montdidier, Péronne"],["810","Tarn","Albi","49 094","Castres"],["820","Tarn-et-Garonne","Montauban","61 677","Castelsarrasin"],["830","Var","Toulon","179 659","Brignoles, Draguignan"],["840","Vaucluse","Avignon","90 597","Apt, Carpentras"],["850","Vendée","La Roche-sur-Yon","55 213","Fontenay-le-Comte, Les Sables-d'Olonne"],["860","Vienne","Poitiers","90 033","Châtellerault, Montmorillon"],["870","Haute-Vienne","Limoges","130 592","Bellac, Rochechouart"],["880","Vosges","Épinal","31 832","Neufchâteau, Saint-Dié-des-Vosges"],["890","Yonne","Auxerre","34 151","Avallon, Sens"],["900","Territoire de Belfort","Belfort","45 458",""],["910","Essonne","Évry-Courcouronnes","66 106","Étampes, Palaiseau"],["920","Hauts-de-Seine","Nanterre","95 782","Antony, Boulogne-Billancourt"],["930","Seine-Saint-Denis","Bobigny","54 906","Le Raincy, Saint-Denis"],["940","Val-de-Marne","Créteil","92 566","L'Haÿ-les-Roses, Nogent-sur-Marne"],["950","Val-d'Oise","Cergy","67 790","Argenteuil, Pontoise (Chef-lieu), Sarcelles"],["971","Guadeloupe","Basse-Terre","9 892","Pointe-à-Pitre"],["972","Martinique","Fort-de-France","75 286","Le Marin, Saint-Pierre, La Trinité"],["973","Guyane","Cayenne","65 956","Saint-Laurent-du-Maroni, Saint-Georges"],["974","La Réunion","Saint-Denis","153 001","Saint-Benoît, Saint-Paul, Saint-Pierre"],["976","Mayotte","Mamoudzou","71 437",""]],[["Date","Département","Ancienne préfecture","Nouvelle préfecture"],["1790","Aisne","Chauny","Laon"],["1790","Basses-Pyrénées (actuellement Pyrénées-Atlantiques)","Navarrenx","Pau"],["1790","Hautes-Alpes","Chorges","Gap"],["1790","Drôme","Chabeuil","Valence"],["1790","Isère","Moirans","Grenoble"],["1793","Var","Toulon","Grasse"],["1793","Eure","Évreux","Bernay"],["1793","Eure","Bernay","Évreux"],["1795","Basses-Pyrénées","Pau","Oloron"],["1795","Cantal","Saint-Flour","Aurillac"],["1795","Loire","Feurs","Montbrison"],["Révolution","Aveyron","Villefranche-de-Rouergue","Rodez"],["?","Var","Grasse","Brignoles"],["1796","Basses-Pyrénées","Oloron","Pau"],["1800","Bouches-du-Rhône","Aix","Marseille"],["1800","Manche","Coutances","Saint-Lô"],["1800","Tarn","Castres","Albi"],["1800","Var","Brignoles","Draguignan"],["1801","Haute-Saône","Gray","Vesoul"],["1803","Nord","Douai","Lille"],["1804","Vendée","Fontenay-le-Comte","La Roche-sur-Yon"],["1808","Ardennes","Charleville","Mézières"],["1810","Charente-Inférieure (actuellement Charente-Maritime)","Saintes","La Rochelle"],["1855","Loire","Montbrison","Saint-Étienne"],["1944","Manche","Saint-Lô","Coutances"],["1953","Manche","Coutances","Saint-Lô"],["1974","Var","Draguignan","Toulon"]],[["Département","Préfecture","Création du département","Suppression du département"],["Jemmapes","Mons","1793","1814"],["Dyle","Bruxelles","1795","1814"],["Deux-Nèthes","Anvers","1795","1814"],["Escaut","Gand","1795","1814"],["Forêts","Luxembourg","1795","1814"],["Lys","Bruges","1795","1814"],["Ourthe","Liège","1795","1814"],["Meuse-Inférieure","Maastricht","1795","1814"],["Sambre-et-Meuse","Namur","1795","1814"],["Corcyre","Corfou","1797","1802"],["Ithaque","Argostoli","1797","1802"],["Mer-Égée","Zante","1797","1802"],["Mont-Tonnerre","Mayence","1798","1814"],["Rhin-et-Moselle","Coblence","1798","1814"],["Roer","Aix-la-Chapelle","1798","1814"],["Sarre","Trèves","1798","1814"],["Léman","Genève","1798","1815"],["Doire","Ivrée","1802","1814"],["Marengo","Alexandrie","1802","1814"],["Pô","Turin","1802","1814"],["Sésia","Verceil","1802","1814"],["Stura","Coni","1802","1814"],["Tanaro","Asti","1802","1805"],["Apennins","Chiavari","1805","1814"],["Gênes","Gênes","1805","1814"],["Montenotte","Savone","1805","1814"],["Arno","Florence","1808","1814"],["Méditerranée","Livourne","1808","1814"],["Ombrone","Sienne","1808","1814"],["Taro","Parme","1808","1814"],["Rome","Rome","1809","1814"],["Trasimène","Spolète","1809","1814"],["Bouches-du-Rhin","Bois-le-Duc","1810","1814"],["Bouches-de-l'Escaut","Middelbourg","1810","1814"],["Simplon","Sion","1810","1814"],["Bouches-de-la-Meuse","La Haye","1811","1814"],["Bouches-de-l'Yssel","Zwolle","1811","1814"],["Ems-Occidental","Groningue","1811","1814"],["Ems-Oriental","Aurich","1811","1814"],["Frise","Leeuwarden","1811","1814"],["Yssel-Supérieur","Arnhem","1811","1814"],["Zuyderzée","Amsterdam","1811","1814"],["Bouches-de-l'Elbe","Hambourg","1811","1814"],["Bouches-du-Weser","Brême","1811","1814"],["Ems-Supérieur","Osnabrück","1811","1814"],["Lippe","Münster","1811","1814"],["Bouches-de-l'Èbre","Lérida","1812","1813"],["Montserrat","Barcelone","1812","1813"],["Sègre","Puigcerda","1812","1813"],["Ter","Gérone","1812","1813"],["Bouches-de-l'Èbre-Montserrat","Barcelone","1813","1814"],["Sègre-Ter","Gérone","1813","1814"],["Alger","Alger","1848","1962"],["Constantine","Constantine","1848","1962"],["Oran","Oran","1848","1962"],["Bône","Bône (actuellement Annaba)","1955","1962"],["Batna","Batna","1957","1962"],["Médéa","Médéa","1957","1962"],["Mostaganem","Mostaganem","1957","1962"],["Oasis","Ouargla","1957","1962"],["Orléansville","Orléansville (actuellement Chlef)","1957","1962"],["Saoura","Colomb-Béchar (actuellement Béchar)","1957","1962"],["Sétif","Sétif","1957","1962"],["Tiaret","Tiaret","1957","1962"],["Tizi-Ouzou","Tizi Ouzou","1957","1962"],["Tlemcen","Tlemcen","1957","1962"],["Aumale","Aumale (actuellement Sour El-Ghozlane)","1958","1959"],["Bougie","Bougie (actuellement Béjaïa)","1958","1959"],["Saïda","Saïda","1958","1962"]]]
+[
+	[
+		"No Insee",
+		"Département",
+		"Préfecture",
+		"Population communale[1](dernière pop. légale)",
+		"Sous-préfectures"
+	],
+	["010", "Ain", "Bourg-en-Bresse", "41 681", "Belley, Gex, Nantua"],
+	[
+		"020",
+		"Aisne",
+		"Laon",
+		"24 091",
+		"Château-Thierry, Saint-Quentin, Soissons, Vervins"
+	],
+	["030", "Allier", "Moulins", "19 444", "Montluçon, Vichy"],
+	[
+		"040",
+		"Alpes-de-Haute-Provence",
+		"Digne-les-Bains",
+		"16 864",
+		"Barcelonnette, Castellane, Forcalquier"
+	],
+	["050", "Hautes-Alpes", "Gap", "40 111", "Briançon"],
+	["060", "Alpes-Maritimes", "Nice", "343 477", "Grasse"],
+	["070", "Ardèche", "Privas", "8 567", "Largentière, Tournon-sur-Rhône"],
+	[
+		"080",
+		"Ardennes",
+		"Charleville-Mézières",
+		"46 388",
+		"Rethel, Sedan, Vouziers"
+	],
+	["090", "Ariège", "Foix", "9 515", "Pamiers, Saint-Girons"],
+	["100", "Aube", "Troyes", "62 597", "Bar-sur-Aube, Nogent-sur-Seine"],
+	["110", "Aude", "Carcassonne", "46 673", "Limoux, Narbonne"],
+	["120", "Aveyron", "Rodez", "24 397", "Millau, Villefranche-de-Rouergue"],
+	[
+		"130",
+		"Bouches-du-Rhône",
+		"Marseille",
+		"870 321",
+		"Aix-en-Provence, Arles, Istres"
+	],
+	["140", "Calvados", "Caen", "107 250", "Bayeux, Lisieux, Vire Normandie"],
+	["150", "Cantal", "Aurillac", "25 703", "Mauriac, Saint-Flour"],
+	["160", "Charente", "Angoulême", "41 407", "Cognac, Confolens"],
+	[
+		"170",
+		"Charente-Maritime",
+		"La Rochelle",
+		"77 210",
+		"Jonzac, Rochefort, Saintes, Saint-Jean-d'Angély"
+	],
+	["180", "Cher", "Bourges", "64 362", "Saint-Amand-Montrond, Vierzon"],
+	["190", "Corrèze", "Tulle", "14 314", "Brive-la-Gaillarde, Ussel"],
+	["2A0", "Corse-du-Sud", "Ajaccio", "72 647", "Sartène"],
+	["2B0", "Haute-Corse", "Bastia", "48 296", "Calvi, Corte"],
+	["210", "Côte-d'Or", "Dijon", "159 106", "Beaune, Montbard"],
+	[
+		"220",
+		"Côtes-d'Armor",
+		"Saint-Brieuc",
+		"44 166",
+		"Dinan, Guingamp, Lannion"
+	],
+	["230", "Creuse", "Guéret", "12 698", "Aubusson"],
+	[
+		"240",
+		"Dordogne",
+		"Périgueux",
+		"29 255",
+		"Bergerac, Nontron, Sarlat-la-Canéda"
+	],
+	["250", "Doubs", "Besançon", "118 258", "Montbéliard, Pontarlier"],
+	["260", "Drôme", "Valence", "64 431", "Die, Nyons"],
+	["270", "Eure", "Évreux", "46 869", "Les Andelys, Bernay"],
+	[
+		"280",
+		"Eure-et-Loir",
+		"Chartres",
+		"38 443",
+		"Châteaudun, Dreux, Nogent-le-Rotrou"
+	],
+	["290", "Finistère", "Quimper", "63 473", "Brest, Châteaulin, Morlaix"],
+	["300", "Gard", "Nîmes", "147 496", "Alès, Le Vigan"],
+	["310", "Haute-Garonne", "Toulouse", "498 003", "Muret, Saint-Gaudens"],
+	["320", "Gers", "Auch", "22 518", "Condom, Mirande"],
+	[
+		"330",
+		"Gironde",
+		"Bordeaux",
+		"259 809",
+		"Arcachon, Blaye, Langon, Lesparre-Médoc, Libourne"
+	],
+	["340", "Hérault", "Montpellier", "299 096", "Béziers, Lodève"],
+	[
+		"350",
+		"Ille-et-Vilaine",
+		"Rennes",
+		"222 485",
+		"Fougères, Redon, Saint-Malo"
+	],
+	["360", "Indre", "Châteauroux", "43 331", "Le Blanc, La Châtre, Issoudun"],
+	["370", "Indre-et-Loire", "Tours", "137 850", "Chinon, Loches"],
+	["380", "Isère", "Grenoble", "158 240", "La Tour-du-Pin, Vienne"],
+	["390", "Jura", "Lons-le-Saunier", "17 092", "Dole, Saint-Claude"],
+	["400", "Landes", "Mont-de-Marsan", "29 953", "Dax"],
+	["410", "Loir-et-Cher", "Blois", "46 660", "Romorantin-Lanthenay, Vendôme"],
+	["420", "Loire", "Saint-Étienne", "174 082", "Montbrison, Roanne"],
+	["430", "Haute-Loire", "Le Puy-en-Velay", "18 947", "Brioude, Yssingeaux"],
+	[
+		"440",
+		"Loire-Atlantique",
+		"Nantes",
+		"320 732",
+		"Châteaubriant, Saint-Nazaire"
+	],
+	["450", "Loiret", "Orléans", "117 026", "Montargis, Pithiviers"],
+	["460", "Lot", "Cahors", "20 159", "Figeac, Gourdon"],
+	[
+		"470",
+		"Lot-et-Garonne",
+		"Agen",
+		"32 214",
+		"Marmande, Nérac, Villeneuve-sur-Lot"
+	],
+	["480", "Lozère", "Mende", "12 336", "Florac Trois Rivières"],
+	[
+		"490",
+		"Maine-et-Loire",
+		"Angers",
+		"155 876",
+		"Cholet, Saumur, Segré-en-Anjou Bleu"
+	],
+	[
+		"500",
+		"Manche",
+		"Saint-Lô",
+		"19 206",
+		"Avranches, Cherbourg-en-Cotentin, Coutances"
+	],
+	[
+		"510",
+		"Marne",
+		"Châlons-en-Champagne",
+		"44 336",
+		"Épernay, Reims, Vitry-le-François"
+	],
+	["520", "Haute-Marne", "Chaumont", "21 770", "Langres, Saint-Dizier"],
+	["530", "Mayenne", "Laval", "49 617", "Château-Gontier-sur-Mayenne, Mayenne"],
+	[
+		"540",
+		"Meurthe-et-Moselle",
+		"Nancy",
+		"104 403",
+		"Lunéville, Toul, Val de Briey"
+	],
+	["550", "Meuse", "Bar-le-Duc", "14 592", "Commercy, Verdun"],
+	["560", "Morbihan", "Vannes", "54 017", "Lorient, Pontivy"],
+	[
+		"570",
+		"Moselle",
+		"Metz",
+		"120 211",
+		"Forbach, Sarrebourg, Sarreguemines, Thionville"
+	],
+	[
+		"580",
+		"Nièvre",
+		"Nevers",
+		"32 284",
+		"Château-Chinon (Ville), Clamecy, Cosne-Cours-sur-Loire"
+	],
+	[
+		"590",
+		"Nord",
+		"Lille",
+		"236 234",
+		"Avesnes-sur-Helpe, Cambrai, Douai, Dunkerque, Valenciennes"
+	],
+	["600", "Oise", "Beauvais", "56 889", "Clermont, Compiègne, Senlis"],
+	["610", "Orne", "Alençon", "25 744", "Argentan, Mortagne-au-Perche"],
+	[
+		"620",
+		"Pas-de-Calais",
+		"Arras",
+		"42 337",
+		"Béthune, Boulogne-sur-Mer, Calais, Lens, Montreuil-sur-Mer, Saint-Omer"
+	],
+	[
+		"630",
+		"Puy-de-Dôme",
+		"Clermont-Ferrand",
+		"147 284",
+		"Ambert, Issoire, Riom, Thiers"
+	],
+	[
+		"640",
+		"Pyrénées-Atlantiques",
+		"Pau",
+		"75 665",
+		"Bayonne, Oloron-Sainte-Marie"
+	],
+	[
+		"650",
+		"Hautes-Pyrénées",
+		"Tarbes",
+		"42 925",
+		"Argelès-Gazost, Bagnères-de-Bigorre"
+	],
+	["660", "Pyrénées-Orientales", "Perpignan", "118 032", "Céret, Prades"],
+	[
+		"670",
+		"Bas-Rhin",
+		"Strasbourg",
+		"290 576",
+		"Haguenau, Molsheim, Saverne, Sélestat"
+	],
+	["680", "Haut-Rhin", "Colmar", "68 294", "Altkirch, Mulhouse, Thann"],
+	["690", "Rhône", "Lyon", "522 228", "Villefranche-sur-Saône"],
+	["700", "Haute-Saône", "Vesoul", "14 866", "Lure"],
+	[
+		"710",
+		"Saône-et-Loire",
+		"Mâcon",
+		"34 414",
+		"Autun, Chalon-sur-Saône, Charolles, Louhans"
+	],
+	["720", "Sarthe", "Le Mans", "145 155", "La Flèche, Mamers"],
+	[
+		"730",
+		"Savoie",
+		"Chambéry",
+		"59 172",
+		"Albertville, Saint-Jean-de-Maurienne"
+	],
+	[
+		"740",
+		"Haute-Savoie",
+		"Annecy",
+		"131 766",
+		"Bonneville, Saint-Julien-en-Genevois, Thonon-les-Bains"
+	],
+	["750", "Paris", "Paris (C)", "2 145 906", ""],
+	["760", "Seine-Maritime", "Rouen", "114 187", "Dieppe, Le Havre"],
+	[
+		"770",
+		"Seine-et-Marne",
+		"Melun",
+		"41 609",
+		"Fontainebleau, Meaux, Provins, Torcy"
+	],
+	[
+		"780",
+		"Yvelines",
+		"Versailles",
+		"83 583",
+		"Mantes-la-Jolie, Rambouillet, Saint-Germain-en-Laye"
+	],
+	["790", "Deux-Sèvres", "Niort", "58 966", "Bressuire, Parthenay"],
+	["800", "Somme", "Amiens", "134 167", "Abbeville, Montdidier, Péronne"],
+	["810", "Tarn", "Albi", "49 094", "Castres"],
+	["820", "Tarn-et-Garonne", "Montauban", "61 677", "Castelsarrasin"],
+	["830", "Var", "Toulon", "179 659", "Brignoles, Draguignan"],
+	["840", "Vaucluse", "Avignon", "90 597", "Apt, Carpentras"],
+	[
+		"850",
+		"Vendée",
+		"La Roche-sur-Yon",
+		"55 213",
+		"Fontenay-le-Comte, Les Sables-d'Olonne"
+	],
+	["860", "Vienne", "Poitiers", "90 033", "Châtellerault, Montmorillon"],
+	["870", "Haute-Vienne", "Limoges", "130 592", "Bellac, Rochechouart"],
+	["880", "Vosges", "Épinal", "31 832", "Neufchâteau, Saint-Dié-des-Vosges"],
+	["890", "Yonne", "Auxerre", "34 151", "Avallon, Sens"],
+	["900", "Territoire de Belfort", "Belfort", "45 458", ""],
+	["910", "Essonne", "Évry-Courcouronnes", "66 106", "Étampes, Palaiseau"],
+	[
+		"920",
+		"Hauts-de-Seine",
+		"Nanterre",
+		"95 782",
+		"Antony, Boulogne-Billancourt"
+	],
+	["930", "Seine-Saint-Denis", "Bobigny", "54 906", "Le Raincy, Saint-Denis"],
+	[
+		"940",
+		"Val-de-Marne",
+		"Créteil",
+		"92 566",
+		"L'Haÿ-les-Roses, Nogent-sur-Marne"
+	],
+	[
+		"950",
+		"Val-d'Oise",
+		"Cergy",
+		"67 790",
+		"Argenteuil, Pontoise (Chef-lieu), Sarcelles"
+	],
+	["971", "Guadeloupe", "Basse-Terre", "9 892", "Pointe-à-Pitre"],
+	[
+		"972",
+		"Martinique",
+		"Fort-de-France",
+		"75 286",
+		"Le Marin, Saint-Pierre, La Trinité"
+	],
+	[
+		"973",
+		"Guyane",
+		"Cayenne",
+		"65 956",
+		"Saint-Laurent-du-Maroni, Saint-Georges"
+	],
+	[
+		"974",
+		"La Réunion",
+		"Saint-Denis",
+		"153 001",
+		"Saint-Benoît, Saint-Paul, Saint-Pierre"
+	],
+	["976", "Mayotte", "Mamoudzou", "71 437", ""]
+]

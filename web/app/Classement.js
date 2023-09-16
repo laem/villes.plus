@@ -29,7 +29,12 @@ export function Classement({ cyclable, data, text, level, gridView }) {
 	let villesEntries = Object.entries(villes)
 
 	const counterLevel =
-		level && (level === 'metropoles' ? 'communes' : 'metropoles')
+		level &&
+		(level === 'metropoles'
+			? 'communes'
+			: level === 'communes'
+			? 'metropoles'
+			: false)
 
 	return (
 		<>
