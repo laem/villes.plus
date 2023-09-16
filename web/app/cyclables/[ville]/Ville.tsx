@@ -11,22 +11,18 @@ import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
-import FriendlyObjectViewer from '@/FriendlyObjectViewer'
 import Loader from '@/Loader'
 import L from 'leaflet'
 import 'node_modules/leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
-import { FeatureGroup } from 'react-leaflet/FeatureGroup'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
 import { useMap } from 'react-leaflet/hooks'
 import { MapContainer } from 'react-leaflet/MapContainer'
-import { Marker } from 'react-leaflet/Marker'
-import { Popup } from 'react-leaflet/Popup'
 import { TileLayer } from 'react-leaflet/TileLayer'
+import { io } from 'socket.io-client'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
-import { io } from 'socket.io-client'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -249,7 +245,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 						<p>{points.length} points.</p>
 					)}
 				</div>
-				<CyclableScoreVignette data={{score}} margin={'0 .4rem'} />
+				<CyclableScoreVignette data={{ score }} margin={'0 .4rem'} />
 			</div>
 			<div
 				css={`
