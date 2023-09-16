@@ -29,6 +29,16 @@ export default function CityNumericResult({ cyclable, ville, initialData }) {
 	}, [socket])
 
 	const data = socketData || initialData
+	if (data.score === null)
+		return (
+			<p
+				css={`
+					margin-left: 1rem;
+				`}
+			>
+				Trop peu de données.
+			</p>
+		)
 	return loadingMessage ? (
 		<LoadingMessage>{loadingMessage}</LoadingMessage>
 	) : cyclable ? (
