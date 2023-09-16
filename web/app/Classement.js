@@ -46,6 +46,14 @@ export function Classement({ cyclable, data, text, level, gridView }) {
 							? `Quelles ${level} françaises sont les plus cyclables ?`
 							: 'Quelles grandes villes françaises sont les plus piétonnes ?')}
 				</h2>
+				{level === 'prefectures' && (
+					<small>
+						Les plus grandes préfectures sont à retrouver dans le{' '}
+						<Link href="/cyclables/communes">
+							classement des grandes communes
+						</Link>
+					</small>
+				)}
 				{counterLevel && cyclable && (
 					<CounterLevel>
 						<Link href={`/cyclables/${counterLevel}`}>
