@@ -14,6 +14,7 @@ const inter = Inter({
 export const metadata = {
 	title: 'Villes.plus',
 	description: 'Le classement des territoires les plus cyclables et piétons.',
+	metadataBase: new URL('https://villes.plus'),
 	openGraph: {
 		images: ['https://villes.plus/api/og'],
 	},
