@@ -49,7 +49,7 @@ export function Classement({ cyclable, data, text, level, gridView }) {
 				{level === 'prefectures' && (
 					<small>
 						Les plus grandes préfectures sont à retrouver dans le{' '}
-						<Link href="/cyclables/communes">
+						<Link href="/cyclables/grandes-villes">
 							classement des grandes communes
 						</Link>
 					</small>
