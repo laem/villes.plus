@@ -21,8 +21,12 @@ export default () => (
 				<span>🚲️</span> Le classement des <strong>métropoles</strong> les plus
 				cyclables.
 			</Link>
-			<Link href="/cyclables/communes">
+			<Link href="/cyclables/grandes-villes">
 				<span>🚲️</span> Le classement des <strong>grandes villes</strong> les
+				plus cyclables.
+			</Link>
+			<Link href="/cyclables/communes">
+				<span>🚲️</span> Le classement des <strong>communes de + de 30 000 habitants</strong> les
 				plus cyclables.
 			</Link>
 			<Link href="/cyclables/prefectures">
