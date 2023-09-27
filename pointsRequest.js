@@ -42,7 +42,7 @@ const metropolitanFrance = [
 const isSafeFrenchName = (name) =>
 	[
 		...['Guadeloupe', 'La Réunion', 'Martinique', 'Guyane', 'Mayotte'],
-		...['Basse-Terre', 'Fort-de-France', 'Cayenne', 'Mamoudzou'].map(
+		...['Basse-Terre', 'Fort-de-France', 'Cayenne', 'Mamoudzou', 'Nouméa'].map(
 			(el) => el + '.8'
 		),
 	].includes(name)
