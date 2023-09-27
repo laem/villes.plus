@@ -38,6 +38,10 @@ export const ClassementWrapper = styled.div`
 		font-size: 100%;
 		text-decoration: none;
 	}
+	> small {
+		text-align: center;
+		display: block;
+	}
 `
 
 export const NewCityLink = () => (
