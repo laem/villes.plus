@@ -23,6 +23,5 @@ const objectJson = json
 				typeof v === 'string' ? v === el.nom : v[0] === el.nom
 			)
 	)
-	.slice(0, 20)
 
 export default objectJson
