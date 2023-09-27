@@ -11,7 +11,7 @@ const newHeader = [
 	'population2020',
 ]
 
-const clean = (element) => element.replace(/\[alpha\s\d\]/, '')
+const clean = (element) => element.replace(/\[(alpha\s)?(\d)+\]/, '')
 const objectJson = json
 	.splice(2)
 	.map((line) =>
