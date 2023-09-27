@@ -1,8 +1,7 @@
 import { Classement } from '@/app/Classement'
 import APIUrl from '@/app/APIUrl'
-import villesListRaw from '@/communes30000'
+import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
-console.log('DATA', villesListRaw)
 
 export const metadata: Metadata = {
 	title: 'Le classement des grandes communes les plus cyclables - villes.plus',
@@ -19,12 +18,10 @@ export const metadata: Metadata = {
 
 const villesList = villesListRaw
 	.map((element) => {
-		const name = element.nom
+		const name = typeof element === 'string' ? element : element[0]
 		return name + '.' + 8 // level 8 is a commune in France
 	})
 	.filter(Boolean)
-
-console.log(villesList)
 
 async function getData() {
 	const response = await Promise.all(
