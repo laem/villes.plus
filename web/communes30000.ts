@@ -12,6 +12,7 @@ const newHeader = [
 ]
 
 const clean = (element) => element.replace(/\[(alpha\s)?(\d)+\]/, '')
+
 const objectJson = json
 	.splice(2)
 	.map((line) =>
@@ -23,5 +24,7 @@ const objectJson = json
 				typeof v === 'string' ? v === el.nom : v[0] === el.nom
 			)
 	)
+	.filter((el) => el.codeINSEE.slice(0, 2) < 97) //TODO here we reject Outre-Mer communes, because our points detection can't handle these communes yet
+// It's not complicated, I just have to find a clever way to handle the historical complexity of
 
 export default objectJson
