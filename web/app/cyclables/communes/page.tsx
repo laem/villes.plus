@@ -50,6 +50,7 @@ export default async function Page({ searchParams }) {
 			data={data}
 			level="communes"
 			text="Quelles communes de + de 30 000 habitants sont les plus cyclables ?"
+			subText="Les communes d'Outre-Mer viendront bientôt compléter le classement..."
 			gridView={searchParams.gridView}
 		/>
 	)

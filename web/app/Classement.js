@@ -23,7 +23,7 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data, text, level, gridView }) {
+export function Classement({ cyclable, data, text, subText, level, gridView }) {
 	const villes = data
 
 	let villesEntries = Object.entries(villes)
@@ -41,6 +41,11 @@ export function Classement({ cyclable, data, text, level, gridView }) {
 			<Logo animate cyclable={cyclable} />
 			<ClassementWrapper gridView={gridView}>
 				<h2>{text}</h2>
+				{subText && (
+					<p>
+						<small>{subText}</small>
+					</p>
+				)}
 				{level === 'prefectures' && (
 					<small>
 						Les plus grandes préfectures sont à retrouver dans le{' '}
