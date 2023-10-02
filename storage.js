@@ -35,11 +35,3 @@ export const testStorage = async () => {
 		console.log('Problem fetching S3 test object', e)
 	}
 }
-
-export const getDirectory = (overrideDate) => {
-	const date = new Date()
-		.toLocaleString('fr-FR', { month: 'numeric', year: 'numeric' })
-		.replace('/', '-')
-	const path = `${overrideDate || date}/${algorithmVersion}`
-	return path
-}

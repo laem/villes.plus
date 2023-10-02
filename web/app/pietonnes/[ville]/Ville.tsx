@@ -8,7 +8,7 @@ import { blue, grey, Switch, styles } from './mapStyles'
 import DebugMap from './DebugMap'
 import DebugBlock from './DebugBlock'
 import { normalizedScores } from '@/app/Classement'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 
 const Map = ReactMapboxGl({
 	accessToken:

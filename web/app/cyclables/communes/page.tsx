@@ -2,7 +2,7 @@ import { Classement } from '@/app/Classement'
 import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/communes30000'
 import type { Metadata } from 'next'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 console.log('DATA', villesListRaw)
 
 export const metadata: Metadata = {

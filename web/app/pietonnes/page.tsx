@@ -2,7 +2,7 @@ import { Classement } from '../Classement'
 import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 
 export const metadata: Metadata = {
 	title: 'Le classement des villes les plus piétonnes - villes.plus',

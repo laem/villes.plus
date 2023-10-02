@@ -10,10 +10,10 @@ import { overpassRequestURL } from './cyclingPointsRequests'
 import { compute as computeWalking } from './geoStudio.js'
 
 import { Server } from 'socket.io'
-import { previousDate } from './algorithmVersion'
+import { previousDate, getDirectory } from './algorithmVersion'
 import { writeFileSyncRecursive } from './nodeUtils'
 import scopes from './scopes'
-import { BUCKET_NAME, getDirectory, s3, testStorage } from './storage'
+import { BUCKET_NAME, s3, testStorage } from './storage'
 import { fetchRetry } from './utils'
 dotenv.config()
 

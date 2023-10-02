@@ -2,7 +2,7 @@ import { Classement } from '@/app/Classement'
 import { Metadata } from 'next'
 import list from '@/départements.yaml'
 import APIUrl from '@/app/APIUrl'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 
 export const metadata: Metadata = {
 	title: 'Le classement des départements les plus cyclables - villes.plus',

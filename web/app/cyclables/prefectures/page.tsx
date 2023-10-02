@@ -2,7 +2,7 @@ import { Classement } from '@/app/Classement'
 import APIUrl from '@/app/APIUrl'
 import prefectures from '@/préfectures'
 import type { Metadata } from 'next'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 
 export const metadata: Metadata = {
 	title: 'Le classement des préfectures les plus cyclables - villes.plus',

@@ -4,7 +4,7 @@ import WalkableScoreVignette from '@/WalkableScoreVignette'
 import { useEffect, useState } from 'react'
 import { LoadingMessage } from './CityResultUI'
 import socket from '@/app/socket'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 
 export default function CityNumericResult({ cyclable, ville, initialData }) {
 	const [loadingMessage, setLoadingMessage] = useState(null)

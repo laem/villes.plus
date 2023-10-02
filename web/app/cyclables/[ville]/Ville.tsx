@@ -9,7 +9,7 @@ import {
 } from '@/../computeCycling'
 import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
-import { getDirectory } from '@/../storage'
+import { getDirectory } from '@/../algorithmVersion'
 import APIUrl from '@/app/APIUrl'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
 import Loader from '@/Loader'
