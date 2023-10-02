@@ -45,7 +45,8 @@ export default async function Page({ searchParams }) {
 		<Classement
 			cyclable
 			data={data}
-			level="communes"
+			level="grandes-villes"
+			text={`Quelles grandes villes françaises sont les plus cyclables ?`}
 			gridView={searchParams.gridView}
 		/>
 	)

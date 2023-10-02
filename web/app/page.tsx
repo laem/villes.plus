@@ -26,7 +26,7 @@ export default () => (
 				plus cyclables.
 			</Link>
 			<Link href="/cyclables/communes">
-				<span>🚲️</span> Le classement des <strong>communes de + de 30 000 habitants</strong> les
+				<span>🚲️</span> Le classement des <strong>villes moyennes</strong> les
 				plus cyclables.
 			</Link>
 			<Link href="/cyclables/prefectures">

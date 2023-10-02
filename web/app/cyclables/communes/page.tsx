@@ -49,6 +49,7 @@ export default async function Page({ searchParams }) {
 			cyclable
 			data={data}
 			level="communes"
+			text="Quelles communes de + de 30 000 habitants sont les plus cyclables ?"
 			gridView={searchParams.gridView}
 		/>
 	)

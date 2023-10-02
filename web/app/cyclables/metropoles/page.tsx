@@ -43,6 +43,7 @@ export default async function Page({ searchParams }) {
 			cyclable
 			data={data}
 			level="metropoles"
+			text={'Quelles métropoles françaises sont les plus cyclables ?'}
 			gridView={searchParams.gridView}
 		/>
 	)

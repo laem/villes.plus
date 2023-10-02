@@ -31,8 +31,8 @@ export function Classement({ cyclable, data, text, level, gridView }) {
 	const counterLevel =
 		level &&
 		(level === 'metropoles'
-			? 'communes'
-			: level === 'communes'
+			? 'grandes-villes'
+			: level === 'grandes-villes'
 			? 'metropoles'
 			: false)
 
@@ -40,12 +40,7 @@ export function Classement({ cyclable, data, text, level, gridView }) {
 		<>
 			<Logo animate cyclable={cyclable} />
 			<ClassementWrapper gridView={gridView}>
-				<h2>
-					{text ||
-						(cyclable
-							? `Quelles ${level} françaises sont les plus cyclables ?`
-							: 'Quelles grandes villes françaises sont les plus piétonnes ?')}
-				</h2>
+				<h2>{text}</h2>
 				{level === 'prefectures' && (
 					<small>
 						Les plus grandes préfectures sont à retrouver dans le{' '}
