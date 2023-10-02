@@ -1,10 +1,11 @@
 'use client'
+import { getDirectory } from '@/../algorithmVersion'
+import socket from '@/app/socket'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
 import WalkableScoreVignette from '@/WalkableScoreVignette'
 import { useEffect, useState } from 'react'
+import APIUrl from './APIUrl'
 import { LoadingMessage } from './CityResultUI'
-import socket from '@/app/socket'
-import { getDirectory } from '@/../algorithmVersion'
 
 export default function CityNumericResult({ cyclable, ville, initialData }) {
 	const [loadingMessage, setLoadingMessage] = useState(null)
@@ -20,16 +21,15 @@ export default function CityNumericResult({ cyclable, ville, initialData }) {
 				scope = `meta`
 			const directory = getDirectory()
 			socket.emit(`api`, { dimension, scope, ville, directory })
-			socket.on(
-				`api/${dimension}/${scope}/${ville}/${directory}`,
-				function (body) {
-					if (body.loading) setLoadingMessage(body.loading)
-					else if (body.data) {
-						setSocketData(body.data)
-						setLoadingMessage(false)
-					}
+			const path = `api/${dimension}/${scope}/${ville}/${directory}`
+			socket.on(path, function (body) {
+				if (body.loading) setLoadingMessage(body.loading)
+				else if (body.data) {
+					fetch(APIUrl + '/revalide?path=/' + path)
+					setSocketData(body.data)
+					setLoadingMessage(false)
 				}
-			)
+			})
 		}
 	}, [socket])
 

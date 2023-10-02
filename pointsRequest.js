@@ -11,15 +11,17 @@ export const pointsRequest = async (city, randomFilter = 100) => {
 	const transportUrl = APIUrl + `points/${city}/stops`
 	try {
 		const townhallResponse = await fetch(townhallUrl),
-			townhallPoints = await townhallResponse.json(),
-			townhalls = clusterTownhallBorders(townhallPoints.elements)
+			townhallPoints = await townhallResponse.json()
+
+		const townhalls = clusterTownhallBorders(townhallPoints.elements)
 
 		const transportStopsResponse = await fetch(transportUrl),
-			transportStopsRaw = await transportStopsResponse.json(),
-			transportStops = shuffleArray(transportStopsRaw.elements).slice(
-				0,
-				randomFilter
-			)
+			transportStopsRaw = await transportStopsResponse.json()
+
+		const transportStops = shuffleArray(transportStopsRaw.elements).slice(
+			0,
+			randomFilter
+		)
 		const points = [...townhalls, ...transportStops]
 		return points
 	} catch (e) {

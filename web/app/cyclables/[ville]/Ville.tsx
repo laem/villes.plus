@@ -1,15 +1,15 @@
 'use client'
 
+import { getDirectory } from '@/../algorithmVersion'
 import {
 	computeSafePercentage,
+	createRidesPromises,
 	getMessages,
 	isValidRide,
-	ridesPromises,
 	segmentGeoJSON,
 } from '@/../computeCycling'
 import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
-import { getDirectory } from '@/../algorithmVersion'
 import APIUrl from '@/app/APIUrl'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
 import Loader from '@/Loader'
@@ -74,7 +74,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 				pointsCenter = computePointsCenter(points)
 			setData((data) => ({ ...data, points, pointsCenter }))
 
-			const rides = ridesPromises(points)
+			const rides = createRidesPromises(points)
 			rides.map((ride) =>
 				ride.then((result) => {
 					if (isValidRide(result)) {
@@ -116,17 +116,16 @@ export default ({ ville, osmId, clientProcessing }) => {
 							ville: id,
 							directory,
 						})
-						socket.on(
-							`api/${dimension}/${scope}/${id}/${directory}`,
-							function (body) {
-								console.log('did client on api', body)
-								if (body.loading) setLoadingMessage(body.loading)
-								else if (body.data) {
-									setData(body.data)
-									setLoadingMessage(false)
-								}
+						const path = `api/${dimension}/${scope}/${id}/${directory}`
+						socket.on(path, function (body) {
+							console.log('did client on api', body)
+							if (body.loading) setLoadingMessage(body.loading)
+							else if (body.data) {
+								fetch(APIUrl + '/revalide?path=/' + path)
+								setData(body.data)
+								setLoadingMessage(false)
 							}
-						)
+						})
 					} else {
 						setData(body)
 						setLoadingMessage(false)

@@ -1,5 +1,5 @@
-//const OverpassInstance = 'https://overpass-api.de/api/interpreter'
-const OverpassInstance = 'https://overpass.kumi.systems/api/interpreter'
+const OverpassInstance = 'https://overpass-api.de/api/interpreter'
+//const OverpassInstance = 'https://overpass.kumi.systems/api/interpreter'
 
 const testHasLevel = (name) => /.+\.\d$/.test(name)
 const splitName = (name) => name.split('.')

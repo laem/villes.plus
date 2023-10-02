@@ -17,7 +17,6 @@ async function getData(ville) {
 	const url = process.env.VERCEL_URL,
 		protocol = url.startsWith('http') ? '' : 'https://'
 	const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
-	console.log(fetchUrl)
 	const response = await fetch(fetchUrl)
 
 	if (!response.ok) {
