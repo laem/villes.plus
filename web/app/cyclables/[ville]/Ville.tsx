@@ -32,6 +32,8 @@ const defaultCenter = [48.10999850495452, -1.679193852233965]
 
 const debug = false
 
+const directory = getDirectory()
+
 export default ({ ville, osmId, clientProcessing }) => {
 	const id = osmId || ville
 
@@ -108,15 +110,23 @@ export default ({ ville, osmId, clientProcessing }) => {
 
 						const dimension = `cycling`,
 							scope = `merged`
-						socket.emit(`api`, { dimension, scope, ville: id })
-						socket.on(`api/${dimension}/${scope}/${id}`, function (body) {
-							console.log('did client on api', body)
-							if (body.loading) setLoadingMessage(body.loading)
-							else if (body.data) {
-								setData(body.data)
-								setLoadingMessage(false)
-							}
+						socket.emit(`api`, {
+							dimension,
+							scope,
+							ville: id,
+							directory,
 						})
+						socket.on(
+							`api/${dimension}/${scope}/${id}/${directory}`,
+							function (body) {
+								console.log('did client on api', body)
+								if (body.loading) setLoadingMessage(body.loading)
+								else if (body.data) {
+									setData(body.data)
+									setLoadingMessage(false)
+								}
+							}
+						)
 					} else {
 						setData(body)
 						setLoadingMessage(false)

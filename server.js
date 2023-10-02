@@ -55,11 +55,18 @@ io.on('connection', (socket) => {
 	socket.on('message-socket-initial', () =>
 		console.log('message socket initial bien reçu !')
 	)
-	socket.on('api', ({ dimension, scope, ville }) => {
-		console.log('socket message API received', dimension, scope, ville)
+	socket.on('api', ({ dimension, scope, ville, directory }) => {
+		console.log(
+			'socket message API received',
+			dimension,
+			scope,
+			ville,
+			directory
+		)
 		const inform = (message) => {
 			console.log('will server emit', message)
-			const path = `api/${dimension}/${scope}/${ville}/${getDirectory()}`
+			const path = `api/${dimension}/${scope}/${ville}/${directory}`
+			console.log('path', path)
 			if (message.data) apicache.clear('/' + path)
 			io.emit(path, message)
 		}
