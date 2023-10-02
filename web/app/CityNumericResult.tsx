@@ -18,9 +18,10 @@ export default function CityNumericResult({ cyclable, ville, initialData }) {
 
 			const dimension = cyclable ? `cycling` : 'walking',
 				scope = `meta`
-			socket.emit(`api`, { dimension, scope, ville })
+			const directory = getDirectory()
+			socket.emit(`api`, { dimension, scope, ville, directory })
 			socket.on(
-				`api/${dimension}/${scope}/${ville}/${getDirectory()}`,
+				`api/${dimension}/${scope}/${ville}/${directory}`,
 				function (body) {
 					if (body.loading) setLoadingMessage(body.loading)
 					else if (body.data) {
