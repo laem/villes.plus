@@ -25,6 +25,7 @@ export const fetchRetry = async (url, options, n) => {
 	try {
 		return await fetch(url, options)
 	} catch (err) {
+		console.log('Erreur', err)
 		if (n === 1) throw err
 		console.log('retry fetch points, ', n, ' try left')
 		return await fetchRetry(url, options, n - 1)

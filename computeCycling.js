@@ -168,16 +168,17 @@ export const createRidesPromises = (points) =>
 			return mostInterestingXPoints.map((p2, j) =>
 				new Promise((resolve) =>
 					setTimeout(resolve, itineraryRequestDelay * (i + j))
-				).then(() => createItinerary(p, p2).then((res) => res))
+				).then(() => createItinerary(p, p2))
 			)
 		})
 		.flat()
 
-const itineraryRequestDelay = 2 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
+const itineraryRequestDelay = 120 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
 
 export const isValidRide = (ride) =>
 	// Exclude itineraries that include a ferry route.
 	// TODO maybe we should just exclude the subrides that are ferry ? Doesn't matter much on the final result
+	ride &&
 	ride.features &&
 	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 
