@@ -2,6 +2,7 @@ import { Classement } from '@/app/Classement'
 import APIUrl from '@/app/APIUrl'
 import prefectures from '@/préfectures'
 import type { Metadata } from 'next'
+import { getDirectory } from '@/../storage'
 
 export const metadata: Metadata = {
 	title: 'Le classement des préfectures les plus cyclables - villes.plus',
@@ -27,7 +28,7 @@ const villesList = prefectures
 async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
-			const url = APIUrl + `api/cycling/meta/${ville}`
+			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
 			)

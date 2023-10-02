@@ -9,6 +9,7 @@ import {
 } from '@/../computeCycling'
 import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
+import { getDirectory } from '@/../storage'
 import APIUrl from '@/app/APIUrl'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
 import Loader from '@/Loader'
@@ -89,7 +90,14 @@ export default ({ ville, osmId, clientProcessing }) => {
 		} else {
 			setLoadingMessage('⏳️ Téléchargement en cours des données...')
 			console.log('will fetch', stopsNumber)
-			fetch(APIUrl + 'api/cycling/' + (debug ? 'complete/' : 'merged/') + id)
+			fetch(
+				APIUrl +
+					'api/cycling/' +
+					(debug ? 'complete/' : 'merged/') +
+					id +
+					'/' +
+					getDirectory()
+			)
 				.then((r) =>
 					r.json().then((data) => ({ status: r.status, body: data }))
 				)

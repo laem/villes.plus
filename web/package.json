@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev -p 8080",
+		"dev": "NODE_OPTIONS=\"--max_old_space_size=4096\" next dev -p 8080",
 		"build": "cd .. && yarn && cd web && next build",
 		"start": "next start -p 8080",
 		"lint": "next lint"
@@ -23,7 +23,7 @@
 		"eslint": "8.37.0",
 		"eslint-config-next": "13.2.4",
 		"leaflet": "^1.9.3",
-		"next": "^13.4.4",
+		"next": "^13.5.3",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-leaflet": "^4.2.1",

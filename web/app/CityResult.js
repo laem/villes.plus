@@ -16,11 +16,13 @@ const métropoleToVille = villesList.reduce(
 async function getData(ville) {
 	const url = process.env.VERCEL_URL,
 		protocol = url.startsWith('http') ? '' : 'https://'
-	const response = await fetch(`${protocol}${url}/api/wikidata/${ville}`)
+	const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
+	console.log(fetchUrl)
+	const response = await fetch(fetchUrl)
 
 	if (!response.ok) {
 		// This will activate the closest `error.js` Error Boundary
-		throw new Error('Failed to fetch wiki data for ', ville)
+		throw new Error('Failed to fetch wiki data for ' + ville)
 	}
 	const json = await response.json()
 	return json

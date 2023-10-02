@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"description": "",
 	"engines": {
-		"node": ">=18.x"
+		"node": ">=20.x"
 	},
 	"scripts": {
 		"clean": "rm -rf cache/*",

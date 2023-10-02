@@ -5,9 +5,6 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-	experimental: {
-		appDir: true,
-	},
 	compiler: {
 		styledComponents: true,
 	},

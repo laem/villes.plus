@@ -8,6 +8,7 @@ import { blue, grey, Switch, styles } from './mapStyles'
 import DebugMap from './DebugMap'
 import DebugBlock from './DebugBlock'
 import { normalizedScores } from '@/app/Classement'
+import { getDirectory } from '@/../storage'
 
 const Map = ReactMapboxGl({
 	accessToken:
@@ -17,7 +18,14 @@ const Map = ReactMapboxGl({
 const cacheDisabled = true
 
 let get = (ville, setData, debug = false) =>
-	fetch(APIUrl + 'api/walking/' + (debug ? 'complete/' : 'merged/') + ville)
+	fetch(
+		APIUrl +
+			'api/walking/' +
+			(debug ? 'complete/' : 'merged/') +
+			ville +
+			'/' +
+			getDirectory()
+	)
 		.then((res) => res.json())
 		.then((json) => {
 			localforage.setItem(ville, json)

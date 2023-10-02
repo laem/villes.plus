@@ -4,6 +4,7 @@ import WalkableScoreVignette from '@/WalkableScoreVignette'
 import { useEffect, useState } from 'react'
 import { LoadingMessage } from './CityResultUI'
 import socket from '@/app/socket'
+import { getDirectory } from '@/../storage'
 
 export default function CityNumericResult({ cyclable, ville, initialData }) {
 	const [loadingMessage, setLoadingMessage] = useState(null)
@@ -18,13 +19,16 @@ export default function CityNumericResult({ cyclable, ville, initialData }) {
 			const dimension = cyclable ? `cycling` : 'walking',
 				scope = `meta`
 			socket.emit(`api`, { dimension, scope, ville })
-			socket.on(`api/${dimension}/${scope}/${ville}`, function (body) {
-				if (body.loading) setLoadingMessage(body.loading)
-				else if (body.data) {
-					setSocketData(body.data)
-					setLoadingMessage(false)
+			socket.on(
+				`api/${dimension}/${scope}/${ville}/${getDirectory()}`,
+				function (body) {
+					if (body.loading) setLoadingMessage(body.loading)
+					else if (body.data) {
+						setSocketData(body.data)
+						setLoadingMessage(false)
+					}
 				}
-			})
+			)
 		}
 	}, [socket])
 

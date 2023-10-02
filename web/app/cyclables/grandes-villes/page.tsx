@@ -2,6 +2,7 @@ import { Classement } from '@/app/Classement'
 import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
+import { getDirectory } from '@/../storage'
 
 export const metadata: Metadata = {
 	title: 'Le classement des grandes communes les plus cyclables - villes.plus',
@@ -26,7 +27,7 @@ const villesList = villesListRaw
 async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
-			const url = APIUrl + `api/cycling/meta/${ville}`
+			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
 			)

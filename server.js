@@ -9,14 +9,13 @@ import computeCycling from './computeCycling'
 import { overpassRequestURL } from './cyclingPointsRequests'
 import { compute as computeWalking } from './geoStudio.js'
 
-import { writeFileSyncRecursive } from './nodeUtils'
-import scopes from './scopes'
-dotenv.config()
-import { testStorage, s3, BUCKET_NAME, getDirectory } from './storage'
-import { fetchRetry } from './utils'
-import http from 'http'
 import { Server } from 'socket.io'
 import { previousDate } from './algorithmVersion'
+import { writeFileSyncRecursive } from './nodeUtils'
+import scopes from './scopes'
+import { BUCKET_NAME, getDirectory, s3, testStorage } from './storage'
+import { fetchRetry } from './utils'
+dotenv.config()
 
 testStorage()
 
@@ -60,7 +59,7 @@ io.on('connection', (socket) => {
 		console.log('socket message API received', dimension, scope, ville)
 		const inform = (message) => {
 			console.log('will server emit', message)
-			const path = `api/${dimension}/${scope}/${ville}`
+			const path = `api/${dimension}/${scope}/${ville}/${getDirectory()}`
 			if (message.data) apicache.clear('/' + path)
 			io.emit(path, message)
 		}
@@ -90,10 +89,12 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 	}
 })
 
-const readFile = async (dimension, ville, scope, overrideDate) => {
+const readFile = async (dimension, ville, scope, directory) => {
+	if (!directory)
+		throw new Error(`Le paramètre directory (date + version) est nécessaire`)
 	try {
 		console.log('Will try to retrieve s3 data for ', ville, scope)
-		const key = `${getDirectory(overrideDate)}/${ville}.${scope}${
+		const key = `${directory}/${ville}.${scope}${
 			dimension === 'cycling' ? '.cycling' : ''
 		}.json`
 		console.log('key', key)
@@ -213,25 +214,43 @@ let resUnknownCity = (res, ville) =>
 	console.log('Unknown city : ' + ville)
 
 app.get(
-	'/api/:dimension/:scope/:ville',
+	'/api/:dimension/:scope/:ville/:date/:algorithmVersion',
 	cache('1 day'),
 	async function (req, res) {
-		const { ville, scope, dimension } = req.params
+		const { ville, scope, dimension, date, algorithmVersion } = req.params
 		console.log(
 			'API request : ',
 			dimension,
 			ville,
 			' for the ',
 			scope,
-			' scope'
+			' scope',
+			'for the date ',
+			date
 		)
-		const data = await readFile(dimension, ville, scope)
+		if (!date)
+			throw new Error(
+				`Le directory (date + version algo) est maintenant requise dans l'appel à l'API`
+			)
+		console.log('Will read ', dimension, ville, scope, date, algorithmVersion)
+		const data = await readFile(
+			dimension,
+			ville,
+			scope,
+			date + '/' + algorithmVersion
+		)
 
 		if (data.message) return res.status(202).send(data).end()
 
 		if (scope !== 'meta') return res.json(data)
 
-		const previousData = await readFile(dimension, ville, scope, previousDate)
+		const previousData = await readFile(
+			dimension,
+			ville,
+			scope,
+			previousDate,
+			algorithmVersion
+		)
 
 		return res.json({
 			...data,

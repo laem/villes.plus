@@ -2,6 +2,7 @@ import { Classement } from '@/app/Classement'
 import { Metadata } from 'next'
 import list from '@/départements.yaml'
 import APIUrl from '@/app/APIUrl'
+import { getDirectory } from '@/../storage'
 
 export const metadata: Metadata = {
 	title: 'Le classement des départements les plus cyclables - villes.plus',
@@ -37,7 +38,7 @@ async function getData() {
 
 	const response = await Promise.raceAll(
 		sobreList.map((territory) => {
-			const url = APIUrl + `api/cycling/meta/${territory}`
+			const url = APIUrl + `api/cycling/meta/${territory}/${getDirectory()}`
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
 			)
