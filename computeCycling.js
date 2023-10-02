@@ -1,10 +1,10 @@
-import distance from '@turf/distance'
 import bearing from '@turf/bearing'
+import distance from '@turf/distance'
 import point from 'turf-point'
+import brouterRequest from './brouterRequest'
 import isSafePath from './isSafePath'
 import { computePointsCenter, pointsProcess } from './pointsRequest'
 import { isTransportStop } from './utils'
-import APIUrl from './web/app/APIUrl'
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
 
@@ -25,24 +25,19 @@ const maximumBikingDistance = 20
 const createBikeRouterQuery = (from, to) =>
 	encodeURIComponent(`${from.reverse().join(',')}|${to.reverse().join(',')}`)
 
-const createItinerary = (from, to) =>
-	fetch(
-		APIUrl +
-			`bikeRouter/${createBikeRouterQuery(
-				[from.lat, from.lon],
-				[to.lat, to.lon]
-			)}`
+const createItinerary = (from, to) => {
+	const query = createBikeRouterQuery([from.lat, from.lon], [to.lat, to.lon])
+	return brouterRequest(
+		query,
+		(json) =>
+			console.log('brouter response') || {
+				...json,
+				fromPoint: from.id,
+				toPoint: to.id,
+				backboneRide: to.tags.amenity === 'townhall',
+			}
 	)
-		.then((res) => res.json())
-		.then(
-			(json) =>
-				console.log('brouter response') || {
-					...json,
-					fromPoint: from.id,
-					toPoint: to.id,
-					backboneRide: to.tags.amenity === 'townhall',
-				}
-		)
+}
 
 export const segmentGeoJSON = (geojson) => {
 	if (geojson.features.length > 1) throw Error('Oulala pas prévu ça')
@@ -178,7 +173,7 @@ export const createRidesPromises = (points) =>
 		})
 		.flat()
 
-const itineraryRequestDelay = 120 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
+const itineraryRequestDelay = 2 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
 
 export const isValidRide = (ride) =>
 	// Exclude itineraries that include a ferry route.
