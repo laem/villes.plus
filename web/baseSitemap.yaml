@@ -1,5 +1,9 @@
 - ''
-- cyclables
+- cyclables/departements
+- cyclables/communes
+- cyclables/grandes-villes
+- cyclables/metropoles
+- cyclables/prefectures
 - pietonnes
 - explications
 - explications/cyclables
