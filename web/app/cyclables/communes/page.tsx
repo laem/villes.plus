@@ -23,6 +23,7 @@ const villesList = villesListRaw
 		return name + '.' + 8 // level 8 is a commune in France
 	})
 	.filter(Boolean)
+	.slice(0, 5)
 
 async function getData() {
 	const response = await Promise.all(
@@ -34,7 +35,9 @@ async function getData() {
 				// This will activate the closest `error.js` Error Boundary
 				throw new Error('Failed to fetch data for cyclables/communes ' + url)
 			}
-			const json = res.json()
+			const text = await res.text()
+			console.log('RES', text)
+			const json = JSON.parse(text)
 
 			return { ...json, status: res.status }
 		})
