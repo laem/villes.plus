@@ -37,9 +37,12 @@ async function getData() {
 			}
 			const text = await res.text()
 			console.log('RES', text)
-			const json = JSON.parse(text)
-
-			return { ...json, status: res.status }
+			try {
+				const json = JSON.parse(text)
+				return { ...json, status: res.status }
+			} catch (e) {
+				console.log('yoyo', e)
+			}
 		})
 	)
 
