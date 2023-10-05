@@ -6,6 +6,7 @@ import Ville from './Ville'
 import wikidata from '@/app/wikidata'
 import villesList from '@/villesClassées'
 import { Suspense } from 'react'
+import getRev from './getRev'
 
 import { getDirectory } from '@/../algorithmVersion'
 import { processName } from '@/../cyclingPointsRequests'
@@ -69,11 +70,13 @@ export default async function Page({ params, searchParams }) {
 		osmId = searchParams.id,
 		clientProcessing = searchParams.client
 	const data = await getData(villeRaw, osmId)
+	const rev = await getRev(ville)
+	console.log('REV', rev, ville)
 	return (
 		<Wrapper>
 			<Header ville={ville} data={data} />
 			<Suspense fallback={<Fallback />}>
-				<Ville {...{ osmId, ville, clientProcessing }} />
+				<Ville {...{ osmId, ville, clientProcessing, rev }} />
 			</Suspense>
 		</Wrapper>
 	)
