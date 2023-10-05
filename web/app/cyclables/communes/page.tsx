@@ -42,7 +42,7 @@ async function getData() {
 		{}
 	)
 }
-export default async function Page({ searchParams }) {
+export default async function Page() {
 	const data = await getData()
 	return (
 		<Classement
@@ -51,7 +51,7 @@ export default async function Page({ searchParams }) {
 			level="communes"
 			text="Quelles communes de + de 30 000 habitants sont les plus cyclables ?"
 			subText="Les communes d'Outre-Mer viendront bientôt compléter le classement..."
-			gridView={searchParams.gridView}
+			gridView={false}
 		/>
 	)
 }
