@@ -1,6 +1,6 @@
 const url =
-	process.env.NODE_ENV === 'production'
-		? `https://api.villes.plus/`
-		: `http://localhost:3000/`
+	process.env.VERCEL_ENV === 'development'
+		? `http://localhost:3000/`
+		: `https://api.villes.plus/`
 
 export default url
