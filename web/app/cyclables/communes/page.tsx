@@ -34,6 +34,7 @@ async function getData() {
 			const url =
 				'https://api.villes.plus/' +
 				`api/cycling/meta/${ville}/${getDirectory()}`
+			console.log('URL', url)
 			return fetch(url)
 				.then((r) => r.json())
 				.then((data) => ({ ...data, status: r.status }))
