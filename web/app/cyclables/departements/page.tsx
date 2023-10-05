@@ -46,7 +46,6 @@ async function getData() {
 		6000,
 		false
 	)
-	console.log(response)
 
 	return response.reduce(
 		(memo, data, i) => (!data ? memo : { ...memo, [sobreList[i]]: data }),
@@ -56,7 +55,6 @@ async function getData() {
 
 export default async function Page({ searchParams }) {
 	const data = await getData()
-	console.log(data)
 	return (
 		<Classement
 			cyclable

@@ -3,7 +3,6 @@ import APIUrl from '@/app/APIUrl'
 import villesListRaw from '@/communes30000'
 import type { Metadata } from 'next'
 import { getDirectory } from '@/../algorithmVersion'
-console.log('DATA', villesListRaw)
 
 export const metadata: Metadata = {
 	title: 'Le classement des communes moyennes les plus cyclables - villes.plus',
@@ -24,21 +23,20 @@ const villesList = villesListRaw
 		return name + '.' + 8 // level 8 is a commune in France
 	})
 	.filter(Boolean)
-	.slice(0, 3)
-
-console.log(villesList)
 
 async function getData() {
 	const response = await Promise.all(
-		villesList.map((ville) => {
-			const url =
-				'https://api.villes.plus/' +
-				`api/cycling/meta/${ville}/${getDirectory()}`
-			console.log('URL', url)
-			return fetch(url)
-				.then((r) => r.json())
-				.then((data) => ({ ...data, status: r.status }))
-				.catch((e) => console.log('Oups ', e))
+		villesList.map(async (ville) => {
+			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
+			const res = await fetch(url)
+
+			if (!res.ok) {
+				// This will activate the closest `error.js` Error Boundary
+				throw new Error('Failed to fetch data for cyclables/communes ' + url)
+			}
+			const json = res.json()
+
+			return { ...json, status: res.status }
 		})
 	)
 
