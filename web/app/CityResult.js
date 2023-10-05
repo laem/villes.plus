@@ -23,8 +23,12 @@ async function getData(ville) {
 		// This will activate the closest `error.js` Error Boundary
 		throw new Error('Failed to fetch wiki data for ' + ville)
 	}
-	const json = await response.json()
-	return json
+	try {
+		const json = await response.json()
+		return json
+	} catch (e) {
+		console.log('Erreur wikidata CityResult')
+	}
 }
 
 export default async ({ ville, cyclable, data: initialData, i, gridView }) => {
