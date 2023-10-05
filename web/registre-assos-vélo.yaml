@@ -4,6 +4,7 @@
 
 - nom: Rayons d'Action
   ville: Rennes
+  département: Ille-et-Vilaine
   twitter: Rayons_Action
   site: https://www.rayonsdaction.org
   métropole: Rennes Métropole
@@ -21,6 +22,7 @@
 - nom: Nice à Vélo
   site: https://niceavelo.org
   ville: Nice
+  département: Alpes-Maritimes
   métropole: Nice Côte d'Azur
   logo: https://niceavelo.org/wp-content/uploads/2022/10/cropped-logo-NAV_V2.png
   adhésion: https://niceavelo.org/adhesion
@@ -29,15 +31,18 @@
 
 - nom: Brest à Pied et à Vélo
   diminutif: BaPaV
+  ville: Brest
+  département: Finistère
   site: https://www.bapav.org
   métropole: Brest Métropole
   adhésion: https://www.bapav.org/adherez-a-bapav/
   twitter: BrestPiedVelo
   logo: https://www.bapav.org/wp-content/uploads/2020/04/cropped-Logo-BaPaV-Bleu-Noir.png
-  
+
 - nom: Vélo-cité 63
   diminutif: VC63
   région: Auvergne Rhône-Alpes
+  département: Puy-de-Dôme
   métropole: Clermont Auvergne Métropole
   logo: https://www.velocite63.fr/velocite63/logo.jpg
   site: https://www.velocite63.fr
@@ -49,6 +54,7 @@
 - nom: Association Vélo Besançon
   diminutif: AVB
   région: Bourgogne-Franche-Comté
+  département: Doubs
   métropole: Grand Besançon Métropole
   logo: https://imgur.com/kWbW1JH.jpg
   site: https://asso.velobesancon.info
@@ -58,14 +64,16 @@
 
 - nom: Ensemble à Vélo dans l’Agglomération Dijonnaise
   diminutif: EVAD
+  département: Côte-d'Or
   région: Bourgogne-Franche-Comté
   métropole: Dijon Métropole
+  ville: Dijon
   logo: https://imgur.com/ahescay.png
   site: https://evad-dijon.fr
   adhésion: https://www.helloasso.com/associations/evad/adhesions/adhesion-ensemble-a-velo
   twitter: evad_dijon
   facebook: Dijon.EVAD
-  
+
 - nom: Selle Vous Plait
   diminutif: SVP
   région: Bourgogne-Franche-Comté
@@ -76,21 +84,61 @@
 
 - nom: Strasbourg À Vélo
   diminutif: SAV
+  ville: Strasbourg
   région: Grand-Est
+  département: Bas-Rhin
   métropole: Strasbourg Eurométropole
   site: https://www.strasbourgavelo.org
   logo: https://imgur.com/X0VKdpL.jpg
   adhésion: https://www.strasbourgavelo.org/association/
   twitter: strasbourgavelo
-  mastodon: "@SAV@masto.bike"
+  mastodon: '@SAV@masto.bike'
   facebook: strasbourgavelo
-  
+
 - nom: Paris En Selle
   diminutif: PES
   région: Paris
+  département: Paris
+  ville: Paris
   métropole: Métropole du Grand Paris
   site: https://www.parisenselle.fr
   logo: https://parisenselle.fr/wp-content/uploads/2018/04/logo_pes_small-e1525015851979.png
   adhésion: https://www.helloasso.com/associations/paris-en-selle/adhesions/paris-en-selle-adhesion
   twitter: ParisEnSelle
   facebook: parisenselle
+
+- nom: Vélo-Cité Bordeaux Metropole
+  diminutif: VCBx
+  région: Nouvelle-Aquitaine
+  ville: Bordeaux
+  département: Gironde
+  métropole: Bordeaux Métropole
+  site: https://velo-cite.org
+  logo: https://velo-cite.org/wp-content/uploads/2023/01/cropped-cropped-logo-header-3.png
+  adhésion: https://www.helloasso.com/associations/velo-cite-bordeaux-metropole/
+  twitter: VeloCiteBdx
+  facebook: velocite.bordeauxmetropole
+
+- nom: Vélocité Grand Montpellier
+  diminutif: Vélocité
+  ville: Montpellier
+  région: Occitanie
+  département: Hérault
+  métropole: Métropole de Montpellier
+  site: https://www.velocite-montpellier.fr/
+  logo: https://pbs.twimg.com/profile_images/1170789962725371909/1P0nkpND_400x400.jpg
+  adhésion: https://www.velocite-montpellier.fr/asso/adherer/
+  twitter: VelociteMtp
+  facebook: VelociteMontpellier
+
+- nom: Collectif Vélos en Ville
+  diminutif: Vélos en Ville
+  région: Provence-Alpes-Côte d’Azur
+  métropole: Métropole d'Aix-Marseille
+  ville: Marseille
+  département: Bouches-du-Rhône
+  site: https://www.velosenville.org
+  logo: https://www.velosenville.org/images/Logos/Logo_CVV_janvier19.jpg
+  adhésion: https://www.velosenville.org/index.php/l-association/comment-adherer
+  twitter: VelosenVille
+  facebook: VelosEnVille
