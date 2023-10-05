@@ -30,7 +30,9 @@ console.log(villesList)
 async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
-			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
+			const url =
+				'https://api.villes.plus/' +
+				`api/cycling/meta/${ville}/${getDirectory()}`
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
 			)
