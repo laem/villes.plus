@@ -24,6 +24,7 @@ const villesList = villesListRaw
 		return name + '.' + 8 // level 8 is a commune in France
 	})
 	.filter(Boolean)
+	.slice(0, 3)
 
 console.log(villesList)
 
