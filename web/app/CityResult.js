@@ -14,9 +14,10 @@ const métropoleToVille = villesList.reduce(
 )
 
 async function getData(ville) {
-	const url = process.env.VERCEL_URL,
-		protocol = url.startsWith('http') ? '' : 'https://'
-	const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
+	//const url = process.env.VERCEL_URL,
+	//	protocol = url.startsWith('http') ? '' : 'https://'
+	//const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
+	const fetchUrl = `https://www.villes.plus/api/wikidata/${ville}` //TODO rustine
 	const response = await fetch(fetchUrl)
 
 	if (!response.ok) {
