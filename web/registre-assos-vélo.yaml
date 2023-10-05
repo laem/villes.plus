@@ -31,6 +31,7 @@
 
 - nom: Brest à Pied et à Vélo
   diminutif: BaPaV
+  ville: Brest
   département: Finistère
   site: https://www.bapav.org
   métropole: Brest Métropole
@@ -63,8 +64,10 @@
 
 - nom: Ensemble à Vélo dans l’Agglomération Dijonnaise
   diminutif: EVAD
+  département: Côte-d'Or
   région: Bourgogne-Franche-Comté
   métropole: Dijon Métropole
+  ville: Dijon
   logo: https://imgur.com/ahescay.png
   site: https://evad-dijon.fr
   adhésion: https://www.helloasso.com/associations/evad/adhesions/adhesion-ensemble-a-velo
@@ -81,6 +84,7 @@
 
 - nom: Strasbourg À Vélo
   diminutif: SAV
+  ville: Strasbourg
   région: Grand-Est
   département: Bas-Rhin
   métropole: Strasbourg Eurométropole
@@ -106,6 +110,7 @@
 - nom: Vélo-Cité Bordeaux Metropole
   diminutif: VCBx
   région: Nouvelle-Aquitaine
+  ville: Bordeaux
   département: Gironde
   métropole: Bordeaux Métropole
   site: https://velo-cite.org
