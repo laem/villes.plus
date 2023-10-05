@@ -28,6 +28,7 @@ async function getData(ville) {
 		return json
 	} catch (e) {
 		console.log('Erreur wikidata CityResult')
+		console.log(url)
 	}
 }
 
