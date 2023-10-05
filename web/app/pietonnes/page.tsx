@@ -25,7 +25,6 @@ async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
 			const url = APIUrl + `api/walking/meta/${ville}/${getDirectory()}`
-			console.log('url ', url)
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
 			)
