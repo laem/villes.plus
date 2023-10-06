@@ -34,7 +34,14 @@ const debug = false
 
 const directory = getDirectory()
 
-export default ({ ville, osmId, clientProcessing }) => {
+const defaultData = {
+	points: [],
+	pointsCenter: null,
+	segments: [],
+	rides: [],
+	score: null,
+}
+export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const id = osmId || ville
 
 	const [couple, setCouple] = useState({ from: null, to: null })
@@ -48,13 +55,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
-	const [data, setData] = useState({
-		points: [],
-		pointsCenter: null,
-		segments: [],
-		rides: [],
-		score: null,
-	})
+	const [data, setData] = useState(givenData || defaultData)
 	const townhallPoints = data.points.filter(
 			(point) => point.tags.amenity === 'townhall'
 		),
@@ -154,15 +155,6 @@ export default ({ ville, osmId, clientProcessing }) => {
 			console.log('This will be logged on unmount')
 		}
 	}, [stopsNumber])
-	useEffect(() => {
-		if (clientProcessing) return undefined
-		console.log('will downloadData')
-		downloadData(null, socket)
-
-		return () => {
-			console.log('This will be logged on unmount')
-		}
-	}, [socket])
 
 	useEffect(() => {
 		// this is to add segments to your map. Nice feature, disabled as it evolved
