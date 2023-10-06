@@ -216,13 +216,14 @@ export default ({ ville, osmId, clientProcessing }) => {
 			(segment) =>
 				showV2NewRules == false || isSafePathV2Diff(segment.properties.tags)
 		)
+
+	/* 
 	const score =
 		serverScore ||
 		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
-	const segmentCount = segments.reduce(
-		(memo, next) => memo + (next.properties.rides || [1]).length,
-		0
-	)
+
+		//client side count should be reimplemented
+		*/
 	if (loadingMessage)
 		return (
 			<>
@@ -233,36 +234,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 
 	return (
 		<>
-			<div
-				css={`
-					display: flex;
-					align-items: center;
-				`}
-			>
-				<div>
-					{score != null ? (
-						<p>
-							<strong
-								title={`Précisément, ${score}`}
-								css={`
-									background: yellow;
-								`}
-							>
-								{Math.round(score)}%
-							</strong>{' '}
-							des trajets du territoires sont sécurisés
-							<br />
-							<SmallLegend>
-								({points.length} points,{' '}
-								{(ridesLength || rides.length).toLocaleString('fr-FR')}{' '}
-								itinéraires, {segmentCount.toLocaleString('fr-FR')} segments)
-							</SmallLegend>
-						</p>
-					) : (
-						<p>{points.length} points.</p>
-					)}
-				</div>
-			</div>
+			<AssoPromo ville={ville} />
 			<div
 				css={`
 					display: flex;
@@ -280,7 +252,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 					onClick={() => setSegmentFilter(segmentFilter === true ? null : true)}
 				>
 					{' '}
-					<Legend color="blue" /> segments cyclables
+					<Legend color="blue" /> segments cyclables sécurisés
 				</button>
 				<button
 					css={`
@@ -292,7 +264,7 @@ export default ({ ville, osmId, clientProcessing }) => {
 						setSegmentFilter(segmentFilter === false ? null : false)
 					}
 				>
-					<Legend color="red" /> le reste
+					<Legend color="red" /> non sécurisé
 				</button>
 				{clientProcessing && (
 					<button
@@ -318,7 +290,6 @@ export default ({ ville, osmId, clientProcessing }) => {
 					</label>
 				</div>
 			)}
-			<AssoPromo ville={ville} />
 			<div
 				css={`
 					margin-top: 0.2rem;

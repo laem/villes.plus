@@ -9,6 +9,7 @@ import {
 import Logo from '@/app/Logo'
 import Image from 'next/image'
 import Link from 'next/link'
+import RésuméChiffré from './RésuméChiffré'
 
 export default async ({ ville, data }) => {
 	const wikidata = await getWikidata(processName(ville))
@@ -29,10 +30,16 @@ export default async ({ ville, data }) => {
 			</ImageAndScoreWrapper>
 
 			<p style={{ marginBottom: 0 }}>
-				Ce territoire est-il cyclable ? Précisons : <em>vraiment</em> cyclable,
-				donc des voies cyclables séparées des voitures et piétons, ou des
-				vélorues où le vélo est prioritaire.{' '}
+				Découvrez le score et la carte de l'analyse de cyclabilité de{' '}
+				{processName(ville)}.
 			</p>
+			<p>
+				Chaque mois, nous faisons rouler des cyclistes virtuels sur une
+				multitude d'itinéraires, et nous comptons la proportion des kilomètres{' '}
+				<strong>vraiment sécurisés</strong>, donc des voies cyclables séparées
+				des voitures et piétons ou des vélorues où le vélo est prioritaire.
+			</p>
+			<RésuméChiffré data={data} name={processName(ville)} />
 			<div
 				style={{
 					textAlign: 'right',
