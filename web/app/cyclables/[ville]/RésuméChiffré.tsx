@@ -4,6 +4,8 @@ export default function RésuméChiffré({
 	data: { score, points, ridesLength, segments },
 	name,
 }) {
+	if (!segments || !score) return null
+
 	const segmentCount = segments.reduce(
 		(memo, next) => memo + (next.properties.rides || [1]).length,
 		0
