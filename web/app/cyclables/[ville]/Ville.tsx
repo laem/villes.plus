@@ -262,7 +262,6 @@ export default ({ ville, osmId, clientProcessing }) => {
 						<p>{points.length} points.</p>
 					)}
 				</div>
-				<CyclableScoreVignette data={{ score }} margin={'0 .4rem'} />
 			</div>
 			<div
 				css={`

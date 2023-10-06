@@ -13,7 +13,7 @@ const métropoleToVille = villesList.reduce(
 	{}
 )
 
-async function getData(ville) {
+export async function getWikidata(ville) {
 	//const url = process.env.VERCEL_URL,
 	//	protocol = url.startsWith('http') ? '' : 'https://'
 	//const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
@@ -34,7 +34,7 @@ async function getData(ville) {
 }
 
 export default async ({ ville, cyclable, data: initialData, i, gridView }) => {
-	const wikidata = await getData(
+	const wikidata = await getWikidata(
 		processName(cyclable ? métropoleToVille[ville] || ville : ville)
 	)
 

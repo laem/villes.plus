@@ -38,6 +38,25 @@ export const ImageWrapper = styled.div`
 	}
 	position: relative;
 `
+export const SmallImageWrapper = styled.div`
+	width: 90%;
+	height: 6rem;
+	@media (min-width: 800px) {
+		height: 8rem;
+	}
+	img {
+		border-radius: 1rem;
+	}
+	position: relative;
+`
+export const TitleImageWrapper = styled.div`
+	width: 70%;
+`
+export const ImageAndScoreWrapper = styled.div`
+	display: flex;
+	justify-content: start;
+	align-items: center;
+`
 export const LoadingMessage = styled.div`
 	margin: 0.6rem;
 	width: 25%;

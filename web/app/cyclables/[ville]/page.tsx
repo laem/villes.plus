@@ -3,11 +3,13 @@ import Header from './Header'
 import { Wrapper } from './UI'
 import Ville from './Ville'
 
+import wikidata from '@/app/wikidata'
 import villesList from '@/villesClassées'
 import { Suspense } from 'react'
-import wikidata from '@/app/wikidata'
 
+import { getDirectory } from '@/../algorithmVersion'
 import { processName } from '@/../cyclingPointsRequests'
+import APIUrl from '@/app/APIUrl'
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
 		typeof next === 'string'
@@ -36,14 +38,34 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 	}
 }
 
-export default ({ params, searchParams }) => {
+async function getData(ville) {
+	const url = APIUrl + `api/cycling/merged/${ville}/${getDirectory()}`
+	const res = await fetch(url)
+
+	if (!res.ok) {
+		// This will activate the closest `error.js` Error Boundary
+		throw new Error('Failed to fetch data for cyclables ville ' + url)
+	}
+	const text = await res.text()
+	console.log('t', text, url)
+	try {
+		const json = JSON.parse(text)
+		return { ...json, status: res.status }
+	} catch (e) {
+		console.log('oups parsing json for cyclable ville', e)
+	}
+}
+
+export default async function Page({ params, searchParams }) {
 	const { ville: villeRaw } = params,
 		ville = decodeURIComponent(villeRaw),
 		osmId = searchParams.id,
 		clientProcessing = searchParams.client
+	const data = await getData(villeRaw)
 	return (
 		<Wrapper>
-			<Header ville={ville} />
+			<Header ville={ville} data={data} />
+
 			<Suspense fallback={<Fallback />}>
 				<Ville {...{ osmId, ville, clientProcessing }} />
 			</Suspense>
