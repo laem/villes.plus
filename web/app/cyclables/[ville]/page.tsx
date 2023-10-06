@@ -7,6 +7,7 @@ import villesList from '@/villesClassées'
 import { Suspense } from 'react'
 import wikidata from '@/app/wikidata'
 
+import { processName } from '@/../cyclingPointsRequests'
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
 		typeof next === 'string'
@@ -16,7 +17,8 @@ const métropoleToVille = villesList.reduce(
 )
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-	const ville = decodeURIComponent(params.ville)
+	const villeRaw = decodeURIComponent(params.ville),
+		ville = processName(villeRaw)
 
 	try {
 		const response = await wikidata(métropoleToVille[ville] || ville)
