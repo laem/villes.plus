@@ -55,7 +55,12 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
-	const [data, setData] = useState(givenData || defaultData)
+	const [data, setData] = useState(
+		givenData && !givenData.status === 202
+			? givenData
+			: defaultData || defaultData
+	)
+
 	const townhallPoints = data.points.filter(
 			(point) => point.tags.amenity === 'townhall'
 		),
