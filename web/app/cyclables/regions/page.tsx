@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	title: 'Le classement des régions les plus cyclables - villes.plus',
 
 	description:
-		'Chaque département est testé pour déterminer le pourcentage de km cyclables sécurisés, et la moyenne du score de charqe département fait le score de la région.',
+		'Chaque département est testé pour déterminer le pourcentage de km cyclables sécurisés, et la moyenne du score de chaque département fait le score de la région.',
 	openGraph: {
 		images: 'https://villes-plus.vercel.app/departements.png',
 	},
