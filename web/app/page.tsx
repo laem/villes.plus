@@ -25,6 +25,8 @@ export default () => (
 				<span>🚲️</span> Le classement des <strong>départements</strong> les
 				plus cyclables.
 			</Link>
+		</Cards>
+		<Cards>
 			<Link href="/cyclables/metropoles">
 				<span>🚲️</span> Le classement des <strong>métropoles</strong> les plus
 				cyclables.
