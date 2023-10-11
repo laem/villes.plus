@@ -91,6 +91,12 @@ export function Classement({
 
 					{cyclable && <ScoreLegend scores={villesEntries} />}
 
+					{onClickLinkToRegion && (
+						<p style={{ textAlign: 'center' }}>
+							Le score d'une région est simplement la moyenne de ses
+							départements.
+						</p>
+					)}
 					{région === 'Bourgogne-Franche-Comté' && (
 						<details style={{ margin: '.6rem auto', maxWidth: '700px' }}>
 							<summary>

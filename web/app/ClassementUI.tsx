@@ -85,6 +85,7 @@ export const Ol = styled.ol`
 	justify-content: center;
 	padding: 0 1rem !important;
 	margin-top: 6vh;
+	list-style-type: none;
 	li {
 		max-width: 28rem;
 		width: 100%;
