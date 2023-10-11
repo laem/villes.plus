@@ -55,10 +55,9 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
+	console.log('GD', givenData)
 	const [data, setData] = useState(
-		givenData && !givenData.status === 202
-			? givenData
-			: defaultData || defaultData
+		givenData && !(givenData.status === 202) ? givenData : defaultData
 	)
 
 	const townhallPoints = data.points.filter(
@@ -110,7 +109,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 					r.json().then((data) => ({ status: r.status, body: data }))
 				)
 				.then(({ status, body }) => {
-					console.log('S', status, body)
 					if (status === 202) {
 						setLoadingMessage('⚙️  Le calcul est lancé...')
 
@@ -172,10 +170,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	function bytesCount(s, divider = 1000) {
 		return new TextEncoder().encode(JSON.stringify(s)).length / divider
 	}
-	Object.entries(data).map(([k, v]) =>
-		console.log(k, bytesCount(v, 1000 * 1000))
-	)
-	console.log('DATA', data)
 	//rides are not necessary when using server computed data
 	const {
 		segments,
@@ -196,7 +190,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 		}, 50)
 		return () => clearInterval(interval)
 	}, [segments])
-	console.log(segments)
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>
@@ -353,7 +346,7 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 					</MapContainer>
 				)}
 			</div>
-			{console.log(clickedSegment) || (
+			{
 				<div
 					css={`
 						min-height: 10rem;
@@ -406,7 +399,7 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 						</div>
 					)}
 				</div>
-			)}
+			}
 		</>
 	)
 }
