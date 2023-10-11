@@ -11,7 +11,9 @@ export const metadata: Metadata = {
 	description:
 		'Chaque département est testé pour déterminer le pourcentage de km cyclables sécurisés, et la moyenne du score de chaque département fait le score de la région.',
 	openGraph: {
-		images: 'https://villes-plus.vercel.app/departements.png',
+		images: `https://ogenerateur.osc-fr1.scalingo.io/capture/${encodeURIComponent(
+			`https://villes.plus/cyclables/regions`
+		)}/shareImage?timeout=3000&width=1920&height=1080`,
 	},
 	twitter: {
 		card: 'summary_large_image',
