@@ -44,7 +44,7 @@ export function Classement({
 			: false)
 
 	return (
-		<>
+		<div id="shareImage">
 			<Logo animate cyclable={cyclable} />
 			<ClassementWrapper>
 				<h2>{text}</h2>
@@ -113,6 +113,6 @@ export function Classement({
 				}
 			</ClassementWrapper>
 			<NewCityLink />
-		</>
+		</div>
 	)
 }
