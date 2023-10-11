@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import list from '@/départements.yaml'
 import APIUrl from '@/app/APIUrl'
 import { getDirectory } from '@/../algorithmVersion'
+import { objectMap } from '@/../utils'
 
 export const metadata: Metadata = {
 	title: 'Le classement des régions les plus cyclables - villes.plus',
@@ -51,17 +52,25 @@ async function getData() {
 	)
 
 	const régions = response.reduce((memo, next) => {
-		const départements = [...(memo[next.nom_region]?.départements || []), next]
+		const départements = [...(memo[next.région]?.départements || []), next]
+
+		return {
+			...memo,
+			[next.région]: { départements, status: 200 },
+		}
+	}, {})
+
+	const withMean = objectMap(régions, (région) => {
+		const départements = région.départements
+
 		const somme = départements
 				.map((d) => d.score)
 				.reduce((memo, next) => memo + next, 0),
 			moyenne = somme / départements.length
-		return {
-			...memo,
-			[next.région]: { départements, score: moyenne, status: 200 },
-		}
-	}, {})
-	return régions
+
+		return { ...région, score: moyenne }
+	})
+	return withMean
 }
 
 export default async function Page() {

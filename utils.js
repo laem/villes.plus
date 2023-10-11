@@ -31,3 +31,6 @@ export const fetchRetry = async (url, options, n) => {
 		return await fetchRetry(url, options, n - 1)
 	}
 }
+
+export const objectMap = (obj, fn) =>
+	Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]))
