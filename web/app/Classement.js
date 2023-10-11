@@ -23,7 +23,15 @@ export const normalizedScores = (data) => {
 	return { pedestrianArea, area, relativeArea, percentage }
 }
 
-export function Classement({ cyclable, data, text, subText, level, gridView }) {
+export function Classement({
+	cyclable,
+	data,
+	text,
+	subText,
+	level,
+	gridView,
+	onClickLinkToRegion,
+}) {
 	const villes = data
 
 	let villesEntries = Object.entries(villes)
@@ -103,6 +111,7 @@ export function Classement({ cyclable, data, text, subText, level, gridView }) {
 							.map(([ville, data], i) => {
 								return (
 									<CityResult
+										onClickLinkToRegion={onClickLinkToRegion ? ville : false}
 										key={ville}
 										{...{ gridView, ville, cyclable, data, i }}
 									/>

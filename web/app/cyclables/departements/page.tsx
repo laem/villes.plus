@@ -30,17 +30,16 @@ Promise.raceAll = function (promises, timeoutTime, timeoutVal) {
 	)
 }
 
-async function getData() {
+export async function getData() {
 	const sobreList = list
-		//.slice(0, 96) // not ready yet for worldwide tiles, we need to set up brouter, downloading all the tiles is huge
-		// Only La Réunion is removed, we've got a problem with a small french town named La Réunion...
-		.map(({ nom }) => nom)
+	//.slice(0, 96) // not ready yet for worldwide tiles, we need to set up brouter, downloading all the tiles is huge
+	// Only La Réunion is removed, we've got a problem with a small french town named La Réunion...
 
 	const response = await Promise.raceAll(
-		sobreList.map((territory) => {
-			const url = APIUrl + `api/cycling/meta/${territory}/${getDirectory()}`
+		sobreList.map(({ nom, nom_region: région }) => {
+			const url = APIUrl + `api/cycling/meta/${nom}/${getDirectory()}`
 			return fetch(url).then((r) =>
-				r.json().then((data) => ({ ...data, status: r.status }))
+				r.json().then((data) => ({ ...data, status: r.status, région }))
 			)
 		}),
 		6000,
@@ -48,21 +47,20 @@ async function getData() {
 	)
 
 	const obj = response.reduce(
-		(memo, data, i) => (!data ? memo : { ...memo, [sobreList[i]]: data }),
+		(memo, data, i) => (!data ? memo : { ...memo, [sobreList[i].nom]: data }),
 		{}
 	)
 	console.log(obj)
 	return obj
 }
 
-export default async function Page({ searchParams }) {
+export default async function Page() {
 	const data = await getData()
 	return (
 		<Classement
 			cyclable
 			data={data}
 			text={'Quelles départements français sont les plus cyclables ?'}
-			gridView={searchParams.gridView}
 		/>
 	)
 }

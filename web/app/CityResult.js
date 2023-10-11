@@ -33,7 +33,14 @@ export async function getWikidata(ville) {
 	}
 }
 
-export default async ({ ville, cyclable, data: initialData, i, gridView }) => {
+export default async ({
+	ville,
+	cyclable,
+	data: initialData,
+	i,
+	gridView,
+	onClickLinkToRegion,
+}) => {
 	const wikidata = await getWikidata(
 		processName(cyclable ? métropoleToVille[ville] || ville : ville)
 	)
@@ -46,7 +53,11 @@ export default async ({ ville, cyclable, data: initialData, i, gridView }) => {
 	return (
 		<Li key={ville}>
 			<Link
-				href={encodeURI((cyclable ? '/cyclables/' : '/pietonnes/') + ville)}
+				href={
+					onClickLinkToRegion
+						? `/cyclables/departements/${onClickLinkToRegion}`
+						: encodeURI((cyclable ? '/cyclables/' : '/pietonnes/') + ville)
+				}
 			>
 				<Title $gridView={gridView}>
 					<span>{medal}&nbsp;</span>

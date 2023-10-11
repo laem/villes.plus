@@ -61,7 +61,6 @@ async function getData() {
 			[next.région]: { départements, score: moyenne, status: 200 },
 		}
 	}, {})
-	console.log(régions)
 	return régions
 }
 
@@ -73,6 +72,7 @@ export default async function Page({ searchParams }) {
 			data={data}
 			text={'Quelles régions françaises sont les plus cyclables ?'}
 			gridView={searchParams.gridView}
+			onClickLinkToRegion={true}
 		/>
 	)
 }
