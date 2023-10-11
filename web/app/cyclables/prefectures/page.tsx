@@ -40,14 +40,7 @@ async function getData() {
 		{}
 	)
 }
-export default async function Page({ searchParams }) {
+export default async function Page() {
 	const data = await getData()
-	return (
-		<Classement
-			cyclable
-			data={data}
-			level="prefectures"
-			gridView={searchParams.gridView}
-		/>
-	)
+	return <Classement cyclable data={data} level="prefectures" />
 }

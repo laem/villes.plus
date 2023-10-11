@@ -58,7 +58,7 @@ export default ({ data, margin = '' }) => {
 					${margin && `margin: ${margin} !important;`}
 					@media (min-width: 800px) {
 						font-size: 260%;
-						margin: 0 4rem;
+						margin: 0 6rem 0 2rem;
 					}
 
 					display: flex;

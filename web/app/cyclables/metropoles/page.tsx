@@ -36,7 +36,7 @@ async function getData() {
 		{}
 	)
 }
-export default async function Page({ searchParams }) {
+export default async function Page() {
 	const data = await getData()
 	return (
 		<Classement
@@ -44,7 +44,6 @@ export default async function Page({ searchParams }) {
 			data={data}
 			level="metropoles"
 			text={'Quelles métropoles françaises sont les plus cyclables ?'}
-			gridView={searchParams.gridView}
 		/>
 	)
 }

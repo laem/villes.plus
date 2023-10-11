@@ -38,7 +38,6 @@ export default async ({
 	cyclable,
 	data: initialData,
 	i,
-	gridView,
 	onClickLinkToRegion,
 }) => {
 	const wikidata = await getWikidata(
@@ -59,7 +58,7 @@ export default async ({
 						: encodeURI((cyclable ? '/cyclables/' : '/pietonnes/') + ville)
 				}
 			>
-				<Title $gridView={gridView}>
+				<Title>
 					<span>{medal}&nbsp;</span>
 					{villeName}
 				</Title>

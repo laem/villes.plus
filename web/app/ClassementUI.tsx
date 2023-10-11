@@ -3,7 +3,7 @@ import Link from 'next/link'
 import styled from 'styled-components'
 
 export const ClassementWrapper = styled.div`
-	${(props) => (props.gridView ? 'width: 100%;' : 'max-width: 45rem;')}
+	width: 100%;
 	margin: 0 auto;
 	padding: 0.6rem;
 	h2 {
@@ -80,16 +80,20 @@ export const CounterLevel = styled.div`
 `
 
 export const Ol = styled.ol`
-	${(props) =>
-		props.$gridView
-			? `
-							display: flex; flex-wrap: wrap;
-							justify-content: center;
-							padding: 0 1rem !important;
-							li {width: 28rem; height: 20rem; justify-content: center; align-items: center}
-
-							`
-			: ''}
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 0 1rem !important;
+	li {
+		max-width: 28rem;
+		width: 100%;
+		height: 20rem;
+		@media (max-width: 800px) {
+			height: auto;
+		}
+		justify-content: center;
+		align-items: center;
+	}
 `
 
 export const Loading = styled.p`

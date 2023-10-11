@@ -29,7 +29,6 @@ export function Classement({
 	text,
 	subText,
 	level,
-	gridView,
 	onClickLinkToRegion,
 }) {
 	const villes = data
@@ -47,7 +46,7 @@ export function Classement({
 	return (
 		<>
 			<Logo animate cyclable={cyclable} />
-			<ClassementWrapper gridView={gridView}>
+			<ClassementWrapper>
 				<h2>{text}</h2>
 				{subText && (
 					<p>
@@ -81,13 +80,6 @@ export function Classement({
 					) : (
 						<Link href="/explications/pietonnes">algo v1</Link>
 					)}
-					<Link
-						href={`/${
-							cyclable ? 'cyclables' : 'pietonnes'
-						}/${level}/?gridView=${!gridView}`}
-					>
-						🪟 vue grille
-					</Link>
 				</DateBlock>
 				{villesEntries.length === 0 && (
 					<Loading>Chargement en cours ⏳</Loading>
@@ -95,7 +87,7 @@ export function Classement({
 
 				{cyclable && <ScoreLegend scores={villesEntries} />}
 				{
-					<Ol $gridView={gridView}>
+					<Ol>
 						{villesEntries
 							.map(([ville, data]) => {
 								if (cyclable) return [ville, data]
@@ -113,7 +105,7 @@ export function Classement({
 									<CityResult
 										onClickLinkToRegion={onClickLinkToRegion ? ville : false}
 										key={ville}
-										{...{ gridView, ville, cyclable, data, i }}
+										{...{ ville, cyclable, data, i }}
 									/>
 								)
 							})}

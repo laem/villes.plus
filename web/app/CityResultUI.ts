@@ -8,12 +8,10 @@ export const Title = styled.h3`
 		font-size: 160%;
 	}
 	margin: 0.4rem 0;
-	${(props) =>
-		props.$gridView &&
-		`
-						white-space: nowrap;
-						max-width: 85%;
-						overflow: scroll;`}
+
+	white-space: nowrap;
+	max-width: 85%;
+	overflow: scroll;
 
 	> span {
 		width: 3rem;

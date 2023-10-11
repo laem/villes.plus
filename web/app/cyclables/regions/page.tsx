@@ -64,14 +64,13 @@ async function getData() {
 	return régions
 }
 
-export default async function Page({ searchParams }) {
+export default async function Page() {
 	const data = await getData()
 	return (
 		<Classement
 			cyclable
 			data={data}
 			text={'Quelles régions françaises sont les plus cyclables ?'}
-			gridView={searchParams.gridView}
 			onClickLinkToRegion={true}
 		/>
 	)

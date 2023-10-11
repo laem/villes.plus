@@ -36,12 +36,11 @@ async function getData() {
 		{}
 	)
 }
-export default async function Page({ searchParams }) {
+export default async function Page() {
 	const data = await getData()
 	return (
 		<Classement
 			data={data}
-			gridView={searchParams.gridView}
 			text="Quelles grandes villes françaises sont les plus piétonnes ?"
 		/>
 	)
