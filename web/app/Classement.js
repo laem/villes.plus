@@ -44,7 +44,7 @@ export function Classement({
 			: false)
 
 	return (
-		<div id="shareImage">
+		<div>
 			<Logo animate cyclable={cyclable} />
 			<ClassementWrapper>
 				<h2>{text}</h2>
@@ -69,48 +69,55 @@ export function Classement({
 						</Link>
 					</CounterLevel>
 				)}
-				<DateBlock>
-					🗓️{' '}
-					{new Date().toLocaleString('fr-FR', {
-						month: 'long',
-						year: 'numeric',
-					})}{' '}
-					{cyclable ? (
-						<Link href="/explications/cyclables">algo {algorithmVersion}</Link>
-					) : (
-						<Link href="/explications/pietonnes">algo v1</Link>
+				<div id="shareImage">
+					<DateBlock>
+						🗓️{' '}
+						{new Date().toLocaleString('fr-FR', {
+							month: 'long',
+							year: 'numeric',
+						})}{' '}
+						{cyclable ? (
+							<Link href="/explications/cyclables">
+								algo {algorithmVersion}
+							</Link>
+						) : (
+							<Link href="/explications/pietonnes">algo v1</Link>
+						)}
+					</DateBlock>
+					{villesEntries.length === 0 && (
+						<Loading>Chargement en cours ⏳</Loading>
 					)}
-				</DateBlock>
-				{villesEntries.length === 0 && (
-					<Loading>Chargement en cours ⏳</Loading>
-				)}
 
-				{cyclable && <ScoreLegend scores={villesEntries} />}
-				{
-					<Ol>
-						{villesEntries
-							.map(([ville, data]) => {
-								if (cyclable) return [ville, data]
-								if (!data || !data.geoAPI)
-									return [ville, { percentage: -Infinity, status: data.status }]
-								return [ville, { ...data, ...normalizedScores(data) }]
-							})
-							.sort(([, v1], [, v2]) =>
-								cyclable
-									? v2?.score - v1?.score
-									: v2?.percentage - v1?.percentage
-							)
-							.map(([ville, data], i) => {
-								return (
-									<CityResult
-										onClickLinkToRegion={onClickLinkToRegion ? ville : false}
-										key={ville}
-										{...{ ville, cyclable, data, i }}
-									/>
+					{cyclable && <ScoreLegend scores={villesEntries} />}
+					{
+						<Ol>
+							{villesEntries
+								.map(([ville, data]) => {
+									if (cyclable) return [ville, data]
+									if (!data || !data.geoAPI)
+										return [
+											ville,
+											{ percentage: -Infinity, status: data.status },
+										]
+									return [ville, { ...data, ...normalizedScores(data) }]
+								})
+								.sort(([, v1], [, v2]) =>
+									cyclable
+										? v2?.score - v1?.score
+										: v2?.percentage - v1?.percentage
 								)
-							})}
-					</Ol>
-				}
+								.map(([ville, data], i) => {
+									return (
+										<CityResult
+											onClickLinkToRegion={onClickLinkToRegion ? ville : false}
+											key={ville}
+											{...{ ville, cyclable, data, i }}
+										/>
+									)
+								})}
+						</Ol>
+					}
+				</div>
 			</ClassementWrapper>
 			<NewCityLink />
 		</div>
