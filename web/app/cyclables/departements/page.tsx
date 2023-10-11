@@ -47,10 +47,12 @@ async function getData() {
 		false
 	)
 
-	return response.reduce(
+	const obj = response.reduce(
 		(memo, data, i) => (!data ? memo : { ...memo, [sobreList[i]]: data }),
 		{}
 	)
+	console.log(obj)
+	return obj
 }
 
 export default async function Page({ searchParams }) {
