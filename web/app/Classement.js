@@ -30,6 +30,7 @@ export function Classement({
 	subText,
 	level,
 	onClickLinkToRegion,
+	région,
 }) {
 	const villes = data
 
@@ -89,6 +90,22 @@ export function Classement({
 					)}
 
 					{cyclable && <ScoreLegend scores={villesEntries} />}
+
+					{région === 'Bourgogne-Franche-Comté' && (
+						<details style={{ margin: '.6rem auto', maxWidth: '700px' }}>
+							<summary>
+								Nous avons exclu le Territoire-de-Belfort du score de la région
+								Bourgogne-Franche-Compté.
+							</summary>
+							Le département du Territoire-de-Belfort est une exception
+							historique à la fois par sa taille et par sa superficie. Nous
+							l'avons donc exclu du calcul de la moyenne de la région
+							Bourgogne-Franche-Comté, désolé ! Ses 140 000 habitants sur les ~4
+							millions de la région ne font pas le poids pour influencer
+							significativement le score régional.
+						</details>
+					)}
+
 					{
 						<Ol>
 							{villesEntries

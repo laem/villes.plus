@@ -84,6 +84,7 @@ export const Ol = styled.ol`
 	flex-wrap: wrap;
 	justify-content: center;
 	padding: 0 1rem !important;
+	margin-top: 6vh;
 	li {
 		max-width: 28rem;
 		width: 100%;

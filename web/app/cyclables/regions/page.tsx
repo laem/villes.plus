@@ -65,10 +65,13 @@ async function getData() {
 	const withMean = objectMap(régions, (région) => {
 		const départements = région.départements
 
-		const somme = départements
+		const regularDépartements = départements.filter((d) =>
+			d.département === 'Territoire-de-Belfort' ? false : true
+		)
+		const somme = regularDépartements
 				.map((d) => d.score)
 				.reduce((memo, next) => memo + next, 0),
-			moyenne = somme / départements.length
+			moyenne = somme / regularDépartements.length
 
 		return { ...région, score: moyenne }
 	})

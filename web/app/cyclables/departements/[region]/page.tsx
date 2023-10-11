@@ -13,6 +13,7 @@ export default async function Page({ params: { region } }) {
 		<Classement
 			cyclable
 			data={data}
+			région={région}
 			text={`Quelles départements de la région ${région} sont les plus cyclables ?`}
 		/>
 	)
