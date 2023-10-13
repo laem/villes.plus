@@ -100,12 +100,10 @@ const readFile = async (dimension, ville, scope, directory) => {
 	if (!directory)
 		throw new Error(`Le paramètre directory (date + version) est nécessaire`)
 	try {
-		console.log('Will try to retrieve s3 data for ', ville, scope)
 		const key = `${directory}/${ville}.${scope}${
 			dimension === 'cycling' ? '.cycling' : ''
 		}.json`
-		console.log('key', key)
-		console.log('dimension', dimension)
+		console.log('Will try to retrieve s3 data for ', key)
 		const file = await s3
 			.getObject({
 				Bucket: BUCKET_NAME,
@@ -124,7 +122,7 @@ const readFile = async (dimension, ville, scope, directory) => {
 		return filteredData
 	} catch (e) {
 		const message = "Ce territoire n'est pas encore calculé"
-		console.log(message)
+		console.log(message, e)
 		return { message }
 	}
 }
