@@ -45,8 +45,10 @@ const cache = apicache.options({
 	headers: {
 		'cache-control': 'no-cache',
 	},
-	debug: false,
+	debug: true,
 }).middleware
+
+const onlyStatus200 = (req, res) => res.statusCode === 200
 
 console.log('io initialisaed')
 
@@ -67,7 +69,7 @@ io.on('connection', (socket) => {
 			console.log('will server emit', message)
 			const path = `api/${dimension}/${scope}/${ville}/${directory}`
 			console.log('path', path)
-			if (message.data) apicache.clear('/' + path)
+			if (message.data) apicache.clear('/' + path) // not sure this works, but onlyStatus200 should
 			io.emit(path, message)
 		}
 		computeAndCacheCity(dimension, ville, scope, null, null, inform)
@@ -220,7 +222,7 @@ let resUnknownCity = (res, ville) =>
 
 app.get(
 	'/api/:dimension/:scope/:ville/:date/:algorithmVersion',
-	cache('1 day'),
+	cache('1 day', onlyStatus200),
 	async function (req, res) {
 		const { ville, scope, dimension, date, algorithmVersion } = req.params
 		console.log(

@@ -1,27 +1,23 @@
 'use client'
 
-import { getDirectory } from '@/../algorithmVersion'
+import {getDirectory} from '@/../algorithmVersion'
 import {
-	computeSafePercentage,
-	createRidesPromises,
-	getMessages,
-	isValidRide,
-	segmentGeoJSON,
+	createRidesPromises, isValidRide,
+	segmentGeoJSON
 } from '@/../computeCycling'
-import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
-import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
+import isSafePath, {isSafePathV2Diff} from '@/../isSafePath'
+import {computePointsCenter, pointsProcess} from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
-import CyclableScoreVignette from '@/CyclableScoreVignette'
 import Loader from '@/Loader'
 import L from 'leaflet'
 import 'node_modules/leaflet/dist/leaflet.css'
-import { useEffect, useState } from 'react'
-import { GeoJSON } from 'react-leaflet/GeoJSON'
-import { useMap } from 'react-leaflet/hooks'
-import { MapContainer } from 'react-leaflet/MapContainer'
-import { TileLayer } from 'react-leaflet/TileLayer'
-import { io } from 'socket.io-client'
-import { buttonCSS, Legend, SmallLegend } from '../UI'
+import {useEffect, useState} from 'react'
+import {GeoJSON} from 'react-leaflet/GeoJSON'
+import {useMap} from 'react-leaflet/hooks'
+import {MapContainer} from 'react-leaflet/MapContainer'
+import {TileLayer} from 'react-leaflet/TileLayer'
+import {io} from 'socket.io-client'
+import {buttonCSS, Legend, SmallLegend} from '../UI'
 import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
 
