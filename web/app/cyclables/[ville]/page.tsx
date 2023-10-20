@@ -67,7 +67,7 @@ export default async function Page({ params, searchParams }) {
 			<Header ville={ville} data={data} />
 
 			<Suspense fallback={<Fallback />}>
-				<Ville {...{ osmId, ville, clientProcessing, data }} />
+				<Ville {...{ osmId, ville, clientProcessing }} />
 			</Suspense>
 		</Wrapper>
 	)

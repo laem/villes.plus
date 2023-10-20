@@ -1,23 +1,24 @@
 'use client'
 
-import {getDirectory} from '@/../algorithmVersion'
+import { getDirectory } from '@/../algorithmVersion'
 import {
-	createRidesPromises, isValidRide,
-	segmentGeoJSON
+	createRidesPromises,
+	isValidRide,
+	segmentGeoJSON,
 } from '@/../computeCycling'
-import isSafePath, {isSafePathV2Diff} from '@/../isSafePath'
-import {computePointsCenter, pointsProcess} from '@/../pointsRequest'
+import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
+import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
 import Loader from '@/Loader'
 import L from 'leaflet'
 import 'node_modules/leaflet/dist/leaflet.css'
-import {useEffect, useState} from 'react'
-import {GeoJSON} from 'react-leaflet/GeoJSON'
-import {useMap} from 'react-leaflet/hooks'
-import {MapContainer} from 'react-leaflet/MapContainer'
-import {TileLayer} from 'react-leaflet/TileLayer'
-import {io} from 'socket.io-client'
-import {buttonCSS, Legend, SmallLegend} from '../UI'
+import { useEffect, useState } from 'react'
+import { GeoJSON } from 'react-leaflet/GeoJSON'
+import { useMap } from 'react-leaflet/hooks'
+import { MapContainer } from 'react-leaflet/MapContainer'
+import { TileLayer } from 'react-leaflet/TileLayer'
+import { io } from 'socket.io-client'
+import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
 
@@ -147,6 +148,15 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	}, [])
 
 	useEffect(() => {
+		if (clientProcessing) return undefined
+		console.log('will downloadData')
+		downloadData(null, socket)
+
+		return () => {
+			console.log('This will be logged on unmount')
+		}
+	}, [socket])
+	useEffect(() => {
 		if (!clientProcessing) return undefined
 		downloadData(stopsNumber, null)
 
@@ -163,9 +173,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 		})
 	}, [couple])
 	if (!data) return <p css="text-align: center">Chargement de la page...</p>
-	function bytesCount(s, divider = 1000) {
-		return new TextEncoder().encode(JSON.stringify(s)).length / divider
-	}
 	//rides are not necessary when using server computed data
 	const {
 		segments,
@@ -434,3 +441,8 @@ const createStyle = (properties, highlight) =>
 				dashArray: 'none',
 		  }
 		: { color: 'yellow', weight: 10, dashArray: '1.2rem', opacity: 1 }
+
+function bytesCount(s, divider = 1000) {
+	return new TextEncoder().encode(JSON.stringify(s)).length / divider
+	T
+}

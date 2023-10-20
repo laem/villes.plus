@@ -1,11 +1,7 @@
 import { processName } from '@/../cyclingPointsRequests'
 import CityNumericResult from '@/app/CityNumericResult'
 import { getWikidata } from '@/app/CityResult'
-import {
-	ImageAndScoreWrapper,
-	SmallImageWrapper,
-	TitleImageWrapper,
-} from '@/app/CityResultUI'
+import { ImageAndScoreWrapper, SmallImageWrapper } from '@/app/CityResultUI'
 import Logo from '@/app/Logo'
 import Image from 'next/image'
 import Link from 'next/link'
