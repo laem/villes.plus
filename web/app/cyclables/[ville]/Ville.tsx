@@ -429,6 +429,16 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 									préfecture de {ville}
 								</Link>
 							</li>
+							<li>
+								<a
+									href={`https://mesaidesvelo.fr/departement/${mesAidesVeloURLSlugify(
+										ville
+									)}`}
+									target="_blank"
+								>
+									Les aides à l’achat d’un vélo dans {ville}
+								</a>
+							</li>
 						</ul>
 					</>
 				)}
@@ -475,4 +485,16 @@ const createStyle = (properties, highlight) =>
 function bytesCount(s, divider = 1000) {
 	return new TextEncoder().encode(JSON.stringify(s)).length / divider
 	T
+}
+
+function mesAidesVeloURLSlugify(param: string) {
+	return param
+		.toLowerCase()
+		.replace(/^\s+|\s+$/g, '')
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.replace('œ', 'oe')
+		.replace(/[^a-z0-9 -]/g, '')
+		.replace(/\s+/g, '-')
+		.replace(/-+/g, '-')
 }
