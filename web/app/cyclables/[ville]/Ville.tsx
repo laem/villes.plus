@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { getDirectory } from '@/../algorithmVersion'
 import {
 	createRidesPromises,
@@ -21,8 +20,8 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { io } from 'socket.io-client'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
+import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
-import prejecturesRawJson from '@/préfectures.json'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -411,51 +410,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	)
 }
 
-const mapDepartementToPrefecture = Object.fromEntries(
-	prejecturesRawJson
-		.slice(1)
-		.map(([noInsee, departementName, prefectureName]) => [
-			departementName,
-			prefectureName,
-		])
-)
-
-function BottomLinks({ ville }: { ville: string }) {
-	const isDepartement = Boolean(mapDepartementToPrefecture[ville])
-
-	if (!isDepartement) return null
-
-	return (
-		<>
-			<h3>Ressources utiles</h3>
-			<ul>
-				{ville !== 'Paris' && (
-					<li>
-						<Link
-							href={`/cyclables/${encodeURI(
-								mapDepartementToPrefecture[ville]
-							)}`}
-						>
-							Le score cyclable de {mapDepartementToPrefecture[ville]} la
-							préfecture de {ville}
-						</Link>
-					</li>
-				)}
-				<li>
-					<a
-						href={`https://mesaidesvelo.fr/departement/${mesAidesVeloURLSlugify(
-							ville
-						)}`}
-						target="_blank"
-					>
-						Les aides à l’achat d’un vélo dans {ville}
-					</a>
-				</li>
-			</ul>
-		</>
-	)
-}
-
 function MapZoomer({ points }) {
 	const map = useMap()
 	useEffect(() => {
@@ -494,16 +448,4 @@ const createStyle = (properties, highlight) =>
 function bytesCount(s, divider = 1000) {
 	return new TextEncoder().encode(JSON.stringify(s)).length / divider
 	T
-}
-
-function mesAidesVeloURLSlugify(param: string) {
-	return param
-		.toLowerCase()
-		.replace(/^\s+|\s+$/g, '')
-		.normalize('NFD')
-		.replace(/[\u0300-\u036f]/g, '')
-		.replace('œ', 'oe')
-		.replace(/[^a-z0-9 -]/g, '')
-		.replace(/\s+/g, '-')
-		.replace(/-+/g, '-')
 }
