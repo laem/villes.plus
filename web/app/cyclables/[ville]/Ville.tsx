@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { getDirectory } from '@/../algorithmVersion'
 import {
 	createRidesPromises,
@@ -21,6 +22,7 @@ import { io } from 'socket.io-client'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import MarkersWrapper from './MarkersWrapper'
+import prejecturesRawJson from '@/préfectures.json'
 
 const MapBoxToken =
 	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
@@ -30,6 +32,15 @@ const defaultCenter = [48.10999850495452, -1.679193852233965]
 const debug = false
 
 const directory = getDirectory()
+
+const mapDepartementToPrefecture = Object.fromEntries(
+	prejecturesRawJson
+		.slice(1)
+		.map(([noInsee, departementName, prefectureName]) => [
+			departementName,
+			prefectureName,
+		])
+)
 
 const defaultData = {
 	points: [],
@@ -51,6 +62,8 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const [segmentFilter, setSegmentFilter] = useState(null)
 	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
+
+	const isDepartement = Boolean(mapDepartementToPrefecture[ville])
 
 	console.log('GD', givenData)
 	const [data, setData] = useState(
@@ -350,60 +363,76 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 					</MapContainer>
 				)}
 			</div>
-			{
-				<div
-					css={`
-						min-height: 10rem;
-						margin-bottom: 4rem;
-					`}
-				>
-					<h3>Informations sur le segment cliqué</h3>
-					{!clickedSegment && (
-						<p>
-							💡 Pour comprendre pourquoi un segment est classifié cyclable
-							(bleu) ou non cyclable (rouge), cliquez dessus !
-						</p>
-					)}
-					{clickedLatLon && (
-						<div
+
+			<div
+				css={`
+					min-height: 10rem;
+					margin-bottom: 4rem;
+				`}
+			>
+				<h3>Informations sur le segment cliqué</h3>
+				{!clickedSegment && (
+					<p>
+						💡 Pour comprendre pourquoi un segment est classifié cyclable (bleu)
+						ou non cyclable (rouge), cliquez dessus !
+					</p>
+				)}
+				{clickedLatLon && (
+					<div
+						css={`
+							a {
+								display: block;
+								margin: 0.2rem 0;
+							}
+						`}
+					>
+						<a
+							href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedLatLon.lat},${clickedLatLon.lon}`}
+							target="_blank"
+						>
+							📸 Vue Google StreetView
+						</a>
+						<a
+							href={`https://www.openstreetmap.org/query?lat=${clickedLatLon.lat}&lon=${clickedLatLon.lon}`}
+							target="_blank"
+						>
+							🗺️ Carte OpenStreetMap
+						</a>
+					</div>
+				)}
+				<br />
+				{clickedSegment && (
+					<div>
+						Tags OSM du segment :{' '}
+						<ul
 							css={`
-								a {
-									display: block;
-									margin: 0.2rem 0;
-								}
+								margin-left: 2rem;
 							`}
 						>
-							<a
-								href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedLatLon.lat},${clickedLatLon.lon}`}
-								target="_blank"
-							>
-								📸 Vue Google StreetView
-							</a>
-							<a
-								href={`https://www.openstreetmap.org/query?lat=${clickedLatLon.lat}&lon=${clickedLatLon.lon}`}
-								target="_blank"
-							>
-								🗺️ Carte OpenStreetMap
-							</a>
-						</div>
-					)}
-					<br />
-					{clickedSegment && (
-						<div>
-							Tags OSM du segment :{' '}
-							<ul
-								css={`
-									margin-left: 2rem;
-								`}
-							>
-								{clickedSegment.properties.tags.split(' ').map((tag) => (
-									<li key={tag}>{tag}</li>
-								))}
-							</ul>
-						</div>
-					)}
-				</div>
-			}
+							{clickedSegment.properties.tags.split(' ').map((tag) => (
+								<li key={tag}>{tag}</li>
+							))}
+						</ul>
+					</div>
+				)}
+				{isDepartement && (
+					<>
+						<h3>Ressources utiles</h3>
+						<ul>
+							<li>
+								<Link
+									href={`/cyclables/${encodeURI(
+										mapDepartementToPrefecture[ville]
+									)}`}
+								>
+									Le score cyclable de {mapDepartementToPrefecture[ville]} la
+									préfecture de {ville}
+								</Link>
+							</li>
+						</ul>
+					</>
+				)}
+			</div>
 		</>
 	)
 }
