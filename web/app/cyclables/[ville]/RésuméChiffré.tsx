@@ -1,5 +1,3 @@
-import { SmallLegend } from '../UI'
-
 export default function RésuméChiffré({
 	data: { score, points, ridesLength, segments },
 	name,
@@ -32,7 +30,7 @@ export default function RésuméChiffré({
 						>
 							{Math.round(score)}%
 						</strong>{' '}
-						des trajets du territoires de {name} sont sécurisés, pour{' '}
+						des trajets du territoire de {name} sont sécurisés, pour{' '}
 						{points.length} points donnant{' '}
 						{(ridesLength || rides.length).toLocaleString('fr-FR')} itinéraires,
 						soit au total {segmentCount.toLocaleString('fr-FR')} segments.

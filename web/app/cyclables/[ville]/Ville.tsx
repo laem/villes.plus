@@ -20,6 +20,7 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { io } from 'socket.io-client'
 import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
+import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
 
 const MapBoxToken =
@@ -38,6 +39,7 @@ const defaultData = {
 	rides: [],
 	score: null,
 }
+
 export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const id = osmId || ville
 
@@ -350,60 +352,60 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 					</MapContainer>
 				)}
 			</div>
-			{
-				<div
-					css={`
-						min-height: 10rem;
-						margin-bottom: 4rem;
-					`}
-				>
-					<h3>Informations sur le segment cliqué</h3>
-					{!clickedSegment && (
-						<p>
-							💡 Pour comprendre pourquoi un segment est classifié cyclable
-							(bleu) ou non cyclable (rouge), cliquez dessus !
-						</p>
-					)}
-					{clickedLatLon && (
-						<div
+
+			<div
+				css={`
+					min-height: 10rem;
+					margin-bottom: 4rem;
+				`}
+			>
+				<h3>Informations sur le segment cliqué</h3>
+				{!clickedSegment && (
+					<p>
+						💡 Pour comprendre pourquoi un segment est classifié cyclable (bleu)
+						ou non cyclable (rouge), cliquez dessus !
+					</p>
+				)}
+				{clickedLatLon && (
+					<div
+						css={`
+							a {
+								display: block;
+								margin: 0.2rem 0;
+							}
+						`}
+					>
+						<a
+							href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedLatLon.lat},${clickedLatLon.lon}`}
+							target="_blank"
+						>
+							📸 Vue Google StreetView
+						</a>
+						<a
+							href={`https://www.openstreetmap.org/query?lat=${clickedLatLon.lat}&lon=${clickedLatLon.lon}`}
+							target="_blank"
+						>
+							🗺️ Carte OpenStreetMap
+						</a>
+					</div>
+				)}
+				<br />
+				{clickedSegment && (
+					<div>
+						Tags OSM du segment :{' '}
+						<ul
 							css={`
-								a {
-									display: block;
-									margin: 0.2rem 0;
-								}
+								margin-left: 2rem;
 							`}
 						>
-							<a
-								href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedLatLon.lat},${clickedLatLon.lon}`}
-								target="_blank"
-							>
-								📸 Vue Google StreetView
-							</a>
-							<a
-								href={`https://www.openstreetmap.org/query?lat=${clickedLatLon.lat}&lon=${clickedLatLon.lon}`}
-								target="_blank"
-							>
-								🗺️ Carte OpenStreetMap
-							</a>
-						</div>
-					)}
-					<br />
-					{clickedSegment && (
-						<div>
-							Tags OSM du segment :{' '}
-							<ul
-								css={`
-									margin-left: 2rem;
-								`}
-							>
-								{clickedSegment.properties.tags.split(' ').map((tag) => (
-									<li key={tag}>{tag}</li>
-								))}
-							</ul>
-						</div>
-					)}
-				</div>
-			}
+							{clickedSegment.properties.tags.split(' ').map((tag) => (
+								<li key={tag}>{tag}</li>
+							))}
+						</ul>
+					</div>
+				)}
+				<BottomLinks ville={ville} />
+			</div>
 		</>
 	)
 }
