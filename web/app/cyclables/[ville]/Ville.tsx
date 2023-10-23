@@ -33,15 +33,6 @@ const debug = false
 
 const directory = getDirectory()
 
-const mapDepartementToPrefecture = Object.fromEntries(
-	prejecturesRawJson
-		.slice(1)
-		.map(([noInsee, departementName, prefectureName]) => [
-			departementName,
-			prefectureName,
-		])
-)
-
 const defaultData = {
 	points: [],
 	pointsCenter: null,
@@ -49,6 +40,7 @@ const defaultData = {
 	rides: [],
 	score: null,
 }
+
 export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const id = osmId || ville
 
@@ -62,8 +54,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const [segmentFilter, setSegmentFilter] = useState(null)
 	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
-
-	const isDepartement = Boolean(mapDepartementToPrefecture[ville])
 
 	console.log('GD', givenData)
 	const [data, setData] = useState(
@@ -415,34 +405,53 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 						</ul>
 					</div>
 				)}
-				{isDepartement && (
-					<>
-						<h3>Ressources utiles</h3>
-						<ul>
-							<li>
-								<Link
-									href={`/cyclables/${encodeURI(
-										mapDepartementToPrefecture[ville]
-									)}`}
-								>
-									Le score cyclable de {mapDepartementToPrefecture[ville]} la
-									préfecture de {ville}
-								</Link>
-							</li>
-							<li>
-								<a
-									href={`https://mesaidesvelo.fr/departement/${mesAidesVeloURLSlugify(
-										ville
-									)}`}
-									target="_blank"
-								>
-									Les aides à l’achat d’un vélo dans {ville}
-								</a>
-							</li>
-						</ul>
-					</>
-				)}
+				<BottomLinks ville={ville} />
 			</div>
+		</>
+	)
+}
+
+const mapDepartementToPrefecture = Object.fromEntries(
+	prejecturesRawJson
+		.slice(1)
+		.map(([noInsee, departementName, prefectureName]) => [
+			departementName,
+			prefectureName,
+		])
+)
+
+function BottomLinks({ ville }: { ville: string }) {
+	const isDepartement = Boolean(mapDepartementToPrefecture[ville])
+
+	if (!isDepartement) return null
+
+	return (
+		<>
+			<h3>Ressources utiles</h3>
+			<ul>
+				{ville !== 'Paris' && (
+					<li>
+						<Link
+							href={`/cyclables/${encodeURI(
+								mapDepartementToPrefecture[ville]
+							)}`}
+						>
+							Le score cyclable de {mapDepartementToPrefecture[ville]} la
+							préfecture de {ville}
+						</Link>
+					</li>
+				)}
+				<li>
+					<a
+						href={`https://mesaidesvelo.fr/departement/${mesAidesVeloURLSlugify(
+							ville
+						)}`}
+						target="_blank"
+					>
+						Les aides à l’achat d’un vélo dans {ville}
+					</a>
+				</li>
+			</ul>
 		</>
 	)
 }
