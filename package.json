@@ -40,6 +40,7 @@
 		"@turf/center": "^6.5.0",
 		"@turf/distance": "^6.5.0",
 		"@turf/helpers": "^6.5.0",
+		"@vercel/analytics": "^1.1.1",
 		"apicache": "^1.6.3",
 		"aws-sdk": "^2.1233.0",
 		"babel-eslint": "^10.0.3",
