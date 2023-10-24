@@ -6,7 +6,7 @@ import {
 	isValidRide,
 	segmentGeoJSON,
 } from '@/../computeCycling'
-import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
+import isSafePath from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
 import Loader from '@/Loader'
@@ -42,14 +42,16 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 
 	const [couple, setCouple] = useState({ from: null, to: null })
 	const [socket, setSocket] = useState(null)
-	const [showRev, setShowRev] = useState(true)
 
 	const [clickedSegment, setClickedSegment] = useState()
 	const [clickedLatLon, setClickedLatLon] = useState()
 
 	const [randomFilter, setRandomFilter] = useState(100)
-	const [segmentFilter, setSegmentFilter] = useState(null)
-	const [showV2NewRules, setShowV2NewRules] = useState(false)
+	const [segmentFilter, setSegmentFilter] = useState({
+		safe: false,
+		unsafe: false,
+		rev: true,
+	})
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
 	const [data, setData] = useState(
@@ -199,15 +201,12 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				segment.properties.fromPoint === clickedPoint ||
 				(segment.properties.rides || []).find((r) => r[1] === clickedPoint)
 		)
-		.filter(
-			(segment) =>
-				segmentFilter == null ||
-				isSafePath(segment.properties.tags) === segmentFilter
-		)
-		.filter(
-			(segment) =>
-				showV2NewRules == false || isSafePathV2Diff(segment.properties.tags)
-		)
+		.filter((segment) => {
+			const safePath = isSafePath(segment.properties.tags)
+			if (segmentFilter.safe && segmentFilter.unsafe) return true
+			if (segmentFilter.safe) return safePath
+			if (segmentFilter.unsafe) return !safePath
+		})
 
 	/* 
 	const score =
@@ -239,9 +238,11 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					css={`
 						${buttonCSS}
 
-						${segmentFilter === true && `border: 2px solid; font-weight: bold`}
+						${segmentFilter.safe && `border: 2px solid; font-weight: bold`}
 					`}
-					onClick={() => setSegmentFilter(segmentFilter === true ? null : true)}
+					onClick={() =>
+						setSegmentFilter({ ...segmentFilter, safe: !segmentFilter.safe })
+					}
 				>
 					{' '}
 					<Legend color="blue" /> segments cyclables sécurisés
@@ -249,11 +250,13 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				<button
 					css={`
 						${buttonCSS}
-						${segmentFilter === false &&
-						`border: 2px solid; font-weight: bold; `}
+						${segmentFilter.unsafe && `border: 2px solid; font-weight: bold; `}
 					`}
 					onClick={() =>
-						setSegmentFilter(segmentFilter === false ? null : false)
+						setSegmentFilter({
+							...segmentFilter,
+							unsafe: !segmentFilter.unsafe,
+						})
 					}
 				>
 					<Legend color="red" /> non sécurisé
@@ -261,23 +264,17 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				<button
 					css={`
 						${buttonCSS}
-						${showRev && `border: 2px solid; font-weight: bold; `}
+						${segmentFilter.rev && `border: 2px solid; font-weight: bold; `}
 					`}
-					onClick={() => setShowRev(!showRev)}
+					onClick={() =>
+						setSegmentFilter({
+							...segmentFilter,
+							rev: !segmentFilter.rev,
+						})
+					}
 				>
 					<Legend color="purple" /> Réseau structurant
 				</button>
-				{clientProcessing && (
-					<button
-						css={`
-							${buttonCSS}
-							${showV2NewRules && `border: 2px solid; font-weight: bold; `}
-						`}
-						onClick={() => setShowV2NewRules(!showV2NewRules)}
-					>
-						Montrer les nouveautés v2
-					</button>
-				)}
 				<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			</div>
 			{clientProcessing && (
@@ -356,7 +353,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 							/>
 						)}
 						<MarkersWrapper {...{ clickedPoint, setClickedPoint, points }} />
-						{rev && showRev && (
+						{rev && segmentFilter.rev && (
 							<GeoJSON
 								key={'rev'}
 								data={rev}
