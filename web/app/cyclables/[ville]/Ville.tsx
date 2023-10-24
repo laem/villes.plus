@@ -22,6 +22,7 @@ import { buttonCSS, Legend, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
+import Rev from './Rev'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -177,12 +178,17 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 	//rides are not necessary when using server computed data
 	const {
 		segments,
-		points,
+		points: unfilteredPoints,
 		pointsCenter,
 		rides,
 		score: serverScore,
 		ridesLength,
 	} = data
+
+	console.log(unfilteredPoints)
+	const points = segmentFilter.rev
+		? unfilteredPoints.filter((p) => p.tags.amenity === 'townhall')
+		: unfilteredPoints
 
 	const interactiveSegmentDemo = false
 	useEffect(() => {
@@ -318,7 +324,6 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 							defaultCenter
 						}
 						zoom={12}
-						preferCanvas={true}
 					>
 						<MapZoomer points={points} />
 						<TileLayer
@@ -353,13 +358,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 							/>
 						)}
 						<MarkersWrapper {...{ clickedPoint, setClickedPoint, points }} />
-						{rev && segmentFilter.rev && (
-							<GeoJSON
-								key={'rev'}
-								data={rev}
-								style={{ weight: 12, color: 'purple', dashArray: '1rem' }}
-							/>
-						)}
+						{rev && segmentFilter.rev && <Rev data={rev} />}
 					</MapContainer>
 				)}
 			</div>
