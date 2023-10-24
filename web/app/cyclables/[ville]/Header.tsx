@@ -13,7 +13,7 @@ export default async ({ ville, data }) => {
 
 	return (
 		<header style={{ marginBottom: '1rem' }}>
-			<Logo color={'black'} text={processName(ville)} cyclable />
+			<Logo color={'black'} text={processName(ville)} cyclable align="start" />
 			<ImageAndScoreWrapper>
 				<SmallImageWrapper>
 					<Image

@@ -79,6 +79,7 @@ export default ({ ville, debug }) => {
 				<Logo
 					color={!data ? undefined : style === 'satellite' ? 'white' : 'black'}
 					text={ville}
+					align="start"
 				/>
 				{debug && (
 					<DebugBlock

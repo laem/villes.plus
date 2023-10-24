@@ -2,7 +2,7 @@ import css from '@/css/convertToJs'
 import Image from 'next/image'
 import logo from '@/public/logo.svg'
 
-export default ({ text, color, cyclable }) => {
+export default ({ text, color, cyclable, align = 'center' }) => {
 	const blue = '#1e3799'
 
 	const goodEmoji = cyclable ? '🚴' : '🚶'
@@ -19,40 +19,30 @@ export default ({ text, color, cyclable }) => {
 			  }
 	return (
 		<div
-			style={css`
+			style={css(`
+				margin-top: 1rem;
 				font-size: 200%;
 				display: flex;
 				align-items: center;
-			`}
+				justify-content: ${align};
+			`)}
 		>
 			<div
 				style={css`
-					position: relative;
-					width: 5rem;
 					font-size: 130%;
-					height: 5rem;
+					display: flex;
+					align-items: center;
 				`}
 			>
 				<Image
 					src={logo}
 					alt="Logo de villes.plus"
 					style={css`
-						position: absolute;
-						width: 100%;
+						width: 3rem;
 						height: auto;
-						z-index: -1;
 					`}
 				/>
-				<span
-					style={css`
-						position: absolute;
-						left: 50%;
-						top: 50%;
-						transform: translateX(-50%) translateY(-50%);
-					`}
-				>
-					{human.walking}
-				</span>
+				<span style={css``}>{human.walking}</span>
 			</div>
 			{text && (
 				<h1
