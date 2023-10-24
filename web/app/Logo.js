@@ -21,6 +21,7 @@ export default ({ text, color, cyclable, align = 'center' }) => {
 		<div
 			style={css(`
 				margin-top: 1rem;
+				margin-bottom: .4rem;
 				font-size: 200%;
 				display: flex;
 				align-items: center;

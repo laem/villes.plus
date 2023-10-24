@@ -1,6 +1,6 @@
 import { processName } from '@/../cyclingPointsRequests'
 import CityNumericResult from '@/app/CityNumericResult'
-import { getWikidata } from '@/app/CityResult'
+import { getWikidata, métropoleToVille } from '@/app/CityResult'
 import { ImageAndScoreWrapper, SmallImageWrapper } from '@/app/CityResultUI'
 import Logo from '@/app/Logo'
 import Image from 'next/image'
@@ -8,8 +8,9 @@ import Link from 'next/link'
 import RésuméChiffré from './RésuméChiffré'
 
 export default async ({ ville, data }) => {
-	const wikidata = await getWikidata(processName(ville))
-	console.log('wikidata', wikidata, processName(ville))
+	const wikidata = await getWikidata(
+		processName(métropoleToVille[ville] || ville)
+	)
 
 	return (
 		<header style={{ marginBottom: '1rem' }}>
