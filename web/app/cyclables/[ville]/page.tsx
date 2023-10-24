@@ -1,7 +1,10 @@
 import { Metadata } from 'next'
 import Header from './Header'
 import { Wrapper } from './UI'
-import Ville from './Ville'
+const Ville = dynamic(() => import('./Ville'), {
+	loading: () => 'Chargement de la carte...',
+	ssr: false,
+})
 
 import wikidata from '@/app/wikidata'
 import villesList from '@/villesClassées'
@@ -11,6 +14,7 @@ import getRev from './getRev'
 import { getDirectory } from '@/../algorithmVersion'
 import { processName } from '@/../cyclingPointsRequests'
 import APIUrl from '@/app/APIUrl'
+import dynamic from 'next/dynamic'
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
 		typeof next === 'string'
