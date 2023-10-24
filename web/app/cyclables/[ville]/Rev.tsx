@@ -32,10 +32,11 @@ export default function Rev({ data }) {
 			key={'rev'}
 			data={newData}
 			style={(feature) => {
-				const weight = { 14: 6, 13: 6, 12: 6, 11: 5, 10: 4, 9: 4 }[zoomLevel]
+				const weight =
+					{ 14: 6, 13: 6, 12: 6, 11: 5, 10: 4, 9: 4 }[zoomLevel] || 4
 
 				return feature.properties.ghost
-					? { weight: weight * 2, color: 'white' }
+					? { weight: weight * 2, color: 'white', lineCap: 'unset' }
 					: {
 							weight,
 							color: feature.properties.color,
