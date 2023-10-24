@@ -1,5 +1,6 @@
-import Link from 'next/link'
-import css from 
+import css from '@/css/convertToJs'
+import Image from 'next/image'
+import logo from '@/public/logo.svg'
 
 export default ({ text, color, cyclable }) => {
 	const blue = '#1e3799'
@@ -20,31 +21,53 @@ export default ({ text, color, cyclable }) => {
 		<div
 			style={css`
 				font-size: 200%;
+				display: flex;
+				align-items: center;
 			`}
 		>
-			<Link
-				href="/"
+			<div
 				style={css`
-					text-decoration: none;
+					position: relative;
+					width: 5rem;
+					font-size: 130%;
+					height: 5rem;
 				`}
 			>
-				<span>{human.walking}</span>
-				{text && (
-					<h1
-						style={css`
-							margin-left: 0.6rem;
-							color: ${color || blue};
-							font-size: 100%;
-							display: inline;
-							@media (max-width: 500px) {
-								font-size: 80%;
-							}
-						`}
-					>
-						{text}
-					</h1>
-				)}
-			</Link>
+				<Image
+					src={logo}
+					alt="Logo de villes.plus"
+					style={css`
+						position: absolute;
+						width: 100%;
+						height: auto;
+						z-index: -1;
+					`}
+				/>
+				<span
+					style={css`
+						position: absolute;
+						left: 50%;
+						top: 50%;
+						transform: translateX(-50%) translateY(-50%);
+					`}
+				>
+					{human.walking}
+				</span>
+			</div>
+			{text && (
+				<h1
+					style={css`
+						margin: 0;
+						padding: 0;
+						margin-left: 0.8rem;
+						color: ${color || blue};
+						font-size: calc(80% + 0.8vw);
+						display: inline;
+					`}
+				>
+					{text}
+				</h1>
+			)}
 		</div>
 	)
 }
