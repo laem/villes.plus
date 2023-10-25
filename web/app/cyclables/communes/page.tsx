@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 	},
 }
 
-const villesList = villesListRaw
+export const villesMoyennes = villesListRaw
 	.map((element) => {
 		const name = element.nom
 		return name + '.' + 8 // level 8 is a commune in France
@@ -26,7 +26,7 @@ const villesList = villesListRaw
 
 async function getData() {
 	const response = await Promise.all(
-		villesList.map(async (ville) => {
+		villesMoyennes.map(async (ville) => {
 			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
 			const res = await fetch(url)
 
@@ -46,7 +46,7 @@ async function getData() {
 	)
 
 	return response.reduce(
-		(memo, data, i) => ({ ...memo, [villesList[i]]: data }),
+		(memo, data, i) => ({ ...memo, [villesMoyennes[i]]: data }),
 		{}
 	)
 }

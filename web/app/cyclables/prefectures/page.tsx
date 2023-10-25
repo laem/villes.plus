@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 	},
 }
 
-const villesList = prefectures
+export const prefecturesNames = prefectures
 	.filter((element) => +element.population.replace(/\s/g, '') < +100000) // large prefectures are already in the large cities ranking
 	.map((element) => {
 		const name = element.nom
@@ -27,7 +27,7 @@ const villesList = prefectures
 
 async function getData() {
 	const response = await Promise.all(
-		villesList.map((ville) => {
+		prefecturesNames.map((ville) => {
 			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
@@ -36,7 +36,7 @@ async function getData() {
 	)
 
 	return response.reduce(
-		(memo, data, i) => ({ ...memo, [villesList[i]]: data }),
+		(memo, data, i) => ({ ...memo, [prefecturesNames[i]]: data }),
 		{}
 	)
 }
