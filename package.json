@@ -20,7 +20,7 @@
 		"url": "git+ssh://git@github.com/laem/pietonnes.git"
 	},
 	"author": "",
-	"license": "MIT",
+	"license": "AGPLv3",
 	"bugs": {
 		"url": "https://github.com/laem/pietonnes/issues"
 	},
