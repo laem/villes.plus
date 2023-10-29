@@ -56,7 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		grandesVilles,
 		toEntryObject(prefecturesNames),
 		toEntryObject(departements.map((departement) => departement.nom)),
-		toEntryObject(regions.map((region) => '/departements/' + region)),
+		toEntryObject(regions.map((region) => 'departements/' + region)),
 		toEntryObject(villesMoyennes),
 	].flat()
 	console.log('Le sitemap a généré ' + results.length + ' entrées')
