@@ -4,13 +4,19 @@ import villesListRaw from '@/villesClassées'
 import type { Metadata } from 'next'
 import { getDirectory } from '@/../algorithmVersion'
 
+const description =
+	'Chaque grande commune est testée pour déterminer le pourcentage de km cyclables strictement sécurisés.'
+const title =
+	'Le classement des grandes communes les plus cyclables - villes.plus'
 export const metadata: Metadata = {
-	title: 'Le classement des grandes communes les plus cyclables - villes.plus',
-
-	description:
-		'Chaque grande commune est testée pour déterminer le pourcentage de km cyclables strictement sécurisés.',
+	title,
+	description,
 	openGraph: {
 		images: 'https://villes.plus/cyclables.png',
+		title,
+		description,
+		type: 'article',
+		publishedTime: new Date().toISOString(),
 	},
 	twitter: {
 		card: 'summary_large_image',

@@ -28,10 +28,18 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 		const image = response.image,
 			images = [image].filter(Boolean)
 
+		const title = `${ville} - Carte cyclable - villes.plus`
+		const description = `À quel point ${ville} est-elle cyclable ?`
 		return {
-			title: `${ville} - Carte cyclable - villes.plus`,
-			description: `À quel point ${ville} est-elle cyclable ?`,
-			openGraph: { images },
+			title,
+			description,
+			openGraph: {
+				images,
+				title,
+				description,
+				type: 'article',
+				publishedTime: new Date().toISOString(),
+			},
 		}
 	} catch (e) {
 		console.log('oups', e)
