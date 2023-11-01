@@ -2,9 +2,9 @@ import booleanContains from '@turf/boolean-contains'
 import center from '@turf/center'
 import { polygon } from '@turf/helpers'
 import point from 'turf-point'
-import { createTurfPointCollection } from './cyclingGeoStudio'
-import { shuffleArray } from './utils'
-import APIUrl from './web/app/APIUrl'
+import { createTurfPointCollection } from './cyclingGeoStudio.js'
+import { shuffleArray } from './utils.js'
+import APIUrl from './web/app/APIUrl.js'
 
 export const pointsRequest = async (city, randomFilter = 100) => {
 	const townhallUrl = `${APIUrl}points/${city}/townhalls`

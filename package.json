@@ -8,13 +8,14 @@
 	"scripts": {
 		"clean": "rm -rf cache/*",
 		"s": "DEBUG=socket* node -r esm server.js",
-		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
+		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=8000 server.js --watch",
 		"start-prod": "NODE_ENV=production node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"reactSnap": {
 		"source": "dist"
 	},
+	"type": "module",
 	"repository": {
 		"type": "git",
 		"url": "git+ssh://git@github.com/laem/pietonnes.git"
@@ -30,6 +31,7 @@
 		"@babel/plugin-proposal-optional-chaining": "^7.8.3",
 		"@babel/preset-env": "^7.7.6",
 		"@babel/preset-react": "^7.7.4",
+		"@flatten-js/core": "^1.4.4",
 		"@mapbox/geojson-area": "^0.2.2",
 		"@mdx-js/loader": "^2.3.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
@@ -68,6 +70,8 @@
 		"next": "^13.5.3",
 		"osmtogeojson": "^3.0.0-beta.4",
 		"pigeon-maps": "^0.21.3",
+		"polyclip-js": "^1.0.1",
+		"polyclip-ts": "^0.16.3",
 		"polygon-clipping": "^0.15.3",
 		"prettier": "^2.7.1",
 		"ramda": "^0.28.0",

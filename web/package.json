@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"license": "AGPL-3.0-or-later",
+	"type": "module",
 	"scripts": {
 		"dev": "NODE_OPTIONS=\"--max_old_space_size=4096\" next dev -p 8080",
 		"build": "cd .. && yarn && cd web && next build",

@@ -195,6 +195,8 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 		}, 50)
 		return () => clearInterval(interval)
 	}, [segments])
+
+	console.log('CP', clickedPoint, segments)
 	const segmentsToDisplay = segments
 		.filter(
 			(segment) =>

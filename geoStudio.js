@@ -1,11 +1,10 @@
-import makeRequest from './request.js'
-import osmtogeojson from 'osmtogeojson'
-import geojsonLength from 'geojson-length'
+import { polygon } from '@flatten-js/core'
 import area from '@turf/area'
 import buffer from '@turf/buffer'
-import { intersection } from 'polygon-clipping'
+import geojsonLength from 'geojson-length'
 import mapshaper from 'mapshaper'
-import { partition } from 'ramda'
+import osmtogeojson from 'osmtogeojson'
+import makeRequest from './request.js'
 
 const countTypes = (features) =>
 	features.reduce((memo, next) => {
@@ -97,8 +96,9 @@ export const compute = (ville, inform = () => null) => {
 				const mergedPolygons1 = toCoord(mergedPolygons0)
 
 				const contour = geoAPI && geoAPI.contour
+
 				const mergedPolygons = contour
-					? intersection(mergedPolygons1, toCoord(contour))
+					? polygon(mergedPolygons1).intersect(polygon(toCoord(contour)))
 					: mergedPolygons1
 				const toMulti = (coordinates) => ({ type: 'MultiPolygon', coordinates })
 				const relativeSurface = contour

@@ -1,10 +1,10 @@
 import bearing from '@turf/bearing'
 import distance from '@turf/distance'
 import point from 'turf-point'
-import brouterRequest from './brouterRequest'
-import isSafePath from './isSafePath'
-import { computePointsCenter, pointsProcess } from './pointsRequest'
-import { isTransportStop } from './utils'
+import brouterRequest from './brouterRequest.js'
+import isSafePath from './isSafePath.js'
+import { computePointsCenter, pointsProcess } from './pointsRequest.js'
+import { isTransportStop } from './utils.js'
 
 const maxCityDistance = 20 // was used previously, but I think the next threshold is better
 

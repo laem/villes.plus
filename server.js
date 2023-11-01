@@ -4,17 +4,17 @@ import cors from 'cors'
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from 'express'
 import path from 'path'
-import brouterRequest from './brouterRequest'
-import computeCycling from './computeCycling'
-import { overpassRequestURL } from './cyclingPointsRequests'
+import brouterRequest from './brouterRequest.js'
+import computeCycling from './computeCycling.js'
+import { overpassRequestURL } from './cyclingPointsRequests.js'
 import { compute as computeWalking } from './geoStudio.js'
 
 import { Server } from 'socket.io'
-import { previousDate, getDirectory } from './algorithmVersion'
-import { writeFileSyncRecursive } from './nodeUtils'
-import scopes from './scopes'
-import { BUCKET_NAME, s3, testStorage } from './storage'
-import { fetchRetry } from './utils'
+import { previousDate, getDirectory } from './algorithmVersion.js'
+import { writeFileSyncRecursive } from './nodeUtils.js'
+import scopes from './scopes.js'
+import { BUCKET_NAME, s3, testStorage } from './storage.js'
+import { fetchRetry } from './utils.js'
 dotenv.config()
 
 testStorage()
