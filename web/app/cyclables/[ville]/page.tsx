@@ -29,7 +29,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 			images = [image].filter(Boolean)
 
 		const title = `${ville} - Carte cyclable - villes.plus`
-		const description = `À quel point ${ville} est-elle cyclable ?`
+		const description = `${ville} est-elle cyclable ? Découvrez le score de cyclabilité de ce territoire. Une centaines d'itinéraires sont testés chaque mois pour compter ceux qui se font sur voie et piste cyclables sécurisées. Cela donne un score de cyclabilité sur 10.`
 		return {
 			title,
 			description,
