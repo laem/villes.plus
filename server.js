@@ -222,7 +222,15 @@ app.get(
 	'/api/:dimension/:scope/:ville/:date/:algorithmVersion',
 	cache('1 day', onlyStatus200),
 	async function (req, res) {
-		const { ville, scope, dimension, date, algorithmVersion } = req.params
+		const {
+			ville,
+			scope,
+			dimension,
+			date: rawDate,
+			algorithmVersion,
+		} = req.params
+		const date =
+			dimension === 'walking' && ville === 'Paris' ? '10-2023' : rawDate
 		console.log(
 			'API request : ',
 			dimension,
