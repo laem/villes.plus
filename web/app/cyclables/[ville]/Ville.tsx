@@ -319,8 +319,9 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 					>
 						<MapZoomer points={points} />
 						<TileLayer
-							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; MapBox'
-							url={`https://api.mapbox.com/styles/v1/kont/clf45ojd3003301ln8rp5fomd/tiles/{z}/{x}/{y}?access_token=${MapBoxToken}`}
+							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors; CyclOSM'
+							url={`https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png`}
+							opacity="0.5"
 						></TileLayer>
 
 						{segmentsToDisplay && (
