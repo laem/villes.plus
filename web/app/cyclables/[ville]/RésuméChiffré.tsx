@@ -1,3 +1,10 @@
+export const currentMonthDateTime = () =>
+	new Date()
+		.toLocaleDateString('fr-FR', { year: 'numeric', month: 'numeric' })
+		.split('/')
+		.reverse()
+		.join('-')
+
 export default function RésuméChiffré({
 	data: { score, points, ridesLength, segments },
 	name,
@@ -11,6 +18,7 @@ export default function RésuméChiffré({
 	const options = { year: 'numeric', month: 'long' }
 
 	const date = new Date().toLocaleDateString('fr-FR', options)
+	const dateTime = currentMonthDateTime()
 	return (
 		<div
 			style={{
@@ -21,7 +29,7 @@ export default function RésuméChiffré({
 			<div>
 				{score != null ? (
 					<p>
-						En {date},{' '}
+						En <time dateTime={dateTime}>{date}</time>,{' '}
 						<strong
 							title={`Précisément, ${score}`}
 							css={`

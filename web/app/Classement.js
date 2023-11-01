@@ -10,6 +10,7 @@ import {
 	Loading,
 	Ol,
 } from './ClassementUI'
+import { currentMonthDateTime } from './cyclables/[ville]/RésuméChiffré'
 import Logo from './Logo'
 
 // TODO this component should probably not be common for both cyclable & pietonnes, but rather juste share UI components and socket hooks
@@ -73,10 +74,12 @@ export function Classement({
 				<div id="shareImage">
 					<DateBlock>
 						🗓️{' '}
-						{new Date().toLocaleString('fr-FR', {
-							month: 'long',
-							year: 'numeric',
-						})}{' '}
+						<time dateTime={currentMonthDateTime()}>
+							{new Date().toLocaleString('fr-FR', {
+								month: 'long',
+								year: 'numeric',
+							})}
+						</time>{' '}
 						{cyclable ? (
 							<Link href="/explications/cyclables">
 								algo {algorithmVersion}
