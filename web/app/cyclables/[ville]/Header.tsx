@@ -26,14 +26,31 @@ export default async ({ ville, data }) => {
 			</ImageAndScoreWrapper>
 
 			<p style={{ marginBottom: 0 }}>
-				Découvrez le score et la carte de l'analyse de cyclabilité de{' '}
-				{processName(ville)}.
+				Voici le score et l'analyse de cyclabilité de {processName(ville)}.
 			</p>
 			<p>
-				Chaque mois, nous faisons rouler des cyclistes virtuels sur une
+				Chaque mois, nous faisons rouler des 🚴 cyclistes virtuels sur une
 				multitude d'itinéraires, et nous comptons la proportion des kilomètres{' '}
-				<strong>vraiment sécurisés</strong>, donc des voies cyclables séparées
-				des voitures et piétons ou des vélorues où le vélo est prioritaire.
+				<details style={{ display: 'inline' }}>
+					<summary
+						style={{ cursor: 'help', listStyleType: 'none', display: 'inline' }}
+					>
+						<strong>vraiment sécurisés</strong>.
+					</summary>
+					<div style={{ borderLeft: '3px solid #8f68ea' }}>
+						<p>
+							Nous considérons comme sécurisées les voies cyclables séparées des
+							voitures et piétons ou des vélorues où le vélo est prioritaire.
+							Les pistes cyclables peintes au sol qui longent des voitures
+							garées ne sont pas sécurisées.
+						</p>
+						<p>
+							Les voies de bus où les cyclistes doivent cohabiter avec des
+							véhicules de 10 tonnes non plus. Les chemins piétons de balade non
+							plus.
+						</p>
+					</div>
+				</details>
 			</p>
 			<RésuméChiffré data={data} name={processName(ville)} />
 			<div

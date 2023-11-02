@@ -38,10 +38,11 @@ export default function RésuméChiffré({
 						>
 							{Math.round(score)}%
 						</strong>{' '}
-						des trajets du territoire de {name} sont sécurisés, pour{' '}
-						{points.length} points donnant{' '}
-						{(ridesLength || rides.length).toLocaleString('fr-FR')} itinéraires,
-						soit au total {segmentCount.toLocaleString('fr-FR')} segments.
+						des trajets de {name} sont sécurisés, pour{' '}
+						{(ridesLength || rides.length).toLocaleString('fr-FR')}
+						&nbsp;itinéraires testés, soit au total{' '}
+						{segmentCount.toLocaleString('fr-FR')} segments et {points.length}{' '}
+						points.
 					</p>
 				) : (
 					<p>{points.length} points.</p>
