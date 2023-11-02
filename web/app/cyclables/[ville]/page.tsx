@@ -46,8 +46,8 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 	}
 }
 
-async function getData(ville) {
-	const url = APIUrl + `api/cycling/merged/${ville}/${getDirectory()}`
+async function getData(ville, id) {
+	const url = APIUrl + `api/cycling/merged/${id || ville}/${getDirectory()}`
 	const res = await fetch(url)
 
 	if (!res.ok) {
@@ -69,7 +69,7 @@ export default async function Page({ params, searchParams }) {
 		ville = decodeURIComponent(villeRaw),
 		osmId = searchParams.id,
 		clientProcessing = searchParams.client
-	const data = await getData(villeRaw)
+	const data = await getData(villeRaw, osmId)
 	return (
 		<Wrapper>
 			<Header ville={ville} data={data} />
