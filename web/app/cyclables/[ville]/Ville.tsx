@@ -23,9 +23,6 @@ import AssoPromo from './AssoPromo'
 import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
 
-const MapBoxToken =
-	'pk.eyJ1Ijoia29udCIsImEiOiJjbGY0NWlldmUwejR6M3hyMG43YmtkOXk0In0.08u_tkAXPHwikUvd2pGUtw'
-
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
 const debug = false
