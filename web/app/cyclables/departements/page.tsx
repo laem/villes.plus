@@ -50,7 +50,6 @@ export async function getData() {
 		(memo, data, i) => (!data ? memo : { ...memo, [sobreList[i].nom]: data }),
 		{}
 	)
-	console.log(obj)
 	return obj
 }
 

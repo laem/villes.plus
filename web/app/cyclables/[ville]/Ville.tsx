@@ -51,7 +51,6 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const [showV2NewRules, setShowV2NewRules] = useState(false)
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
-	console.log('GD', givenData)
 	const [data, setData] = useState(
 		givenData && !(givenData.status === 202) ? givenData : defaultData
 	)

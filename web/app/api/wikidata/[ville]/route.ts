@@ -12,7 +12,7 @@ export async function GET(
 	const ville = params.ville
 
 	try {
-		const response = await getCityData([ville] || ville)
+		const response = await getCityData(ville)
 
 		return NextResponse.json(response)
 	} catch (e) {

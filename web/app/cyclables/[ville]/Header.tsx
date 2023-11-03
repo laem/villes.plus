@@ -9,6 +9,7 @@ import RésuméChiffré from './RésuméChiffré'
 
 export default async ({ ville, data }) => {
 	const wikidata = await getWikidata(processName(ville))
+	console.log('wikidata', wikidata, processName(ville))
 
 	return (
 		<header style={{ marginBottom: '1rem' }}>

@@ -36,7 +36,12 @@ export default async (cityName) => {
 
 	const image = wikidata?.pic.value && toThumb(wikidata.pic.value)
 
-	return { image, data: wikidata }
+	const failsafeImage =
+		cityName === 'Val-de-Marne'
+			? 'https://upload.wikimedia.org/wikipedia/fr/4/44/Créteil_la_préfecture.JPG'
+			: image
+
+	return { image: failsafeImage, data: wikidata }
 }
 
 const toThumb = (url, width = 550) => {

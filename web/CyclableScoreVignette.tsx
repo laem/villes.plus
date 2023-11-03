@@ -94,7 +94,6 @@ export default ({ data, margin = '' }) => {
 }
 
 const Evolution = ({ data }) => {
-	console.log(data)
 	const previous = data.previousData?.score
 	if (!previous) return null
 	const diff = (data.score - previous) / 10, // No use comparing %, the random of the algorithm makes variability a feature

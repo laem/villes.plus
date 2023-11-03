@@ -55,7 +55,6 @@ async function getData(ville, id) {
 		throw new Error('Failed to fetch data for cyclables ville ' + url)
 	}
 	const text = await res.text()
-	console.log('t', text, url)
 	try {
 		const json = JSON.parse(text)
 		return { ...json, status: res.status }
