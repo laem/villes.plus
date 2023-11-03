@@ -33,7 +33,7 @@ Promise.raceAll = function (promises, timeoutTime, timeoutVal) {
 	)
 }
 
-async function getData() {
+export async function getData() {
 	//.slice(0, 96) // not ready yet for worldwide tiles, we need to set up brouter, downloading all the tiles is huge
 	// Only La Réunion is removed, we've got a problem with a small french town named La Réunion...
 

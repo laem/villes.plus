@@ -1,3 +1,5 @@
+import { getData } from '@/app/cyclables/regions/page'
+import { getBackgroundColor } from '@/CyclableScoreVignette'
 import régions from '../../../régions.yaml'
 
 export async function GET() {
@@ -12,20 +14,22 @@ export async function GET() {
 		)
 	)
 
-	const data = {
+	const scores = await getData()
+	console.log(Object.keys(scores))
+	const geojson = {
 		type: 'FeatureCollection',
 		features: req.map(([{ osmId, nom }, geometry]) => ({
 			type: 'Feature',
 			properties: {
 				osmId,
 				nom,
-				style: `fill: ${
-					Math.random() > 0.5 ? 'blue' : 'orange'
-				}; stroke: white; stroke-width: 1px`,
+				style: `fill: ${getBackgroundColor(
+					scores[nom]?.score || 0
+				)}; stroke: white; stroke-width: 1px`,
 			},
 			geometry: geometry,
 		})),
 	}
 
-	return Response.json(data)
+	return Response.json({ scores, geojson })
 }
