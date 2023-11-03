@@ -6,7 +6,7 @@ import {
 	isValidRide,
 	segmentGeoJSON,
 } from '@/../computeCycling'
-import isSafePath from '@/../isSafePath'
+import isSafePath, { isVoieVerte } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
 import APIUrl from '@/app/APIUrl'
 import Loader from '@/Loader'
@@ -49,9 +49,10 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 
 	const [randomFilter, setRandomFilter] = useState(100)
 	const [segmentFilter, setSegmentFilter] = useState({
-		safe: false,
-		unsafe: false,
+		safe: true,
+		unsafe: true,
 		rev: true,
+		green: true,
 	})
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
@@ -209,9 +210,10 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 		)
 		.filter((segment) => {
 			const safePath = isSafePath(segment.properties.tags)
+			const voieVerte = isVoieVerte(segment.properties.tags)
 			if (segmentFilter.safe && segmentFilter.unsafe) return true
 			if (segmentFilter.safe) return safePath
-			if (segmentFilter.unsafe) return !safePath
+			if (segmentFilter.green) return voieVerte
 		})
 
 	/* 
@@ -280,6 +282,20 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					}
 				>
 					<Legend color="purple" /> Réseau structurant
+				</button>
+				<button
+					css={`
+						${buttonCSS}
+						${segmentFilter.green && `border: 2px solid; font-weight: bold; `}
+					`}
+					onClick={() =>
+						setSegmentFilter({
+							...segmentFilter,
+							green: !segmentFilter.green,
+						})
+					}
+				>
+					<Legend color="green" /> Réseau de voies vertes
 				</button>
 				<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			</div>
