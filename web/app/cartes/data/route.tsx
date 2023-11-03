@@ -25,7 +25,7 @@ export async function GET() {
 				nom,
 				style: `fill: ${getBackgroundColor(
 					scores[nom]?.score || 0
-				)}; stroke: white; stroke-width: 1px`,
+				)}; stroke: #ffffff99; stroke-width: .6px`,
 			},
 			geometry: geometry,
 		})),
