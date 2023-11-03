@@ -1,25 +1,27 @@
 import régions from '../../../régions.yaml'
 
 export async function GET() {
+	console.log('will request polygons')
 	const req = await Promise.all(
-		régions.map(({ osmId }) =>
+		régions.map(({ osmId, nom }) =>
 			fetch(
 				`http://polygons.openstreetmap.fr/get_geojson.py?id=${osmId}&params=0.020000-0.005000-0.005000`
-			).then((r) => r.json())
+			)
+				.then((r) => r.json())
+				.then((json) => [{ osmId, nom }, json])
 		)
 	)
-	console.log('req', req)
 
 	const data = {
 		type: 'FeatureCollection',
-		features: req.map((geometry) => ({
+		features: req.map(([{ osmId, nom }, geometry]) => ({
 			type: 'Feature',
 			properties: {
-				stroke: '#555555',
-				'stroke-width': 2,
-				'stroke-opacity': 1,
-				fill: '#e01b24',
-				'fill-opacity': 0.5,
+				osmId,
+				nom,
+				style: `fill: ${
+					Math.random() > 0.5 ? 'blue' : 'orange'
+				}; stroke: white; stroke-width: 1px`,
 			},
 			geometry: geometry,
 		})),
