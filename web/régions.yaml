@@ -10,8 +10,8 @@
 - code: 93
   nom: Provence-Alpes-Côte d'Azur
   osmId: 8654
-- code: Grand Est
-  nom: 44
+- code: 44
+  nom: Grand Est
   osmId: 3792876
 - code: 76
   nom: Occitanie
