@@ -10,13 +10,12 @@ export async function GET() {
 	const geo = await req.json()
 
 	const svgStrings = converter.convert(geo, {
-		viewportSize: { width: 400, height: 400 },
-		mapExtent: { left: 0, bottom: 0, right: 400, top: 400 },
+		attributes: ['properties.osmId', 'properties.nom', 'properties.style'],
 	})
 
 	const Component = html(`
 
-				<svg fill="" viewBox="0 0 300 150" style="width: 100%; height: 100%">
+				<svg fill="" viewBox="-10 -5 290 180" style="width: 100%; height: 100%; transform: translateY(0%)">
 
 ${svgStrings.join('')}
 
@@ -40,7 +39,7 @@ ${svgStrings.join('')}
 			</div>
 		),
 		{
-			width: 1200,
+			width: 900,
 			height: 900,
 		}
 	)
