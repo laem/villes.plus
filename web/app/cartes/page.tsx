@@ -21,7 +21,7 @@ export default async () => {
 				style={{
 					width: '100%',
 					height: '100%',
-					transform: 'scaleX(.75);',
+					transform: 'scaleX(.75)',
 				}}
 				dangerouslySetInnerHTML={{ __html: svgStrings.join('') }}
 			></svg>

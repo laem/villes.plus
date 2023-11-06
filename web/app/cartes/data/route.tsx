@@ -1,8 +1,10 @@
 import { getData } from '@/app/cyclables/regions/page'
 import { getBackgroundColor } from '@/CyclableScoreVignette'
 import régions from '../../../régions.yaml'
+import départements from '../../../départements.ts'
 
 export async function GET() {
+	return Response.json(départements)
 	console.log('will request polygons')
 	const req = await Promise.all(
 		régions.map(({ osmId, nom }) =>
