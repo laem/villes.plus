@@ -35,7 +35,6 @@ async function getData() {
 				throw new Error('Failed to fetch data for cyclables/communes ' + url)
 			}
 			const text = await res.text()
-			console.log('RES', text)
 			try {
 				const json = JSON.parse(text)
 				return { ...json, status: res.status }
