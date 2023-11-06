@@ -17,7 +17,7 @@ const result = départements
 			console.log(d)
 			throw new Error('Oupsoups')
 		}
-		const osmId = found.id
+		const osmId = typeof found === 'number' ? found : found.id - 3600000000
 
 		return { ...d, osmId }
 	})
