@@ -5,9 +5,12 @@ import ScoreLegend from '@/ScoreLegend'
 
 const converter = new GeoJSON2SVG()
 export default async () => {
-	const req = await fetch(
-		'http://localhost:8080/cartes/data?maille=départements'
-	)
+	const url =
+		(process.env.VERCEL_ENV === 'development' ? '' : 'https://') +
+		process.env.VERCEL_URL +
+		'/cartes/data?maille=départements'
+	console.log('CARTES URL', url, process.env.VERCEL_ENV)
+	const req = await fetch(url)
 	const data = await req.json()
 	const geo = data.geojson
 
