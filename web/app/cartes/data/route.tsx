@@ -5,6 +5,7 @@ import régions from '../../../régions.yaml'
 import départements from '../../../départements.ts'
 
 export async function GET(request) {
+	console.log('CARTE DATA ROUTE CALLED')
 	const searchParams = request.nextUrl.searchParams
 	const maille = searchParams.get('maille')
 	const items =
@@ -36,7 +37,7 @@ export async function GET(request) {
 				nom,
 				style: `fill: ${getBackgroundColor(
 					scores[nom]?.score || 0
-				)}; stroke: #ffffff99; stroke-width: .6px`,
+				)}; stroke: #ffffff; stroke-width: .6px`,
 			},
 			geometry: geometry,
 		})),
