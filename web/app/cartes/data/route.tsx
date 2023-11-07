@@ -4,6 +4,7 @@ import { getBackgroundColor } from '@/CyclableScoreVignette'
 import régions from '../../../régions.yaml'
 import départements from '../../../départements.ts'
 
+// TODO this route is not cached, and hence can result new requests even if the data doesn't change for a month
 export async function GET(request) {
 	const searchParams = request.nextUrl.searchParams
 	const maille = searchParams.get('maille')
@@ -23,23 +24,28 @@ export async function GET(request) {
 		)
 	)
 
+	console.log('will request villes plus scores')
 	const fetchFunction =
 		maille === 'départements' ? getDépartementsData : getRégionsData
 	const scores = await fetchFunction()
 
 	const geojson = {
 		type: 'FeatureCollection',
-		features: req.map(([{ osmId, nom }, geometry]) => ({
-			type: 'Feature',
-			properties: {
-				osmId,
-				nom,
-				style: `fill: ${getBackgroundColor(
-					scores[nom]?.score || 0
-				)}; stroke: #ffffff99; stroke-width: .6px`,
-			},
-			geometry: geometry,
-		})),
+		features: req.map(([{ osmId, nom }, geometry]) => {
+			if (scores[nom] == null) console.log('score nul pour ' + nom)
+			return {
+				type: 'Feature',
+				properties: {
+					osmId,
+					nom,
+					score: scores[nom],
+					style: `fill: ${getBackgroundColor(
+						scores[nom]?.score || 0
+					)}; stroke: #ffffff; stroke-width: .6px`,
+				},
+				geometry: geometry,
+			}
+		}),
 	}
 
 	return Response.json({ scores, geojson })

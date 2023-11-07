@@ -7,6 +7,7 @@ const correspondanceManuelle = {
 	Martinique: 2473088,
 	Guyane: 2502058,
 	Mayotte: 3388394,
+	Lyon: 4850450,
 }
 const result = départements
 	.map((d) => {
