@@ -1,5 +1,5 @@
 - color: blue
-  title: Segments cyclables sécurisés
+  title: Segments sécurisés
   key: safe
 - color: red
   title: non sécurisés
@@ -8,5 +8,5 @@
   title: Réseau structurant
   key: rev
 - color: '#27d004'
-  title: Voir verte
+  title: Voie verte
   key: green

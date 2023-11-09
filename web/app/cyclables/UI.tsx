@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 
 export const Legend = styled.span`
-	width: 2rem;
+	width: 1rem;
 	height: 0.4rem;
 	display: inline-block;
 	vertical-align: middle;
@@ -12,7 +12,7 @@ export const Legend = styled.span`
 export const SmallLegend = styled.small`
 	text-align: center;
 	display: block;
-	margin-top: 0.1rem;
+	margin: 0.2rem 0;
 `
 
 export const SegmentFilters = styled.div`
