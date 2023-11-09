@@ -50,7 +50,7 @@ const cache = apicache.options({
 
 const onlyStatus200 = (req, res) => res.statusCode === 200
 
-console.log('io initialisaed')
+console.log('io initialised')
 
 io.on('connection', (socket) => {
 	console.log('a user connected')

@@ -26,6 +26,7 @@ import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
 import Rev from './Rev'
 import segmentFilterSchema from './segmentFilters.yaml'
+import segmentsSafeDistance from '@/../segmentsSafeDistance'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -185,7 +186,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 		points: unfilteredPoints,
 		pointsCenter,
 		rides,
-		score: serverScore,
+		score,
 		ridesLength,
 	} = data
 
@@ -220,9 +221,8 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 			if (segmentFilter.green) return voieVerte
 		})
 
-	const clientScore =
-		rides &&
-		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
+	const clientScore = segmentsSafeDistance(segments)
+	console.log('clientScore', clientScore, score)
 
 	//client side count should be reimplemented
 	if (loadingMessage)
