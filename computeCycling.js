@@ -27,16 +27,15 @@ const createBikeRouterQuery = (from, to) =>
 
 const createItinerary = (from, to) => {
 	const query = createBikeRouterQuery([from.lat, from.lon], [to.lat, to.lon])
-	return brouterRequest(
-		query,
-		(json) =>
-			console.log('brouter response') || {
-				...json,
-				fromPoint: from.id,
-				toPoint: to.id,
-				backboneRide: to.tags.amenity === 'townhall',
-			}
-	)
+	return brouterRequest(query).then((json) => {
+		console.log('brouter response')
+		return {
+			...json,
+			fromPoint: from.id,
+			toPoint: to.id,
+			backboneRide: to.tags.amenity === 'townhall',
+		}
+	})
 }
 
 export const segmentGeoJSON = (geojson) => {
@@ -48,7 +47,6 @@ export const segmentGeoJSON = (geojson) => {
 		getLineDistance = (line) => line[3],
 		getLineTags = (line) => line[9]
 
-	console.log('geojson', geojson)
 	const { toPoint, fromPoint, backboneRide } = geojson
 	let lineStringCoordinates = geojson.features[0].geometry.coordinates
 	// As I understand this, the "messages" table contains brouter's real measurement of distance
