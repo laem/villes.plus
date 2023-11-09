@@ -185,6 +185,7 @@ export const isValidRide = (ride) =>
 export default async (ville, inform = () => null) => {
 	inform({ loading: `Les points vont être téléchargés` })
 	const points = await pointsProcess(ville)
+	console.log('Un point', points[0])
 	inform({ loading: `Points téléchargés : ${points.length} points` })
 	const pointsCenter = computePointsCenter(points)
 

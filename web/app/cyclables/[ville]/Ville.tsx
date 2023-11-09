@@ -2,7 +2,9 @@
 
 import { getDirectory } from '@/../algorithmVersion'
 import {
+	computeSafePercentage,
 	createRidesPromises,
+	getMessages,
 	isValidRide,
 	segmentGeoJSON,
 } from '@/../computeCycling'
@@ -218,13 +220,11 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 			if (segmentFilter.green) return voieVerte
 		})
 
-	/* 
-	const score =
-		serverScore ||
+	const clientScore =
+		rides &&
 		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
 
-		//client side count should be reimplemented
-		*/
+	//client side count should be reimplemented
 	if (loadingMessage)
 		return (
 			<>
@@ -332,7 +332,6 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					</MapContainer>
 				)}
 			</div>
-
 			<div
 				css={`
 					min-height: 10rem;

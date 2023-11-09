@@ -4,11 +4,12 @@ import { polygon } from '@turf/helpers'
 import point from 'turf-point'
 import { createTurfPointCollection } from './cyclingGeoStudio'
 import { shuffleArray } from './utils'
-import APIUrl from './web/app/APIUrl'
+
+const APIUrl = 'http://localhost:' + (process.env.PORT || 3000)
 
 export const pointsRequest = async (city, randomFilter = 100) => {
-	const townhallUrl = `${APIUrl}points/${city}/townhalls`
-	const transportUrl = APIUrl + `points/${city}/stops`
+	const townhallUrl = `${APIUrl}/points/${city}/townhalls`
+	const transportUrl = APIUrl + `/points/${city}/stops`
 	try {
 		const townhallResponse = await fetch(townhallUrl),
 			townhallPoints = await townhallResponse.json()

@@ -27,7 +27,7 @@ app.use(
 )
 app.use(compression())
 
-let port = process.env.PORT
+const port = process.env.PORT
 
 const httpServer = app.listen(port, function () {
 	console.log(

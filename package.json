@@ -8,8 +8,8 @@
 	"scripts": {
 		"clean": "rm -rf cache/*",
 		"s": "DEBUG=socket* node -r esm server.js",
+		"start-local-router": "LOCAL_ROUTER=true node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
 		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
-		"start-prod": "NODE_ENV=production node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"reactSnap": {
