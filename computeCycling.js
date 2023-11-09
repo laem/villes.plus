@@ -48,6 +48,7 @@ export const segmentGeoJSON = (geojson) => {
 		getLineDistance = (line) => line[3],
 		getLineTags = (line) => line[9]
 
+	console.log('geojson', geojson)
 	const { toPoint, fromPoint, backboneRide } = geojson
 	let lineStringCoordinates = geojson.features[0].geometry.coordinates
 	// As I understand this, the "messages" table contains brouter's real measurement of distance
