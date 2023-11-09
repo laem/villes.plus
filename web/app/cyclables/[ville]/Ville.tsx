@@ -28,6 +28,7 @@ import Rev from './Rev'
 import segmentFilterSchema from './segmentFilters.yaml'
 import segmentsSafeDistance from '@/../segmentsSafeDistance'
 import CyclableScoreVignette from '@/CyclableScoreVignette'
+import Link from 'next/link'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -228,6 +229,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 		segments,
 		segmentFilter.green && isVoieVerte
 	)
+	console.log('Score côté client ', clientScore, 'score côté serveur ', score)
 
 	//client side count should be reimplemented
 	if (loadingMessage)
@@ -255,7 +257,11 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 			</SegmentFilters>
 			{segmentFilter.green && (
 				<SmallLegend>
-					En considérant les "voies vertes" comme sécurisées, le score passe à{' '}
+					En considérant les "voies vertes" comme sécurisées (
+					<Link href="https://github.com/laem/villes.plus/issues/87">
+						pourquoi elles ne le sont pas encore
+					</Link>
+					), le score passe à :{' '}
 					<CyclableScoreVignette data={{ score: clientScore }} />
 				</SmallLegend>
 			)}
