@@ -88,7 +88,7 @@ export default ({ data, margin = '' }) => {
 					/10
 				</span>
 			</div>
-			<Evolution data={data} />
+			{data.previousData && <Evolution data={data} />}
 		</Wrapper>
 	)
 }

@@ -27,6 +27,7 @@ import MarkersWrapper from './MarkersWrapper'
 import Rev from './Rev'
 import segmentFilterSchema from './segmentFilters.yaml'
 import segmentsSafeDistance from '@/../segmentsSafeDistance'
+import CyclableScoreVignette from '@/CyclableScoreVignette'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -221,8 +222,12 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 			if (segmentFilter.green) return voieVerte
 		})
 
-	const clientScore = segmentsSafeDistance(segments)
-	console.log('clientScore', clientScore, score)
+	// This recomputing of the safe distance is quite interesting, since it recalculates it from the segments from their coordinates, rather than from brouter's distance attributes
+	// Differences can existe, but they need to be unsignificative OR be explained !
+	const clientScore = segmentsSafeDistance(
+		segments,
+		segmentFilter.green && isVoieVerte
+	)
 
 	//client side count should be reimplemented
 	if (loadingMessage)
@@ -248,6 +253,12 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					</SegmentFilterButton>
 				))}
 			</SegmentFilters>
+			{segmentFilter.green && (
+				<SmallLegend>
+					En considérant les "voies vertes" comme sécurisées, le score passe à{' '}
+					<CyclableScoreVignette data={{ score: clientScore }} />
+				</SmallLegend>
+			)}
 			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			{clientProcessing && (
 				<div>
