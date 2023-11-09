@@ -18,11 +18,12 @@ import { useMap } from 'react-leaflet/hooks'
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { io } from 'socket.io-client'
-import { buttonCSS, Legend, SmallLegend } from '../UI'
+import { Legend, SegmentFilterButton, SegmentFilters, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
 import Rev from './Rev'
+import segmentFilterSchema from './segmentFilters.yaml'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -51,8 +52,8 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 	const [segmentFilter, setSegmentFilter] = useState({
 		safe: true,
 		unsafe: true,
-		rev: true,
-		green: true,
+		rev: false,
+		green: false,
 	})
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
@@ -212,6 +213,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 			const safePath = isSafePath(segment.properties.tags)
 			const voieVerte = isVoieVerte(segment.properties.tags)
 			if (segmentFilter.safe && segmentFilter.unsafe) return true
+			if (segmentFilter.unsafe) return !safePath
 			if (segmentFilter.safe) return safePath
 			if (segmentFilter.green) return voieVerte
 		})
@@ -234,71 +236,19 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 	return (
 		<>
 			<AssoPromo ville={ville} />
-			<div
-				css={`
-					display: flex;
-					flex-wrap: wrap;
-					align-items: center;
-					margin-top: 1rem;
-				`}
-			>
-				<button
-					css={`
-						${buttonCSS}
-
-						${segmentFilter.safe && `border: 2px solid; font-weight: bold`}
-					`}
-					onClick={() =>
-						setSegmentFilter({ ...segmentFilter, safe: !segmentFilter.safe })
-					}
-				>
-					{' '}
-					<Legend color="blue" /> segments cyclables sécurisés
-				</button>
-				<button
-					css={`
-						${buttonCSS}
-						${segmentFilter.unsafe && `border: 2px solid; font-weight: bold; `}
-					`}
-					onClick={() =>
-						setSegmentFilter({
-							...segmentFilter,
-							unsafe: !segmentFilter.unsafe,
-						})
-					}
-				>
-					<Legend color="red" /> non sécurisé
-				</button>
-				<button
-					css={`
-						${buttonCSS}
-						${segmentFilter.rev && `border: 2px solid; font-weight: bold; `}
-					`}
-					onClick={() =>
-						setSegmentFilter({
-							...segmentFilter,
-							rev: !segmentFilter.rev,
-						})
-					}
-				>
-					<Legend color="purple" /> Réseau structurant
-				</button>
-				<button
-					css={`
-						${buttonCSS}
-						${segmentFilter.green && `border: 2px solid; font-weight: bold; `}
-					`}
-					onClick={() =>
-						setSegmentFilter({
-							...segmentFilter,
-							green: !segmentFilter.green,
-						})
-					}
-				>
-					<Legend color="green" /> Réseau de voies vertes
-				</button>
-				<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
-			</div>
+			<SegmentFilters>
+				{segmentFilterSchema.map(({ color, key, title }) => (
+					<SegmentFilterButton
+						$active={segmentFilter[key]}
+						onClick={() =>
+							setSegmentFilter({ ...segmentFilter, [key]: !segmentFilter[key] })
+						}
+					>
+						<Legend color={color} /> {title}
+					</SegmentFilterButton>
+				))}
+			</SegmentFilters>
+			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			{clientProcessing && (
 				<div>
 					<label>
@@ -369,7 +319,11 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 									},
 								}}
 								style={(feature) =>
-									createStyle(feature.properties, clickedSegment === feature)
+									createStyle(
+										feature.properties,
+										clickedSegment === feature,
+										segmentFilter
+									)
 								}
 							/>
 						)}
@@ -447,7 +401,7 @@ function MapZoomer({ points }) {
 }
 
 const baseOpacity = 0.6
-const createStyle = (properties, highlight) =>
+const createStyle = (properties, highlight, segmentFilter) =>
 	!highlight
 		? {
 				weight:
@@ -464,6 +418,9 @@ const createStyle = (properties, highlight) =>
 				color:
 					properties.isSafePath == null
 						? properties.color
+						: segmentFilter.green && isVoieVerte(properties.tags)
+						? segmentFilterSchema.find(({ color, key }) => key === 'green')
+								.color
 						: properties.isSafePath
 						? 'blue'
 						: '#ff4800',
