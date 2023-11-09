@@ -388,6 +388,10 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				<br />
 				{clickedSegment && (
 					<div>
+						<p>
+							Ce segment est traversé {clickedSegment.properties.rides.length}{' '}
+							fois, il compte donc autant de fois dans le score du territoire.
+						</p>
 						Tags OSM du segment :{' '}
 						<ul
 							css={`

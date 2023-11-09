@@ -6,7 +6,7 @@ export default function (segments, safeExtension) {
 		(memo, next) => {
 			const coordinates = next.geometry.coordinates
 			const segmentDistance = lineStringDistance(coordinates)
-			const distance = segmentDistance * next.properties.rides.length
+			const distance = segmentDistance * (next.properties.rides?.length || 0)
 			const safe =
 				isSafePath(next.properties.tags) ||
 				(safeExtension && safeExtension(next.properties.tags))
