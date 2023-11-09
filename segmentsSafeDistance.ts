@@ -23,5 +23,5 @@ export default function (segments, safeExtension) {
 		{ safe: 0, unsafe: 0 }
 	)
 
-	return (safe / unsafe) * 100
+	return (safe / (safe + unsafe)) * 100
 }
