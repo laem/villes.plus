@@ -2,17 +2,19 @@
 
 import { getDirectory } from '@/../algorithmVersion'
 import {
-	computeSafePercentage,
 	createRidesPromises,
-	getMessages,
 	isValidRide,
 	segmentGeoJSON,
 } from '@/../computeCycling'
 import isSafePath, { isVoieVerte } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
+import segmentsSafeDistance from '@/../segmentsSafeDistance'
 import APIUrl from '@/app/APIUrl'
+import css from '@/css/convertToJs'
+import CyclableScoreVignette from '@/CyclableScoreVignette'
 import Loader from '@/Loader'
 import L from 'leaflet'
+import Link from 'next/link'
 import 'node_modules/leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
@@ -26,9 +28,6 @@ import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
 import Rev from './Rev'
 import segmentFilterSchema from './segmentFilters.yaml'
-import segmentsSafeDistance from '@/../segmentsSafeDistance'
-import CyclableScoreVignette from '@/CyclableScoreVignette'
-import Link from 'next/link'
 import SegmentInfo from './SegmentInfo'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
@@ -242,31 +241,13 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 		)
 
 	return (
-		<>
+		<div
+			style={css`
+				z-index: 2;
+				width: 100%;
+			`}
+		>
 			<AssoPromo ville={ville} />
-			<SegmentFilters>
-				{segmentFilterSchema.map(({ color, key, title }) => (
-					<SegmentFilterButton
-						$active={segmentFilter[key]}
-						onClick={() =>
-							setSegmentFilter({ ...segmentFilter, [key]: !segmentFilter[key] })
-						}
-					>
-						<Legend color={color} /> {title}
-					</SegmentFilterButton>
-				))}
-			</SegmentFilters>
-			{segmentFilter.green && (
-				<SmallLegend>
-					En considérant les "voies vertes" comme sécurisées (
-					<Link href="https://github.com/laem/villes.plus/issues/87">
-						pourquoi elles ne le sont pas encore
-					</Link>
-					), le score passe à :{' '}
-					<CyclableScoreVignette data={{ score: clientScore }} />
-				</SmallLegend>
-			)}
-			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			{clientProcessing && (
 				<div>
 					<label>
@@ -282,13 +263,11 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				css={`
 					margin-top: 0.2rem;
 					height: 90vh;
-					width: 90vw;
-					max-width: 90vw !important;
+					width: 100%;
 					> div {
 						height: 100%;
 						width: 100%;
 					}
-					margin-bottom: 2rem;
 				`}
 			>
 				{!pointsCenter ? (
@@ -350,6 +329,29 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					</MapContainer>
 				)}
 			</div>
+			<SegmentFilters>
+				{segmentFilterSchema.map(({ color, key, title }) => (
+					<SegmentFilterButton
+						$active={segmentFilter[key]}
+						onClick={() =>
+							setSegmentFilter({ ...segmentFilter, [key]: !segmentFilter[key] })
+						}
+					>
+						<Legend color={color} /> {title}
+					</SegmentFilterButton>
+				))}
+			</SegmentFilters>
+			{segmentFilter.green && (
+				<SmallLegend>
+					En considérant les "voies vertes" comme sécurisées (
+					<Link href="https://github.com/laem/villes.plus/issues/87">
+						pourquoi elles ne le sont pas encore
+					</Link>
+					), le score passe à :{' '}
+					<CyclableScoreVignette data={{ score: clientScore }} />
+				</SmallLegend>
+			)}
+			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
 			<div
 				css={`
 					min-height: 10rem;
@@ -359,7 +361,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				<SegmentInfo {...{ clickedSegment, clickedLatLon }} />
 				<BottomLinks ville={ville} />
 			</div>
-		</>
+		</div>
 	)
 }
 

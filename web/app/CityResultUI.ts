@@ -37,10 +37,10 @@ export const ImageWrapper = styled.div`
 	position: relative;
 `
 export const SmallImageWrapper = styled.div`
-	width: 90%;
-	height: 6rem;
+	width: 100%;
+	height: 4.5rem;
 	@media (min-width: 800px) {
-		height: 8rem;
+		height: 7rem;
 	}
 	img {
 		border-radius: 1rem;
@@ -54,6 +54,7 @@ export const ImageAndScoreWrapper = styled.div`
 	display: flex;
 	justify-content: start;
 	align-items: center;
+	width: calc(11rem + 30vw);
 `
 export const LoadingMessage = styled.div`
 	margin: 0.6rem;

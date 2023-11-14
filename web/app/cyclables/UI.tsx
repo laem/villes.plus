@@ -19,7 +19,6 @@ export const SegmentFilters = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	margin-top: 1rem;
 `
 
 export const SegmentFilterButton = styled.button`

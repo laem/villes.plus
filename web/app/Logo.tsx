@@ -1,6 +1,7 @@
 import css from '@/css/convertToJs'
 import Image from 'next/image'
 import logo from '@/public/logo.svg'
+import { LogoImages, LogoWrapper } from '@/app/LogoUI'
 
 export default ({ text, color, cyclable, align = 'center' }) => {
 	const blue = '#1e3799'
@@ -18,33 +19,18 @@ export default ({ text, color, cyclable, align = 'center' }) => {
 					standing: firstEmoji + (!cyclable ? '‍♂️' : ''),
 			  }
 	return (
-		<div
-			style={css(`
-				margin-top: 1rem;
-				margin-bottom: .4rem;
-				font-size: 200%;
-				display: flex;
-				align-items: center;
-				justify-content: ${align};
-			`)}
-		>
-			<div
-				style={css`
-					font-size: 130%;
-					display: flex;
-					align-items: center;
-				`}
-			>
+		<LogoWrapper $align={align}>
+			<LogoImages>
 				<Image
 					src={logo}
 					alt="Logo de villes.plus"
 					style={css`
-						width: 3rem;
+						width: 2rem;
 						height: auto;
 					`}
 				/>
-				<span style={css``}>{human.walking}</span>
-			</div>
+				<span>{human.walking}</span>
+			</LogoImages>
 			{text && (
 				<h1
 					style={css`
@@ -52,13 +38,12 @@ export default ({ text, color, cyclable, align = 'center' }) => {
 						padding: 0;
 						margin-left: 0.8rem;
 						color: ${color || blue};
-						font-size: calc(80% + 0.8vw);
 						display: inline;
 					`}
 				>
 					{text}
 				</h1>
 			)}
-		</div>
+		</LogoWrapper>
 	)
 }

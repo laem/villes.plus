@@ -54,7 +54,7 @@ export default ({ data, margin = '' }) => {
 				title={`${score.toFixed(2)} % des km testés sont cyclables`}
 				css={`
 					text-align: center;
-					margin: 0 2rem;
+					margin: 0 2vw;
 					${margin && `margin: ${margin} !important;`}
 					@media (min-width: 800px) {
 						font-size: 260%;
@@ -73,6 +73,10 @@ export default ({ data, margin = '' }) => {
 					font-size: 250%;
 					small {
 						font-size: 50%;
+					}
+					@media (max-width: 800px) {
+						font-size: 120%;
+						width: 3.5rem;
 					}
 				`}
 			>
