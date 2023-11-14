@@ -7,3 +7,4 @@ dist/
 .env
 .next/
 web/.next/
+web/.env.local
