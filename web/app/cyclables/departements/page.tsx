@@ -38,9 +38,15 @@ export async function getData() {
 	const response = await Promise.raceAll(
 		sobreList.map(({ nom, nom_region: région }) => {
 			const url = APIUrl + `api/cycling/meta/${nom}/${getDirectory()}`
-			return fetch(url).then((r) =>
-				r.json().then((data) => ({ ...data, status: r.status, région }))
-			)
+			return fetch(url)
+				.then((r) =>
+					r.json().then((data) => ({ ...data, status: r.status, région }))
+				)
+				.catch((e) => {
+					console.log('Error fetching api data', url)
+
+					throw new Error('Error fetching data for departements')
+				})
 		}),
 		6000,
 		false
