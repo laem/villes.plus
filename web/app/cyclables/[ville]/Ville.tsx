@@ -350,7 +350,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					<CyclableScoreVignette data={{ score: clientScore }} />
 				</SmallLegend>
 			)}
-			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
+			<SmallLegend>Traits épais = qui relie 2 mairies.</SmallLegend>
 			<AssoPromo ville={ville} />
 			<div
 				css={`
