@@ -247,7 +247,6 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				width: 100%;
 			`}
 		>
-			<AssoPromo ville={ville} />
 			{clientProcessing && (
 				<div>
 					<label>
@@ -352,6 +351,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				</SmallLegend>
 			)}
 			<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
+			<AssoPromo ville={ville} />
 			<div
 				css={`
 					min-height: 10rem;
