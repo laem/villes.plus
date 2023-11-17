@@ -49,6 +49,6 @@ export default function MyComponent({ points, setClickedPoint, clickedPoint }) {
 	)
 }
 const bi = (n) => [n, n]
-const goodIconSize = (zoom) => (zoom > 10 ? bi(20) : zoom > 9 ? bi(15) : bi(10))
+const goodIconSize = (zoom) => bi(2.5 * zoom - 16) // I have a doctorate in zoom to icon size study
 
 const goodIcon = (point) => (isTownhall(point) ? '/townhall.svg' : '/bus.svg')
