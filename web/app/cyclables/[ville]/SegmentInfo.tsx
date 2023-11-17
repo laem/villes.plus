@@ -1,7 +1,7 @@
 export default function SegmentInfo({ clickedSegment, clickedLatLon }) {
 	return (
 		<section>
-			<h3>Informations sur le segment cliqué</h3>
+			<h3>Explorez les itinéraires</h3>
 			{!clickedSegment && (
 				<p>
 					💡 Pour comprendre pourquoi un segment est classifié cyclable (bleu)
