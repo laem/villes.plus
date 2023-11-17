@@ -287,6 +287,7 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 							defaultCenter
 						}
 						zoom={12}
+						preferCanvas={true}
 					>
 						<MapZoomer points={points} />
 						<TileLayer
