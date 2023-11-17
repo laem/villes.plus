@@ -36,7 +36,7 @@ export default function MyComponent({ points, setClickedPoint, clickedPoint }) {
 							//										iconUrl:
 							//
 							iconUrl: goodIcon(point),
-							iconSize: goodIconSize(zoomLevel),
+							iconSize: goodIconSize(zoomLevel, isTownhall(point)),
 						})
 					}
 				>
@@ -49,6 +49,6 @@ export default function MyComponent({ points, setClickedPoint, clickedPoint }) {
 	)
 }
 const bi = (n) => [n, n]
-const goodIconSize = (zoom) => bi(2.5 * zoom - 16) // I have a doctorate in zoom to icon size study
+const goodIconSize = (zoom, big) => bi((big ? 1.2 : 1) * 2.5 * zoom - 16) // I have a doctorate in zoom to icon size study
 
 const goodIcon = (point) => (isTownhall(point) ? '/townhall.svg' : '/bus.svg')
