@@ -262,7 +262,8 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 				css={`
 					margin-top: 0.2rem;
 					height: 90vh;
-					width: 100%;
+					width: 85vw;
+					margin: 0.2rem auto;
 					> div {
 						height: 100%;
 						width: 100%;
