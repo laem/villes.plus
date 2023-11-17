@@ -34,8 +34,8 @@ export default function Rev({ data }) {
 			style={(feature) => {
 				const weight =
 					{
-						18: 10,
-						17: 10,
+						18: 12,
+						17: 11,
 						16: 9,
 						15: 8,
 						14: 7,
@@ -47,7 +47,7 @@ export default function Rev({ data }) {
 					}[zoomLevel] || 4
 
 				return feature.properties.ghost
-					? { weight: weight * 1.5, color: 'blue', lineCap: 'unset' }
+					? { weight: weight * 1.5, color: 'black', lineCap: 'unset' }
 					: {
 							weight,
 							color: feature.properties.color || feature.properties.stroke,
