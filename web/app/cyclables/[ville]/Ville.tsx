@@ -329,38 +329,48 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 					</MapContainer>
 				)}
 			</div>
-			<SegmentFilters>
-				{segmentFilterSchema.map(({ color, key, title }) => (
-					<SegmentFilterButton
-						$active={segmentFilter[key]}
-						onClick={() =>
-							setSegmentFilter({ ...segmentFilter, [key]: !segmentFilter[key] })
-						}
-					>
-						<Legend color={color} /> {title}
-					</SegmentFilterButton>
-				))}
-			</SegmentFilters>
-			{segmentFilter.green && (
-				<SmallLegend>
-					En considérant les "voies vertes" comme sécurisées (
-					<Link href="https://github.com/laem/villes.plus/issues/87">
-						pourquoi elles ne le sont pas encore
-					</Link>
-					), le score passe à :{' '}
-					<CyclableScoreVignette data={{ score: clientScore }} />
-				</SmallLegend>
-			)}
-			<SmallLegend>Traits épais = qui relie 2 mairies.</SmallLegend>
-			<AssoPromo ville={ville} />
 			<div
-				css={`
-					min-height: 10rem;
-					margin-bottom: 4rem;
+				style={css`
+					max-width: 700px;
+					margin: 0 auto;
 				`}
 			>
-				<SegmentInfo {...{ clickedSegment, clickedLatLon }} />
-				<BottomLinks ville={ville} />
+				<SegmentFilters>
+					{segmentFilterSchema.map(({ color, key, title }) => (
+						<SegmentFilterButton
+							$active={segmentFilter[key]}
+							onClick={() =>
+								setSegmentFilter({
+									...segmentFilter,
+									[key]: !segmentFilter[key],
+								})
+							}
+						>
+							<Legend color={color} /> {title}
+						</SegmentFilterButton>
+					))}
+				</SegmentFilters>
+				{segmentFilter.green && (
+					<SmallLegend>
+						En considérant les "voies vertes" comme sécurisées (
+						<Link href="https://github.com/laem/villes.plus/issues/87">
+							pourquoi elles ne le sont pas encore
+						</Link>
+						), le score passe à :{' '}
+						<CyclableScoreVignette data={{ score: clientScore }} />
+					</SmallLegend>
+				)}
+				<SmallLegend>Traits épais = qui relie 2 mairies.</SmallLegend>
+				<AssoPromo ville={ville} />
+				<div
+					css={`
+						min-height: 10rem;
+						margin-bottom: 4rem;
+					`}
+				>
+					<SegmentInfo {...{ clickedSegment, clickedLatLon }} />
+					<BottomLinks ville={ville} />
+				</div>
 			</div>
 		</div>
 	)

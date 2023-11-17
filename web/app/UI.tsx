@@ -20,13 +20,6 @@ export const Card = styled.div`
 	border-radius: 0.4rem;
 	padding: 0.6rem;
 	box-shadow: rgb(187, 187, 187) 2px 2px 10px;
-	${(p) =>
-		p.$fullWidth &&
-		`
-	width: auto;
-
-
-	`}
 `
 export const LinkCard = styled(Card)`
 	a {
