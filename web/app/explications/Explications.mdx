@@ -2,9 +2,13 @@ import ArticleImportantLink from '@/ArticleImportantLink.js'
 
 # 📖 Explications
 
-Nos villes se transforment. Deux critères s'imposent comme fondamentaux : la place donnée aux piétons, et celle donnée aux vélos. 
+Nos villes se transforment. Deux critères deviennent fondamentaux dans ces mutations : la place donnée aux piétons, et celle donnée aux vélos. 
 
-Villes plus est **le premier classement libre des grandes villes françaises les plus piétonnes et cyclables**.
+Villes plus est **le premier classement libre** des grandes villes françaises les plus piétonnes et cyclables. 
+
+Il évalue de façon automatisée et tous les mois les infrastructures cyclables et piétonnes d'un territoire. 
+
+Découvrez ici comment il fonctionne.
 
 
 ## Explications pour le classement des villes cyclables
@@ -13,31 +17,142 @@ C'est par ici pour [comprendre la méthode de classement des territoires cyclabl
 <ArticleImportantLink to="/explications/cyclables">Explications classement cyclable</ArticleImportantLink>
 
 ## Explications pour le classement des villes piétonnes
-C'est par ici pour [comprendre la méthode de classement des territoires piétons](/explications/pietonnes)
+Et ici pour [comprendre la méthode de classement des territoires piétons](/explications/pietonnes)
 
 <ArticleImportantLink to="/explications/pietonnes">Explications classement piéton</ArticleImportantLink>
 
-## Libre ? 
 
-Libre ? Tout le code est ouvert et chacun peut y contribuer, relever des
-erreurs et questionner la méthode : [rendez-vous ici](https://github.com/laem/villes.plus/blob/master/CONTRIBUTING.md).
+## Foire aux Questions
 
-Tout classement de ce type est bien sûr contestable, mais nous en avons
-maintenant au moins un 🙂.
+### Qui sommes-nous ?
 
-Le classement villes plus respecte les standards de conception de modèles numériques publics [décrits ici](https://publi.codes/docs/pourquoi-publicodes/standard-modeles-ouverts).
+Villes.plus est une plateforme citoyenne, un commun numérique, dont le code [est entièrement libre](https://github.com/laem/villes.plus).
 
-## Qui développe ce classement ? 
+Tout le monde est bienvenu pour critiquer et surtout participer à son amélioration. Depuis le début du projet, des centaines de commentaires sont venus améliorer l'algorithme et suggérer de futurs travaux pour augmenter l'objectivité des classements.
 
-Il est développé et édité par [Maël THOMAS-QUILLÉVÉRÉ](https://boitam.eu/@maeool). Tout le code [est libre, venez contribuer](https://github.com/laem/villes.plus).
-
-Ce site ne serait pas possible sans l'incroyable projet [OpenStreetMap](https://openstreetmap.org/) 🤩. 
+Il est principalement développé par [Maël THOMAS-QUILLÉVÉRÉ](https://kont.me), développeur et entrepreneur public. 
 
 Il est hébergé par [Vercel](https://vercel.com), qui est aussi le serveur utilisé pour suivre l'audience du site [sans cookies](https://vercel.com/docs/analytics#how-visitors-are-determined). Aucun autre mouchard n'est utilisé.
 
-## Je veux m'acheter un vélo
+### Qui finance ce site ?
 
-Super idée, vous pouvez aller découvrir les aides publiques à l'achat d'un vélo sur [Mes Aides Vélo](https://mesaidesvelo.fr).
+Le travail sur la plateforme villes.plus est bénévole. Cela apporte une couche supplémentaire de garanties sur l'objectivité de ses évaluations.
+
+Cela dit, la plateforme d'évaluation peut aussi être utile pour analyser plus en profondeur le réseau cyclable d'un territoire, et en proposer des modifications. Par exemple, dans le but d'améliorer sa cyclabilité (et donc son score villes.plus), une ville peut vouloir l'étudier au préalable en augmentant le nombre d'itinéraires testés (passer de 500 à 5000 par exemple), en y injectant des sondages précis des déplacement journaliers des populations, en analysant le territoire quartier par quartier donc à une échelle plus petite, en superposant son plan cyclable sur l'analyse actuelle de cyclabilité villes plus, ou encore se servir de ces cartes pour imaginer ses futures évolutions cyclables.
+
+Vous représentez une collectivité ? Une administration ? Un cabinet d'études en urbanisme ou transition écologique ? Contactez-nous !
+
+Ces développements spécifiques seront menés **à côté du classement public**, et ne pourront évidemment pas impliquer des traitements exceptionnels pour le territoire en question qui pourrait alterer le classement public.
+
+### Comment fonctionne le classement cyclable ?
+
+C'est simple : prenons la ville de Brest comme exemple. L'algorithme va simuler des centaines de cyclistes qui vont chacun faire un itinéraire dans la ville. L'itinéraire est calculé par un GPS reglé sur l'option "trajet le plus sûr". C'est une concession que nous faisons : nous partons du principe qu'un cycliste est d'accord pour faire des détours pour choisir le chemin le plus sécurisé. Cet itinéraire va relier un arrêt de bus à un autre, ou une mairie à une autre (Brest comporte des mairies de quartier). 
+
+Chacun de ces itinéraires sera composé de dizaines de segments : au total 8 873 segments sont testés sur Brest. Chaque segment est différent : voie cyclable séparée, voie de bus, chemin étroit partagé avec les piétons, très large rue piétonnes où les vélos sont admis, vélorue où cyclistes ont priorité sur automobilistes, bandes cyclable peinte au sol, route voiture basique, etc. 
+
+Chaque km strictement sécurisé pour les cyclistes est compté. Au final, on divise le nombre de km sécurisés par le nombre de km au total : cela donne un pourcentage de sécurisation, et donc une note sur 10. 
+
+Nous vous invitons à lire la [méthode détaillée](/explications/cyclables) pour aller plus loin que cette explication basique, notamment avant d'émettre une critique.
+
+### Pourquoi je croirais ce classement ? 
+
+Au risque de nous répéter : le projet est entièrement open source et documenté, chacun peut [le scruter et l’améliorer](https://github.com/laem/villes.plus/issues?q=is%3Aissue+is%3Aopen+label%3ACyclable), ou encore questionner la méthode ou poser des questions. Il respecte les plus hauts standards de conception de [modèles numériques publics](https://publi.codes/docs/pourquoi-publicodes/standard-modeles-ouverts). 
+
+Même si nous pensons qu'il est raisonnable de croire en notre sérieux, l'idée est que tout le monde puisse le vérifier en toute autonomie, plutôt que de reposer sur des arguments d'autorité et des boîtes noires cachées derrières des serveurs et des intérêts privés. 
+
+
+Tout classement est bien sûr contestable, mais nous en avons maintenant au moins un 🙂.
+
+### Quels sont les équivalents ? 
+
+
+#### Copenhagenize
+À notre connaissance, il y a peu d'initiatives équivalentes, ni en France, ni en Europe, ni dans le monde. Si vous en connaissez, dites-le sur [le forum](https://github.com/laem/villes.plus) !
+
+Le classement [Copenhagenize](https://copenhagenizeindex.eu/about/methodology) a des objectifs proches, mais il est très fermé, seule la page de [méthodologie](https://copenhagenizeindex.eu/about/methodology) done quelques infos. Nous y apprenons que l'infrastructure cyclable ne compte pas plus que la part modale du déplacement à vélo, par exemple. Or, selon nous, on ne peut pas additionner choux et carrottes... ou ici spécifiquement les graines et les choux murs : l'infrastructure précède et est une condition nécessaire à une haute part modale du vélo. Toujours est-il que même sur l'infrastructure, dont on ne sait si elle représente 4 points sur 12 ou 4 points sur 52 (!), on n'a aucune idée de la méthode. 
+
+L'autre problème de Copenhagenize, c'est que sa dernière édition date de 2019, tout comme celle du baromètre vélo, décrit ci-dessous : bientôt 4 ans ! Or, c'est *notamment* les avancées des 4 dernières années, soit à peu près toutes les voies cyclables séparées bidirectionnelles de France, que nous voulons évaluer, *tous les mois*.
+
+#### Le Baromètre des villes cyclables
+
+Le projet du Baromètre des villes cyclables est proche dans son objectif : évaluer la cyclabilité des territoires. Mais très différent dans son approche, qui consiste à sonder les citoyens, plutôt que la réalité des infrastructures cyclables. 
+
+Aucun des deux projets ne remplace l'autre : demandez à un néérlandais ce qu'il pense du réseau cyclable d'une ville française, il lui mettra 1/10 même si cette ville est première de son département, car l'appréciation des gens est relative à leurs exigences. À l'inverse, demandez à un Niçois ce qu'il pense de cette belle voie au beau milieu de laquelle la ville a planté un lampadaire : 0 / 10 (oui, c'est une vraie anecdote), car le vécu des usagers est incontournable et l'analyse des infrastructures peut passer à côté de ces détails si importants. 
+
+### Le classement est biaisé, aucune ville ne peut atteindre plus de 5/10
+
+Si bien sûr ! Seulement, il ne faut pas rester en France, un pays qui n'a que peu d'ambition (pour l'instant !) pour la pratique du vélo : direction [Amsterdam et ses presque 80 %](/cyclables/Amsterdam?id=47811) ! Chose moins connue, mais encore plus convaincant : [Helsinki](/cyclables/Helsinki?id=34914). Observez comme tous ses quartiers résidentiels sont maillés pour les cyclistes. Si vous en doutez, explorez la carte, cliquez sur les segments bleus, puis sur "Google Streetview" : vous verrez des voies cyclables partout.
+
+En France, Strasbourg est la seule ville française à dépasser les 50%. Les *meilleures* villes de France n'ont fait que la moitié du chemin.
+
+Oui, vous avez bien lu, il n'y a qu'une seule ville en France à avoir *la moyenne*, en 2023. Mais nous sommes certains que 2024 nous réservera des surprises...
+
+### C'est impossible de rendre parfaitement cyclable une ville : le score de 10/10 est impossible
+
+Si bien sûr ! La solution la plus simple consiste à y interdire les voitures, et n'autoriser que les véhicules au compte-goutte : urgences, assistance, déménagement, certains professionnels, etc.
+
+Mais que le conservateur ou le réaliste en vous se rassure : même en gardant le droit de circuler sans attestation en voiture, il est possible de faire des voies cyclables séparées partout où c'est assez large, et de donner la priorité aux cyclistes sur le reste des routes. On appelle ça une vélorue, il y en a à Rennes dans le centre et les voitures y circulent à... 20 km/h à la place des 15 km/h de moyenne qu'elles faisaient à cause des bouchons dans le passé.
+
+C'est d'ailleurs un fait assez tabou en France : les villes sont de plus nombreuses à interdire aux véhicules de dépasser les 30 km/h. Or, sur un VAE on atteint très facilement les 25 km/h. La voiture a perdu sa caractéristiques fantasmée principale : la vitesse. Dans les villes 30, quel intérêt de laisser aux automobilistes le droit de dépasser les vélos qui roulent à 25 km/h hors grands boulevards, pour user la gomme des freins, et donc émettre de mortelles particules fines que la voiture soit électrique ou non, et se faire rattraper par ledit vélo à la prochaine intersection ? Aucun. 
+
+Les vélorues ont de l'avenir, et deviendront un élément incontournable des politiques cyclables, bien pris en compte dans villes.plus. Quand on parle vélo et cyclabilité, on a tendance à penser aux voies cyclables. Pourtant, la plupart du temps, la meilleure voie cyclable c'est [le plan de circulation](https://www.fub.fr/sites/fub/files/fub/echange/presentation_urbanisme_cyclable_-_2020.pdf?page=28), qui contraint les voitures à un usage marginal, lent, contrôlé par la ville, pour rendre la marche, le vélo et les transports en commun viables. 
+
+Donc si, le score de 100 % est possible. Il faut juste le vouloir, politiquement. En fait, il [suffit d'écrire une loi](https://kont.me/ville-loi-2024) et l'appliquer.
+
+Ajoutons un dernier point : villes.plus ne considère pour l'instant pas cyclable une "voie verte" (vous en saurez plus ci-dessous) ni un chaucidou (une route à bande cyclables des deux côtés, où 2 voitures ne peuvent pas se croiser). Ainsi, une ville qui investirait le tiers de son plan vélo sur ces deux techniques, et le reste sur des voies cyclables et vélorues, aurait le score de 7/10, et la couleur verte. Soit bien mieux que le Strasbourg de 2023 et presque autant qu'Amsterdam. Pas mal, non ?
+
+### En ville OK, mais dans la campagne, on ne peut pas rendre tout cyclable !
+
+Il est vrai qu'on ne maillerait que difficilement tout le territoire avec des voies cyclables, et il semble difficile d'imposer aux automobilistes de rouler derrière les vélos à 25 km/h sur de longues lignes droites entre les champs. 
+
+Pourtant, rappelez-vous si vous avez [lu la méthode](/explications/cyclables) que ce classement ne teste qu'un pourcentage faible de tous les segments : à la campagne, vu le peu d'arrêts de bus, notre algorithme testera essentiellement les liaisons principales entre communes. Pas la route qui relie la ferme de Jean-Luc au bois de Kerhuella. 
+
+D'ailleurs, rappelons aussi que l'algorithme ne choisit pas bêtement l'itinéraire le plus court entre les points : si les mairies décidaient de rendre cyclable une route (par exemple, bordant un vignoble) en parallèle d'une autre réservée aux voitures, même si elle faisait un détour raisonnable, elle serait prise en compte dans le classement. Alors, au boulot ! 
+
+Rendre cyclables les grandes liaisons inter-commune, n'est-ce pas un minimum à exiger ? Avec ce minimum, une métropole pourrait atteindre facilement plus de 50 %, voire 80 %, même dans ses zones rurales. Vivement le futur. 
+
+### Les résultats sont quand même déprimants...
+
+Oui, la place attribuée au vélo en France est ridicule, et c'est très décourageant pour les aspirants cyclables. 
+
+C'est pour cela que nous souhaitons intégrer sur les cartes d'analyse de cyclabilité, les futurs réseaux cyclables. On parle notamment des REV, pour Réseau Express Vélo, qui vont structurer l'infra cyclables de nos villes comme le métro structure le réseau de transport en commun dans une métropole. 
+
+Les développements [sont en cours, à suivre](https://github.com/laem/villes.plus/issues/76) ! 
+
+
+### Mais vous n'avez pas intégré les "voies vertes" !
+
+
+Non, c'est vrai : il y a deux types de voies vertes en France. Celles qui sont considérées comme des voies vélo où les piétons peuvent marcher, souvent bitumées, et celles qui sont plutôt dédiées aux piétons, souvent en stabilisé. 
+
+Ces dernières peuvent poser de grands problèmes : souvent la seule possibilité pour un piéton pour se déplacer sereinement, ce dernier y est de plus en plus gêné par les cyclistes roulant de plus en plus à 25 km/h en électrique. Son chien est incapable de se faire aux vélos. 
+
+Pire : les "voies vertes", où doivent cohabiter des véhicules roulant à 25 km/h et des piétons à 3 km/h (donc 25 fois moins vite) sont souvent *la seule et unique politique cyclable du territoire*. Alors insistons : si l'essentiel des km de votre territoire est assuré par des "voies vertes", vous avez un gros problème. 
+
+Pour vous aider à vous en convaincre : à Amsterdam, mais aussi dans sa périphérie rurale, il n'y a aucune "voie verte". En Belgique, presque pas. À l'inverse, l'Allemagne en fait un grand usage. 
+
+Pourtant, c'est un sujet : nous envisageons d'intégrer au plus vite les voies vertes comme un supplément à visualiser sur la carte. Nous saurons ainsi quel % de cyclabilité est offert par les voies vertes en fonction du territoire. Affaire à suivre. 
+
+Pour en savoir plus, photos à l'appui, rejoignez la discussion sur cette [analyse de l'intégration des voies vertes](https://github.com/laem/villes.plus/issues/87). 
+
+
+### Les infrastructures cyclables ne sont pas les seuls ingrédients d'un territoire vélo ! 
+
+C'est tout à fait vrai. Bien qu'elles soient la colonne vertébrale de cette politique, de nombreuses autres décisions politiques entrent en jeu : il faut des attaches vélo, des réparateurs, des salons, des fabricants locaux, des influenceurs et politiques qui s'y mettent, des journalistes qui en parlent, des douches au boulot, des cours d'éducation au vélo, et une myriade d'autres paramètres. 
+
+Ainsi, villes plus qui se content d'analyser les scores en termes d'infrastructures cyclables, pourrait être l'un des ingrédients d'une notation plus globale. Vous voulez ajouter l'analyse des attaches vélos ? Rien de plus simple, via les données d'OpenStreetMap : venez contribuer. 
+
+En particulier, pour que le vélo prospère, il faut que les gens achètent des vélos qui leur donnent envie de rouler : découvrez si vous bénéficiez d'une aide à l'achat d'un vélo électrique, pliant, cargo sur [Mes Aides vélo](https://mesaidesvelo.fr). 
+
+Nous vous invitons également à vous abonner à la superbe lettre d'information [Le Concentré Vélo](https://leconcentrevelo.fr) pour vous tenir au courant de l'actualité du vélo :).  
+
+
+
+### Remerciements 
+
+
+Ce site ne serait pas possible sans l'incroyable projet [OpenStreetMap](https://openstreetmap.org/) 🤩. Il repose presque entièrement sur le travail de milliers de bénévoles. 
+
 
 ## Ils parlent de la plateforme villes.plus
 

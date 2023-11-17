@@ -2,6 +2,7 @@ import assos from '@/registre-assos-vélo.yaml'
 import Link from 'next/link'
 import Image from 'next/image'
 import { processName } from '@/../cyclingPointsRequests'
+import { Card } from '@/app/UI'
 export default ({ ville }) => {
 	console.log('VILLE', ville)
 	const asso = assos.filter(
@@ -13,7 +14,13 @@ export default ({ ville }) => {
 	if (!asso.length) return null
 
 	return (
-		<p>
+		<Card
+			css={`
+				width: 16rem;
+				margin: 0 auto;
+				margin-top: 1.6rem;
+			`}
+		>
 			😠 Pas content ? Soutenez{' '}
 			{asso.map((asso) => (
 				<Link href={asso.site} key={asso.nom}>
@@ -31,7 +38,6 @@ export default ({ ville }) => {
 					{asso.nom}
 				</Link>
 			))}
-			.
-		</p>
+		</Card>
 	)
 }

@@ -24,9 +24,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.52321492"
-     inkscape:cx="344.98252"
-     inkscape:cy="486.41579"
+     inkscape:zoom="0.27869687"
+     inkscape:cx="132.76073"
+     inkscape:cy="385.72374"
      inkscape:window-width="1920"
      inkscape:window-height="1055"
      inkscape:window-x="0"
@@ -39,18 +39,16 @@
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:#000000;fill-rule:evenodd;stroke-width:0.264583;fill-opacity:1"
-       id="rect6110"
-       width="278.03467"
-       height="278.03467"
-       x="10.171719"
-       y="11.545337"
-       ry="43.706829" />
+    <circle
+       style="fill:#000000;fill-rule:evenodd;stroke-width:0.273261"
+       id="path514"
+       cx="151.8275"
+       cy="150.99341"
+       r="146.92308" />
     <path
        id="path7369-3"
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.223183px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 149.59842,27.765327 -35.41497,49.790907 -42.703301,0.401599 c -0.01938,8.928932 -23.762892,57.880237 -17.013678,58.156967 17.024473,0.698 3.022078,77.79502 3.3205,118.17775 H 243.18597 c -2.5407,-30.59973 -13.05784,-111.81889 2.80101,-118.23882 L 226.779,78.302614 182.45848,77.77578 Z M 88.107689,143.15884 h 26.417061 v 86.51824 H 88.107689 Z m 48.754751,0.0146 h 26.41705 v 86.51824 h -26.41705 z m 49.03186,0.1233 h 26.41707 v 86.51825 H 185.8943 Z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.197188px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 150.17957,47.781166 115.91265,87.9515 74.59364,88.275502 c -0.01876,7.203689 -22.992569,46.696638 -16.462144,46.919898 16.472589,0.56314 2.924111,62.7635 3.212859,95.34351 H 240.73327 c -2.45833,-24.68727 -12.63453,-90.2133 2.71022,-95.39278 L 224.85819,88.553665 181.9744,88.128626 Z M 90.682165,140.87839 h 25.560715 v 69.80123 H 90.682165 Z m 47.174285,0.0118 h 25.56068 v 69.80122 h -25.56068 z m 47.44239,0.0995 h 25.56071 v 69.80125 h -25.56071 z"
        sodipodi:nodetypes="ccccccccccccccccccccccccc" />
   </g>
 </svg>

@@ -5,7 +5,7 @@ import villesList from '../villesClassées'
 import CityNumericResult from './CityNumericResult'
 import { Content, ImageWrapper, Li, Title } from './CityResultUI'
 
-const métropoleToVille = villesList.reduce(
+export const métropoleToVille = villesList.reduce(
 	(memo, next) =>
 		typeof next === 'string'
 			? { ...memo, [next]: next }

@@ -1,15 +1,20 @@
 import { Metadata } from 'next'
 import Header from './Header'
 import { Wrapper } from './UI'
-import Ville from './Ville'
+const Ville = dynamic(() => import('./Ville'), {
+	loading: () => 'Chargement de la carte...',
+	ssr: false,
+})
 
 import wikidata from '@/app/wikidata'
 import villesList from '@/villesClassées'
 import { Suspense } from 'react'
+import getRev from './getRev'
 
 import { getDirectory } from '@/../algorithmVersion'
 import { processName } from '@/../cyclingPointsRequests'
 import APIUrl from '@/app/APIUrl'
+import dynamic from 'next/dynamic'
 const métropoleToVille = villesList.reduce(
 	(memo, next) =>
 		typeof next === 'string'
@@ -69,11 +74,13 @@ export default async function Page({ params, searchParams }) {
 		osmId = searchParams.id,
 		clientProcessing = searchParams.client
 	const data = await getData(villeRaw, osmId)
+	const rev = await getRev(ville)
+	console.log('REV', rev, ville)
 	return (
 		<Wrapper>
 			<Header ville={ville} data={data} />
 			<Suspense fallback={<Fallback />}>
-				<Ville {...{ osmId, ville, clientProcessing }} />
+				<Ville {...{ osmId, ville, clientProcessing, rev }} />
 			</Suspense>
 		</Wrapper>
 	)

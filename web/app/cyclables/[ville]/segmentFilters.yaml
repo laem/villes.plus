@@ -1,0 +1,12 @@
+- color: blue
+  title: sécurisé
+  key: safe
+- color: red
+  title: non sécurisé
+  key: unsafe
+- color: purple
+  title: Réseau structurant
+  key: rev
+- color: '#17b30a'
+  title: Voie verte
+  key: green

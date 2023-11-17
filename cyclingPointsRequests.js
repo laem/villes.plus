@@ -1,4 +1,4 @@
-const OverpassInstance = 'https://overpass-api.de/api/interpreter'
+export const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 //const OverpassInstance = 'https://overpass.kumi.systems/api/interpreter'
 
 const testHasLevel = (name) => /.+\.\d$/.test(name)

@@ -27,16 +27,15 @@ const createBikeRouterQuery = (from, to) =>
 
 const createItinerary = (from, to) => {
 	const query = createBikeRouterQuery([from.lat, from.lon], [to.lat, to.lon])
-	return brouterRequest(
-		query,
-		(json) =>
-			console.log('brouter response') || {
-				...json,
-				fromPoint: from.id,
-				toPoint: to.id,
-				backboneRide: to.tags.amenity === 'townhall',
-			}
-	)
+	return brouterRequest(query).then((json) => {
+		console.log('brouter response')
+		return {
+			...json,
+			fromPoint: from.id,
+			toPoint: to.id,
+			backboneRide: to.tags.amenity === 'townhall',
+		}
+	})
 }
 
 export const segmentGeoJSON = (geojson) => {
@@ -185,6 +184,7 @@ export const isValidRide = (ride) =>
 export default async (ville, inform = () => null) => {
 	inform({ loading: `Les points vont être téléchargés` })
 	const points = await pointsProcess(ville)
+	console.log('Un point', points[0])
 	inform({ loading: `Points téléchargés : ${points.length} points` })
 	const pointsCenter = computePointsCenter(points)
 

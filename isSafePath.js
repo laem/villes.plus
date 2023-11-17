@@ -26,3 +26,6 @@ export const isSafePathV2Diff = (tags) =>
 
 // cycleway=share_busway, cycleway=lane are not considered safe segments
 // cycleway=shared_lane is not strong enough, there is no priority given to bikes, it's just a reminder
+
+export const isVoieVerte = (tags) =>
+	tags.includes('highway=path') && tags.includes('bicycle=designated')

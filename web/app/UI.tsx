@@ -5,29 +5,37 @@ export const LandingWrapper = styled.div`
 	text-align: center;
 `
 
+export const Card = styled.div`
+	margin: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 12rem;
+	text-align: center;
+	span {
+		font-size: 300%;
+	}
+	border: 4px solid var(--color2);
+	border-radius: 0.4rem;
+	padding: 0.6rem;
+	box-shadow: rgb(187, 187, 187) 2px 2px 10px;
+`
+export const LinkCard = styled(Card)`
+	a {
+		text-decoration: none;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+`
+
 export const Cards = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	a {
-		margin: 1rem;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 12rem;
-		text-align: center;
-		span {
-			font-size: 300%;
-		}
-		text-decoration: none;
-		border: 4px solid var(--color2);
-		border-radius: 0.4rem;
-		padding: 0.6rem;
-		box-shadow: rgb(187, 187, 187) 2px 2px 10px;
-	}
 `
 export const Header = styled.header`
 	display: flex;

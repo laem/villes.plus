@@ -1,19 +1,22 @@
 import { processName } from '@/../cyclingPointsRequests'
 import CityNumericResult from '@/app/CityNumericResult'
-import { getWikidata } from '@/app/CityResult'
+import { getWikidata, métropoleToVille } from '@/app/CityResult'
 import { ImageAndScoreWrapper, SmallImageWrapper } from '@/app/CityResultUI'
 import Logo from '@/app/Logo'
+import { Header } from './HeaderUI'
+import css from '@/css/convertToJs'
 import Image from 'next/image'
 import Link from 'next/link'
 import RésuméChiffré from './RésuméChiffré'
 
 export default async ({ ville, data }) => {
-	const wikidata = await getWikidata(processName(ville))
-	console.log('wikidata', wikidata, processName(ville))
+	const wikidata = await getWikidata(
+		processName(métropoleToVille[ville] || ville)
+	)
 
 	return (
-		<header style={{ marginBottom: '1rem' }}>
-			<Logo color={'black'} text={processName(ville)} cyclable />
+		<Header>
+			<Logo color={'black'} text={processName(ville)} cyclable align="start" />
 			<ImageAndScoreWrapper>
 				<SmallImageWrapper>
 					<Image
@@ -26,44 +29,71 @@ export default async ({ ville, data }) => {
 				<CityNumericResult {...{ cyclable: true, ville, initialData: data }} />
 			</ImageAndScoreWrapper>
 
-			<p style={{ marginBottom: 0 }}>
-				Voici le score et l'analyse de cyclabilité de {processName(ville)}.
-			</p>
-			<p>
-				Chaque mois, nous faisons rouler des 🚴 cyclistes virtuels sur une
-				multitude d'itinéraires, et nous comptons la proportion des kilomètres{' '}
-				<details style={{ display: 'inline' }}>
-					<summary
-						style={{ cursor: 'help', listStyleType: 'none', display: 'inline' }}
+			<details>
+				<summary
+					style={css`
+						list-style-type: none;
+						font-size: 90%;
+						text-decoration: underline;
+						cursor: help;
+					`}
+				>
+					<p
+						style={css`
+							margin-bottom: 0;
+							margin-left: 0;
+						`}
 					>
-						<strong>vraiment sécurisés</strong>.
-					</summary>
-					<div style={{ borderLeft: '3px solid #8f68ea' }}>
-						<p>
-							Nous considérons comme sécurisées les voies cyclables séparées des
-							voitures et piétons ou des vélorues où le vélo est prioritaire.
-							Les pistes cyclables peintes au sol qui longent des voitures
-							garées ne sont pas sécurisées.
-						</p>
-						<p>
-							Les voies de bus où les cyclistes doivent cohabiter avec des
-							véhicules de 10 tonnes non plus. Les chemins piétons de balade non
-							plus.
-						</p>
-					</div>
-				</details>
-			</p>
-			<RésuméChiffré data={data} name={processName(ville)} />
-			<div
-				style={{
-					textAlign: 'right',
-				}}
-			>
-				<small>
-					<Link href="/explications/cyclables">En savoir plus</Link> sur la
-					méthode d'évaluation.
-				</small>
-			</div>
-		</header>
+						Voici le score de cyclabilité de {processName(ville)}.
+					</p>
+				</summary>
+				<p>
+					Chaque mois, nous faisons rouler des 🚴 cyclistes virtuels sur une
+					multitude d'itinéraires, et nous comptons la proportion des kilomètres{' '}
+					<details style={{ display: 'inline' }}>
+						<summary
+							style={{
+								cursor: 'help',
+								listStyleType: 'none',
+								display: 'inline',
+							}}
+						>
+							<strong
+								style={css`
+									border-bottom: 2px solid #8f68ea;
+								`}
+							>
+								vraiment sécurisés
+							</strong>
+							.
+						</summary>
+						<div style={{ borderLeft: '3px solid #8f68ea' }}>
+							<p>
+								Nous considérons comme sécurisées les voies cyclables séparées
+								des voitures et piétons ou des vélorues où le vélo est
+								prioritaire. Les pistes cyclables peintes au sol qui longent des
+								voitures garées ne sont pas sécurisées.
+							</p>
+							<p>
+								Les voies de bus où les cyclistes doivent cohabiter avec des
+								véhicules de 10 tonnes non plus. Les chemins piétons de balade
+								non plus.
+							</p>
+						</div>
+					</details>
+				</p>
+				<RésuméChiffré data={data} name={processName(ville)} />
+				<div
+					style={{
+						textAlign: 'right',
+					}}
+				>
+					<small>
+						<Link href="/explications/cyclables">En savoir plus</Link> sur la
+						méthode d'évaluation.
+					</small>
+				</div>
+			</details>
+		</Header>
 	)
 }

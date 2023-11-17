@@ -1,0 +1,1 @@
+Les données des lignes de la métropole de Lyon sont stockées et entretenues par Benoit Demaegt ici https://github.com/benoitdemaegdt/voieslyonnaises/tree/main/content/voies-lyonnaises et publiées sur cyclopolis.fr.

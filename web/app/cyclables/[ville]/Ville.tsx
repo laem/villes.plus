@@ -6,11 +6,15 @@ import {
 	isValidRide,
 	segmentGeoJSON,
 } from '@/../computeCycling'
-import isSafePath, { isSafePathV2Diff } from '@/../isSafePath'
+import isSafePath, { isVoieVerte } from '@/../isSafePath'
 import { computePointsCenter, pointsProcess } from '@/../pointsRequest'
+import segmentsSafeDistance from '@/../segmentsSafeDistance'
 import APIUrl from '@/app/APIUrl'
+import css from '@/css/convertToJs'
+import CyclableScoreVignette from '@/CyclableScoreVignette'
 import Loader from '@/Loader'
 import L from 'leaflet'
+import Link from 'next/link'
 import 'node_modules/leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import { GeoJSON } from 'react-leaflet/GeoJSON'
@@ -18,10 +22,13 @@ import { useMap } from 'react-leaflet/hooks'
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { io } from 'socket.io-client'
-import { buttonCSS, Legend, SmallLegend } from '../UI'
+import { Legend, SegmentFilterButton, SegmentFilters, SmallLegend } from '../UI'
 import AssoPromo from './AssoPromo'
 import BottomLinks from './BottomLinks'
 import MarkersWrapper from './MarkersWrapper'
+import Rev from './Rev'
+import segmentFilterSchema from './segmentFilters.yaml'
+import SegmentInfo from './SegmentInfo'
 
 const defaultCenter = [48.10999850495452, -1.679193852233965]
 
@@ -37,7 +44,7 @@ const defaultData = {
 	score: null,
 }
 
-export default ({ ville, osmId, clientProcessing, data: givenData }) => {
+export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 	const id = osmId || ville
 
 	const [couple, setCouple] = useState({ from: null, to: null })
@@ -47,8 +54,12 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	const [clickedLatLon, setClickedLatLon] = useState()
 
 	const [randomFilter, setRandomFilter] = useState(100)
-	const [segmentFilter, setSegmentFilter] = useState(null)
-	const [showV2NewRules, setShowV2NewRules] = useState(false)
+	const [segmentFilter, setSegmentFilter] = useState({
+		safe: true,
+		unsafe: true,
+		rev: false,
+		green: false,
+	})
 	const [loadingMessage, setLoadingMessage] = useState(null)
 
 	const [data, setData] = useState(
@@ -174,12 +185,18 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 	//rides are not necessary when using server computed data
 	const {
 		segments,
-		points,
+		points: unfilteredPoints,
 		pointsCenter,
 		rides,
-		score: serverScore,
+		score,
 		ridesLength,
 	} = data
+
+	console.log(unfilteredPoints)
+	const points = /*segmentFilter.rev
+		? unfilteredPoints.filter((p) => p.tags.amenity === 'townhall')
+		: unfilteredPoints
+		*/ unfilteredPoints
 
 	const interactiveSegmentDemo = false
 	useEffect(() => {
@@ -198,23 +215,24 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 				segment.properties.fromPoint === clickedPoint ||
 				(segment.properties.rides || []).find((r) => r[1] === clickedPoint)
 		)
-		.filter(
-			(segment) =>
-				segmentFilter == null ||
-				isSafePath(segment.properties.tags) === segmentFilter
-		)
-		.filter(
-			(segment) =>
-				showV2NewRules == false || isSafePathV2Diff(segment.properties.tags)
-		)
+		.filter((segment) => {
+			const safePath = isSafePath(segment.properties.tags)
+			const voieVerte = isVoieVerte(segment.properties.tags)
+			if (segmentFilter.safe && segmentFilter.unsafe) return true
+			if (segmentFilter.unsafe) return !safePath
+			if (segmentFilter.safe) return safePath
+			if (segmentFilter.green) return voieVerte
+		})
 
-	/* 
-	const score =
-		serverScore ||
-		computeSafePercentage(rides.map((ride) => getMessages(ride)).flat())
+	// This recomputing of the safe distance is quite interesting, since it recalculates it from the segments from their coordinates, rather than from brouter's distance attributes
+	// Differences can existe, but they need to be unsignificative OR be explained !
+	const clientScore = segmentsSafeDistance(
+		segments,
+		segmentFilter.green && isVoieVerte
+	)
+	console.log('Score côté client ', clientScore, 'score côté serveur ', score)
 
-		//client side count should be reimplemented
-		*/
+	//client side count should be reimplemented
 	if (loadingMessage)
 		return (
 			<>
@@ -224,52 +242,12 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 		)
 
 	return (
-		<>
-			<AssoPromo ville={ville} />
-			<div
-				css={`
-					display: flex;
-					flex-wrap: wrap;
-					align-items: center;
-					margin-top: 1rem;
-				`}
-			>
-				<button
-					css={`
-						${buttonCSS}
-
-						${segmentFilter === true && `border: 2px solid; font-weight: bold`}
-					`}
-					onClick={() => setSegmentFilter(segmentFilter === true ? null : true)}
-				>
-					{' '}
-					<Legend color="blue" /> segments cyclables sécurisés
-				</button>
-				<button
-					css={`
-						${buttonCSS}
-						${segmentFilter === false &&
-						`border: 2px solid; font-weight: bold; `}
-					`}
-					onClick={() =>
-						setSegmentFilter(segmentFilter === false ? null : false)
-					}
-				>
-					<Legend color="red" /> non sécurisé
-				</button>
-				{clientProcessing && (
-					<button
-						css={`
-							${buttonCSS}
-							${showV2NewRules && `border: 2px solid; font-weight: bold; `}
-						`}
-						onClick={() => setShowV2NewRules(!showV2NewRules)}
-					>
-						Montrer les nouveautés v2
-					</button>
-				)}
-				<SmallLegend>Traits épais = reliant deux mairies.</SmallLegend>
-			</div>
+		<div
+			style={css`
+				z-index: 2;
+				width: 100%;
+			`}
+		>
 			{clientProcessing && (
 				<div>
 					<label>
@@ -285,13 +263,12 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 				css={`
 					margin-top: 0.2rem;
 					height: 90vh;
-					width: 90vw;
-					max-width: 90vw !important;
+					width: 85vw;
+					margin: 0.2rem auto;
 					> div {
 						height: 100%;
 						width: 100%;
 					}
-					margin-bottom: 2rem;
 				`}
 			>
 				{!pointsCenter ? (
@@ -341,69 +318,63 @@ export default ({ ville, osmId, clientProcessing, data: givenData }) => {
 									},
 								}}
 								style={(feature) =>
-									createStyle(feature.properties, clickedSegment === feature)
+									createStyle(
+										feature.properties,
+										clickedSegment === feature,
+										segmentFilter
+									)
 								}
 							/>
 						)}
 						<MarkersWrapper {...{ clickedPoint, setClickedPoint, points }} />
+						{rev && segmentFilter.rev && <Rev data={rev} />}
 					</MapContainer>
 				)}
 			</div>
-
 			<div
-				css={`
-					min-height: 10rem;
-					margin-bottom: 4rem;
+				style={css`
+					max-width: 700px;
+					margin: 0 auto;
 				`}
 			>
-				<h3>Informations sur le segment cliqué</h3>
-				{!clickedSegment && (
-					<p>
-						💡 Pour comprendre pourquoi un segment est classifié cyclable (bleu)
-						ou non cyclable (rouge), cliquez dessus !
-					</p>
-				)}
-				{clickedLatLon && (
-					<div
-						css={`
-							a {
-								display: block;
-								margin: 0.2rem 0;
+				<SegmentFilters>
+					{segmentFilterSchema.map(({ color, key, title }) => (
+						<SegmentFilterButton
+							$active={segmentFilter[key]}
+							onClick={() =>
+								setSegmentFilter({
+									...segmentFilter,
+									[key]: !segmentFilter[key],
+								})
 							}
-						`}
-					>
-						<a
-							href={`http://maps.google.com/maps?q=&layer=c&cbll=${clickedLatLon.lat},${clickedLatLon.lon}`}
-							target="_blank"
 						>
-							📸 Vue Google StreetView
-						</a>
-						<a
-							href={`https://www.openstreetmap.org/query?lat=${clickedLatLon.lat}&lon=${clickedLatLon.lon}`}
-							target="_blank"
-						>
-							🗺️ Carte OpenStreetMap
-						</a>
-					</div>
+							<Legend color={color} /> {title}
+						</SegmentFilterButton>
+					))}
+				</SegmentFilters>
+				{segmentFilter.green && (
+					<SmallLegend>
+						En considérant les "voies vertes" comme sécurisées (
+						<Link href="https://github.com/laem/villes.plus/issues/87">
+							pourquoi elles ne le sont pas encore
+						</Link>
+						), le score passe à :{' '}
+						<CyclableScoreVignette data={{ score: clientScore }} />
+					</SmallLegend>
 				)}
-				<br />
-				{clickedSegment && (
-					<div>
-						Tags OSM du segment :{' '}
-						<ul
-							css={`
-								margin-left: 2rem;
-							`}
-						>
-							{clickedSegment.properties.tags.split(' ').map((tag) => (
-								<li key={tag}>{tag}</li>
-							))}
-						</ul>
-					</div>
-				)}
-				<BottomLinks ville={ville} />
+				<SmallLegend>Traits épais = qui relie 2 mairies.</SmallLegend>
+				<AssoPromo ville={ville} />
+				<div
+					css={`
+						min-height: 10rem;
+						margin-bottom: 4rem;
+					`}
+				>
+					<SegmentInfo {...{ clickedSegment, clickedLatLon }} />
+					<BottomLinks ville={ville} />
+				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 
@@ -418,7 +389,7 @@ function MapZoomer({ points }) {
 }
 
 const baseOpacity = 0.6
-const createStyle = (properties, highlight) =>
+const createStyle = (properties, highlight, segmentFilter) =>
 	!highlight
 		? {
 				weight:
@@ -435,6 +406,9 @@ const createStyle = (properties, highlight) =>
 				color:
 					properties.isSafePath == null
 						? properties.color
+						: segmentFilter.green && isVoieVerte(properties.tags)
+						? segmentFilterSchema.find(({ color, key }) => key === 'green')
+								.color
 						: properties.isSafePath
 						? 'blue'
 						: '#ff4800',
