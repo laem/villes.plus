@@ -39,7 +39,7 @@ export default function Rev({ data }) {
 					? { weight: weight * 2, color: 'white', lineCap: 'unset' }
 					: {
 							weight,
-							color: feature.properties.color,
+							color: feature.properties.color || feature.properties.stroke,
 					  }
 			}}
 		/>

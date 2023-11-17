@@ -2,6 +2,7 @@ import { OverpassInstance, request } from '@/../cyclingPointsRequests'
 import { fetchRetry } from '@/../utils'
 import osmtogeojson from 'osmtogeojson'
 import lyonColors from '@/rev/Métropole de Lyon/couleurs.yaml'
+import rennes from '@/rev/Rennes Métropole/lignes.json'
 
 export default async (name) => {
 	if (name === 'Métropole de Lyon') {
@@ -36,6 +37,10 @@ export default async (name) => {
 		return result
 	}
 	if (name === 'Rennes Métropole') {
+		return rennes
+	}
+	if (false && name === 'Rennes Métropole') {
+		// Here, we donwloaded data from OSM directly through overpass. But REV are not mainstream yet, and it's probably better to use geojson for most of the lines are not yet completed, just political projects. It also enables any associative actor to propose plans to be intagrated here in villes.plus
 		const requestCore = `
 		 relation["cycle_network"="FR:REV"](area.searchArea);
 `
