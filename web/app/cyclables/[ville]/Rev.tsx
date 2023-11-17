@@ -33,10 +33,21 @@ export default function Rev({ data }) {
 			data={newData}
 			style={(feature) => {
 				const weight =
-					{ 14: 6, 13: 6, 12: 6, 11: 5, 10: 4, 9: 4 }[zoomLevel] || 4
+					{
+						18: 10,
+						17: 10,
+						16: 9,
+						15: 8,
+						14: 7,
+						13: 6,
+						12: 6,
+						11: 5,
+						10: 4,
+						9: 4,
+					}[zoomLevel] || 4
 
 				return feature.properties.ghost
-					? { weight: weight * 2, color: 'white', lineCap: 'unset' }
+					? { weight: weight * 1.5, color: 'blue', lineCap: 'unset' }
 					: {
 							weight,
 							color: feature.properties.color || feature.properties.stroke,

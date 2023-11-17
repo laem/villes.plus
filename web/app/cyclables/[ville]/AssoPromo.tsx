@@ -18,6 +18,7 @@ export default ({ ville }) => {
 			css={`
 				width: 16rem;
 				margin: 0 auto;
+				margin-top: 1.6rem;
 			`}
 		>
 			😠 Pas content ? Soutenez{' '}

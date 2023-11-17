@@ -193,9 +193,10 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 	} = data
 
 	console.log(unfilteredPoints)
-	const points = segmentFilter.rev
+	const points = /*segmentFilter.rev
 		? unfilteredPoints.filter((p) => p.tags.amenity === 'townhall')
 		: unfilteredPoints
+		*/ unfilteredPoints
 
 	const interactiveSegmentDemo = false
 	useEffect(() => {
