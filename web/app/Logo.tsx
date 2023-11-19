@@ -1,10 +1,10 @@
 import css from '@/css/convertToJs'
 import Image from 'next/image'
 import logo from '@/public/logo.svg'
-import { LogoImages, LogoWrapper } from '@/app/LogoUI'
+import { LogoImages, LogoTitle, LogoWrapper } from '@/app/LogoUI'
 
 export default ({ text, color, cyclable, align = 'center' }) => {
-	const blue = '#1e3799'
+	const blue = ''
 
 	const goodEmoji = cyclable ? '🚴' : '🚶'
 	const firstEmoji = cyclable ? '🚳' : '🧍'
@@ -31,19 +31,7 @@ export default ({ text, color, cyclable, align = 'center' }) => {
 				/>
 				<span>{human.walking}</span>
 			</LogoImages>
-			{text && (
-				<h1
-					style={css`
-						margin: 0;
-						padding: 0;
-						margin-left: 0.8rem;
-						color: ${color || blue};
-						display: inline;
-					`}
-				>
-					{text}
-				</h1>
-			)}
+			{text && <LogoTitle>{text}</LogoTitle>}
 		</LogoWrapper>
 	)
 }

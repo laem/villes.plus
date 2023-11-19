@@ -54,7 +54,8 @@ export const ImageAndScoreWrapper = styled.div`
 	display: flex;
 	justify-content: start;
 	align-items: center;
-	width: calc(11rem + 30vw);
+	width: calc(14rem + 30vw);
+	max-width: min(95vw, 40rem);
 `
 export const LoadingMessage = styled.div`
 	margin: 0.6rem;
