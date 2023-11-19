@@ -44,6 +44,8 @@ const defaultData = {
 	score: null,
 }
 
+export const defaultZoom = 11
+
 export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 	const id = osmId || ville
 
@@ -287,7 +289,8 @@ export default ({ ville, osmId, clientProcessing, rev, data: givenData }) => {
 							(pointsCenter && pointsCenter.geometry.coordinates.reverse()) ||
 							defaultCenter
 						}
-						zoom={12}
+						zoom={defaultZoom}
+						zoomSnap={0.5}
 						preferCanvas={true}
 					>
 						<MapZoomer points={points} />
