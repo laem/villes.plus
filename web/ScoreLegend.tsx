@@ -18,7 +18,7 @@ export default ({ scores }) => (
 				css={`
 					position: absolute;
 					left: ${100 - score}%;
-					top: -5px;
+					top: -11px;
 					height: 2rem;
 					opacity: 0.3;
 					width: 0rem;
@@ -29,17 +29,31 @@ export default ({ scores }) => (
 				`}
 			></span>
 		))}
-		{[...colors].reverse().map((c) => (
-			<span
-				key={c}
-				css={`
-					z-index: 1;
-					width: 5%;
-					height: 0.6rem;
-					display: inline-block;
-					background: ${c};
-				`}
-			></span>
-		))}
+		{[...colors].reverse().map((c, i) => {
+			const score = (20 - i) / 2,
+				display = !(i % 2)
+			return (
+				<span
+					key={c}
+					css={`
+						z-index: 1;
+						width: 5%;
+						height: 1.35rem;
+						display: inline-block;
+						background: ${c};
+						text-align: center;
+						color: ${score < 5 ? 'white' : 'black'};
+					`}
+				>
+					<span
+						css={`
+							visibility: ${display ? 'visible' : 'hidden'};
+						`}
+					>
+						{score}
+					</span>
+				</span>
+			)
+		})}
 	</div>
 )

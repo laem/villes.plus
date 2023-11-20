@@ -1343,7 +1343,7 @@ esutils@^2.0.2:
   resolved "https://registry.npmjs.org/esutils/-/esutils-2.0.3.tgz"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-extend@^3.0.0:
+extend@^3.0.0, extend@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
@@ -1464,6 +1464,20 @@ functions-have-names@^1.2.2:
   version "1.2.3"
   resolved "https://registry.npmjs.org/functions-have-names/-/functions-have-names-1.2.3.tgz"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
+
+geojson-bbox@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/geojson-bbox/-/geojson-bbox-0.0.1.tgz#6942b736dcb4e5ec6b2e47e46c1e2c49795b3e32"
+  integrity sha512-1ZuQ6SmG8X2c5a4rpiGHbjZuZOhz+Y1uCDyN1Az7552/jBziCIaJe4V1d07I6Ul9k8V8yGi6kisDlvpIjJrZ+Q==
+
+geojson2svg@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/geojson2svg/-/geojson2svg-2.0.1.tgz#192013e74f21677e58f35b1618deca70c79809dc"
+  integrity sha512-INJRMpR/iYLhSImHyPq2VhYcxkOguj/vquy1WXIijTsV+gqaxJsfJmGtRXhwxP6IS4i5aWQl927FG2dcAafeHA==
+  dependencies:
+    extend "^3.0.2"
+    geojson-bbox "^0.0.1"
+    multigeojson "~0.0.1"
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.1, get-intrinsic@^1.1.3, get-intrinsic@^1.2.0:
   version "1.2.0"
@@ -2115,6 +2129,11 @@ ms@2.1.2, ms@^2.1.1:
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+multigeojson@~0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/multigeojson/-/multigeojson-0.0.1.tgz#f2404a80b6ee5a9642abb17db01a9e7f1809ef3e"
+  integrity sha512-FbCR4K9xp+0lbcHmJk1TLjXW+l82VcEhDDIU7g3DWm47WyGSpuGX8lJx58pOPa61T0b1zQUJVjllPJ6eXe54lg==
+
 nanoid@^3.3.6:
   version "3.3.6"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.6.tgz"
@@ -2457,6 +2476,13 @@ safe-regex-test@^1.0.0:
     get-intrinsic "^1.1.3"
     is-regex "^1.1.4"
 
+satori-html@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/satori-html/-/satori-html-0.3.2.tgz#9c3c10a5f910c063139953dfe7c6a87dfe48cc79"
+  integrity sha512-wjTh14iqADFKDK80e51/98MplTGfxz2RmIzh0GqShlf4a67+BooLywF17TvJPD6phO0Hxm7Mf1N5LtRYvdkYRA==
+  dependencies:
+    ultrahtml "^1.2.0"
+
 satori@0.4.4:
   version "0.4.4"
   resolved "https://registry.npmjs.org/satori/-/satori-0.4.4.tgz"
@@ -2783,6 +2809,11 @@ typescript@5.0.3:
   version "5.0.3"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.0.3.tgz"
   integrity sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==
+
+ultrahtml@^1.2.0:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/ultrahtml/-/ultrahtml-1.5.2.tgz#77be18c531adc4cda198b8767eda27df9427cc7f"
+  integrity sha512-qh4mBffhlkiXwDAOxvSGxhL0QEQsTbnP9BozOK3OYPEGvPvdWzvAUaXNtUSMdNsKDtuyjEbyVUPFZ52SSLhLqw==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

@@ -23,10 +23,19 @@ export const Card = styled.div`
 `
 export const LinkCard = styled(Card)`
 	a {
+		height: 10rem;
 		text-decoration: none;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
+	}
+`
+
+export const Icons = styled.div`
+	img {
+		width: 4rem;
+		height: auto;
 	}
 `
 

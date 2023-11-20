@@ -1,7 +1,6 @@
-'use client'
-import styled from 'styled-components'
 import tinygradient from 'tinygradient'
 import { previousDate } from '@/../algorithmVersion'
+import { Wrapper } from './CyclableScoreVignetteUI'
 /*
 	Hex to RGB conversion:
  	http://www.javascripter.net/faq/hextorgb.htm
@@ -37,7 +36,8 @@ const gradient = tinygradient(
 
 export const colors = gradient.rgb(20)
 
-const getBackgroundColor = (score) => colors[Math.round(score / 5)]
+export const getBackgroundColor = (score) => colors[Math.round(score / 5)]
+
 export default ({ data, margin = '' }) => {
 	const score = data.score
 	if (!score) return null
@@ -115,12 +115,3 @@ const Evolution = ({ data }) => {
 const roundHalf = function (n) {
 	return +(Math.round(n * 2) / 2).toFixed(1)
 }
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	small {
-		margin: 0.3rem 0;
-	}
-`

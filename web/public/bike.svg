@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg8684"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   sodipodi:docname="bike.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview8686"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.96696462"
+     inkscape:cx="346.44494"
+     inkscape:cy="465.89088"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g8501" />
+  <defs
+     id="defs8681" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g8485"
+       transform="matrix(3.2221944,0,0,3.2221944,-11.675893,-16.7303)">
+      <g
+         id="g8469">
+        <path
+           d="m 31,45 a 0.9448,0.9448 0 0 0 -1,1 9.2,9.2 0 1 1 -9.2,-9.2 v 0 l 0.2,-2 H 20.8 A 11.2,11.2 0 1 0 32,46 0.9448,0.9448 0 0 0 31,45 Z"
+           id="path8459" />
+        <path
+           d="m 52.8,34.8 a 12.2713,12.2713 0 0 0 -3.9,0.7 l 0.9,1.8 a 10.4735,10.4735 0 0 1 3,-0.5 9.2,9.2 0 1 1 -9.1,9.7 l -2,-0.1 A 11.1545,11.1545 0 1 0 52.8,34.8 Z"
+           id="path8461" />
+        <path
+           d="m 48,38.2 -0.9,-1.8 a 11.0932,11.0932 0 0 0 -5.3,7.9 l 2,0.1 A 9.3751,9.3751 0 0 1 48,38.2 Z"
+           id="path8463" />
+        <line
+           x1="23"
+           x2="27"
+           y1="22"
+           y2="22"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8465" />
+        <line
+           x1="42"
+           x2="48"
+           y1="25.700001"
+           y2="25.700001"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8467" />
+      </g>
+      <g
+         id="g8483">
+        <line
+           x1="21.1"
+           x2="22.799999"
+           y1="46"
+           y2="24.6"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8471" />
+        <line
+           x1="36"
+           x2="23"
+           y1="45"
+           y2="30"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8473" />
+        <line
+           x1="45"
+           x2="53"
+           y1="30"
+           y2="46"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8475" />
+        <line
+           x1="23"
+           x2="44"
+           y1="30"
+           y2="30"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8477" />
+        <line
+           x1="46"
+           x2="36"
+           y1="28.4"
+           y2="45"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8479" />
+        <line
+           x1="36"
+           x2="53"
+           y1="45"
+           y2="46"
+           fill="none"
+           stroke="#000000"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2"
+           id="line8481" />
+      </g>
+    </g>
+    <g
+       id="g8487"
+       transform="matrix(3.3503475,0,0,3.3503475,21.395948,-36.424421)" />
+    <g
+       id="g8501"
+       transform="matrix(3.2221944,0,0,3.2221944,-11.675893,-16.7303)">
+      <g
+         id="g8950"
+         style="stroke:#7963e3;stroke-opacity:1">
+        <line
+           x1="21.1"
+           x2="22.799999"
+           y1="46"
+           y2="24.6"
+           fill="none"
+           stroke="#ea5a47"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2.1"
+           id="line8489"
+           style="stroke:#7963e3;stroke-opacity:1" />
+        <line
+           x1="36"
+           x2="23"
+           y1="45"
+           y2="30"
+           fill="none"
+           stroke="#ea5a47"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2.1"
+           id="line8491"
+           style="stroke:#7963e3;stroke-opacity:1" />
+        <line
+           x1="45"
+           x2="53"
+           y1="30"
+           y2="46"
+           fill="none"
+           stroke="#ea5a47"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2.1"
+           id="line8493"
+           style="stroke:#7963e3;stroke-opacity:1" />
+        <line
+           x1="23"
+           x2="44"
+           y1="30"
+           y2="30"
+           fill="none"
+           stroke="#ea5a47"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2.1"
+           id="line8495"
+           style="stroke:#7963e3;stroke-opacity:1" />
+        <line
+           x1="46"
+           x2="36"
+           y1="28.4"
+           y2="45"
+           fill="none"
+           stroke="#ea5a47"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2.1"
+           id="line8497"
+           style="stroke:#7963e3;stroke-opacity:1" />
+        <line
+           x1="36"
+           x2="53"
+           y1="45"
+           y2="46"
+           fill="none"
+           stroke="#ea5a47"
+           stroke-linecap="round"
+           stroke-linejoin="round"
+           stroke-width="2.1"
+           id="line8499"
+           style="stroke:#7963e3;stroke-opacity:1" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300mm"
+   height="300mm"
+   viewBox="0 0 300 300"
+   version="1.1"
+   id="svg3864"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   sodipodi:docname="townhall.simple.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview3866"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.27869687"
+     inkscape:cx="104.05571"
+     inkscape:cy="385.72374"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs3861" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path7369-3"
+       style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.197188px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 150.17957,47.781166 115.91265,87.9515 74.59364,88.275502 c -0.01876,7.203689 -22.992569,46.696638 -16.462144,46.919898 16.472589,0.56314 2.924111,62.7635 3.212859,95.34351 H 240.73327 c -2.45833,-24.68727 -12.63453,-90.2133 2.71022,-95.39278 L 224.85819,88.553665 181.9744,88.128626 Z M 90.682165,140.87839 h 25.560715 v 69.80123 H 90.682165 Z m 47.174285,0.0118 h 25.56068 v 69.80122 h -25.56068 z m 47.44239,0.0995 h 25.56071 v 69.80125 h -25.56071 z"
+       sodipodi:nodetypes="ccccccccccccccccccccccccc" />
+  </g>
+</svg>
