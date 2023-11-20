@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg15914"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   sodipodi:docname="villes-moyennes.icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview15916"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.73534938"
+     inkscape:cx="515.40126"
+     inkscape:cy="499.08249"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs15911" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g18653"
+       transform="translate(95.250005)">
+      <path
+         style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.238528px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 25.687827,98.175818 37.206253,45.995481 48.518356,98.895389 48.47475,172.90838 25.954542,172.85475 Z"
+         id="path299-5"
+         sodipodi:nodetypes="cccccc" />
+      <path
+         style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.284875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 43.059226,172.92361 v -34.17147 l 25.439034,-18.08893 23.438775,18.24166 v 33.87489 z"
+         id="path1007-7-3"
+         sodipodi:nodetypes="cccccc" />
+    </g>
+    <g
+       id="g18649"
+       transform="matrix(-1,0,0,1,205.0776,0)">
+      <path
+         style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.284875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 128.3987,172.5995 v -34.17144 l 25.43903,-18.08894 23.43877,18.24164 v 33.8749 z"
+         id="path1007-7-3-5"
+         sodipodi:nodetypes="cccccc" />
+      <path
+         style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.240591px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 107.17611,172.76729 v -57.93962 l 4.4437,-7.45154 h 16.99554 l 4.56413,7.65623 v 57.54208 z"
+         id="path1007"
+         sodipodi:nodetypes="ccccccc" />
+    </g>
+  </g>
+</svg>

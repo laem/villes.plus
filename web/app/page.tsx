@@ -40,11 +40,7 @@ export default () => (
 			<LinkCard>
 				<Link href="/cyclables/metropoles">
 					<Icons>
-						<Image
-							src="https://openmoji.org/data/color/svg/1F3D9.svg"
-							width="100"
-							height="100"
-						/>
+						<Image src="/metropoles.icon.svg" width="100" height="100" />
 						<Image src={bikeIcon} width="100" height="100" />
 					</Icons>
 					<div>
@@ -55,11 +51,7 @@ export default () => (
 			<LinkCard>
 				<Link href="/cyclables/grandes-villes">
 					<Icons>
-						<Image
-							src="https://openmoji.org/data/color/svg/1F3D9.svg"
-							width="100"
-							height="100"
-						/>
+						<Image src="/grandes-villes.icon.svg" width="100" height="100" />
 						<Image src={bikeIcon} width="100" height="100" />
 					</Icons>
 					<div>
@@ -70,11 +62,7 @@ export default () => (
 			<LinkCard>
 				<Link href="/cyclables/prefectures">
 					<Icons>
-						<Image
-							src="https://openmoji.org/data/color/svg/1F3D9.svg"
-							width="100"
-							height="100"
-						/>
+						<Image src="/townhall.simple.svg" width="100" height="100" />
 						<Image src={bikeIcon} width="100" height="100" />
 					</Icons>
 					<div>
@@ -85,11 +73,7 @@ export default () => (
 			<LinkCard>
 				<Link href="/cyclables/communes">
 					<Icons>
-						<Image
-							src="https://openmoji.org/data/color/svg/1F3D9.svg"
-							width="100"
-							height="100"
-						/>
+						<Image src="/villes-moyennes.icon.svg" width="100" height="100" />
 						<Image src={bikeIcon} width="100" height="100" />
 					</Icons>
 					<div>
@@ -101,8 +85,12 @@ export default () => (
 		<Cards>
 			<LinkCard>
 				<Link href="/pietonnes">
-					<span>🚶</span>
-					Le classement des grandes villes <strong>les plus piétonnes</strong>
+					<Icons>
+						<Image src="/walking.svg" width="100" height="100" />
+					</Icons>
+					<div>
+						Les grandes villes <strong>les plus piétonnes</strong>.
+					</div>
 				</Link>
 			</LinkCard>
 		</Cards>

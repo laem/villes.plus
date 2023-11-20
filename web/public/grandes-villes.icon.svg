@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg:svg
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="grandes-villes.icon.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <link
+     type="text/css"
+     rel="stylesheet"
+     id="dark-mode-custom-link" />
+  <link
+     type="text/css"
+     rel="stylesheet"
+     id="dark-mode-general-link" />
+  <style
+     lang="en"
+     type="text/css"
+     id="dark-mode-custom-style" />
+  <style
+     lang="en"
+     type="text/css"
+     id="dark-mode-native-style" />
+  <style
+     lang="en"
+     type="text/css"
+     id="dark-mode-native-sheet" />
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.37576768"
+     inkscape:cx="178.30166"
+     inkscape:cy="356.60331"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <svg:defs
+     id="defs2" />
+  <svg:g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <svg:rect
+       style="fill:#7963e3;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.24028"
+       id="rect234"
+       width="24.360289"
+       height="112.57227"
+       x="95.645416"
+       y="59.639565" />
+    <svg:path
+       style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.261546px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 119.25577,90.226884 12.62998,-57.215961 12.40382,58.004994 V 123.8079 h 29.37344 v 48.30452 h -54.11488 z"
+       id="path299"
+       sodipodi:nodetypes="cccccccc" />
+    <svg:path
+       style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.261546px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 68.196286,172.28317 v -62.98589 l 4.830724,-8.10053 h 18.475775 l 4.961628,8.32306 v 62.55372 z"
+       id="path1007"
+       sodipodi:nodetypes="ccccccc" />
+    <svg:path
+       style="fill:#7963e3;fill-opacity:1;stroke:none;stroke-width:0.164758px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 40.531337,172.29232 v -19.76281 l 14.712486,-10.46163 13.555646,10.54992 v 19.59133 z"
+       id="path1007-7"
+       sodipodi:nodetypes="cccccc" />
+  </svg:g>
+</svg:svg>
