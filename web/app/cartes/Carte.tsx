@@ -1,10 +1,11 @@
 import { GeoJSON2SVG } from 'geojson2svg'
 import départementsScores from './data/départements.json'
-const data = départementsScores
-const geo = data.geojson
+import régionsScores from './data/régions.json'
 const converter = new GeoJSON2SVG()
 
-export default function Carte() {
+export default function Carte({ level }) {
+	const data = level === 'départements' ? départementsScores : régionsScores
+	const geo = data.geojson
 	const svgStrings = converter.convert(geo, {
 		attributes: ['properties.osmId', 'properties.nom', 'properties.style'],
 	})
@@ -13,7 +14,7 @@ export default function Carte() {
 			viewBox="0 20 270 140"
 			style={{
 				width: '100%',
-				height: '85%',
+				height: '100%',
 				transform: 'scaleX(.75)',
 				maxWidth: '70rem',
 				margin: '0 auto',

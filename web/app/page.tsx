@@ -3,6 +3,7 @@ import { Cards, LandingWrapper, Header, Card, LinkCard } from './UI'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import logo from '@/public/logo.svg'
+import Carte from './cartes/Carte'
 
 export const metadata: Metadata = {
 	title:
@@ -19,14 +20,18 @@ export default () => (
 		<Cards>
 			<LinkCard>
 				<Link href="/cyclables/regions">
-					<span>🚲️</span> Le classement des <strong>régions</strong> les plus
-					cyclables.
+					<Carte level="régions" />
+					<div>
+						Les <strong>régions</strong> les plus cyclables.
+					</div>
 				</Link>
 			</LinkCard>
 			<LinkCard>
 				<Link href="/cyclables/departements">
-					<span>🚲️</span> Le classement des <strong>départements</strong> les
-					plus cyclables.
+					<Carte level="départements" />
+					<div>
+						Les <strong>départements</strong> les plus cyclables.
+					</div>
 				</Link>
 			</LinkCard>
 		</Cards>

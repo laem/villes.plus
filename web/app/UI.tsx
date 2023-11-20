@@ -23,6 +23,7 @@ export const Card = styled.div`
 `
 export const LinkCard = styled(Card)`
 	a {
+		height: 10rem;
 		text-decoration: none;
 		display: flex;
 		flex-direction: column;
