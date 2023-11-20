@@ -15,6 +15,7 @@ export default () => (
 	<LandingWrapper>
 		<Header>
 			<AnimatedIllustration />
+			<AnimatedIllustration d="M -6,42 C 187,42 187,42 187,4" invert={true} />
 			<Image src={logo} alt="Logo de villes.plus" />
 			<h1>Villes.plus</h1>
 		</Header>
