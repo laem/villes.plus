@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import { Cards, LandingWrapper, Header, Card, LinkCard } from './UI'
+import { Cards, LandingWrapper, Header, Card, LinkCard, Icons } from './UI'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import logo from '@/public/logo.svg'
 import Carte from './cartes/Carte'
+import bikeIcon from '@/public/bike.svg'
 
 export const metadata: Metadata = {
 	title:
@@ -38,26 +39,62 @@ export default () => (
 		<Cards>
 			<LinkCard>
 				<Link href="/cyclables/metropoles">
-					<span>🚲️</span> Le classement des <strong>métropoles</strong> les
-					plus cyclables.
+					<Icons>
+						<Image
+							src="https://openmoji.org/data/color/svg/1F3D9.svg"
+							width="100"
+							height="100"
+						/>
+						<Image src={bikeIcon} width="100" height="100" />
+					</Icons>
+					<div>
+						Les <strong>métropoles</strong> les plus cyclables.
+					</div>
 				</Link>
 			</LinkCard>
 			<LinkCard>
 				<Link href="/cyclables/grandes-villes">
-					<span>🚲️</span> Le classement des <strong>grandes villes</strong> les
-					plus cyclables.
+					<Icons>
+						<Image
+							src="https://openmoji.org/data/color/svg/1F3D9.svg"
+							width="100"
+							height="100"
+						/>
+						<Image src={bikeIcon} width="100" height="100" />
+					</Icons>
+					<div>
+						Les <strong>grandes villes</strong> les plus cyclables.
+					</div>
 				</Link>
 			</LinkCard>
 			<LinkCard>
 				<Link href="/cyclables/prefectures">
-					<span>🚲️</span> Le classement des <strong>préfectures</strong> les
-					plus cyclables.
+					<Icons>
+						<Image
+							src="https://openmoji.org/data/color/svg/1F3D9.svg"
+							width="100"
+							height="100"
+						/>
+						<Image src={bikeIcon} width="100" height="100" />
+					</Icons>
+					<div>
+						Les <strong>préfectures</strong> les plus cyclables.
+					</div>
 				</Link>
 			</LinkCard>
 			<LinkCard>
 				<Link href="/cyclables/communes">
-					<span>🚲️</span> Le classement des <strong>villes moyennes</strong>{' '}
-					les plus cyclables.
+					<Icons>
+						<Image
+							src="https://openmoji.org/data/color/svg/1F3D9.svg"
+							width="100"
+							height="100"
+						/>
+						<Image src={bikeIcon} width="100" height="100" />
+					</Icons>
+					<div>
+						Les <strong>villes moyennes</strong> les plus cyclables.
+					</div>
 				</Link>
 			</LinkCard>
 		</Cards>

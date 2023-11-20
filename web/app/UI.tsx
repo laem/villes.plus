@@ -28,6 +28,14 @@ export const LinkCard = styled(Card)`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
+	}
+`
+
+export const Icons = styled.div`
+	img {
+		width: 4rem;
+		height: auto;
 	}
 `
 
