@@ -38,6 +38,7 @@ export const Cards = styled.div`
 	flex-wrap: wrap;
 `
 export const Header = styled.header`
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;

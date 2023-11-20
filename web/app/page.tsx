@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 export default () => (
 	<LandingWrapper>
 		<Header>
+			<AnimatedIllustration />
 			<Image src={logo} alt="Logo de villes.plus" />
 			<h1>Villes.plus</h1>
 		</Header>
-		<AnimatedIllustration />
 		<Cards>
 			<LinkCard>
 				<Link href="/cyclables/regions">
