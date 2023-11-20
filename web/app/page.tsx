@@ -3,6 +3,7 @@ import { Cards, LandingWrapper, Header, Card, LinkCard } from './UI'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import logo from '@/public/logo.svg'
+import AnimatedIllustration from './AnimatedIllustrastion'
 
 export const metadata: Metadata = {
 	title:
@@ -16,6 +17,7 @@ export default () => (
 			<Image src={logo} alt="Logo de villes.plus" />
 			<h1>Villes.plus</h1>
 		</Header>
+		<AnimatedIllustration />
 		<Cards>
 			<LinkCard>
 				<Link href="/cyclables/regions">
