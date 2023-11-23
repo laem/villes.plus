@@ -71,9 +71,21 @@ out skel qt;
 					)
 					.filter(Boolean)
 					.map(({ lat, lon }) => [lon, lat])
+				const maxspeed = el.tags.maxspeed
 				return {
 					type: 'Feature',
-					properties: {},
+					properties: {
+						color:
+							maxspeed == undefined
+								? 'grey'
+								: +maxspeed > 80
+								? 'red'
+								: +maxspeed === 80
+								? 'blue'
+								: +maxspeed < 80
+								? 'green'
+								: 'grey',
+					},
 					geometry: {
 						coordinates,
 						type: 'LineString',
@@ -109,8 +121,8 @@ out skel qt;
 				'line-cap': 'round',
 			},
 			paint: {
-				'line-color': 'red',
-				'line-width': 8,
+				'line-color': ['get', 'color'],
+				'line-width': 4,
 			},
 		})
 
