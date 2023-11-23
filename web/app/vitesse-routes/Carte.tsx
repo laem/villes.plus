@@ -24,7 +24,7 @@ export default function Map({ searchParams }) {
 	const [style, setStyle] = useState('toner')
 	const [features, setFeatures] = useState([])
 	const styleKey = styleKeys[style]
-	const [go, setGo] = useState(false)
+	const [go, setGo] = useState(null)
 
 	if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 		throw new Error('You have to configure env REACT_APP_API_KEY, see README')
@@ -35,7 +35,7 @@ export default function Map({ searchParams }) {
 	const [map, setMap] = useState(null)
 
 	useEffect(() => {
-		if (!map || !go) return
+		if (!map || go !== 'user click') return
 
 		const fetchCategories = async () => {
 			const mapLibreBbox = map.getBounds().toArray(),
@@ -61,7 +61,9 @@ out skel qt;
 				overpassRequest
 			)}`
 			console.log(url)
+			setGo('overpass request sent')
 			const request = await fetch(url)
+			setGo('overpass request received, will process')
 			const json = await request.json()
 			const ways = json.elements.map((el) => {
 				if (!el.type === 'way' || !el.nodes) return false
@@ -100,6 +102,7 @@ out skel qt;
 			}
 
 			console.log('Rlala', geojson)
+			setGo('features processed')
 			setFeatures(geojson)
 		}
 		fetchCategories()
@@ -219,10 +222,18 @@ out skel qt;
 					}
 				`}
 			>
-				<button onClick={() => setGo(true)}>
+				<button onClick={() => setGo('user click')}>
 					Lancer la requête sur cette zone ATTENTION FAIRE DES PETITES ZONES DE
 					MOINS DE 100 KM POUR L'INSTANT
 				</button>
+				<div
+					css={`
+						background: 'red';
+						color: black;
+					`}
+				>
+					{go}
+				</div>
 			</div>
 			<button
 				css={`
