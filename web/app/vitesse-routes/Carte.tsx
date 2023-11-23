@@ -24,6 +24,7 @@ export default function Map({ searchParams }) {
 	const [style, setStyle] = useState('toner')
 	const [features, setFeatures] = useState([])
 	const styleKey = styleKeys[style]
+	const [go, setGo] = useState(false)
 
 	if (process.env.NEXT_PUBLIC_MAPTILER == null) {
 		throw new Error('You have to configure env REACT_APP_API_KEY, see README')
@@ -34,7 +35,7 @@ export default function Map({ searchParams }) {
 	const [map, setMap] = useState(null)
 
 	useEffect(() => {
-		if (!map) return
+		if (!map || !go) return
 
 		const fetchCategories = async () => {
 			const mapLibreBbox = map.getBounds().toArray(),
@@ -102,7 +103,7 @@ out skel qt;
 			setFeatures(geojson)
 		}
 		fetchCategories()
-	}, [map])
+	}, [map, go])
 
 	useEffect(() => {
 		if (!map || features.length < 1) return
@@ -218,7 +219,10 @@ out skel qt;
 					}
 				`}
 			>
-				Titre
+				<button onClick={() => setGo(true)}>
+					Lancer la requête sur cette zone ATTENTION FAIRE DES PETITES ZONES DE
+					MOINS DE 100 KM POUR L'INSTANT
+				</button>
 			</div>
 			<button
 				css={`
