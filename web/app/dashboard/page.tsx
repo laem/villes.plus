@@ -17,8 +17,9 @@ async function getData(territories) {
 	return responses
 }
 
-export default async function Dashboard() {
-	const territories = listComputes().slice(0, 100)
+export default async function Dashboard({ searchParams }) {
+	const { limit } = searchParams
+	const territories = listComputes().slice(0, limit)
 
 	const data = await getData(territories)
 

@@ -9,20 +9,23 @@ export default function Client({ data, territories }) {
 
 	return (
 		<ul>
-			{territories.map((t, i) => (
-				<li
-					key={t.url}
-					style={css`
-						display: flex;
-						align-items: center;
-					`}
-				>
-					<Link href={t.apiUrl}>{t.name}</Link>
-					<CityNumericResult
-						{...{ cyclable: true, ville: t.name, initialData: data[i] }}
-					/>
-				</li>
-			))}
+			{territories.map(
+				(t, i) =>
+					data[i] && (
+						<li
+							key={t.url}
+							style={css`
+								display: flex;
+								align-items: center;
+							`}
+						>
+							<Link href={t.apiUrl}>{t.name}</Link>
+							<CityNumericResult
+								{...{ cyclable: true, ville: t.name, initialData: data[i] }}
+							/>
+						</li>
+					)
+			)}
 		</ul>
 	)
 }
