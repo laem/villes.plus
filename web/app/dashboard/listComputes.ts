@@ -35,7 +35,7 @@ export default function listComputes() {
 		.filter(Boolean)
 		.map((name) => ({
 			name,
-			apiUrl: APIUrl + `api/cycling/meta/${name}/${getDirectory()}`,
+			apiUrl: APIUrl + `api/walking/meta/${name}/${getDirectory()}`,
 			url: url(`pietonnes/${name}`),
 			lastModified: firstDayOfCurrentMonth,
 		}))
