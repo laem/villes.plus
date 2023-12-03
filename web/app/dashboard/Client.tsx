@@ -21,7 +21,11 @@ export default function Client({ data, territories }) {
 						>
 							<Link href={t.apiUrl}>{t.name}</Link>
 							<CityNumericResult
-								{...{ cyclable: true, ville: t.name, initialData: data[i] }}
+								{...{
+									cyclable: t.apiUrl.includes('cycling'),
+									ville: t.name,
+									initialData: data[i],
+								}}
 							/>
 						</li>
 					)
