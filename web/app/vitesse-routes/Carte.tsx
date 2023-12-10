@@ -2,6 +2,7 @@
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { useEffect, useRef, useState } from 'react'
+import { highwaySpeeds, testIsPureSpeed, zoneSpeeds } from './algo'
 
 import légende from './légende.yaml'
 const defaultCenter =
@@ -62,45 +63,25 @@ out skel qt;
 			setGo('parsing request json')
 			const json = await request.json()
 			setGo('request parsed, will process')
+
 			const ways = json.elements.map((el) => {
 				if (!el.type === 'way' || !el.nodes) return false
 
 				const coordinates = el.nodes
-					.map((id) =>
-						json.elements.find((el2) => el2.type === 'node' && el2.id === id)
-					)
+					.map((id) => {
+						const node = json.elements.find(
+							(el2) => el2.type === 'node' && el2.id === id
+						)
+						return node ? [node.lon, node.lat] : false
+					})
 					.filter(Boolean)
-					.map(({ lat, lon }) => [lon, lat])
 				const maxspeed = el.tags.maxspeed
-				const regExp = /[a-zA-Z]/g
-				const notOnlyNumbers = regExp.test(maxspeed)
 
-				if (notOnlyNumbers) console.log('oups', maxspeed)
-				const withStringsSpeed =
-					maxspeed === 'FR:rural'
-						? '80'
-						: maxspeed === 'FR:urban'
-						? '50'
-						: maxspeed === 'FR:zone30'
-						? '30'
-						: maxspeed === 'FR:motorway'
-						? '130'
-						: maxspeed
-
+				const withZoneSpeeds = testIsPureSpeed(maxspeed)
+					? maxspeed
+					: zoneSpeeds[maxspeed]
 				const highway = el.tags.highway
-				const speed =
-					withStringsSpeed ||
-					{
-						motorway: 130,
-						trunk: 110,
-						trunk_link: 110,
-						primary: 80,
-						secondary: 80,
-						tertiary: 80,
-						residential: 50,
-						living_street: 20,
-					}[highway]
-				console.log('highway', highway, withStringsSpeed, el.tags.maxspeed)
+				const speed = withZoneSpeeds || highwaySpeeds[highway]
 
 				return {
 					type: 'Feature',
@@ -122,7 +103,6 @@ out skel qt;
 				features: ways,
 			}
 
-			console.log('Rlala', geojson)
 			setGo('features processed')
 			setFeatures(geojson)
 		}
