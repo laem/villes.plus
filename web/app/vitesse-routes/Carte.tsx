@@ -45,7 +45,7 @@ export default function Map({ searchParams }) {
 			const overpassRequest = `
 [out:json];
 (
-way["highway"="secondary"][maxspeed](${bbox});
+way[highway][maxspeed](${bbox});
 );
 
 out body;
@@ -240,7 +240,14 @@ out skel qt;
 				<div
 					css={`
 						margin: 1rem;
-						background: #ffffff90;
+						background: #00000090;
+						color: white;
+						width: 20rem;
+						padding: 0.8rem 0.8rem;
+						ol {
+							list-style-type: none;
+						}
+						border-radius: 0.4rem;
 					`}
 				>
 					<ol>
@@ -261,6 +268,14 @@ out skel qt;
 							</li>
 						))}
 					</ol>
+					<p>
+						Source : l'attribut{' '}
+						<a href="https://wiki.openstreetmap.org/wiki/Key:maxspeed">
+							maxspeed
+						</a>{' '}
+						d'OpenStreetMap est{' '}
+						<a href="https://overpass-turbo.eu/s/1EzR">requêté</a>.
+					</p>
 				</div>
 			</div>
 			<button

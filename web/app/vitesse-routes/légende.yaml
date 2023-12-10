@@ -1,5 +1,5 @@
 - seuil: 110
-  couleur: Indigo
+  couleur: '#af00ff'
 - seuil: 100
   couleur: darkred
 - seuil: 90
