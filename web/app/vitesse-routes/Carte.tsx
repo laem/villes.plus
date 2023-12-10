@@ -71,11 +71,25 @@ out skel qt;
 					.filter(Boolean)
 					.map(({ lat, lon }) => [lon, lat])
 				const maxspeed = el.tags.maxspeed
+				const regExp = /[a-zA-Z]/g
+				const notOnlyNumbers = regExp.test(maxspeed)
+
+				if (notOnlyNumbers) console.log('oups', maxspeed)
+				const speed =
+					maxspeed === 'FR:rural'
+						? '80'
+						: maxspeed === 'FR:urban'
+						? '50'
+						: maxspeed === 'FR:zone30'
+						? '30'
+						: maxspeed === 'FR:motorway'
+						? 130
+						: maxspeed
 				return {
 					type: 'Feature',
 					properties: {
 						color: (
-							légende.find((el) => +maxspeed >= el.seuil) || { couleur: 'cyan' }
+							légende.find((el) => +speed >= el.seuil) || { couleur: 'cyan' }
 						).couleur,
 					},
 					geometry: {
@@ -226,6 +240,7 @@ out skel qt;
 				<div
 					css={`
 						margin: 1rem;
+						background: #ffffff90;
 					`}
 				>
 					<ol>
