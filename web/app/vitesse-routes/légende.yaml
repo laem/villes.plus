@@ -9,4 +9,6 @@
 - seuil: 50
   couleur: gold
 - seuil: 30
-  couleur: RosyBrown
+  couleur: '#aebc8f'
+- seuil: 20
+  couleur: '#8fbc96'
