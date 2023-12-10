@@ -11,13 +11,13 @@ const defaultCenter =
 const defaultZoom = 8
 
 const styleKeys = {
-	streets: '2f80a9c4-e0dd-437d-ae35-2b6c212f830b',
+	streets: 'streets-v2',
 	satellite: 'satellite',
 	toner: 'toner-v2',
 }
 export default function Map({ searchParams }) {
 	const [mapState, setMapState] = useState({ zoom: defaultZoom })
-	const [style, setStyle] = useState('toner')
+	const [style, setStyle] = useState('streets')
 	const [features, setFeatures] = useState([])
 	const styleKey = styleKeys[style]
 	const [go, setGo] = useState(null)
@@ -45,7 +45,7 @@ export default function Map({ searchParams }) {
 			const overpassRequest = `
 [out:json];
 (
-way["highway"~"motorway|trunk|trunk_line|primary|secondary|tertiary"](${bbox});
+way["highway"~"motorway|trunk|trunk_line|primary|secondary"](${bbox});
 );
 
 out body;
