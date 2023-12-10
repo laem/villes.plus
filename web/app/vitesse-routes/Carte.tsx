@@ -3,15 +3,11 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { useEffect, useRef, useState } from 'react'
 
+import légende from './légende.yaml'
 const defaultCenter =
 	// Saint Malo [-1.9890417068124002, 48.66284934737089]
 	[-1.6776317608896583, 48.10983044383964]
 
-const defaultState = {
-	depuis: { inputValue: '', choice: false },
-	vers: { inputValue: '', choice: false },
-	validated: false,
-}
 const defaultZoom = 8
 
 const styleKeys = {
@@ -78,16 +74,9 @@ out skel qt;
 				return {
 					type: 'Feature',
 					properties: {
-						color:
-							maxspeed == undefined
-								? 'grey'
-								: +maxspeed > 80
-								? 'red'
-								: +maxspeed === 80
-								? 'blue'
-								: +maxspeed < 80
-								? 'green'
-								: 'grey',
+						color: (
+							légende.find((el) => +maxspeed >= el.seuil) || { couleur: 'cyan' }
+						).couleur,
 					},
 					geometry: {
 						coordinates,
@@ -233,6 +222,30 @@ out skel qt;
 					`}
 				>
 					{go}
+				</div>
+				<div
+					css={`
+						margin: 1rem;
+					`}
+				>
+					<ol>
+						{légende.map(({ seuil, couleur }) => (
+							<li key={seuil}>
+								<span
+									css={`
+										background: ${couleur};
+										width: 1rem;
+										height: 1rem;
+										display: inline-block;
+										margin-right: 0.4rem;
+									`}
+								></span>
+								<span>
+									{`>=`} {seuil} km/h
+								</span>
+							</li>
+						))}
+					</ol>
 				</div>
 			</div>
 			<button

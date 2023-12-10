@@ -1,0 +1,12 @@
+- seuil: 110
+  couleur: Indigo
+- seuil: 100
+  couleur: darkred
+- seuil: 90
+  couleur: crimson
+- seuil: 80
+  couleur: darkorange
+- seuil: 50
+  couleur: gold
+- seuil: 30
+  couleur: RosyBrown
