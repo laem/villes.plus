@@ -228,6 +228,9 @@ out skel qt;
 							line-height: 1.2rem;
 						}
 					}
+					button {
+						display: ${mapState.zoom > 10 ? 'block' : 'none'};
+					}
 				`}
 			>
 				<button onClick={() => setGo('user click')}>
