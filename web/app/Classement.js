@@ -51,7 +51,11 @@ export function Classement({
 			<ClassementWrapper>
 				<h2>{text}</h2>
 				{subText && (
-					<p>
+					<p
+						style={css`
+							text-align: center;
+						`}
+					>
 						<small>{subText}</small>
 					</p>
 				)}
