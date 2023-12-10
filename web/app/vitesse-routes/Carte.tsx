@@ -45,7 +45,7 @@ export default function Map({ searchParams }) {
 			const overpassRequest = `
 [out:json];
 (
-way["highway"~"motorway|trunk|trunk_line|primary|secondary|tertiary|residential|living_street"](${bbox});
+way["highway"~"motorway|trunk|trunk_line|primary|secondary|tertiary"](${bbox});
 );
 
 out body;
@@ -59,8 +59,9 @@ out skel qt;
 			console.log(url)
 			setGo('overpass request sent')
 			const request = await fetch(url)
-			setGo('overpass request received, will process')
+			setGo('parsing request json')
 			const json = await request.json()
+			setGo('request parsed, will process')
 			const ways = json.elements.map((el) => {
 				if (!el.type === 'way' || !el.nodes) return false
 
