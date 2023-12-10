@@ -45,7 +45,7 @@ export default function Map({ searchParams }) {
 			const overpassRequest = `
 [out:json];
 (
-way[highway][maxspeed](${bbox});
+way["highway"~"motorway|trunk|trunk_line|primary|secondary|tertiary|residential|living_street"](${bbox});
 );
 
 out body;
@@ -75,7 +75,7 @@ out skel qt;
 				const notOnlyNumbers = regExp.test(maxspeed)
 
 				if (notOnlyNumbers) console.log('oups', maxspeed)
-				const speed =
+				const withStringsSpeed =
 					maxspeed === 'FR:rural'
 						? '80'
 						: maxspeed === 'FR:urban'
@@ -83,14 +83,31 @@ out skel qt;
 						: maxspeed === 'FR:zone30'
 						? '30'
 						: maxspeed === 'FR:motorway'
-						? 130
+						? '130'
 						: maxspeed
+
+				const highway = el.tags.highway
+				const speed =
+					withStringsSpeed ||
+					{
+						motorway: 130,
+						trunk: 110,
+						trunk_link: 110,
+						primary: 80,
+						secondary: 80,
+						tertiary: 80,
+						residential: 50,
+						living_street: 20,
+					}[highway]
+				console.log('highway', highway, withStringsSpeed, el.tags.maxspeed)
+
 				return {
 					type: 'Feature',
 					properties: {
 						color: (
 							légende.find((el) => +speed >= el.seuil) || { couleur: 'cyan' }
 						).couleur,
+						tags: el.tags,
 					},
 					geometry: {
 						coordinates,
@@ -132,6 +149,13 @@ out skel qt;
 				'line-width': 4,
 			},
 		})
+		const onClick = (e) => {
+			const coordinates = e.lngLat
+			const tags = e.features[0].properties.tags
+
+			new maplibregl.Popup().setLngLat(coordinates).setHTML(tags).addTo(map)
+		}
+		map.on('click', 'features-ways', onClick)
 
 		return () => {
 			map.removeLayer('features-ways')
