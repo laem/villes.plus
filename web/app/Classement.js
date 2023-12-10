@@ -2,6 +2,7 @@ import ScoreLegend from '@/ScoreLegend'
 import Link from 'next/link'
 import algorithmVersion from '../../algorithmVersion'
 import CityResult from './CityResult'
+import css from '@/css/convertToJs'
 import {
 	ClassementWrapper,
 	CounterLevel,
