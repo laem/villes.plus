@@ -23,7 +23,10 @@ export default async (cityName) => {
 	const query = getQuery(queryCity)
 
 	const fullUrl = endpointUrl + '?query=' + encodeURIComponent(query)
-	const headers = { Accept: 'application/sparql-results+json' }
+	const headers = {
+		Accept: 'application/sparql-results+json',
+		'User-Agent': 'VillesPlus/9.0',
+	}
 
 	console.log(
 		'will fetch wikidata server, this could maybe be cached if happens too many times ?'
