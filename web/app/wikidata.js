@@ -26,6 +26,7 @@ export default async (cityName) => {
 	const headers = {
 		Accept: 'application/sparql-results+json',
 		'User-Agent': 'VillesPlus/9.0',
+		'Api-User-Agent': 'VillesPlus/9.0',
 	}
 
 	console.log(
@@ -33,7 +34,10 @@ export default async (cityName) => {
 	)
 
 	const response = await fetch(fullUrl, { headers })
-	const json = await response.json()
+	const text = await response.text()
+	console.log(text)
+
+	return null
 
 	const wikidata = json?.results?.bindings[0]
 
