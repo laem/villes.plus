@@ -47,7 +47,7 @@ export default async ({
 
 	const villeName = processName(ville)
 
-	const imageURL = wikidata.image
+	const imageURL = wikidata?.image
 	const medal = i > 2 ? i + 1 : { 0: '🥇', 1: '🥈', 2: '🥉' }[i]
 
 	return (

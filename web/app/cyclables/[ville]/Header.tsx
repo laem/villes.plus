@@ -18,14 +18,16 @@ export default async ({ ville, data }) => {
 		<Header>
 			<Logo color={'black'} text={processName(ville)} cyclable align="start" />
 			<ImageAndScoreWrapper>
-				<SmallImageWrapper>
-					<Image
-						src={wikidata.image}
-						style={{ objectFit: 'cover' }}
-						fill={true}
-						alt={`Une photo emblématique du territoire mesuré (${ville})`}
-					/>
-				</SmallImageWrapper>
+				{wikidata?.image && (
+					<SmallImageWrapper>
+						<Image
+							src={wikidata.image}
+							style={{ objectFit: 'cover' }}
+							fill={true}
+							alt={`Une photo emblématique du territoire mesuré (${ville})`}
+						/>
+					</SmallImageWrapper>
+				)}
 				<CityNumericResult {...{ cyclable: true, ville, initialData: data }} />
 			</ImageAndScoreWrapper>
 
