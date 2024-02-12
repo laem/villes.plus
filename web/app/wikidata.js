@@ -34,10 +34,7 @@ export default async (cityName) => {
 	)
 
 	const response = await fetch(fullUrl, { headers })
-	const text = await response.text()
-	console.log(text)
-
-	return null
+	const json = await response.json()
 
 	const wikidata = json?.results?.bindings[0]
 

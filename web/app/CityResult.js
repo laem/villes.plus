@@ -22,7 +22,8 @@ export async function getWikidata(ville) {
 
 	if (!response.ok) {
 		// This will activate the closest `error.js` Error Boundary
-		throw new Error('Failed to fetch wiki data for ' + ville)
+		//throw new Error('Failed to fetch wiki data for ' + ville)
+		return null
 	}
 	try {
 		const json = await response.json()
