@@ -5,6 +5,28 @@ import lyonColors from '@/rev/Métropole de Lyon/couleurs.yaml'
 import rennes from '@/rev/Rennes Métropole/lignes.json'
 
 export default async (name) => {
+	console.log('rev bloug', name)
+	if (name === 'Bordeaux Métropole') {
+		const url =
+			'https://raw.githubusercontent.com/velo-cite/observatoire/main/public/reve_bxmetro.geojson'
+		const request = await fetch(url)
+		const json = await request.json()
+
+		console.log('rev bloug', json)
+
+		const withStyle = {
+			...json,
+			features: json.features.map((feature) => ({
+				...feature,
+				properties: {
+					stroke: feature.properties['_umap_options']?.color || '#aaaaaa',
+					'stroke-width': 5,
+					'stroke-opacity': 1,
+				},
+			})),
+		}
+		return withStyle
+	}
 	if (name === 'Métropole de Lyon') {
 		const url = (num) =>
 			`https://raw.githubusercontent.com/benoitdemaegdt/voieslyonnaises/main/content/voies-lyonnaises/ligne-${num}.json`

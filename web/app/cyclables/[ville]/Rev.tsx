@@ -17,6 +17,7 @@ const createBorders = (data) => ({
 	],
 })
 export default function Rev({ data }) {
+	console.log('bloub', data)
 	const [zoomLevel, setZoomLevel] = useState(5) // initial zoom level provided for MapContainer
 
 	const mapEvents = useMapEvents({

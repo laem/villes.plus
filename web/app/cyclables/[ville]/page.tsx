@@ -75,7 +75,7 @@ export default async function Page({ params, searchParams }) {
 		clientProcessing = searchParams.client
 	const data = await getData(villeRaw, osmId)
 	const rev = await getRev(ville)
-	console.log('REV', rev, ville)
+	console.log('REV 2', rev, ville)
 	return (
 		<Wrapper>
 			<Header ville={ville} data={data} />
