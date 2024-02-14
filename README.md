@@ -16,6 +16,12 @@ L'architecture du projet est la suivante :
 - un site Web en NextJS v13 "app router" dans le dossier web/
 - un serveur de stockage de type S3 chez Scaleway qui historise les fichiers générées (plusieurs Mo pour chaque territoire) pour très peu de coût.
 
+## Mise à jour mensuelle (presque) automatique
+
+Chaque mois, ou chaque trimestre, à la guise du développeur, tous les calculs peuvent être relancés. C'est pseudo-automatisé. 
+
+> Pas de panique si on n'es pas trop dispo un mois donné : Vercel aura déjà compilé les pages HTML pour le mois d'avant, et continuera de les servir tant que les recalculs et un rebuild next n'auront pas été lancé. La contrainte est donc de ne pas pusher de nouveau commit si l'on n'est pas prêt à consacrer quelques heures à la campagne de MAJ des calculs. 
+
 > Bon à savoir : sur scalingo, il est très facile de scaler les serveurs. Quand la campagne mensuelle de recalcul des classements commence, mettre 1 ou 2 machines à la taille 2XL. Quand elle est terminée, je vous conseille de les remettre à une taille S. Ça rendra les calculs rapides, sans trop de risque de dépassement de mémoire, et ça ne vous coutera pas grand chose. On peut s'attendre à un coût de ~ 500€ / an si bien géré, voir beaucoup moins.
 
 > À vrai dire, c'est la principale difficulté de la maintenance de cette application : parfois, ça crashe. Manque de mémoire, timeout du côté de scalingo, etc. Les fonctions de fetch dans le code sont en général englobées dans un try {} catch () qui explique ce qui se passe mal, mais des fois ça reste compliqué à débugguer. Par exemple, en ne mettant que deux serveurs brouter taille M, certaines requêtes passent en timeout (il doit calculer trop d'itinéraires à la fois, et l'un prend plus de 30 secondes, et là scalingo envoie un message HTML d'erreur au lieu du résultat JSON) pour la Métropole du Grand Paris. Avec 4 serveurs, ça passe.
@@ -24,7 +30,16 @@ Pour mener une campagne de mise à jour, il est important de relancer les serveu
 
 > Note : ce téléchargement pièce par pièce est un peu relou. Il pourrait être fait une fois pour toute, puis un gros fichier complet serait téléchargé sur chaque serveur Scalingo, périodiquement.
 
-L'application propose aussi un mode intéractif, dit `client`, au moyen du paramètre `client=true` dans l'URL d'une page de territoire. Il permet de voir la carte cyclable se composer en temps réel, segment par segment, pratique pour débugguer et comprendre comment l'algo fonctionne :)
+Une route /dashboard a été mise en place pour lancer les nouveaux calculs le 1er du mois. On peut y voir chaque ville être recalculée. Ça prend 1 à 3h en fonction des serveurs scalingo choisis. 
+
+Il y a souvent des villes pour lesquelles la mise en cache ne marche pas, j'ignore à ce stade pourquoi. 
+![image](https://github.com/laem/villes.plus/assets/1177762/63f93498-a442-4c06-a040-178323741839)
+
+On n'est pas loin cependant d'une automatisation complète. Il suffirait d'un cron qui MAJ les serveurs scalingo, lance les calculs, etc. Mais ça demande quand même quelques jours de boulot pour bien faire tout ça. 
+
+## Debug
+
+L'application proposait aussi un mode intéractif, dit `client`, au moyen du paramètre `client=true` dans l'URL d'une page de territoire. Il permet de voir la carte cyclable se composer en temps réel, segment par segment, pratique pour débugguer et comprendre comment l'algo fonctionne :). À voir s'il fonctionne toujours, je l'ai utilisé beaucoup dans les phases d'itération sur l'algo. En tout cas, ce n'est pas compliqué à remettre en place : tout le code front / back est en JS, donc compatible. C'est juste une question de charge côté client et de cache des calculs (lourds). 
 
 ## Internationalisation
 
