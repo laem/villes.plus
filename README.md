@@ -32,7 +32,8 @@ Pour mener une campagne de mise à jour, il est important de relancer les serveu
 
 Une route /dashboard a été mise en place pour lancer les nouveaux calculs le 1er du mois. On peut y voir chaque ville être recalculée. Ça prend 1 à 3h en fonction des serveurs scalingo choisis. 
 
-Il y a souvent des villes pour lesquelles la mise en cache ne marche pas, j'ignore à ce stade pourquoi. 
+Il y a souvent des villes pour lesquelles la mise en cache ne marche pas, j'ignore à ce stade pourquoi. Il faut parfois vider le Data cache de Vercel : je suspecte que Vercel a mis en cache des réponses "ville pas encore calculée" alors que notre serveur node les a bien terminées. C'est dans les options Vercel du projet Next. 
+
 ![image](https://github.com/laem/villes.plus/assets/1177762/63f93498-a442-4c06-a040-178323741839)
 
 On n'est pas loin cependant d'une automatisation complète. Il suffirait d'un cron qui MAJ les serveurs scalingo, lance les calculs, etc. Mais ça demande quand même quelques jours de boulot pour bien faire tout ça. 
