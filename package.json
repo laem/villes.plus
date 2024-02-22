@@ -64,7 +64,7 @@
 		"leaflet": "^1.9.2",
 		"localforage": "^1.7.3",
 		"mapbox-gl": "^2.10.0",
-		"mapshaper": "^0.6.7",
+		"mapshaper": "^0.6.44",
 		"netlify-lambda": "^2.0.15",
 		"next": "^13.5.3",
 		"osmtogeojson": "^3.0.0-beta.4",
