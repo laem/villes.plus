@@ -36,6 +36,8 @@ Il y a souvent des villes pour lesquelles la mise en cache ne marche pas, j'igno
 
 ![image](https://github.com/laem/villes.plus/assets/1177762/63f93498-a442-4c06-a040-178323741839)
 
+Aussi, je viens de comprendre une source d'erreur en plus : le serveur scalingo a son propre cache express. Après la campagne de mise à jour faite en début de mois, il faut le relancer pour réinitialiser le cache. Et ce, avant de demander à Vercel de recompiler l'appli Next. 
+
 On n'est pas loin cependant d'une automatisation complète. Il suffirait d'un cron qui MAJ les serveurs scalingo, lance les calculs, etc. Mais ça demande quand même quelques jours de boulot pour bien faire tout ça. 
 
 ## Debug
