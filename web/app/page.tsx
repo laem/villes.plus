@@ -5,6 +5,7 @@ import Image from 'next/image'
 import logo from '@/public/logo.svg'
 import Carte from './cartes/Carte'
 import bikeIcon from '@/public/bike.svg'
+import CartesBanner from './CartesBanner'
 
 export const metadata: Metadata = {
 	title:
@@ -18,6 +19,7 @@ export default () => (
 			<Image src={logo} alt="Logo de villes.plus" />
 			<h1>Villes.plus</h1>
 		</Header>
+		<CartesBanner />
 		<Cards>
 			<LinkCard>
 				<Link href="/cyclables/regions">
