@@ -21,7 +21,8 @@ export default function CartesBanner() {
 					width: 2rem;
 					height: auto;
 					vertical-align: middle;
-					margin-right: 0.5rem;
+					margin-right: 0.4rem;
+					margin-bottom: 0.1rem;
 				}
 			`}
 		>
@@ -56,10 +57,15 @@ export default function CartesBanner() {
 				height="10"
 				alt="Logo de l'appli Cartes"
 			/>
-			<a href="https://cartes.app">
+			<a
+				href="https://cartes.app"
+				css={`
+					color: #185abd;
+					text-decoration: none;
+				`}
+			>
 				<strong>Cartes</strong>
 			</a>
-			.
 		</div>
 	)
 }
