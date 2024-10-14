@@ -10,7 +10,7 @@ export default function CartesBanner() {
 				width: fit-content;
 				margin: 0 auto;
 				margin-bottom: 1rem;
-				max-width: 90%;
+				max-width: 90vw;
 				width: 46rem;
 				border-radius: 0.4rem;
 				position: relative;
