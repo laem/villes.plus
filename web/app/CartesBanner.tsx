@@ -48,7 +48,7 @@ export default function CartesBanner() {
 				plus cyclables.
 			</p>
 			<p>
-				Pour calculer un itinéraire à pieds, à vélo ou en transports, découvez
+				Pour calculer un itinéraire à pieds, à vélo ou en transports, découvrez
 				le nouveau projet
 			</p>
 			<Image
@@ -66,6 +66,7 @@ export default function CartesBanner() {
 			>
 				<strong>Cartes</strong>
 			</a>
+			, alternative libre à Google Maps.
 		</div>
 	)
 }
