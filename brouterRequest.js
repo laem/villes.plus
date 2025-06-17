@@ -4,7 +4,7 @@ import https from 'https'
 const host =
 	process.env.LOCAL_ROUTER === 'true'
 		? 'http://localhost:17777'
-		: 'https://brouter.osc-fr1.scalingo.io'
+		: 'https://serveur.cartes.app'
 
 export default (query) => {
 	const url = `${host}/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`

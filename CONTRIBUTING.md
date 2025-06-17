@@ -21,5 +21,3 @@ En gros, l'algorithme du classement est le suivant pour les zones piétonnes :
 - (on avait commencé à exclure des formes, mais ce n'est plus d'actualité)
 
 💻 Pour les développeurs : toute contribution au code est la bienvenue :-)
-
-Tout est automatisé, et déployé par Scalingo à la main via `git push scalingo master`
