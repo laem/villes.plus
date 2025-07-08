@@ -1,6 +1,3 @@
-import http from 'http'
-import https from 'https'
-
 const host =
 	process.env.LOCAL_ROUTER === 'true'
 		? 'http://localhost:17777'

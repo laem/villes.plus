@@ -8,3 +8,4 @@ dist/
 .next/
 web/.next/
 web/.env.local
+.env.local
