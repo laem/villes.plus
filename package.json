@@ -7,9 +7,9 @@
 	},
 	"scripts": {
 		"clean": "rm -rf cache/*",
-		"s": "DEBUG=socket* node -r esm server.js",
-		"start-local-router": "LOCAL_ROUTER=true node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
-		"start": "node --insecure-http-parser --optimize_for_size --max_old_space_size=3200 -r esm server.js --watch",
+		"s": "DEBUG=socket* bun server.js",
+		"start-local-router": "LOCAL_ROUTER=true bun --insecure-http-parser --optimize_for_size --max_old_space_size=3200 server.js --watch",
+		"start": "bun --insecure-http-parser --optimize_for_size --max_old_space_size=3200 server.js --watch",
 		"comment": "https://devcenter.heroku.com/articles/node-memory-use"
 	},
 	"reactSnap": {
@@ -57,7 +57,6 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-react": "^7.17.0",
 		"eslint-plugin-react-hooks": "^4.6.0",
-		"esm": "^3.2.25",
 		"geojson-length": "^0.1.1",
 		"html-webpack-plugin": "^5.5.0",
 		"js-yaml-loader": "^1.2.2",
