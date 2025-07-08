@@ -45,7 +45,7 @@ const cache = apicache.options({
 	headers: {
 		'cache-control': 'no-cache',
 	},
-	debug: true,
+	//debug: true,
 }).middleware
 
 const onlyStatus200 = (req, res) => res.statusCode === 200
@@ -82,6 +82,7 @@ app.get('/bikeRouter/:query', cache('1 day'), (req, res) => {
 })
 
 app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
+	console.log('🟣 init')
 	const { city, requestCore } = req.params
 
 	const url = overpassRequestURL(city, requestCore)
@@ -92,7 +93,7 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 		const json = await response.json()
 		res.json(json)
 	} catch (e) {
-		res.send(`Error fetching and retry points for ${city}`, e)
+		res.status(500).send(`Error fetching and retry points for ${city}`, e)
 	}
 })
 
@@ -122,7 +123,7 @@ const readFile = async (dimension, ville, scope, directory) => {
 		return filteredData
 	} catch (e) {
 		const message = "Ce territoire n'est pas encore calculé"
-		console.log(message, e)
+		console.log(message)
 		return { message }
 	}
 }

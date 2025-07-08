@@ -78,7 +78,7 @@ export const segmentGeoJSON = (brouterGeojson) => {
 					distance: line[3],
 					elevation: line[2],
 					backboneRide,
-					isSafePath: isSafeCyclingSegment(getLineTags(line)),
+					isSafePath: isSafePath(getLineTags(line)),
 					toPoint,
 					fromPoint,
 				},

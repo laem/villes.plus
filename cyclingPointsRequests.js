@@ -1,5 +1,7 @@
 export const OverpassInstance = 'https://overpass-api.de/api/interpreter'
 //const OverpassInstance = 'https://overpass.kumi.systems/api/interpreter'
+//export const OverpassInstance = 	'https://overpass.openstreetmap.fr/api/interpreter'
+//TODO dunno why I get Error: runtime error: The dispatcher (i.e. the database management system) is turned off.
 
 const testHasLevel = (name) => /.+\.\d$/.test(name)
 const splitName = (name) => name.split('.')
