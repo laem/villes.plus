@@ -13,11 +13,16 @@ export const métropoleToVille = villesList.reduce(
 	{}
 )
 
+const host =
+	process.env.VERCEL_URL === 'development'
+		? 'http://localhost:3000'
+		: 'https://www.villes.plus'
+
 export async function getWikidata(ville) {
 	//const url = process.env.VERCEL_URL,
 	//	protocol = url.startsWith('http') ? '' : 'https://'
 	//const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
-	const fetchUrl = `https://www.villes.plus/api/wikidata/${ville}` //TODO rustine
+	const fetchUrl = `${host}/api/wikidata/${ville}` //TODO rustine
 	const response = await fetch(fetchUrl)
 
 	if (!response.ok) {
