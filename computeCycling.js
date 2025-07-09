@@ -28,7 +28,6 @@ const createBikeRouterQuery = (from, to) =>
 const createItinerary = (from, to) => {
 	const query = createBikeRouterQuery([from.lat, from.lon], [to.lat, to.lon])
 	return brouterRequest(query).then((json) => {
-		console.log('brouter response')
 		return {
 			...json,
 			fromPoint: from.id,
@@ -89,7 +88,6 @@ export const segmentGeoJSON = (brouterGeojson) => {
 			}
 		}),
 	}
-	console.log('line', featureCollection)
 	return featureCollection
 }
 
@@ -195,10 +193,9 @@ export const isValidRide = (ride) =>
 	ride.features &&
 	!getMessages(ride).some((ride) => ride[9].includes('route=ferry'))
 
-export default async (ville, inform = () => null) => {
-	inform({ loading: `Les points vont être téléchargés` })
+export default async (ville, inform = () => null, scope) => {
+	inform({ loading: `Les points vont être téléchargés pour ${scope} ${ville}` })
 	const points = await pointsProcess(ville)
-	console.log('Un point', points[0])
 	inform({ loading: `Points téléchargés : ${points.length} points` })
 	const pointsCenter = computePointsCenter(points)
 
@@ -208,7 +205,8 @@ export default async (ville, inform = () => null) => {
 		promise.then(() => {
 			resolvedPromisesCount += 1
 
-			inform({ loading: `🧭 ${resolvedPromisesCount} itinéraires calculés` })
+			if (resolvedPromisesCount % 10 === 0)
+				inform({ loading: `🧭 ${resolvedPromisesCount} itinéraires calculés` })
 		})
 	)
 	const rides = await Promise.all(ridesPromises)

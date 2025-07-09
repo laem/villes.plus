@@ -66,9 +66,8 @@ io.on('connection', (socket) => {
 			directory
 		)
 		const inform = (message) => {
-			console.log('will server emit', message)
+			if (!message.data) console.log('will server emit', message)
 			const path = `api/${dimension}/${scope}/${ville}/${directory}`
-			console.log('path', path)
 			if (message.data) apicache.clear('/' + path) // not sure this works, but onlyStatus200 should
 			io.emit(path, message)
 		}
@@ -87,8 +86,6 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 
 	const url = overpassRequestURL(city, requestCore)
 	try {
-		console.log(`Will fetch ${requestCore} points for ${city}`)
-		console.log(url)
 		const response = await fetchRetry(url, {}, 5)
 		const json = await response.json()
 		res.json(json)
@@ -154,13 +151,19 @@ const computeAndCacheCity = async (
 				' already being processed, waiting for...',
 				ville
 			)
+			if (computingLock.includes(ville + dimension)) {
+				console.log(
+					'This city is already being processed (in the lock) : ignoring computeAndCacheCity'
+				)
+				clearInterval(intervalId)
+			}
 		} else {
 			addLock(ville, dimension)
 			clearInterval(intervalId)
 			return (
 				dimension === 'walking'
 					? computeWalking(ville, inform)
-					: computeCycling(ville, inform)
+					: computeCycling(ville, inform, returnScope)
 			)
 				.then((data) => {
 					scopes[dimension].map(async ([scope, selector]) => {
@@ -196,6 +199,12 @@ const computeAndCacheCity = async (
 							}
 							if (returnScope === scope) {
 								res && res.json(JSON.parse(string))
+								console.log(
+									'État du computingLock après écriture dans S3',
+									computingLock,
+									returnScope,
+									scope
+								)
 								removeLock(ville, dimension)
 							}
 						} catch (err) {

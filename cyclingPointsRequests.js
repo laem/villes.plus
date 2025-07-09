@@ -54,6 +54,5 @@ export const overpassRequestURL = (city, requestCoreName) => {
 		decodeURIComponent(city),
 		requestCores[requestCoreName]
 	)
-	console.log(requestContent)
 	return encodeURI(`${OverpassInstance}?data=${requestContent}`)
 }

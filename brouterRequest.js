@@ -5,7 +5,6 @@ const host =
 
 export default (query) => {
 	const url = `${host}/brouter?lonlats=${query}&profile=safety&alternativeidx=0&format=geojson`
-	console.log('will fetch', query, url)
 
 	/*
 	// For a reason I don't get, after 30 min of searching, using my local brouter server fails with the fetch function for a malformed header reason...
@@ -32,7 +31,6 @@ export default (query) => {
 	return fetch(url)
 		.then((response) => response.text())
 		.then((data) => {
-			console.log('did fetch from brouter', query)
 			try {
 				const json = JSON.parse(data)
 				return json
