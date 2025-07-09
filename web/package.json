@@ -9,6 +9,7 @@
 		"start": "next start -p 8080",
 		"lint": "next lint"
 	},
+	"packageManager": "bun@1.2.5",
 	"dependencies": {
 		"@adobe/css-tools": "^4.3.1",
 		"@next/mdx": "^13.2.4",
