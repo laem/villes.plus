@@ -5,7 +5,7 @@
 	"license": "AGPL-3.0-or-later",
 	"scripts": {
 		"dev": "NODE_OPTIONS=\"--max_old_space_size=4096\" next dev -p 8080",
-		"build": "cd .. && yarn && cd web && next build",
+		"build": "next build",
 		"start": "next start -p 8080",
 		"lint": "next lint"
 	},
