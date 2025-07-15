@@ -4,7 +4,6 @@ import { processName } from '../../cyclingPointsRequests'
 import villesList from '../villesClassées'
 import CityNumericResult from './CityNumericResult'
 import { Content, ImageWrapper, Li, Title } from './CityResultUI'
-import url from './APIUrl'
 
 export const métropoleToVille = villesList.reduce(
 	(memo, next) =>
@@ -15,10 +14,8 @@ export const métropoleToVille = villesList.reduce(
 )
 
 export async function getWikidata(ville) {
-	//const url = process.env.VERCEL_URL,
-	//	protocol = url.startsWith('http') ? '' : 'https://'
-	//const fetchUrl = `${protocol}${url}/api/wikidata/${ville}`
-	const fetchUrl = `${url}api/wikidata/${ville}` //TODO rustine
+	// TODO variabilise for local dev
+	const fetchUrl = `https://villes.plus/api/wikidata/${ville}` //TODO rustine
 	const response = await fetch(fetchUrl)
 
 	if (!response.ok) {

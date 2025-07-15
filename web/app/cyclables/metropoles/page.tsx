@@ -25,6 +25,7 @@ async function getData() {
 	const response = await Promise.all(
 		villesList.map((ville) => {
 			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
+			console.log('indigo url', url)
 			return fetch(url).then((r) =>
 				r.json().then((data) => ({ ...data, status: r.status }))
 			)

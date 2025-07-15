@@ -28,6 +28,7 @@ async function getData() {
 	const response = await Promise.all(
 		villesMoyennes.map(async (ville) => {
 			const url = APIUrl + `api/cycling/meta/${ville}/${getDirectory()}`
+			console.log('indigo url', url)
 			const res = await fetch(url)
 
 			if (!res.ok) {
