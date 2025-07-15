@@ -83,6 +83,14 @@ export default (query) => {
 					)
 					return null
 				}
+				if (data.includes('504 Gateway Time-out')) {
+					console.log(
+						'🛑 BRouter retourne une erreur obfusquée via Nginx, peut-être car il reçoit trop de demandes pour les gérer. Je crois que ça correspond à Broken Pipe : le serveur Java a eu trop de requêtes en "contention"',
+						url,
+						data
+					)
+					return null
+				}
 				console.log('Uncaught brouter error', e)
 				console.log('Uncaught brouter error url', url)
 				console.log('Uncaught brouter error url', data)
