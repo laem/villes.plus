@@ -184,7 +184,7 @@ export const createRidesPromises = (points) =>
 		})
 		.flat()
 
-const itineraryRequestDelay = 120 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
+const itineraryRequestDelay = 200 // This is fined tuned to handle the brouter server on my computer. It can fail requests at 100
 
 export const isValidRide = (ride) =>
 	// Exclude itineraries that include a ferry route.
