@@ -29,7 +29,7 @@ export default async (name) => {
 	}
 	if (name === 'Métropole de Lyon') {
 		const url = (num) =>
-			`https://raw.githubusercontent.com/benoitdemaegdt/voieslyonnaises/main/content/voies-lyonnaises/ligne-${num}.json`
+			`https://raw.githubusercontent.com/lavilleavelo/cyclopolis/refs/heads/main/content/voies-cyclables/ligne-${num}.json`
 		const response = await Promise.all(
 			[...new Array(9)].map((_, i) => fetch(url(i + 1)))
 		)
