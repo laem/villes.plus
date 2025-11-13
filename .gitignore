@@ -9,3 +9,4 @@ dist/
 web/.next/
 web/.env.local
 .env.local
+.idea/
