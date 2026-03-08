@@ -22,10 +22,16 @@ export function groupBy(list, keyGetter) {
 	return Object.fromEntries(map)
 }
 export const fetchRetry = async (url, options, n) => {
+	let text = null
 	try {
-		return await fetch(url, options)
+		const response = await fetch(url, options)
+		text = await response.text()
+
+		const json = JSON.parse(text)
+
+		return json
 	} catch (err) {
-		console.log('Erreur', err)
+		console.log('Erreur', err, text)
 		if (n === 1) throw err
 		console.log('retry fetch points, ', n, ' try left')
 		return await fetchRetry(url, options, n - 1)
