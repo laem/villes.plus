@@ -86,11 +86,13 @@ app.get('/points/:city/:requestCore', cache('1 day'), async (req, res) => {
 
 	const url = overpassRequestURL(city, requestCore)
 	try {
+		console.log('📍 Will points', city, requestCore, url)
 		const response = await fetchRetry(url, {}, 5)
 		const json = await response.json()
+		console.log('📍 Points', city, requestCore, json, url)
 		res.json(json)
 	} catch (e) {
-		res.status(500).send(`Error fetching and retry points for ${city}`, e)
+		res.status(500).send(`Error fetching and retry points for ${city}`, e, url)
 	}
 })
 

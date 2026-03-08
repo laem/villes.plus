@@ -9,7 +9,7 @@ const villes = [
 	['Strasbourg', 'Strasbourg Eurométropole'],
 	['Bordeaux', 'Bordeaux Métropole'],
 	['Nancy', 'Métropole du Grand Nancy'],
-	['Metz', 'Metz Métropole'],
+	['Metz', 'Euro-métropole de Metz'],
 	['Rouen', 'Métropole Rouen Normandie'],
 	['Lille', 'Métropole Européenne de Lille'],
 	['Rennes', 'Rennes Métropole'],
